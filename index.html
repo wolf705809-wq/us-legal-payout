@@ -3,113 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 Personal Injury Settlement Calculator | State-Specific Estimate</title>
+    <title id="dynamic-title">US Car Accident Settlement Calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
-<body class="bg-slate-50 flex flex-col min-h-screen">
-
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="text-2xl font-black text-slate-900">Injury<span class="text-blue-600">Expert</span></div>
-            <div class="text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full uppercase">2026 Live Data</div>
-        </div>
-    </header>
-
-    <main class="flex-grow container mx-auto px-4 py-8">
-        <div class="max-w-2xl mx-auto">
-            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100">
-                <div class="bg-blue-600 p-6 text-white text-center">
-                    <h1 class="text-2xl font-extrabold">Settlement Value Estimator</h1>
-                    <p class="text-blue-100 text-sm opacity-90">Based on State-specific multiplier methods</p>
-                </div>
-
-                <div id="calc-form" class="p-8 space-y-6">
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Select Your State</label>
-                        <select id="state" class="w-full border-2 border-slate-100 p-4 rounded-2xl focus:border-blue-500 outline-none bg-slate-50 font-semibold">
-                            <option value="1.0">California (High Multiplier)</option>
-                            <option value="0.9">Texas (Standard)</option>
-                            <option value="1.1">New York (Complex Cases)</option>
-                            <option value="0.95">Florida (Standard)</option>
-                            <option value="0.85">Other States</option>
-                        </select>
-                        <p class="text-[10px] text-slate-400 mt-2">*Calculation logic varies by state statutes.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-2 uppercase">Medical Bills ($)</label>
-                            <input type="number" id="medical" placeholder="Total expenses" class="w-full border-2 border-slate-100 p-4 rounded-2xl focus:border-blue-500 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-2 uppercase">Lost Wages ($)</label>
-                            <input type="number" id="wages" placeholder="Income lost" class="w-full border-2 border-slate-100 p-4 rounded-2xl focus:border-blue-500 outline-none">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2 uppercase">Injury Type</label>
-                        <select id="multiplier" class="w-full border-2 border-slate-100 p-4 rounded-2xl focus:border-blue-500 outline-none bg-slate-50">
-                            <option value="1.5">Soft Tissue (Whiplash, Sprains)</option>
-                            <option value="3.5">Hard Injury (Broken Bones, Disks)</option>
-                            <option value="5.5">Catastrophic (Surgery, Permanent)</option>
-                        </select>
-                    </div>
-
-                    <button onclick="calculate()" class="w-full bg-slate-900 text-white text-xl font-black py-6 rounded-2xl hover:bg-blue-700 transition-all shadow-xl uppercase tracking-tighter">
-                        Calculate My Payout
-                    </button>
-                </div>
-
-                <div id="calc-result" class="hidden p-8 text-center animate-fade-in">
-                    <h2 class="text-slate-500 font-bold uppercase tracking-widest text-xs">Estimated Compensation</h2>
-                    <div id="payout" class="text-6xl font-black text-blue-600 my-6">$0.00</div>
-                    
-                    <div class="bg-orange-50 border-2 border-orange-100 p-6 rounded-3xl">
-                        <p class="text-orange-900 font-extrabold text-lg mb-2">High Value Case Detected</p>
-                        <p class="text-orange-700 text-sm mb-6">Attorneys in your state are currently accepting new cases. Click below to secure your claim.</p>
-                        
-                        <a href="#" class="block w-full bg-orange-500 text-white font-black py-5 rounded-2xl hover:bg-orange-600 transition shadow-lg text-xl no-underline uppercase tracking-tighter">
-                            Get Free Legal Review →
-                        </a>
-                        <p class="mt-4 text-[10px] text-orange-400 font-bold uppercase">No Win No Fee Guarantee</p>
-                    </div>
-                    <button onclick="location.reload()" class="mt-8 text-slate-400 text-xs underline">Recalculate</button>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <footer class="bg-white border-t border-slate-200 py-10 px-4 mt-auto">
-        <div class="max-w-6xl mx-auto text-center">
-            <div class="text-slate-900 font-black mb-4 tracking-tighter uppercase text-sm">Attorney Advertising</div>
-            <p class="text-[10px] text-slate-400 max-w-md mx-auto leading-relaxed mb-6">
-                Disclaimer: The Information provided is not legal advice. No attorney-client relationship is formed. Estimates are for educational purposes only.
+<body class="bg-gray-50 font-sans text-gray-900">
+    <div class="max-w-md mx-auto min-h-screen flex flex-col justify-center px-6 py-12">
+        <header class="text-center mb-10">
+            <h1 id="main-heading" class="text-3xl font-bold tracking-tight text-gray-900">
+                US Car Accident Calculator
+            </h1>
+            <p id="sub-heading" class="mt-4 text-lg text-gray-600">
+                Estimate your settlement payout in the US.
             </p>
-            <div class="flex justify-center space-x-6 text-xs font-bold text-slate-500">
-                <a href="privacy.html" class="hover:text-blue-600">Privacy Policy</a>
-                <a href="#" class="hover:text-blue-600">Terms</a>
-                <a href="#" class="hover:text-blue-600">Contact</a>
+        </header>
+
+        <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+            <p class="text-center text-sm font-semibold text-blue-600 mb-4 uppercase tracking-wider">Legal-Specific Engine v2.0</p>
+            <div class="space-y-4">
+                <div class="p-4 bg-gray-50 rounded-lg text-center font-bold text-gray-700">Calculator Loaded...</div>
+                <button class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition-all shadow-lg">
+                    CALCULATE MY PAYOUT
+                </button>
             </div>
         </div>
-    </footer>
+    </div>
 
     <script>
-        function calculate() {
-            const med = parseFloat(document.getElementById('medical').value) || 0;
-            const wag = parseFloat(document.getElementById('wages').value) || 0;
-            const mul = parseFloat(document.getElementById('multiplier').value);
-            const stateAdj = parseFloat(document.getElementById('state').value);
-            
-            // 주(State) 보정값이 들어간 학살자 로직
-            const base = (med + wag);
-            const painAndSuffering = base * mul * stateAdj;
-            const total = base + painAndSuffering;
-
-            document.getElementById('payout').innerText = '$' + Math.round(total).toLocaleString();
-            document.getElementById('calc-form').classList.add('hidden');
-            document.getElementById('calc-result').classList.remove('hidden');
+        // 주소창에서 지역 이름을 읽어서 화면을 바꿔주는 마법
+        const path = window.location.pathname.replace('/', '');
+        if (path && path !== 'index.html') {
+            const stateName = path.charAt(0).toUpperCase() + path.slice(1);
+            document.title = `${stateName} Settlement Calculator`;
+            document.getElementById('main-heading').innerText = `${stateName} Calculator`;
+            document.getElementById('sub-heading').innerText = `Estimate your payout in ${stateName}.`;
         }
     </script>
 </body>
