@@ -3,39 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="dynamic-title">US Car Accident Settlement Calculator</title>
+    <title id="page-title">Settlement Calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #f9fafb; font-family: sans-serif; }
+        .calc-card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    </style>
 </head>
-<body class="bg-gray-50 font-sans text-gray-900">
-    <div class="max-w-md mx-auto min-h-screen flex flex-col justify-center px-6 py-12">
-        <header class="text-center mb-10">
-            <h1 id="main-heading" class="text-3xl font-bold tracking-tight text-gray-900">
-                US Car Accident Calculator
-            </h1>
-            <p id="sub-heading" class="mt-4 text-lg text-gray-600">
-                Estimate your settlement payout in the US.
-            </p>
-        </header>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
 
-        <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
-            <p class="text-center text-sm font-semibold text-blue-600 mb-4 uppercase tracking-wider">Legal-Specific Engine v2.0</p>
-            <div class="space-y-4">
-                <div class="p-4 bg-gray-50 rounded-lg text-center font-bold text-gray-700">Calculator Loaded...</div>
-                <button class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition-all shadow-lg">
-                    CALCULATE MY PAYOUT
-                </button>
-            </div>
-        </div>
+    <div class="text-center mb-8">
+        <h1 id="main-heading" class="text-3xl font-bold text-gray-900 mb-2">California Calculator</h1>
+        <p id="sub-heading" class="text-gray-500 text-lg">Estimate your payout in California.</p>
     </div>
 
+    <div class="calc-card w-full max-w-md p-8 text-center border border-gray-100">
+        <p class="text-blue-600 font-bold text-xs tracking-widest mb-6 uppercase">Legal-Specific Engine V2.0</p>
+        
+        <div class="bg-gray-50 py-4 px-6 rounded-lg mb-6">
+            <p id="status-text" class="text-gray-600 font-medium text-sm">Calculator Loaded...</p>
+        </div>
+
+        <button onclick="calculate()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-lg transition duration-200 shadow-lg">
+            CALCULATE MY PAYOUT
+        </button>
+    </div>
+
+    <p class="mt-12 text-gray-400 text-xs text-center leading-relaxed">
+        © 2026 Legal Payout Estimator. All rights reserved.<br>
+        Consult with a qualified attorney for precise legal advice in your state.
+    </p>
+
     <script>
-        // 주소창에서 지역 이름을 읽어서 화면을 바꿔주는 마법
-        const path = window.location.pathname.replace('/', '');
-        if (path && path !== 'index.html') {
-            const stateName = path.charAt(0).toUpperCase() + path.slice(1);
-            document.title = `${stateName} Settlement Calculator`;
-            document.getElementById('main-heading').innerText = `${stateName} Calculator`;
-            document.getElementById('sub-heading').innerText = `Estimate your payout in ${stateName}.`;
+        // 1. 주소창 읽어서 "주" 이름 가져오기
+        const path = window.location.pathname.replace('/', '').toLowerCase();
+        const states = {
+            "alabama": "Alabama", "alaska": "Alaska", "arizona": "Arizona", "arkansas": "Arkansas", 
+            "california": "California", "colorado": "Colorado", "texas": "Texas", "new-york": "New York",
+            "florida": "Florida", "georgia": "Georgia", "washington": "Washington" 
+            // ... (다른 주들도 이런 식으로 작동합니다)
+        };
+
+        // 2. 주 이름이 있으면 쓰고, 없으면 기본은 California
+        const stateName = states[path] || (path.charAt(0).toUpperCase() + path.slice(1)) || "California";
+
+        // 3. 화면에 있는 글자들 싹 다 바꾸기
+        document.getElementById('page-title').innerText = `${stateName} Settlement Calculator | Free Estimate`;
+        document.getElementById('main-heading').innerText = `${stateName} Calculator`;
+        document.getElementById('sub-heading').innerText = `Estimate your payout in ${stateName}.`;
+
+        // 4. 버튼 눌렀을 때 작동 (나중에 실제 계산 로직 넣을 곳)
+        function calculate() {
+            const btn = event.target;
+            btn.innerText = "PROCESSING...";
+            setTimeout(() => {
+                alert(`Redirecting to ${stateName} Specialist...`);
+                // 여기에 나중에 마켓콜에서 받은 전화번호 링크를 걸 겁니다!
+                btn.innerText = "CALCULATE MY PAYOUT";
+            }, 1000);
         }
     </script>
 </body>
