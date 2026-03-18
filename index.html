@@ -10,20 +10,22 @@
         body { background-color: #f9fafb; font-family: sans-serif; }
         .calc-card { background: white; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
         .progress-bar { transition: width 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-in { animation: fadeIn 0.5s ease-out forwards; }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4">
 
-    <div class="text-center mb-8">
+    <div class="text-center mb-8 animate-in">
         <h1 id="main-heading" class="text-4xl font-black text-gray-900 mb-3 tracking-tight">California Calculator</h1>
         <p id="sub-heading" class="text-gray-500 text-lg font-medium">Estimate your payout in California.</p>
     </div>
 
-    <div class="calc-card w-full max-w-md p-10 text-center border border-gray-100">
+    <div class="calc-card w-full max-w-md p-10 text-center border border-gray-100 animate-in" style="animation-delay: 0.1s;">
         <p class="text-blue-600 font-black text-[10px] tracking-[0.2em] mb-8 uppercase">Legal-Specific Engine V3.1 Active</p>
         
         <div class="bg-gray-50 py-6 px-6 rounded-2xl mb-8 border border-dashed border-gray-200">
-            <p id="status-text" class="text-gray-400 font-serif italic text-sm">Waiting for analysis trigger...</p>
+            <p id="status-text" class="text-gray-400 font-serif italic text-sm">Ready for state-specific analysis...</p>
         </div>
 
         <button onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black text-xl py-5 rounded-2xl transition duration-200 shadow-xl shadow-blue-100 active:scale-95">
@@ -31,40 +33,37 @@
         </button>
     </div>
 
-    <p class="mt-12 text-gray-400 text-[10px] text-center leading-relaxed uppercase tracking-widest font-bold">
+    <p class="mt-12 text-gray-400 text-[10px] text-center leading-relaxed uppercase tracking-widest font-bold animate-in" style="animation-delay: 0.2s;">
         © 2026 Legal Payout Estimator. All rights reserved.<br>
-        <span class="text-gray-300">Confidentiality Protected by State Law</span>
+        <span class="text-gray-300">Attorney-Client Privilege Protected</span>
     </p>
 
     <div id="leadModal" style="display:none;" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-        <div class="w-full max-w-md overflow-hidden rounded-[2rem] bg-white shadow-2xl transition-all">
+        <div class="w-full max-w-md overflow-hidden rounded-[2.5rem] bg-white shadow-2xl">
             <div class="bg-[#0A192F] p-8 text-white text-center">
                 <div class="bg-emerald-400/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="h-8 w-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                 </div>
                 <h2 class="text-2xl font-black tracking-tight uppercase">Free Case Review</h2>
-                <p class="text-[10px] text-slate-400 tracking-[0.3em] uppercase mt-2">Attorney-Client Privilege Protected</p>
+                <p class="text-[10px] text-slate-400 tracking-[0.3em] uppercase mt-2">Secure & Confidential Analysis</p>
             </div>
 
             <div id="modalBody" class="p-10">
                 <form id="leadForm" class="space-y-5">
-                    <p class="text-center text-sm font-bold text-slate-500 mb-6">Confirm details to see your estimate</p>
+                    <p class="text-center text-sm font-bold text-slate-500 mb-6 italic">"To unlock your estimate, please confirm details"</p>
                     <input required type="text" id="userName" placeholder="Full Name" class="w-full rounded-xl border border-slate-200 p-4 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-medium">
                     <input required type="text" id="userPhone" placeholder="Phone: 555-555-5555" maxlength="12" class="w-full rounded-xl border border-slate-200 p-4 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-medium">
                     <button type="submit" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 shadow-lg shadow-blue-100 transition-all active:scale-95">
-                        VIEW MY ESTIMATE
+                        GET MY ESTIMATE
                     </button>
-                    <div class="flex items-center justify-center gap-2 mt-6">
-                        <svg class="h-3 w-3 text-slate-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
-                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest text-center">Secure & 256-bit Encrypted</span>
-                    </div>
+                    <p class="text-center text-[9px] text-slate-400 uppercase tracking-widest mt-6 font-bold">256-Bit SSL Encrypted Connection</p>
                 </form>
             </div>
         </div>
     </div>
 
     <script>
-        // --- 1. 주소 및 주(State) 설정 로직 (기존 유지) ---
+        // 1. 주소 기반 자동 '주(State)' 인식 로직
         const path = window.location.pathname.replace('/', '').toLowerCase();
         const states = {
             "alabama": "Alabama", "alaska": "Alaska", "arizona": "Arizona", "arkansas": "Arkansas", 
@@ -73,67 +72,53 @@
         };
         const stateName = states[path] || (path.charAt(0).toUpperCase() + path.slice(1)) || "California";
         
-        document.getElementById('page-title').innerText = `${stateName} Settlement Calculator | Free Estimate`;
+        document.getElementById('page-title').innerText = `${stateName} Settlement Calculator | 2026 Free Estimate`;
         document.getElementById('main-heading').innerText = `${stateName} Calculator`;
-        document.getElementById('sub-heading').innerText = `Estimate your payout in ${stateName}.`;
+        document.getElementById('sub-heading').innerText = `Estimate your potential payout in ${stateName}.`;
 
-        // --- 2. 모달 제어 로직 ---
-        function openModal() {
-            document.getElementById('leadModal').style.display = 'flex';
-        }
+        // 2. 모달 제어 함수
+        function openModal() { document.getElementById('leadModal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('leadModal').style.display = 'none'; }
 
-        function closeModal() {
-            document.getElementById('leadModal').style.display = 'none';
-        }
-
-        // --- 3. 전화번호 자동 마스킹 (XXX-XXX-XXXX) ---
+        // 3. 미국 전화번호 자동 마스킹
         document.getElementById('userPhone').oninput = function(e) {
             let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
             e.target.value = !x[2] ? x[1] : x[1] + '-' + x[2] + (x[3] ? '-' + x[3] : '');
         };
 
-        // --- 4. 폼 제출 및 분석 애니메이션 (가치 극대화) ---
+        // 4. 폼 제출 및 '가치 증명' 애니메이션
         document.getElementById('leadForm').onsubmit = function(e) {
             e.preventDefault();
             const name = document.getElementById('userName').value;
             const phone = document.getElementById('userPhone').value;
-            
-            // 데이터 수집 로그 (안톤에게 보여줄 실제 '돈')
-            console.log("Captured S-Tier Lead:", { name, phone, state: stateName });
+            console.log("Captured Lead:", { name, phone, state: stateName });
 
             const body = document.getElementById('modalBody');
-            
-            // 분석 중 화면으로 전환
             body.innerHTML = `
-                <div class="py-10 text-center">
+                <div class="py-10 text-center animate-in">
                     <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent mb-6"></div>
-                    <h3 class="text-xl font-black text-slate-800 uppercase tracking-tight">Analyzing Case Details</h3>
-                    <p class="text-sm text-slate-500 mt-2">Connecting with ${stateName} Specialist...</p>
+                    <h3 class="text-xl font-black text-slate-800 uppercase tracking-tight">Analyzing Statutes</h3>
+                    <p class="text-sm text-slate-500 mt-2">Matching with ${stateName} Specialist...</p>
                     <div class="mt-10 h-3 w-full rounded-full bg-slate-100 overflow-hidden">
-                        <div id="p-bar" class="h-full bg-emerald-500 w-0 transition-all duration-[2000ms] ease-out"></div>
+                        <div id="p-bar" class="h-full bg-emerald-500 w-0 transition-all duration-[2500ms] ease-out"></div>
                     </div>
                 </div>
             `;
-
-            // 프로그레스 바 작동
             setTimeout(() => { document.getElementById('p-bar').style.width = '100%'; }, 100);
 
-            // 최종 완료 화면 (가치 부여)
             setTimeout(() => {
                 body.innerHTML = `
-                    <div class="py-10 text-center animate-in fade-in">
+                    <div class="py-10 text-center animate-in">
                         <div class="bg-emerald-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                             <svg class="h-10 w-10 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                         </div>
-                        <h3 class="text-2xl font-black text-slate-900 leading-tight">Match Successful</h3>
-                        <p class="mt-4 text-slate-600 font-medium leading-relaxed">
-                            A ${stateName} specialist has been assigned to your file. 
-                            <span class="block font-black text-blue-600 mt-2 text-lg">EXPECT A CALL IN 5-10 MIN.</span>
-                        </p>
-                        <button onclick="closeModal()" class="mt-10 w-full rounded-2xl bg-slate-100 py-4 font-bold text-slate-800 hover:bg-slate-200 transition-all">RETURN TO CALCULATOR</button>
+                        <h3 class="text-2xl font-black text-slate-900 leading-tight">Verification Successful</h3>
+                        <p class="mt-4 text-slate-600 font-medium">A specialist has been assigned to your case.</p>
+                        <p class="mt-2 font-black text-blue-600 text-lg">EXPECT A CALL WITHIN 10 MIN.</p>
+                        <button onclick="closeModal()" class="mt-10 w-full rounded-2xl bg-slate-100 py-4 font-bold text-slate-800 hover:bg-slate-200 transition-all">DONE</button>
                     </div>
                 `;
-            }, 2500);
+            }, 3000);
         };
     </script>
 </body>
