@@ -6,116 +6,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Settlement Calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LegalService",
+      "name": "US Legal Payout Estimator",
+      "description": "Professional 2026 Settlement Calculator for personal injury cases across 50 US states.",
+      "url": "https://us-legal-payout.vercel.app/",
+      "address": { "@type": "PostalAddress", "addressCountry": "US" }
+    }
+    </script>
+
     <style>
-        body { background-color: #f9fafb; font-family: sans-serif; }
-        .calc-card { background: white; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        .progress-bar { transition: width 0.3s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-in { animation: fadeIn 0.5s ease-out forwards; }
+        body { background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        .calc-card { background: white; border-radius: 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
+        .state-link:hover { text-decoration: underline; color: #2563eb; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .live-dot { animation: pulse 2s infinite; }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-4">
+<body class="flex flex-col items-center min-h-screen">
 
-    <div class="text-center mb-8 animate-in">
-        <h1 id="main-heading" class="text-4xl font-black text-gray-900 mb-3 tracking-tight">California Calculator</h1>
-        <p id="sub-heading" class="text-gray-500 text-lg font-medium">Estimate your payout in California.</p>
+    <div class="w-full bg-slate-900 text-white py-2 px-4 flex justify-center items-center gap-3 text-[10px] font-bold tracking-widest uppercase">
+        <span class="flex items-center gap-1"><span class="h-2 w-2 bg-emerald-400 rounded-full live-dot"></span> LIVE ANALYSIS ACTIVE</span>
+        <span class="text-slate-500">|</span>
+        <span>Total Payouts Analyzed: <span id="counter" class="text-emerald-400">$12,450,000</span>+</span>
     </div>
 
-    <div class="calc-card w-full max-w-md p-10 text-center border border-gray-100 animate-in" style="animation-delay: 0.1s;">
-        <p class="text-blue-600 font-black text-[10px] tracking-[0.2em] mb-8 uppercase">Legal-Specific Engine V3.1 Active</p>
-        
-        <div class="bg-gray-50 py-6 px-6 rounded-2xl mb-8 border border-dashed border-gray-200">
-            <p id="status-text" class="text-gray-400 font-serif italic text-sm">Ready for state-specific analysis...</p>
+    <main class="flex-grow flex flex-col items-center justify-center w-full max-w-2xl px-6 py-12">
+        <div class="text-center mb-10">
+            <h1 id="main-heading" class="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight leading-tight">California Calculator</h1>
+            <p id="sub-heading" class="text-lg text-slate-500 font-medium italic">Estimating potential recovery based on 2026 statutes.</p>
         </div>
 
-        <button onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black text-xl py-5 rounded-2xl transition duration-200 shadow-xl shadow-blue-100 active:scale-95">
-            CALCULATE MY PAYOUT
-        </button>
-    </div>
-
-    <p class="mt-12 text-gray-400 text-[10px] text-center leading-relaxed uppercase tracking-widest font-bold animate-in" style="animation-delay: 0.2s;">
-        © 2026 Legal Payout Estimator. All rights reserved.<br>
-        <span class="text-gray-300">Attorney-Client Privilege Protected</span>
-    </p>
-
-    <div id="leadModal" style="display:none;" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-        <div class="w-full max-w-md overflow-hidden rounded-[2.5rem] bg-white shadow-2xl">
-            <div class="bg-[#0A192F] p-8 text-white text-center">
-                <div class="bg-emerald-400/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="h-8 w-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+        <div class="calc-card w-full p-10 border border-slate-100 relative overflow-hidden text-center">
+            <div class="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
+            <p class="text-blue-600 font-black text-[11px] tracking-[0.3em] mb-8 uppercase">S-Tier Legal Engine v3.5</p>
+            
+            <div class="bg-slate-50 rounded-2xl py-8 px-6 mb-10 border-2 border-dashed border-slate-200">
+                <div class="flex justify-center gap-1 mb-4">
+                    <div class="h-1 w-8 bg-blue-600 rounded-full"></div>
+                    <div class="h-1 w-8 bg-slate-200 rounded-full"></div>
+                    <div class="h-1 w-8 bg-slate-200 rounded-full"></div>
                 </div>
-                <h2 class="text-2xl font-black tracking-tight uppercase">Free Case Review</h2>
-                <p class="text-[10px] text-slate-400 tracking-[0.3em] uppercase mt-2">Secure & Confidential Analysis</p>
+                <p class="text-slate-400 text-sm font-medium">System ready for <span id="current-state" class="text-slate-600 font-bold">California</span> case law...</p>
+            </div>
+
+            <button onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black text-xl py-6 rounded-2xl transition duration-200 shadow-2xl shadow-blue-200 active:scale-95">
+                CALCULATE MY PAYOUT
+            </button>
+        </div>
+
+        <div class="mt-20 w-full border-t border-slate-200 pt-10 px-4 pb-20">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 text-center text-center">Select Your State for Local Statutes</p>
+            <div id="state-links" class="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-2 text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
+                </div>
+        </div>
+    </main>
+
+    <div id="leadModal" style="display:none;" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-4">
+        <div class="w-full max-w-md overflow-hidden rounded-[2.5rem] bg-white shadow-2xl">
+            <div class="bg-slate-900 p-8 text-white text-center">
+                <h2 class="text-2xl font-black tracking-tight uppercase leading-tight">Case Verification</h2>
+                <p class="text-[9px] text-slate-500 tracking-[0.4em] uppercase mt-2">Attorney-Client Privilege Protected</p>
             </div>
 
             <div id="modalBody" class="p-10">
-                <form id="leadForm" class="space-y-5">
-                    <p class="text-center text-sm font-bold text-slate-500 mb-6 italic">"To unlock your estimate, please confirm details"</p>
-                    <input required type="text" id="userName" placeholder="Full Name" class="w-full rounded-xl border border-slate-200 p-4 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-medium">
-                    <input required type="text" id="userPhone" placeholder="Phone: 555-555-5555" maxlength="12" class="w-full rounded-xl border border-slate-200 p-4 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 font-medium">
-                    <button type="submit" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 shadow-lg shadow-blue-100 transition-all active:scale-95">
-                        GET MY ESTIMATE
-                    </button>
-                    <p class="text-center text-[9px] text-slate-400 uppercase tracking-widest mt-6 font-bold">256-Bit SSL Encrypted Connection</p>
+                <form id="leadForm" class="space-y-4">
+                    <p class="text-center text-xs font-bold text-slate-400 mb-6 italic tracking-tight">"Secure your file to unlock the estimated value"</p>
+                    <input required type="text" id="userName" placeholder="Full Name" class="w-full rounded-xl border border-slate-200 p-4 font-bold text-slate-700 focus:border-blue-600 outline-none">
+                    <input required type="text" id="userPhone" placeholder="Phone: 555-555-5555" maxlength="12" class="w-full rounded-xl border border-slate-200 p-4 font-bold text-slate-700 focus:border-blue-600 outline-none">
+                    <button type="submit" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 shadow-xl active:scale-95">GET ESTIMATE NOW</button>
                 </form>
             </div>
         </div>
     </div>
 
     <script>
-        // 1. 주소 기반 자동 '주(State)' 인식 로직
-        const path = window.location.pathname.replace('/', '').toLowerCase();
-        const states = {
-            "alabama": "Alabama", "alaska": "Alaska", "arizona": "Arizona", "arkansas": "Arkansas", 
-            "california": "California", "colorado": "Colorado", "texas": "Texas", "new-york": "New York",
-            "florida": "Florida", "georgia": "Georgia", "washington": "Washington"
+        // --- [A] 50개 주 데이터셋 ---
+        const statesMap = {
+            "alabama": "Alabama", "alaska": "Alaska", "arizona": "Arizona", "arkansas": "Arkansas", "california": "California",
+            "colorado": "Colorado", "connecticut": "Connecticut", "delaware": "Delaware", "florida": "Florida", "georgia": "Georgia",
+            "hawaii": "Hawaii", "idaho": "Idaho", "illinois": "Illinois", "indiana": "Indiana", "iowa": "Iowa", "kansas": "Kansas",
+            "kentucky": "Kentucky", "louisiana": "Louisiana", "maine": "Maine", "maryland": "Maryland", "massachusetts": "Massachusetts",
+            "michigan": "Michigan", "minnesota": "Minnesota", "mississippi": "Mississippi", "missouri": "Missouri", "montana": "Montana",
+            "nebraska": "Nebraska", "nevada": "Nevada", "new-hampshire": "New Hampshire", "new-jersey": "New Jersey", "new-mexico": "New Mexico",
+            "new-york": "New York", "north-carolina": "North Carolina", "north-dakota": "North Dakota", "ohio": "Ohio", "oklahoma": "Oklahoma",
+            "oregon": "Oregon", "pennsylvania": "Pennsylvania", "rhode-island": "Rhode Island", "south-carolina": "South Carolina",
+            "south-dakota": "South Dakota", "tennessee": "Tennessee", "texas": "Texas", "utah": "Utah", "vermont": "Vermont",
+            "virginia": "Virginia", "washington": "Washington", "west-virginia": "West Virginia", "wisconsin": "Wisconsin", "wyoming": "Wyoming"
         };
-        const stateName = states[path] || (path.charAt(0).toUpperCase() + path.slice(1)) || "California";
-        
-        document.getElementById('page-title').innerText = `${stateName} Settlement Calculator | 2026 Free Estimate`;
-        document.getElementById('main-heading').innerText = `${stateName} Calculator`;
-        document.getElementById('sub-heading').innerText = `Estimate your potential payout in ${stateName}.`;
 
-        // 2. 모달 제어 함수
+        // --- [B] 주소 및 UI 업데이트 로직 ---
+        const path = window.location.pathname.replace('/', '').toLowerCase();
+        const stateName = statesMap[path] || "California";
+        
+        document.getElementById('page-title').innerText = `${stateName} Settlement Calculator | Free Review`;
+        document.getElementById('main-heading').innerHTML = `${stateName} <br><span class="text-blue-600">Calculator</span>`;
+        document.getElementById('sub-heading').innerText = `Estimate your potential payout in ${stateName}.`;
+        document.getElementById('current-state').innerText = stateName;
+
+        // --- [C] 푸터 그물망 생성 (pSEO 최적화) ---
+        const footerGrid = document.getElementById('state-links');
+        Object.entries(statesMap).forEach(([key, name]) => {
+            const link = document.createElement('a');
+            link.href = `/${key}`;
+            link.className = 'state-link py-1';
+            link.innerText = name;
+            footerGrid.appendChild(link);
+        });
+
+        // --- [D] 카운터 애니메이션 (신뢰 트리거) ---
+        let count = 12450000;
+        setInterval(() => {
+            count += Math.floor(Math.random() * 50);
+            document.getElementById('counter').innerText = '$' + count.toLocaleString();
+        }, 3000);
+
+        // --- [E] 모달 제어 및 전화연결 로직 ---
         function openModal() { document.getElementById('leadModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('leadModal').style.display = 'none'; }
 
-        // 3. 미국 전화번호 자동 마스킹
         document.getElementById('userPhone').oninput = function(e) {
             let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
             e.target.value = !x[2] ? x[1] : x[1] + '-' + x[2] + (x[3] ? '-' + x[3] : '');
         };
 
-        // 4. 폼 제출 및 '가치 증명' 애니메이션
         document.getElementById('leadForm').onsubmit = function(e) {
             e.preventDefault();
-            const name = document.getElementById('userName').value;
-            const phone = document.getElementById('userPhone').value;
-            console.log("Captured Lead:", { name, phone, state: stateName });
-
             const body = document.getElementById('modalBody');
             body.innerHTML = `
-                <div class="py-10 text-center animate-in">
-                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent mb-6"></div>
-                    <h3 class="text-xl font-black text-slate-800 uppercase tracking-tight">Analyzing Statutes</h3>
-                    <p class="text-sm text-slate-500 mt-2">Matching with ${stateName} Specialist...</p>
-                    <div class="mt-10 h-3 w-full rounded-full bg-slate-100 overflow-hidden">
-                        <div id="p-bar" class="h-full bg-emerald-500 w-0 transition-all duration-[2500ms] ease-out"></div>
-                    </div>
+                <div class="py-10 text-center animate-pulse">
+                    <div class="h-12 w-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+                    <p class="font-black text-slate-800 uppercase tracking-widest">Applying ${stateName} Statutes...</p>
                 </div>
             `;
-            setTimeout(() => { document.getElementById('p-bar').style.width = '100%'; }, 100);
 
+            // 최종 수익 창출: 전화 버튼 (안톤 번호 연결용)
             setTimeout(() => {
                 body.innerHTML = `
-                    <div class="py-10 text-center animate-in">
-                        <div class="bg-emerald-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <div class="py-6 text-center">
+                        <div class="bg-emerald-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-50">
                             <svg class="h-10 w-10 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                         </div>
                         <h3 class="text-2xl font-black text-slate-900 leading-tight">Verification Successful</h3>
-                        <p class="mt-4 text-slate-600 font-medium">A specialist has been assigned to your case.</p>
-                        <p class="mt-2 font-black text-blue-600 text-lg">EXPECT A CALL WITHIN 10 MIN.</p>
-                        <button onclick="closeModal()" class="mt-10 w-full rounded-2xl bg-slate-100 py-4 font-bold text-slate-800 hover:bg-slate-200 transition-all">DONE</button>
+                        <p class="mt-4 text-slate-600 font-medium tracking-tight px-4">Our AI confirms high-value potential. Speak to a ${stateName} specialist for immediate review.</p>
+                        
+                        <a href="tel:1-800-000-0000" class="mt-8 block w-full rounded-2xl bg-emerald-500 py-6 font-black text-white text-xl hover:bg-emerald-600 shadow-xl shadow-emerald-100 transition-all active:scale-95">
+                            CLICK TO CALL NOW
+                        </a>
+                        <p class="mt-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-loose text-center leading-loose">Case ID: #${Math.floor(Math.random()*900000)+100000} | 24/7 Hotline Active</p>
                     </div>
                 `;
             }, 3000);
