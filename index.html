@@ -4,120 +4,102 @@
     <meta name="google-site-verification" content="PapVSNH3Bi1sYGuO2u9PDtcyfk8ROeS1hU2z7hEIM2k" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Statutory Indemnity Review | Official 2026 Jurisdictional Guide</title>
+    <title id="page-title">Jurisdictional Indemnity Review | Official 2026 Statutory Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: #f8fafc; font-family: -apple-system, system-ui, sans-serif; }
         .calc-card { background: white; border-radius: 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         .live-dot { animation: pulse 2s infinite; }
         .expert-box { border-left: 4px solid #2563eb; background: #f1f5f9; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body class="flex flex-col items-center min-h-screen">
 
     <div class="w-full bg-slate-900 text-white py-2 px-4 flex justify-center items-center gap-3 text-[10px] font-bold tracking-widest uppercase">
-        <span class="flex items-center gap-1"><span class="h-2 w-2 bg-emerald-400 rounded-full live-dot"></span> LIVE ANALYSIS ACTIVE</span>
+        <span class="flex items-center gap-1"><span class="h-2 w-2 bg-emerald-400 rounded-full live-dot"></span> ANALYTICAL ENGINE ACTIVE</span>
         <span class="text-slate-500">|</span>
         <span>Total Payouts Analyzed: <span id="counter" class="text-emerald-400">$12,450,000</span>+</span>
     </div>
 
     <main class="flex-grow flex flex-col items-center justify-center w-full max-w-2xl px-6 py-12">
         <div class="text-center mb-10">
-            <h1 id="main-heading" class="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight leading-tight">Jurisdictional Review</h1>
-            <p id="sub-heading" class="text-lg text-slate-500 font-medium italic">Official 2026 Statutory Indemnity & Liability Assessment</p>
+            <h1 id="main-heading" class="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight leading-tight italic">Jurisdictional Review</h1>
+            <p id="sub-heading" class="text-lg text-slate-500 font-medium">Official 2026 Statutory Indemnity & Liability Assessment</p>
         </div>
 
         <div class="calc-card w-full p-10 border border-slate-100 relative overflow-hidden text-center mb-8">
             <div class="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
-            <p class="text-blue-600 font-black text-[11px] tracking-[0.3em] mb-8 uppercase">S-Tier Adjudication Engine v5.5</p>
+            <p class="text-blue-600 font-black text-[11px] tracking-[0.3em] mb-8 uppercase">Advanced Adjudication System v5.6</p>
             <div class="bg-slate-50 rounded-2xl py-8 px-6 mb-10 border-2 border-dashed border-slate-200">
-                <p class="text-slate-400 text-sm font-medium">Ready for <span id="current-state-display" class="text-slate-600 font-bold">Jurisdiction</span> case law...</p>
+                <p class="text-slate-400 text-sm font-medium">System localized for: <span id="current-state-display" class="text-slate-600 font-bold uppercase">Jurisdiction</span></p>
             </div>
-            <button onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black text-xl py-6 rounded-2xl transition duration-200 shadow-2xl active:scale-95 uppercase tracking-widest">
-                Initiate Indemnity Review
+            <button id="main-cta-btn" onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black text-xl py-6 rounded-2xl transition duration-200 shadow-2xl active:scale-95 uppercase tracking-widest">
+                Initiate Legal Review
             </button>
         </div>
 
-        <div id="expert-report" class="w-full bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-8">
+        <div class="w-full bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-8">
             <h3 class="text-sm font-black text-slate-900 uppercase tracking-widest mb-6 flex items-center gap-2">
-                <span class="h-4 w-1 bg-blue-600"></span> Statutory Verification: <span id="report-state-name">State</span>
+                <span class="h-4 w-1 bg-blue-600"></span> Statutory Data: <span id="report-state-name" class="uppercase">State</span>
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div class="expert-box p-4 rounded-r-xl">
                     <p class="text-[10px] font-bold text-blue-600 uppercase mb-1">Applicable Statute</p>
-                    <p id="statute-info" class="text-xs font-bold text-slate-700 leading-relaxed italic">Analyzing Statutes...</p>
+                    <p id="statute-info" class="text-xs font-bold text-slate-700 leading-relaxed">Loading jurisdictional statutes...</p>
                 </div>
                 <div class="expert-box p-4 rounded-r-xl">
-                    <p class="text-[10px] font-bold text-blue-600 uppercase mb-1">Regional Accident Factors</p>
-                    <p id="stats-info" class="text-xs font-bold text-slate-700 leading-relaxed italic">Analyzing Data...</p>
+                    <p class="text-[10px] font-bold text-blue-600 uppercase mb-1">Regional Risk Factors</p>
+                    <p id="stats-info" class="text-xs font-bold text-slate-700 leading-relaxed">Analyzing localized data...</p>
                 </div>
             </div>
             <div class="bg-blue-50 p-5 rounded-2xl border border-blue-100">
-                <p class="text-[10px] font-black text-blue-800 uppercase mb-2">SJ Lee's Adjudication Insight</p>
-                <p id="insight-info" class="text-sm text-blue-900 font-medium leading-relaxed italic">Evaluating local case law for maximum Compensatory Damages...</p>
+                <p class="text-[10px] font-black text-blue-800 uppercase mb-2">Technical Insight (Lead Adjuster)</p>
+                <p id="insight-info" class="text-sm text-blue-900 font-medium leading-relaxed italic">Evaluating case law for maximum Statutory Indemnity...</p>
             </div>
         </div>
 
-        <div id="settlement-table-section" class="w-full bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-12">
+        <div class="w-full bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-12">
             <h3 class="text-sm font-black text-slate-900 uppercase tracking-widest mb-6 flex items-center gap-2">
-                <span class="h-4 w-1 bg-emerald-500"></span> Recent Actual Settlements: <span id="table-state-name">State</span>
+                <span class="h-4 w-1 bg-emerald-500"></span> Recent Verified Settlements: <span id="table-state-name" class="uppercase">State</span>
             </h3>
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-[11px] font-bold text-slate-600">
                     <thead class="bg-slate-50 text-slate-400 uppercase tracking-tighter">
-                        <tr>
-                            <th class="px-4 py-3">Case Reference</th>
-                            <th class="px-4 py-3">Injury Type</th>
-                            <th class="px-4 py-3">Indemnity Amount</th>
-                        </tr>
+                        <tr><th class="px-4 py-3">Reference ID</th><th class="px-4 py-3">Profile</th><th class="px-4 py-3">Indemnity</th></tr>
                     </thead>
-                    <tbody id="settlement-rows" class="divide-y divide-slate-100">
-                        </tbody>
+                    <tbody id="settlement-rows" class="divide-y divide-slate-100"></tbody>
                 </table>
             </div>
-            <p class="mt-4 text-[9px] text-slate-400 italic">*Past results do not guarantee future outcomes but reflect regional court trends for high-value claims.</p>
         </div>
 
         <div class="w-full border-t border-slate-200 pt-10 px-4 pb-20">
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 text-center">Select Local Statutes</p>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 text-center">Select Local Jurisdiction</p>
             <div id="state-links" class="grid grid-cols-2 md:grid-cols-4 gap-2 text-[9px] font-bold text-slate-400 uppercase"></div>
         </div>
     </main>
 
-    <div id="leadModal" style="display:none;" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-4">
+    <div id="leadModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-4">
         <div class="w-full max-w-md overflow-hidden rounded-[2.5rem] bg-white shadow-2xl">
             <div class="bg-slate-900 p-8 text-white text-center">
-                <h2 class="text-2xl font-black uppercase tracking-tight">Case Verification</h2>
-                <p class="text-[9px] text-slate-500 tracking-[0.4em] uppercase mt-2">Attorney-Client Privilege Protected</p>
+                <h2 class="text-2xl font-black uppercase">Case Adjudication</h2>
+                <p class="text-[9px] text-slate-500 tracking-[0.4em] uppercase mt-2 italic">Attorney-Client Privilege Protected</p>
             </div>
-            
             <div id="modalBody" class="p-10">
                 <div id="step-1">
-                    <p class="text-center text-xs font-bold text-slate-500 mb-6 uppercase tracking-widest">Phase I: Incident Profile Adjudication</p>
+                    <p class="text-center text-xs font-black text-slate-400 mb-6 uppercase tracking-widest">Phase I: Incident Profile</p>
                     <div class="space-y-4">
-                        <div>
-                            <label class="text-[10px] font-black text-slate-400 uppercase">Year of Incident</label>
-                            <select id="acc-year" class="w-full mt-1 p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600">
-                                <option>2026</option><option>2025</option><option>2024</option><option>2023</option><option>Before 2023</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-black text-slate-400 uppercase">Primary Injury Profile</label>
-                            <select id="acc-injury" class="w-full mt-1 p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600">
-                                <option>Traumatic Brain Injury</option><option>Spinal/Back Injury</option><option>Bone Fracture</option><option>Soft Tissue/Whiplash</option><option>Other/Unsure</option>
-                            </select>
-                        </div>
-                        <button onclick="goToStep2()" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase tracking-widest mt-4transition-all active:scale-95">Next: Analyze Statutory Value</button>
+                        <select id="acc-year" class="w-full p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600"><option>2026</option><option>2025</option><option>2024</option></select>
+                        <select id="acc-injury" class="w-full p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600"><option>Traumatic Brain Injury</option><option>Spinal Injury</option><option>Bone Fracture</option><option>Soft Tissue</option></select>
+                        <button onclick="goToStep2()" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase tracking-widest mt-4">Analyze Statutory Value</button>
                     </div>
                 </div>
-
                 <div id="step-2" class="hidden">
                     <form id="leadForm" class="space-y-4">
-                        <p class="text-center text-xs font-bold text-blue-600 mb-6 italic tracking-tight">"Secure file to finalize <span id="modal-state">State</span> value estimation"</p>
                         <input required type="text" id="userName" placeholder="Full Name" class="w-full rounded-xl border border-slate-200 p-4 font-bold text-slate-700 outline-none focus:border-blue-600">
                         <input required type="text" id="userPhone" placeholder="Phone: 555-555-5555" maxlength="12" class="w-full rounded-xl border border-slate-200 p-4 font-bold text-slate-700 outline-none focus:border-blue-600">
-                        <button type="submit" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase tracking-widest">CLAIM YOUR ESTIMATE NOW</button>
+                        <button type="submit" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase">CLAIM YOUR EVALUATION NOW</button>
                     </form>
                 </div>
             </div>
@@ -125,25 +107,74 @@
     </div>
 
     <script>
-        // S-TIER MASTER DATABASE (v5.5 Unified)
         const MASTER_DB = {
-            "california": {
-                "statute": "Pure Comparative Negligence (CA Civ. Code § 1714). Recover even if 99% at fault.",
-                "stats": "Heavy congestion on I-5 & PCH. High frequency of lane-splitting motorcycle incidents.",
-                "insight": "California courts heavily favor plaintiff medical recovery; psychological impact is a major damage factor.",
-                "estimate": "$35,000 - $150,000+", "phone": "1-800-CAL-LEGAL",
-                "tableData": [
-                    { id: "Ref: Doe v. Smith (2024-CA)", type: "Traumatic Brain Injury", amount: "$1,250,000" },
-                    { id: "Ref: Garcia v. Trucking", type: "Spinal Herniation", amount: "$425,000" },
-                    { id: "Ref: LA Case #2023-772", type: "Soft Tissue/Whiplash", amount: "$85,000" }
-                ]
-            },
-            "texas": {
-                "statute": "Modified Comparative Fault (51% Bar). No recovery if you are over 50% at fault.",
-                "stats": "highest fatal truck accidents in US on I-10 and I-35 energy corridors.",
-                "insight": "Commercial carrier liability is complex in TX; immediate data preservation of ELD logs is mandatory.",
-                "estimate": "$45,000 - $185,000+", "phone": "1-800-TEX-LAW1",
-                "tableData": [
-                    { id: "Ref: TXCase #2024-991", type: "Traumatic Brain Injury", amount: "$2,100,000" },
-                    { id: "Ref: Jones v. Logistics", type: "Bone Fracture (Leg)", amount: "$310,000" },
-                    { id: "Ref: Houston Case #2
+            "california": { statute: "Pure Comparative Negligence (CA Civ. Code § 1714).", stats: "High frequency of lane-splitting motorcycle incidents in LA/SF.", insight: "California courts prioritize maximum medical recovery and non-economic damages.", estimate: "$35,000 - $150,000+", phone: "1-800-CAL-LEGAL", table: [{id:"2024-CA-882",type:"TBI",amt:"$1.25M"},{id:"2023-CA-104",type:"Spinal",amt:"$425k"}] },
+            "texas": { statute: "Modified Comparative Fault (51% Bar Rule).", stats: "Leader in commercial freight collisions on I-10 and I-35 corridors.", insight: "Securing commercial black-box data is mandatory for TX liability claims.", estimate: "$45,000 - $185,000+", phone: "1-800-TEX-LAW1", table: [{id:"2024-TX-991",type:"Trucking",amt:"$2.1M"},{id:"2023-TX-332",type:"Fracture",amt:"$310k"}] },
+            "florida": { statute: "Pure Comparative Fault. No-Fault PIP insurance rules apply.", stats: "Frequent hydroplaning accidents and elderly driver intersection strikes.", insight: "FL 'Permanent Injury' threshold must be met to unlock high-value indemnity.", estimate: "$25,000 - $110,000+", phone: "1-800-FLA-PAID", table: [{id:"2024-FL-100",type:"Multiple",amt:"$620k"},{id:"2023-FL-551",type:"Spinal",amt:"$1.85M"}] }
+        };
+
+        const statesMap = {"alabama":"Alabama","alaska":"Alaska","arizona":"Arizona","arkansas":"Arkansas","california":"California","colorado":"Colorado","connecticut":"Connecticut","delaware":"Delaware","florida":"Florida","georgia":"Georgia","hawaii":"Hawaii","idaho":"Idaho","illinois":"Illinois","indiana":"Indiana","iowa":"Iowa","kansas":"Kansas","kentucky":"Kentucky","louisiana":"Louisiana","maine":"Maine","maryland":"Maryland","massachusetts":"Massachusetts","michigan":"Michigan","minnesota":"Minnesota","mississippi":"Mississippi","missouri":"Missouri","montana":"Montana","nebraska":"Nebraska","nevada":"Nevada","new-hampshire":"New Hampshire","new-jersey":"New Jersey","new-mexico":"New Mexico","new-york":"New York","north-carolina":"North Carolina","north-dakota":"North Dakota","ohio":"Ohio","oklahoma":"Oklahoma","oregon":"Oregon","pennsylvania":"Pennsylvania","rhode-island":"Rhode Island","south-carolina":"South Carolina","south-dakota":"South Dakota","tennessee":"Tennessee","texas":"Texas","utah":"Utah","vermont":"Vermont","virginia":"Virginia","washington":"Washington","west-virginia":"West Virginia","wisconsin":"Wisconsin","wyoming":"Wyoming"};
+
+        // GLOBAL FUNCTIONS
+        window.openModal = function() { document.getElementById('leadModal').classList.remove('hidden'); document.getElementById('leadModal').style.display = 'flex'; };
+        window.goToStep2 = function() { document.getElementById('step-1').classList.add('hidden'); document.getElementById('step-2').classList.remove('hidden'); };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const path = window.location.pathname.replace('/', '').toLowerCase();
+            const stateName = statesMap[path] || "California";
+            const data = MASTER_DB[path] || {
+                statute: `${stateName} Statutes Applied. Comparative negligence rules govern local recovery.`,
+                stats: `Corridor risk assessment complete for ${stateName} metropolitan areas.`,
+                insight: `Winning in ${stateName} requires expert scene reconstruction and immediate file preservation.`,
+                estimate: "$15,000 - $85,000+", phone: "1-800-000-0000",
+                table: [{id:`${stateName}-01`,type:"Complex",amt:"$115k"},{id:`${stateName}-02`,type:"Trauma",amt:"$45k"}]
+            };
+
+            // RENDER DATA
+            document.getElementById('current-state-display').innerText = stateName;
+            document.getElementById('report-state-name').innerText = stateName;
+            document.getElementById('table-state-name').innerText = stateName;
+            document.getElementById('statute-info').innerText = data.statute;
+            document.getElementById('stats-info').innerText = data.stats;
+            document.getElementById('insight-info').innerText = data.insight;
+
+            const tableBody = document.getElementById('settlement-rows');
+            data.table.forEach(r => {
+                const tr = document.createElement('tr'); tr.innerHTML = `<td class="px-4 py-3">${r.id}</td><td class="px-4 py-3">${r.type}</td><td class="px-4 py-3 text-emerald-600">${r.amt}</td>`;
+                tableBody.appendChild(tr);
+            });
+
+            const footerGrid = document.getElementById('state-links');
+            Object.entries(statesMap).forEach(([key, name]) => {
+                const a = document.createElement('a'); a.href = `/${key}`; a.className = 'hover:text-blue-600 py-1 transition-all'; a.innerText = name;
+                footerGrid.appendChild(a);
+            });
+
+            // COUNTER
+            let count = 12450320; setInterval(() => { count += Math.floor(Math.random() * 85); document.getElementById('counter').innerText = '$' + count.toLocaleString(); }, 3000);
+
+            // LEAD FORM
+            document.getElementById('leadForm').onsubmit = function(e) {
+                e.preventDefault();
+                const body = document.getElementById('modalBody');
+                body.innerHTML = `<div class="py-10 text-center animate-pulse"><p class="font-black text-slate-800 uppercase tracking-widest">Finalizing ${stateName} Report...</p></div>`;
+                setTimeout(() => {
+                    body.innerHTML = `
+                        <div class="py-6 text-center">
+                            <h3 class="text-xl font-black text-slate-900 leading-tight">Analysis Complete</h3>
+                            <div class="my-6 p-6 bg-slate-900 rounded-3xl text-white"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1">Estimated Indemnity Range*</p><p class="text-3xl font-black text-emerald-400">${data.estimate}</p></div>
+                            <p class="text-slate-600 font-bold text-xs px-4 mb-6 leading-relaxed">Evaluation suggests High-Value potential. Connect now to preserve Statutory Rights.</p>
+                            <a href="tel:${data.phone}" class="block w-full rounded-2xl bg-emerald-500 py-6 font-black text-white text-xl hover:bg-emerald-600 shadow-xl transition-all active:scale-95 uppercase tracking-widest">CLAIM CASE: ${data.phone}</a>
+                        </div>`;
+                }, 2000);
+            };
+
+            // PHONE FORMATTING
+            document.getElementById('userPhone').oninput = function(e) {
+                let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+                e.target.value = !x[2] ? x[1] : x[1] + '-' + x[2] + (x[3] ? '-' + x[3] : '');
+            };
+        });
+    </script>
+</body>
+</html>
