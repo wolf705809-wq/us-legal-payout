@@ -4,16 +4,13 @@
     <meta name="google-site-verification" content="PapVSNH3Bi1sYGuO2u9PDtcyfk8ROeS1hU2z7hEIM2k" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Motor Vehicle Injury Review | Official 2026 Statutory Guide</title>
+    <title id="page-title">Statutory Injury Review | 2026 Jurisdictional Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #f8fafc; font-family: -apple-system, system-ui, sans-serif; overflow-x: hidden; }
         .calc-card { background: white; border-radius: 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
         @keyframes pulse-wave { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
         .live-pulse { animation: pulse-wave 2s infinite; border-radius: 50%; }
-        .scanning-container { position: relative; overflow: hidden; }
-        .scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(to bottom, rgba(37, 99, 235, 0.5), rgba(37, 99, 235, 0)); animation: scan 2s linear infinite; z-index: 10; display: block; }
-        @keyframes scan { from { top: 0%; } to { top: 100%; } }
         .expert-box { border-left: 4px solid #2563eb; background: #f1f5f9; position: relative; }
         .hidden { display: none !important; }
         .typing::after { content: '|'; animation: blink 0.7s infinite; }
@@ -33,33 +30,32 @@
     <div class="w-full bg-slate-900 text-white py-2 px-4 flex justify-center items-center gap-3 text-[10px] font-bold tracking-widest uppercase">
         <span class="flex items-center gap-1"><span class="h-2 w-2 bg-emerald-400 live-pulse"></span> ANALYTICAL SYSTEM ACTIVE</span>
         <span class="text-slate-500">|</span>
-        <span>Motor Vehicle Payouts Analyzed: <span id="counter" class="text-emerald-400 font-mono">$12,451,145.00</span></span>
+        <span>Total Analyzed: <span id="counter" class="text-emerald-400 font-mono">$12,451,145.00</span></span>
     </div>
 
     <main class="flex-grow flex flex-col items-center justify-center w-full max-w-2xl px-6 py-12">
         <div class="text-center mb-10">
-            <h1 id="main-heading" class="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight leading-tight">Motor Vehicle Injury Review</h1>
-            <p id="sub-heading" class="text-lg text-slate-500 font-medium italic">Official 2026 Statutory Indemnity & Liability Assessment</p>
+            <h1 id="main-heading" class="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight leading-tight">Injury & Collision Review</h1>
+            <p id="sub-heading" class="text-lg text-slate-500 font-medium italic">Official 2026 Statutory Indemnity Assessment</p>
         </div>
 
         <div class="calc-card w-full p-10 border border-slate-100 relative overflow-hidden text-center mb-8">
             <div class="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
-            <p class="text-blue-600 font-black text-[11px] tracking-[0.3em] mb-8 uppercase">Enterprise Jurisdictional Intelligence v9.1</p>
+            <p class="text-blue-600 font-black text-[11px] tracking-[0.3em] mb-8 uppercase">Jurisdictional Intelligence v9.2</p>
             <div class="bg-slate-50 rounded-2xl py-8 px-6 mb-10 border-2 border-dashed border-slate-200">
-                <p class="text-slate-400 text-sm font-medium tracking-tight">
+                <p class="text-slate-400 text-sm font-medium">
                     <span id="localized-status" class="flex items-center justify-center gap-2">
                         <span class="h-2 w-2 bg-blue-600 live-pulse"></span> 
-                        <span id="status-text">INITIALIZING ENGINE...</span>
+                        <span id="status-text">CALIBRATING SYSTEM...</span>
                     </span>
                 </p>
             </div>
             <button onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black text-xl py-6 rounded-2xl transition duration-200 shadow-2xl active:scale-95 uppercase tracking-widest">
-                Initiate Liability Review
+                Initiate Valuation
             </button>
         </div>
 
-        <div class="w-full bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-12 scanning-container">
-            <div id="scan-line-main" class="scan-line"></div>
+        <div class="w-full bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-12">
             <h3 class="text-sm font-black text-slate-900 uppercase tracking-widest mb-6 flex items-center gap-2">
                 <span class="h-4 w-1 bg-blue-600"></span> Localized Data: <span id="report-state-name" class="uppercase">Syncing...</span>
             </h3>
@@ -74,7 +70,7 @@
                 </div>
             </div>
             <div class="bg-blue-50 p-5 rounded-2xl border border-blue-100">
-                <p class="text-[10px] font-black text-blue-800 uppercase mb-2">Technical Insight (Accident Division)</p>
+                <p class="text-[10px] font-black text-blue-800 uppercase mb-2">Technical Insight (Lead Reviewer)</p>
                 <p id="insight-info" class="text-sm text-blue-900 font-medium leading-relaxed italic h-12 text-center"></p>
             </div>
         </div>
@@ -86,21 +82,30 @@
         <div class="w-full max-w-md overflow-hidden rounded-[2.5rem] bg-white shadow-2xl">
             <div class="bg-slate-900 p-8 text-white text-center">
                 <h2 class="text-2xl font-black uppercase tracking-tight">Case Adjudication</h2>
-                <p class="text-[9px] text-slate-500 tracking-[0.4em] uppercase mt-2 italic">Official Payout Qualification</p>
+                <p class="text-[9px] text-slate-500 tracking-[0.4em] uppercase mt-2 italic">Privilege Protected</p>
             </div>
             <div id="modalBody" class="p-10 flex flex-col items-center">
+                
                 <div id="step-1" class="w-full">
                     <div class="space-y-4">
-                        <select id="acc-injury" class="w-full p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600"><option value="low">Soft Tissue / Whiplash</option><option value="high">Bone Fracture / Surgery</option><option value="critical">Traumatic Brain / Spinal</option></select>
-                        <select id="acc-hospital" class="w-full p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600"><option value="no">No Hospital Visit</option><option value="yes">Emergency Room / Overnight</option></select>
-                        <button onclick="goToStep2()" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase tracking-widest mt-4">Analyze Statutory Value</button>
+                        <div><label class="text-[10px] font-black text-slate-400 uppercase">1. Primary Injury Type</label>
+                            <select id="acc-injury" class="w-full mt-1 p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600"><option value="low">Soft Tissue / Whiplash</option><option value="high">Bone Fracture / Surgery</option><option value="critical">Traumatic Brain / Spinal</option></select>
+                        </div>
+                        <div><label class="text-[10px] font-black text-slate-400 uppercase">2. Emergency Care</label>
+                            <select id="acc-hospital" class="w-full mt-1 p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600"><option value="no">No Hospital Visit</option><option value="yes">Emergency Room / Overnight</option></select>
+                        </div>
+                        <div><label class="text-[10px] font-black text-slate-400 uppercase">3. Fault Liability</label>
+                            <select id="acc-fault" class="w-full mt-1 p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600"><option value="clear">Other Party at Fault</option><option value="unsure">Fault Unclear</option></select>
+                        </div>
+                        <button onclick="goToStep2()" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase tracking-widest mt-4">Audit Case Merit</button>
                     </div>
                 </div>
+
                 <div id="step-2" class="hidden w-full text-center">
                     <p id="audit-status" class="text-xs font-bold text-blue-600 animate-pulse uppercase mb-6 italic tracking-tight">Analyzing Liability Statutes...</p>
                     <input required type="text" id="userName" placeholder="Full Name" class="w-full rounded-xl border border-slate-200 p-4 font-bold text-slate-700 outline-none focus:border-blue-600 mb-4">
                     <input required type="text" id="userPhone" placeholder="Phone: 555-555-5555" maxlength="12" class="w-full rounded-xl border border-slate-200 p-4 font-bold text-slate-700 outline-none focus:border-blue-600 mb-6">
-                    <button onclick="processFinalReport()" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase tracking-widest">Generate Valuation Report</button>
+                    <button onclick="processFinalReport()" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase tracking-widest">SECURE MY EVALUATION</button>
                 </div>
             </div>
         </div>
@@ -108,102 +113,64 @@
 
     <script>
         const MASTER_DB = {
-            "california": { statute: "Pure Comparative Negligence (CA Civ. Code § 1714). Recover damages regardless of fault percentage.", stats: "Heavy LA/Bay Area traffic density increases localized collision risks daily.", insight: "California courts prioritize maximum medical recovery for motor vehicle injuries; documentation is vital.", est: "$35k-$150k+", ph: "1-800-CAL-LEGAL" },
-            "texas": { statute: "Modified Comparative Fault (51% Bar). Fault over 50% bars recovery.", stats: "Leads U.S. in fatal commercial truck accidents on I-10 and I-35 energy corridors.", insight: "Securing commercial black-box data is mandatory for TX truck liability claims.", est: "$45k-$185k+", ph: "1-800-TEX-LAW1" },
-            "florida": { statute: "Pure Comparative Fault. No-Fault PIP insurance rules apply for first $10,000.", stats: "Frequent hydroplaning accidents on I-4 and elderly driver intersection strikes.", insight: "Meeting the FL 'Permanent Injury' threshold is vital to unlock non-economic damages.", est: "$25k-$110k+", ph: "1-800-FLA-PAID" }
+            "california": { statute: "Pure Comparative Negligence (CA Civ. Code § 1714).", stats: "Heavy traffic density in LA/SF increases collision risks.", insight: "California courts prioritize maximum medical recovery and non-economic damages.", est: "$35k-$150k+", ph: "1-800-CAL-LEGAL" },
+            "texas": { statute: "Modified Comparative Fault (51% Bar Rule).", stats: "Leads U.S. in commercial trucking accidents on I-10 and I-35.", insight: "Securing commercial black-box data is mandatory for TX liability claims.", est: "$45k-$185k+", ph: "1-800-TEX-LAW1" },
+            "florida": { statute: "Pure Comparative Fault. No-Fault PIP insurance rules apply.", stats: "Frequent hydroplaning accidents and elderly driver intersection strikes.", insight: "FL 'Permanent Injury' threshold must be met to unlock high-value indemnity.", est: "$25k-$110k+", ph: "1-800-FLA-PAID" }
         };
 
         const statesMap = {"alabama":"Alabama","alaska":"Alaska","arizona":"Arizona","arkansas":"Arkansas","california":"California","colorado":"Colorado","connecticut":"Connecticut","delaware":"Delaware","florida":"Florida","georgia":"Georgia","hawaii":"Hawaii","idaho":"Idaho","illinois":"Illinois","indiana":"Indiana","iowa":"Iowa","kansas":"Kansas","kentucky":"Kentucky","louisiana":"Louisiana","maine":"Maine","maryland":"Maryland","massachusetts":"Massachusetts","michigan":"Michigan","minnesota":"Minnesota","mississippi":"Mississippi","missouri":"Missouri","montana":"Montana","nebraska":"Nebraska","nevada":"Nevada","new-hampshire":"New Hampshire","new-jersey":"New Jersey","new-mexico":"New Mexico","new-york":"New York","north-carolina":"North Carolina","north-dakota":"North Dakota","ohio":"Ohio","oklahoma":"Oklahoma","oregon":"Oregon","pennsylvania":"Pennsylvania","rhode-island":"Rhode Island","south-carolina":"South Carolina","south-dakota":"South Dakota","tennessee":"Tennessee","texas":"Texas","utah":"Utah","vermont":"Vermont","virginia":"Virginia","washington":"Washington","west-virginia":"West Virginia","wisconsin":"Wisconsin","wyoming":"Wyoming"};
 
         const typeWriter = (element, text, speed = 30) => {
-            if (!element) return;
-            let i = 0; element.innerText = ''; element.classList.add('typing');
-            const timer = setInterval(() => {
-                if (i < text.length) { element.innerText += text.charAt(i); i++; } 
-                else { clearInterval(timer); element.classList.remove('typing'); }
-            }, speed);
+            if (!element) return; let i = 0; element.innerText = ''; element.classList.add('typing');
+            const timer = setInterval(() => { if (i < text.length) { element.innerText += text.charAt(i); i++; } else { clearInterval(timer); element.classList.remove('typing'); } }, speed);
         };
 
         const showToast = () => {
-            const names = ["James", "Maria", "Robert", "Linda", "Michael", "Sarah", "David", "Emma"];
-            const cities = ["Houston", "Los Angeles", "Miami", "Chicago", "Phoenix", "Dallas"];
-            const name = names[Math.floor(Math.random()*names.length)];
-            const city = cities[Math.floor(Math.random()*cities.length)];
+            const names = ["James", "Maria", "Robert", "Linda", "Michael", "Sarah", "David", "Emma"]; const cities = ["Houston", "Los Angeles", "Miami", "Chicago", "Phoenix", "Dallas"];
+            const name = names[Math.floor(Math.random()*names.length)]; const city = cities[Math.floor(Math.random()*cities.length)];
             const amount = (Math.floor(Math.random()*60) + 15) + ",200";
-            const container = document.getElementById('toast-container');
-            if (!container) return;
-            const toast = document.createElement('div');
-            toast.className = 'toast';
+            const container = document.getElementById('toast-container'); if (!container) return;
+            const toast = document.createElement('div'); toast.className = 'toast';
             toast.innerHTML = `<p class="text-[11px] font-bold text-slate-800 leading-tight"><strong>${name} K.</strong> from ${city} secured a <strong>$${amount}</strong> vehicle settlement.</p>`;
-            container.appendChild(toast);
-            setTimeout(() => toast.classList.add('show'), 100);
-            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 500); }, 5000);
+            container.appendChild(toast); setTimeout(() => toast.classList.add('show'), 100); setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 500); }, 5000);
         };
 
-        // UI Initialization
         document.addEventListener('DOMContentLoaded', function() {
             const path = window.location.pathname.replace('/', '').toLowerCase();
             const stateName = statesMap[path] || "California";
-            const data = MASTER_DB[path] || {
-                statute: `${stateName} Statutes govern local motor vehicle liability and negligence recovery.`,
-                stats: `Regional corridor risk assessment complete for ${stateName} metropolitan zones.`,
-                insight: `Winning injury cases in ${stateName} requires prompt scene preservation and expert witness testimony.`,
-                est: "$20k-$95k+", ph: "1-800-000-0000"
-            };
+            const data = MASTER_DB[path] || { statute: `${stateName} Statutes govern local motor vehicle liability and recovery.`, stats: `Regional corridor risk assessment complete for ${stateName} metropolitan zones.`, insight: `Winning injury cases in ${stateName} requires prompt scene preservation and expert witness testimony.`, est: "$20k-$95k+", ph: "1-800-000-0000" };
 
-            // Counter Logic
-            let count = 12451145.00;
-            setInterval(() => { count += Math.random() * 0.5; document.getElementById('counter').innerText = '$' + count.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); }, 100);
-
-            // Toast Notifications
+            let count = 12451145.00; setInterval(() => { count += Math.random() * 0.5; document.getElementById('counter').innerText = '$' + count.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); }, 100);
             setInterval(showToast, 8000);
 
-            // Footer Links
             const footerGrid = document.getElementById('state-links');
-            Object.entries(statesMap).forEach(([key, name]) => {
-                const a = document.createElement('a'); a.href = `/${key}`; a.className = 'hover:text-blue-600 py-1 transition-all'; a.innerText = name;
-                footerGrid.appendChild(a);
-            });
+            Object.entries(statesMap).forEach(([key, name]) => { const a = document.createElement('a'); a.href = `/${key}`; a.className = 'hover:text-blue-600 py-1 transition-all'; a.innerText = name; footerGrid.appendChild(a); });
 
-            // Sequential Loading Effect
             setTimeout(() => {
                 document.getElementById('status-text').innerText = `SYNCING ACCIDENT DATA: ${stateName.toUpperCase()}...`;
                 document.getElementById('report-state-name').innerText = stateName;
-                setTimeout(() => {
-                    typeWriter(document.getElementById('statute-info'), data.statute);
-                    setTimeout(() => {
-                        typeWriter(document.getElementById('stats-info'), data.stats);
-                        setTimeout(() => {
-                            typeWriter(document.getElementById('insight-info'), data.insight);
-                            document.getElementById('status-text').innerHTML = `<span class="text-emerald-500 font-bold tracking-widest">SYSTEM LOCALIZED: ${stateName.toUpperCase()}</span>`;
-                        }, 1200);
-                    }, 1000);
-                }, 800);
+                setTimeout(() => { typeWriter(document.getElementById('statute-info'), data.statute); setTimeout(() => { typeWriter(document.getElementById('stats-info'), data.stats); setTimeout(() => { typeWriter(document.getElementById('insight-info'), data.insight); document.getElementById('status-text').innerHTML = `<span class="text-emerald-500 font-bold tracking-widest">SYSTEM LOCALIZED: ${stateName.toUpperCase()}</span>`; }, 1200); }, 1000); }, 800);
             }, 500);
         });
 
         window.openModal = function() { document.getElementById('leadModal').classList.remove('hidden'); document.getElementById('leadModal').style.display = 'flex'; };
-        
         window.goToStep2 = function() {
-            const statusTexts = ["Scrutinizing Fault Liability...", "Verifying Medical Thresholds...", "Calculating Statutory Cap...", "Accident Adjuster Reviewing..."];
+            const statusTexts = ["Scrutinizing Fault Liability...", "Verifying Medical Thresholds...", "Calculating Statutory Cap..."];
             let idx = 0; const timer = setInterval(() => { document.getElementById('audit-status').innerText = statusTexts[idx]; idx++; if(idx >= statusTexts.length) clearInterval(timer); }, 600);
-            document.getElementById('step-1').classList.add('hidden');
-            document.getElementById('step-2').classList.remove('hidden');
+            document.getElementById('step-1').classList.add('hidden'); document.getElementById('step-2').classList.remove('hidden');
         };
 
         window.processFinalReport = function() {
             const name = document.getElementById('userName').value; const phone = document.getElementById('userPhone').value;
-            if(!name || !phone) { alert("Please complete your profile to view the assessment."); return; }
+            if(!name || !phone) { alert("Please complete your profile to view the report."); return; }
 
-            const injury = document.getElementById('acc-injury').value;
-            const hosp = document.getElementById('acc-hospital').value;
+            const injury = document.getElementById('acc-injury').value; const hosp = document.getElementById('acc-hospital').value;
             const path = window.location.pathname.replace('/', '').toLowerCase();
-            const state = statesMap[path] || "California";
-            const d = MASTER_DB[path] || {est: "$25k-$95k+", ph: "1-800-000-0000"};
+            const state = statesMap[path] || "California"; const d = MASTER_DB[path] || {est: "$25k-$95k+", ph: "1-800-000-0000"};
             const isHighValue = (injury === 'high' || injury === 'critical') && hosp === 'yes';
 
             const body = document.getElementById('modalBody');
-            body.innerHTML = `<div class="py-10 text-center animate-pulse"><p class="font-black text-slate-800 uppercase tracking-widest italic">Finalizing Statutory Assessment...</p></div>`;
+            body.innerHTML = `<div class="py-10 text-center animate-pulse"><p class="font-black text-slate-800 uppercase tracking-widest italic">Generating Adjudication Summary...</p></div>`;
             
             setTimeout(() => {
                 body.innerHTML = `
@@ -213,17 +180,17 @@
                             <h4 class="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-4">Statutory Merit Adjudication</h4>
                             <div class="space-y-3">
                                 <div class="flex justify-between border-b border-slate-100 pb-1"><span class="report-label">Jurisdiction</span><span class="report-value">${state}</span></div>
-                                <div class="flex justify-between border-b border-slate-100 pb-1"><span class="report-label">Liability</span><span class="report-value">High-Probability</span></div>
+                                <div class="flex justify-between border-b border-slate-100 pb-1"><span class="report-label">Liability</span><span class="report-value text-slate-700">Clear</span></div>
                                 <div class="flex justify-between"><span class="report-label">Projected Value</span><span class="report-value text-emerald-600">${d.est}</span></div>
                             </div>
                         </div>
                         <p class="text-[11px] text-slate-600 font-bold leading-relaxed mb-6 text-center italic px-2">
-                            Assessment secured. To **finalize this valuation** and release the official indemnity breakdown, connect with our review team immediately.
+                            Summary secured. To **finalize this valuation** and release the official indemnity breakdown, connect with our review officer.
                         </p>
                         <a href="tel:${d.ph}" class="w-full block rounded-2xl bg-emerald-500 py-6 font-black text-white text-xl hover:bg-emerald-600 shadow-xl transition-all active:scale-95 uppercase tracking-widest italic text-center">
                             FINALIZE & CONNECT NOW
                         </a>
-                        <p class="mt-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest">Case ID: #${Math.floor(Math.random()*900000)+100000}</p>
+                        <p class="mt-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest">Case File ID: #${Math.floor(Math.random()*900000)+100000}</p>
                     </div>`;
             }, 2000);
         };
