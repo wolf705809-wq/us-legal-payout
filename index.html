@@ -3,255 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title id="page-meta-title">Statutory Audit | Official 2026 Injury Evaluation</title>
+    <title>Statutory Audit | Official 2026 Injury Evaluation</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
         :root { --legal-blue: #0f172a; --action-blue: #2563eb; --data-green: #10b981; }
-        body { background-color: #f8fafc; font-family: 'Inter', -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
-        
-        /* Authority UI Elements */
-        .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-blur: 12px; border: 1px solid rgba(226, 232, 240, 0.8); }
+        body { background-color: #f8fafc; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border: 1px solid rgba(226, 232, 240, 0.8); }
         .shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); background-size: 200% 100%; animation: shimmer 2s infinite; }
         @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-        
-        /* Advanced Scanning Illusion */
-        .terminal-text { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 11px; color: var(--data-green); }
-        .scan-line { position: absolute; height: 100%; width: 2px; background: var(--action-blue); left: 0; top: 0; animation: horizontal-scan 3s infinite linear; opacity: 0.2; }
-        @keyframes horizontal-scan { 0% { left: 0; } 100% { left: 100%; } }
-
-        /* Mobile Optimized Targets */
-        input, select, button { min-height: 56px; font-size: 16px !important; } /* Prevents iOS zoom on focus */
-        .thumb-zone { padding-bottom: env(safe-area-inset-bottom); }
-
-        /* Priority Tag */
-        .priority-pulse { animation: pulse-red 1.5s infinite; }
-        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
-        
+        .terminal-text { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--data-green); }
         .hidden { display: none !important; }
+        .success-check { color: #10b981; animation: scale-up 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes scale-up { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .animate-marquee { display: inline-block; animation: marquee 20s linear infinite; }
     </style>
 </head>
 <body class="flex flex-col items-center min-h-screen">
 
-    <div class="w-full bg-slate-900 text-white py-2 overflow-hidden whitespace-nowrap border-b border-blue-500/30">
-        <div class="inline-block animate-marquee text-[10px] font-black uppercase tracking-[0.2em]">
-            <span class="mx-4"><span class="text-blue-400">●</span> SYSTEM ACTIVE: 50 JURISDICTIONS MONITORED</span>
-            <span class="mx-4 text-emerald-400">● REAL-TIME DATA SYNC: ACTIVE</span>
-            <span class="mx-4">● LAST SETTLEMENT: $128,400 (3 mins ago)</span>
-            <span class="mx-4 text-blue-400">● SYSTEM ACTIVE: 50 JURISDICTIONS MONITORED</span>
+    <div class="w-full bg-slate-900 text-white py-2 overflow-hidden border-b border-blue-500/30">
+        <div class="inline-block animate-marquee text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">
+            <span class="mx-4"><span class="text-blue-400">●</span> SYSTEM ACTIVE: 50 JURISDICTIONS</span>
+            <span class="mx-4 text-emerald-400">● REAL-TIME DATA SYNC: 2026 STATUTES</span>
+            <span class="mx-4">● CALLBACK QUEUE: 18 MINS (EST)</span>
+            <span class="mx-4 text-blue-400">● SYSTEM ACTIVE: 50 JURISDICTIONS</span>
+            <span class="mx-4 text-emerald-400">● REAL-TIME DATA SYNC: 2026 STATUTES</span>
         </div>
     </div>
-    <style> @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } } .animate-marquee { display: inline-block; animation: marquee 20s linear infinite; } </style>
 
     <main class="w-full max-w-xl px-4 py-8 mb-24">
         <header class="text-center mb-8">
-            <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 rounded-full mb-4">
-                <span class="relative flex h-2 w-2">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                </span>
-                <span class="text-[10px] font-black text-blue-700 uppercase tracking-widest">Official 2026 Statutory Portal</span>
-            </div>
-            <h1 id="main-h1" class="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter leading-none mb-2 uppercase italic italic">
+            <h1 class="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter leading-none mb-2 uppercase italic">
                 Injury Review
             </h1>
-            <p id="main-sub" class="text-xs font-bold text-slate-400 uppercase tracking-widest">Verified Liability & Indemnity Audit</p>
+            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest italic">Official 2026 Statutory Assessment</p>
         </header>
 
         <div class="glass-panel rounded-[2rem] overflow-hidden shadow-2xl mb-8 relative">
-            <div class="scan-line"></div>
-            <div class="flex flex-col">
-                <div class="aspect-[9/16] bg-black">
-                    <iframe src="https://app.heygen.com/embeds/e6799583d1c24b56ad249eaab897fd8f" 
-                            style="width: 100%; height: 100%; border: none;" 
-                            allow="fullscreen; accelerometer; autoplay; encrypted-media;">
-                    </iframe>
+            <div class="aspect-[9/16] bg-black">
+                <iframe src="https://app.heygen.com/embeds/e6799583d1c24b56ad249eaab897fd8f" 
+                        style="width: 100%; height: 100%; border: none;" 
+                        allow="fullscreen; accelerometer; autoplay; encrypted-media;">
+                </iframe>
+            </div>
+            <div class="p-6 bg-slate-900 text-white">
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                    <h2 class="text-lg font-black uppercase italic text-blue-400">Data Architect Online</h2>
                 </div>
-                <div class="p-6 bg-slate-900 text-white">
-                    <h2 class="text-lg font-black uppercase italic italic mb-2">SJ Lee <span class="text-blue-500 text-xs font-bold not-italic ml-2">DATA ARCHITECT</span></h2>
-                    <p id="sj-desc" class="text-slate-400 text-xs leading-relaxed italic">
-                        "Insurance adjusters use predatory software to minimize your payout. My v9.3 engine uses the same data to fight back."
-                    </p>
-                </div>
+                <p class="text-slate-400 text-[11px] leading-relaxed italic font-medium">
+                    "Our engine cross-references real-time 2026 jurisdictional data to ensure your indemnity reflects the maximum statutory threshold."
+                </p>
             </div>
         </div>
 
-        <div class="glass-panel p-6 rounded-3xl shadow-lg text-center mb-8 relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-blue-600 shimmer"></div>
-            <p class="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mb-4">Jurisdictional Intelligence Active</p>
-            <div id="localized-status" class="text-[11px] font-mono text-slate-500 mb-6 py-2 bg-slate-50 rounded-lg">
-                <span id="status-text">INITIALIZING...</span>
+        <div class="grid grid-cols-2 gap-4 mb-8">
+            <div class="glass-panel p-4 rounded-2xl border-l-4 border-blue-600 shadow-sm overflow-hidden h-28">
+                <h3 class="text-[9px] font-black text-blue-600 uppercase tracking-widest mb-2 italic">State Statute</h3>
+                <p id="statute-text" class="text-[10px] font-mono text-slate-700 leading-tight">Analyzing...</p>
             </div>
-            <button onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black text-lg py-5 rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-widest italic">
-                Start My Audit
+            <div class="glass-panel p-4 rounded-2xl border-l-4 border-emerald-500 shadow-sm overflow-hidden h-28">
+                <h3 class="text-[9px] font-black text-emerald-600 uppercase tracking-widest mb-2 italic">Risk Factors</h3>
+                <p id="risk-text" class="text-[10px] font-mono text-slate-700 leading-tight">Syncing...</p>
+            </div>
+        </div>
+
+        <div class="glass-panel p-8 rounded-3xl shadow-lg text-center mb-8 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-blue-600 shimmer"></div>
+            <p class="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mb-4 italic">2026 Payout Audit Engine</p>
+            <button onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black text-xl py-6 rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-widest italic">
+                Start Case Audit
             </button>
         </div>
 
-        <div class="grid grid-cols-2 gap-4 mb-12">
-            <div class="glass-panel p-4 rounded-2xl border-l-4 border-blue-600">
-                <p class="text-[9px] font-black text-blue-600 uppercase mb-1">State Statute</p>
-                <p id="statute-info" class="text-[10px] font-bold text-slate-700 leading-tight">Syncing...</p>
-            </div>
-            <div class="glass-panel p-4 rounded-2xl border-l-4 border-emerald-500">
-                <p class="text-[9px] font-black text-emerald-600 uppercase mb-1">Risk Factors</p>
-                <p id="stats-info" class="text-[10px] font-bold text-slate-700 leading-tight">Analyzing...</p>
-            </div>
-        </div>
-
-        <div id="state-links" class="grid grid-cols-3 gap-2 text-[8px] font-bold text-slate-400 uppercase text-center opacity-60"></div>
+        <div id="state-links" class="grid grid-cols-3 gap-2 text-[8px] font-bold text-slate-400 uppercase text-center opacity-40"></div>
     </main>
 
     <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/90 backdrop-blur-md p-4">
         <div class="w-full max-w-md bg-white rounded-[2.5rem] overflow-hidden shadow-2xl relative">
-            <div id="scan-bar" class="absolute top-0 left-0 w-full h-1 bg-blue-600 shimmer hidden"></div>
-            
-            <div class="bg-slate-900 p-6 text-white text-center">
-                <h2 class="text-xl font-black uppercase italic tracking-tighter">Secure Data Portal</h2>
-                <div class="flex justify-center gap-1 mt-2">
-                    <div class="h-1 w-8 bg-blue-600 rounded-full"></div>
-                    <div id="step-dot" class="h-1 w-8 bg-slate-700 rounded-full"></div>
-                </div>
-            </div>
-
             <div id="modalBody" class="p-8">
-                <div id="step-1" class="space-y-4">
-                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Injury Severity</label>
-                    <select id="acc-injury" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 font-bold text-slate-700 focus:border-blue-600 outline-none">
-                        <option value="low">Soft Tissue / Minor</option>
-                        <option value="high">Fracture / Surgery Required</option>
-                        <option value="critical">Severe / Catastrophic</option>
-                    </select>
-
-                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Liability Status</label>
-                    <select id="acc-fault" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 font-bold text-slate-700 focus:border-blue-600 outline-none">
-                        <option value="clear">Not at Fault (100%)</option>
-                        <option value="unsure">Fault Unclear / Shared</option>
-                    </select>
-
-                    <button onclick="simulateLegalScan()" class="w-full bg-blue-600 text-white font-black py-5 rounded-2xl shadow-lg uppercase tracking-widest mt-4">
-                        Analyze Recovery Value
-                    </button>
+                
+                <div id="step-1" class="space-y-4 text-center">
+                    <h2 class="text-xl font-black uppercase italic">Injury Profile</h2>
+                    <p class="text-[10px] text-slate-400 uppercase font-bold tracking-widest mb-4">Select Most Accurate Category</p>
+                    <div class="grid gap-2">
+                        <button onclick="goToScan()" class="w-full bg-slate-50 hover:bg-slate-100 p-4 rounded-xl font-bold text-slate-700 border-2 border-slate-100 transition-all text-sm">Whiplash / Soft Tissue</button>
+                        <button onclick="goToScan()" class="w-full bg-slate-50 hover:bg-slate-100 p-4 rounded-xl font-bold text-slate-700 border-2 border-slate-100 transition-all text-sm text-blue-600">Bone Fracture / Surgery</button>
+                        <button onclick="goToScan()" class="w-full bg-slate-50 hover:bg-slate-100 p-4 rounded-xl font-bold text-slate-700 border-2 border-slate-100 transition-all text-sm text-red-600">Catastrophic / Fatal</button>
+                    </div>
                 </div>
 
                 <div id="step-scan" class="hidden py-8 text-center">
-                    <div class="mb-6 flex justify-center">
-                        <div class="h-16 w-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                    </div>
-                    <div id="terminal-logs" class="terminal-text text-left h-24 overflow-hidden bg-slate-900 p-4 rounded-xl">
-                        </div>
+                    <div class="mb-6 flex justify-center"><div class="h-16 w-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div></div>
+                    <div id="terminal-logs" class="terminal-text text-left h-28 overflow-hidden bg-slate-900 p-4 rounded-xl"></div>
                 </div>
 
                 <div id="step-2" class="hidden space-y-4">
-                    <p class="text-center text-[11px] font-black text-blue-600 uppercase mb-4 italic">Statutory Match Found: Finalizing Report</p>
-                    <input type="text" id="userName" placeholder="Legal Full Name" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 font-bold">
-                    <input type="tel" id="userPhone" placeholder="Mobile: (555) 555-5555" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 font-bold">
-                    <button onclick="generateFinalAudit()" class="w-full bg-blue-600 text-white font-black py-5 rounded-2xl shadow-xl uppercase tracking-widest">
-                        Access Final Evaluation
-                    </button>
+                    <div class="text-center mb-6">
+                        <h2 class="text-xl font-black uppercase italic">Match Confirmed</h2>
+                        <p class="text-[10px] font-black text-blue-600 uppercase tracking-widest italic">High-Indemnity Potential Detected</p>
+                    </div>
+                    <input type="text" id="userName" placeholder="Legal Full Name" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 py-4 font-bold outline-none focus:border-blue-600 transition-all">
+                    <input type="tel" id="userPhone" placeholder="Phone: (555) 555-5555" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 py-4 font-bold outline-none focus:border-blue-600 transition-all">
+                    <button onclick="submitLead()" class="w-full bg-blue-600 text-white font-black py-5 rounded-2xl shadow-xl uppercase tracking-widest active:scale-95 transition-all">Secure Priority Callback</button>
+                    <p class="text-[9px] text-slate-400 text-center uppercase leading-tight italic">Secure connection. Your data is protected by 256-bit encryption for audit purposes.</p>
+                </div>
+
+                <div id="step-success" class="hidden py-10 text-center space-y-6">
+                    <div class="flex justify-center"><span class="text-6xl success-check">✓</span></div>
+                    <div class="bg-blue-50 border-2 border-blue-100 rounded-3xl p-6">
+                        <h3 class="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1 italic">Est. Case Value</h3>
+                        <p class="text-3xl font-black text-slate-900 italic" id="final-est">$35,000+</p>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-black rounded-full uppercase italic">Priority Queue Assigned</div>
+                        <p class="text-[11px] text-slate-500 font-medium leading-relaxed px-4">
+                            "Due to high volume in <span id="current-loc" class="font-bold text-slate-800">your area</span>, all auditors are currently occupied. Your case <strong>#MVA-7742</strong> is now in the <strong>Priority Callback Bank</strong>."
+                        </p>
+                        <p class="text-[10px] font-black text-emerald-600 uppercase animate-pulse italic">Est. Wait Time: < 12 Minutes</p>
+                    </div>
+                    <button onclick="closeModal()" class="text-[10px] font-black text-slate-400 uppercase underline tracking-widest">Close Secure Portal</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const statesMap = {"alabama":"Alabama","alaska":"Alaska","arizona":"Arizona","arkansas":"Arkansas","california":"California","colorado":"Colorado","connecticut":"Connecticut","delaware":"Delaware","florida":"Florida","georgia":"Georgia","hawaii":"Hawaii","idaho":"Idaho","illinois":"Illinois","indiana":"Indiana","iowa":"Iowa","kansas":"Kansas","kentucky":"Kentucky","louisiana":"Louisiana","maine":"Maine","maryland":"Maryland","massachusetts":"Massachusetts","michigan":"Michigan","minnesota":"Minnesota","mississippi":"Mississippi","missouri":"Missouri","montana":"Montana","nebraska":"Nebraska","nevada":"Nevada","new-hampshire":"New Hampshire","new-jersey":"New Jersey","new-mexico":"New Mexico","new-york":"New York","north-carolina":"North Carolina","north-dakota":"North Dakota","ohio":"Ohio","oklahoma":"Oklahoma","oregon":"Oregon","pennsylvania":"Pennsylvania","rhode-island":"Rhode Island","south-carolina":"South Carolina","south-dakota":"South Dakota","tennessee":"Tennessee","texas":"Texas","utah":"Utah","vermont":"Vermont","virginia":"Virginia","washington":"Washington","west-virginia":"West Virginia","wisconsin":"Wisconsin","wyoming":"Wyoming"};
-        const MASTER_DB = {
-            "texas": { statute: "Modified Comparative Fault (51%)", stats: "Leads U.S. in high-value commercial truck litigation.", est: "$45k - $185k+", ph: "1-800-TEX-LAW1" },
-            "california": { statute: "Pure Comparative Negligence", stats: "Maximum recovery limits for non-economic damages.", est: "$35k - $150k+", ph: "1-800-CAL-LEGAL" },
-            "florida": { statute: "Pure Comparative (No-Fault PIP)", stats: "Significant 'Permanent Injury' threshold requirements.", est: "$25k - $110k+", ph: "1-800-FLA-PAID" }
+        // Jurisdiction Intelligence Engine Data
+        const MASTER_DATA = {
+            "texas": { 
+                est: "$45k - $185k+", 
+                statute: "TX Civ. Prac. § 33.001 (51% Modified Bar Rule)", 
+                risk: "CRITICAL: High Commercial Trucking Density on I-35 / LBJ Freeway"
+            },
+            "california": { 
+                est: "$35k - $160k+", 
+                statute: "CA Civ. Code § 1714 (Pure Comparative Negligence)", 
+                risk: "HIGH: Multi-lane Pileup Risks / I-5 & I-15 Cajon Pass Corridors"
+            },
+            "florida": { 
+                est: "$25k - $125k+", 
+                statute: "FL Statute § 627.736 (No-Fault / PIP Permanent Injury Exception)", 
+                risk: "SEVERE: High Tourist/Rental Vehicle Impact Ratio in I-4 Corridor"
+            },
+            "illinois": { 
+                est: "$40k - $155k+", 
+                statute: "735 ILCS 5/2-1116 (51% Modified Fault Rule)", 
+                risk: "HIGH: Winter Road Negligence / I-90 Kennedy Expwy Congestion"
+            },
+            "georgia": { 
+                est: "$30k - $140k+", 
+                statute: "O.C.G.A. § 51-12-33 (50% Modified Comparative Fault)", 
+                risk: "CRITICAL: I-285 Perimeter Commercial Carrier Liability Zone"
+            },
+            "pennsylvania": { 
+                est: "$35k - $150k+", 
+                statute: "42 Pa. C.S. § 7102 (Full Tort vs Limited Tort Election)", 
+                risk: "HIGH: High-speed impacts on I-76 / Roosevelt Blvd Hotspots"
+            },
+            "arizona": { 
+                est: "$25k - $115k+", 
+                statute: "A.R.S. § 12-2505 (Pure Comparative Fault Rule)", 
+                risk: "SEVERE: High-heat Multi-vehicle Accidents on I-10 / Loop 101"
+            },
+            "michigan": { 
+                est: "$30k - $135k+", 
+                statute: "MI Compiled Laws § 500.3135 (No-Fault Reform Threshold)", 
+                risk: "HIGH: Distracted Driving Incidents on I-75 / Lodge Freeway"
+            },
+            "nevada": { 
+                est: "$20k - $110k+", 
+                statute: "NRS 41.141 (51% Comparative Negligence Bar)", 
+                risk: "MODERATE: Tourist-related Rental Collisions on I-15 / Strip"
+            }
         };
 
-        function applyDynamic() {
-            const params = new URLSearchParams(window.location.search);
-            const path = window.location.pathname.replace('/','').toLowerCase();
-            const key = params.get('state') || path;
-            const name = statesMap[key] || "California";
-            const d = MASTER_DB[key] || { statute: `${name} Statutes govern liability.`, stats: `Risk factors for ${name} being analyzed.`, est: "$25k-$95k+", ph: "1-800-000-0000" };
+        const statesList = {"alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA","colorado":"CO","connecticut":"CT","delaware":"DE","florida":"FL","georgia":"GA","hawaii":"HI","idaho":"ID","illinois":"IL","indiana":"IN","iowa":"IA","kansas":"KS","kentucky":"KY","louisiana":"LA","maine":"ME","maryland":"MD","massachusetts":"MA","michigan":"MI","minnesota":"MN","mississippi":"MS","missouri":"MO","montana":"MT","nebraska":"NE","nevada":"NV","new-hampshire":"NH","new-jersey":"NJ","new-mexico":"NM","new-york":"NY","north-carolina":"NC","north-dakota":"ND","ohio":"OH","oklahoma":"OK","oregon":"OR","pennsylvania":"PA","rhode-island":"RI","south-carolina":"SC","south-dakota":"SD","tennessee":"TN","texas":"TX","utah":"UT","vermont":"VT","virginia":"VA","washington":"WA","west-virginia":"WV","wisconsin":"WI","wyoming":"WY"};
 
-            document.getElementById('main-h1').innerText = `${name} Injury Review`;
-            document.getElementById('statute-info').innerText = d.statute;
-            document.getElementById('stats-info').innerText = d.stats;
-            document.getElementById('status-text').innerText = `SECURE CONNECTION: ${name.toUpperCase()}`;
+        window.openModal = () => document.getElementById('leadModal').classList.remove('hidden');
+        window.closeModal = () => document.getElementById('leadModal').classList.add('hidden');
+
+        // Typing Effect Engine
+        function typeWriter(element, text) {
+            let i = 0;
+            element.innerHTML = "";
+            function typing() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i++);
+                    setTimeout(typing, 25);
+                }
+            }
+            typing();
         }
 
-        window.openModal = () => { document.getElementById('leadModal').classList.remove('hidden'); };
-
-        function simulateLegalScan() {
+        function goToScan() {
             document.getElementById('step-1').classList.add('hidden');
             document.getElementById('step-scan').classList.remove('hidden');
-            document.getElementById('scan-bar').classList.remove('hidden');
-            
-            const logs = [
-                "> AUTHENTICATING JURISDICTION...",
-                "> ACCESSING 2026 STATUTE TABLES...",
-                "> ANALYZING CASE PRECEDENTS...",
-                "> CALCULATING INDEMNITY CAPS...",
-                "> OPTIMIZING FOR MAXIMUM RECOVERY...",
-                "> FINALIZING AUDIT PROTOCOL..."
-            ];
-            
+            const logs = ["> INITIALIZING AUDIT...", "> SYNCING 2026 STATUTES...", "> ANALYZING COMPARATIVE FAULT...", "> ESTIMATING INDEMNITY...", "> MATCHING PRIORITY AUDITOR..."];
             let i = 0;
             const container = document.getElementById('terminal-logs');
             const interval = setInterval(() => {
                 if (i < logs.length) {
-                    const p = document.createElement('p');
-                    p.innerText = logs[i];
-                    container.appendChild(p);
-                    container.scrollTop = container.scrollHeight;
-                    i++;
+                    const p = document.createElement('p'); p.innerText = logs[i++]; container.appendChild(p);
                 } else {
                     clearInterval(interval);
                     setTimeout(() => {
                         document.getElementById('step-scan').classList.add('hidden');
                         document.getElementById('step-2').classList.remove('hidden');
-                        document.getElementById('step-dot').classList.add('bg-blue-600');
-                    }, 500);
+                    }, 600);
                 }
-            }, 400);
+            }, 500);
         }
 
-        window.generateFinalAudit = function() {
-            const n = document.getElementById('userName').value;
-            const p = document.getElementById('userPhone').value;
-            if(!n || !p) return alert("Security: Full data profile required.");
+        function submitLead() {
+            const name = document.getElementById('userName').value;
+            const phone = document.getElementById('userPhone').value;
+            if(!name || !phone) return alert("System Alert: Name and valid phone required for priority callback.");
             
-            const injury = document.getElementById('acc-injury').value;
-            const fault = document.getElementById('acc-fault').value;
-            const isHighValue = (injury === 'high' || injury === 'critical') && fault === 'clear';
+            console.log("LEAD CAPTURED:", {name, phone}); // Simulation Logic
 
-            const body = document.getElementById('modalBody');
-            body.innerHTML = `<div class="py-12 text-center animate-pulse font-black italic italic uppercase">Generating Encrypted Summary...</div>`;
+            const params = new URLSearchParams(window.location.search);
+            const key = params.get('state') || 'texas';
+            const data = MASTER_DATA[key] || MASTER_DATA['texas'];
 
-            setTimeout(() => {
-                const key = new URLSearchParams(window.location.search).get('state') || 'california';
-                const d = MASTER_DB[key] || {est: "$25k-$95k+", ph: "1-800-000-0000"};
-                
-                body.innerHTML = `
-                    <div class="text-center thumb-zone">
-                        ${isHighValue ? '<div class="priority-pulse inline-block bg-red-100 text-red-600 text-[10px] font-black px-4 py-1 rounded-full mb-4">★ PRIORITY TIER 1 CASE</div>' : ''}
-                        <div class="bg-blue-50 border-2 border-blue-100 rounded-3xl p-8 mb-6">
-                            <p class="text-[10px] font-black text-blue-600 uppercase mb-2 tracking-widest">Projected Recovery Value</p>
-                            <p class="text-4xl font-black text-slate-900 italic">${d.est}</p>
-                        </div>
-                        <p class="text-[11px] text-slate-500 font-bold uppercase mb-6 px-4 leading-relaxed">System has flagged this profile for immediate jurisdictional review.</p>
-                        <a href="tel:${d.ph}" class="block w-full bg-emerald-500 hover:bg-emerald-600 py-6 rounded-2xl text-white font-black text-xl shadow-2xl transition-all active:scale-95 uppercase italic tracking-widest">Connect with Auditor</a>
-                        <p class="mt-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest">Case ID: #MVA-${Math.floor(Math.random()*900000)}</p>
-                    </div>`;
-            }, 1500);
-        };
+            document.getElementById('step-2').classList.add('hidden');
+            document.getElementById('step-success').classList.remove('hidden');
+            document.getElementById('final-est').innerText = data.est;
+            document.getElementById('current-loc').innerText = key.toUpperCase();
+        }
 
+        // Initialize Dynamic Content
         document.addEventListener('DOMContentLoaded', () => {
-            applyDynamic();
-            const grid = document.getElementById('state-links');
-            Object.entries(statesMap).forEach(([k,v]) => {
-                const a = document.createElement('a'); a.href = `?state=${k}`; a.innerText = v; a.className = 'hover:text-blue-600 transition-colors'; grid.appendChild(a);
-            });
-        });
+            const params = new URLSearchParams(window.location.search);
+            const state = params.get('state') || 'texas';
+            const data = MASTER_DATA[state] || MASTER_DATA['texas'];
+            
+            // Trigger Typing Effects
+            typeWriter(document.getElementById('statute-text'), data.statute);
+            typeWriter(document.getElementById('risk-text'), data.risk);
 
-        // Phone Auto-format
-        document.getElementById('userPhone').oninput = (e) => {
-            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
-        };
+            // Fill State Footer
+            const grid = document.getElementById('state-links');
+            Object.entries(statesList).forEach(([k,v]) => {
+                const a = document.createElement('a'); a.href = `?state=${k}`; a.innerText = v; grid.appendChild(a);
+            });
+
+            // Phone Formatting
+            document.getElementById('userPhone').oninput = (e) => {
+                let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+                e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+            };
+        });
     </script>
 </body>
 </html>
