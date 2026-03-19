@@ -8,57 +8,93 @@
     <style>
         :root { --legal-blue: #0f172a; --action-blue: #2563eb; --data-green: #10b981; }
         body { background-color: #f8fafc; font-family: 'Inter', -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* Authority UI Elements */
         .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-blur: 12px; border: 1px solid rgba(226, 232, 240, 0.8); }
         .shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); background-size: 200% 100%; animation: shimmer 2s infinite; }
         @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-        .terminal-text { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--data-green); }
+        
+        /* Advanced Scanning Illusion */
+        .terminal-text { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 11px; color: var(--data-green); }
+        .scan-line { position: absolute; height: 100%; width: 2px; background: var(--action-blue); left: 0; top: 0; animation: horizontal-scan 3s infinite linear; opacity: 0.2; }
+        @keyframes horizontal-scan { 0% { left: 0; } 100% { left: 100%; } }
+
+        /* Mobile Optimized Targets */
+        input, select, button { min-height: 56px; font-size: 16px !important; } /* Prevents iOS zoom on focus */
+        .thumb-zone { padding-bottom: env(safe-area-inset-bottom); }
+
+        /* Priority Tag */
         .priority-pulse { animation: pulse-red 1.5s infinite; }
         @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        
         .hidden { display: none !important; }
-        .success-check { color: #10b981; animation: scale-up 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes scale-up { 0% { transform: scale(0); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body class="flex flex-col items-center min-h-screen">
 
-    <div class="w-full bg-slate-900 text-white py-2 overflow-hidden border-b border-blue-500/30">
+    <div class="w-full bg-slate-900 text-white py-2 overflow-hidden whitespace-nowrap border-b border-blue-500/30">
         <div class="inline-block animate-marquee text-[10px] font-black uppercase tracking-[0.2em]">
             <span class="mx-4"><span class="text-blue-400">●</span> SYSTEM ACTIVE: 50 JURISDICTIONS MONITORED</span>
             <span class="mx-4 text-emerald-400">● REAL-TIME DATA SYNC: ACTIVE</span>
-            <span class="mx-4">● CALLBACK QUEUE: 42 MINS (EST)</span>
+            <span class="mx-4">● LAST SETTLEMENT: $128,400 (3 mins ago)</span>
+            <span class="mx-4 text-blue-400">● SYSTEM ACTIVE: 50 JURISDICTIONS MONITORED</span>
         </div>
     </div>
     <style> @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } } .animate-marquee { display: inline-block; animation: marquee 20s linear infinite; } </style>
 
     <main class="w-full max-w-xl px-4 py-8 mb-24">
         <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter leading-none mb-2 uppercase italic">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 rounded-full mb-4">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                <span class="text-[10px] font-black text-blue-700 uppercase tracking-widest">Official 2026 Statutory Portal</span>
+            </div>
+            <h1 id="main-h1" class="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter leading-none mb-2 uppercase italic italic">
                 Injury Review
             </h1>
-            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest italic">Official 2026 Statutory Assessment</p>
+            <p id="main-sub" class="text-xs font-bold text-slate-400 uppercase tracking-widest">Verified Liability & Indemnity Audit</p>
         </header>
 
         <div class="glass-panel rounded-[2rem] overflow-hidden shadow-2xl mb-8 relative">
-            <div class="aspect-[9/16] bg-black">
-                <iframe src="https://app.heygen.com/embeds/e6799583d1c24b56ad249eaab897fd8f" 
-                        style="width: 100%; height: 100%; border: none;" 
-                        allow="fullscreen; accelerometer; autoplay; encrypted-media;">
-                </iframe>
-            </div>
-            <div class="p-6 bg-slate-900 text-white">
-                <h2 class="text-lg font-black uppercase italic italic mb-2 text-blue-400">Data Architect Online</h2>
-                <p class="text-slate-400 text-[11px] leading-relaxed italic">
-                    "Do not accept early insurance offers. Our engine analyzes the hidden variables they hope you ignore."
-                </p>
+            <div class="scan-line"></div>
+            <div class="flex flex-col">
+                <div class="aspect-[9/16] bg-black">
+                    <iframe src="https://app.heygen.com/embeds/e6799583d1c24b56ad249eaab897fd8f" 
+                            style="width: 100%; height: 100%; border: none;" 
+                            allow="fullscreen; accelerometer; autoplay; encrypted-media;">
+                    </iframe>
+                </div>
+                <div class="p-6 bg-slate-900 text-white">
+                    <h2 class="text-lg font-black uppercase italic italic mb-2">SJ Lee <span class="text-blue-500 text-xs font-bold not-italic ml-2">DATA ARCHITECT</span></h2>
+                    <p id="sj-desc" class="text-slate-400 text-xs leading-relaxed italic">
+                        "Insurance adjusters use predatory software to minimize your payout. My v9.3 engine uses the same data to fight back."
+                    </p>
+                </div>
             </div>
         </div>
 
-        <div class="glass-panel p-8 rounded-3xl shadow-lg text-center mb-8 relative overflow-hidden">
+        <div class="glass-panel p-6 rounded-3xl shadow-lg text-center mb-8 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-blue-600 shimmer"></div>
-            <p class="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mb-4 italic">High-Indemnity Audit Portal</p>
-            <button onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black text-xl py-6 rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-widest italic">
-                Start My Case Audit
+            <p class="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mb-4">Jurisdictional Intelligence Active</p>
+            <div id="localized-status" class="text-[11px] font-mono text-slate-500 mb-6 py-2 bg-slate-50 rounded-lg">
+                <span id="status-text">INITIALIZING...</span>
+            </div>
+            <button onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black text-lg py-5 rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-widest italic">
+                Start My Audit
             </button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-12">
+            <div class="glass-panel p-4 rounded-2xl border-l-4 border-blue-600">
+                <p class="text-[9px] font-black text-blue-600 uppercase mb-1">State Statute</p>
+                <p id="statute-info" class="text-[10px] font-bold text-slate-700 leading-tight">Syncing...</p>
+            </div>
+            <div class="glass-panel p-4 rounded-2xl border-l-4 border-emerald-500">
+                <p class="text-[9px] font-black text-emerald-600 uppercase mb-1">Risk Factors</p>
+                <p id="stats-info" class="text-[10px] font-bold text-slate-700 leading-tight">Analyzing...</p>
+            </div>
         </div>
 
         <div id="state-links" class="grid grid-cols-3 gap-2 text-[8px] font-bold text-slate-400 uppercase text-center opacity-60"></div>
@@ -66,44 +102,51 @@
 
     <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/90 backdrop-blur-md p-4">
         <div class="w-full max-w-md bg-white rounded-[2.5rem] overflow-hidden shadow-2xl relative">
+            <div id="scan-bar" class="absolute top-0 left-0 w-full h-1 bg-blue-600 shimmer hidden"></div>
+            
+            <div class="bg-slate-900 p-6 text-white text-center">
+                <h2 class="text-xl font-black uppercase italic tracking-tighter">Secure Data Portal</h2>
+                <div class="flex justify-center gap-1 mt-2">
+                    <div class="h-1 w-8 bg-blue-600 rounded-full"></div>
+                    <div id="step-dot" class="h-1 w-8 bg-slate-700 rounded-full"></div>
+                </div>
+            </div>
+
             <div id="modalBody" class="p-8">
-                <div id="step-1" class="space-y-4 text-center">
-                    <h2 class="text-xl font-black uppercase italic">Case Details</h2>
-                    <select id="acc-injury" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 py-4 font-bold text-slate-700 focus:border-blue-600 outline-none">
-                        <option value="low">Soft Tissue / Whiplash</option>
-                        <option value="high">Fracture / Major Surgery</option>
-                        <option value="critical">Catastrophic / Fatal</option>
+                <div id="step-1" class="space-y-4">
+                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Injury Severity</label>
+                    <select id="acc-injury" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 font-bold text-slate-700 focus:border-blue-600 outline-none">
+                        <option value="low">Soft Tissue / Minor</option>
+                        <option value="high">Fracture / Surgery Required</option>
+                        <option value="critical">Severe / Catastrophic</option>
                     </select>
-                    <button onclick="goToScan()" class="w-full bg-blue-600 text-white font-black py-5 rounded-2xl shadow-lg uppercase tracking-widest">Verify My Rights</button>
+
+                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Liability Status</label>
+                    <select id="acc-fault" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 font-bold text-slate-700 focus:border-blue-600 outline-none">
+                        <option value="clear">Not at Fault (100%)</option>
+                        <option value="unsure">Fault Unclear / Shared</option>
+                    </select>
+
+                    <button onclick="simulateLegalScan()" class="w-full bg-blue-600 text-white font-black py-5 rounded-2xl shadow-lg uppercase tracking-widest mt-4">
+                        Analyze Recovery Value
+                    </button>
                 </div>
 
                 <div id="step-scan" class="hidden py-8 text-center">
-                    <div class="mb-6 flex justify-center"><div class="h-16 w-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div></div>
-                    <div id="terminal-logs" class="terminal-text text-left h-24 overflow-hidden bg-slate-900 p-4 rounded-xl"></div>
+                    <div class="mb-6 flex justify-center">
+                        <div class="h-16 w-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                    <div id="terminal-logs" class="terminal-text text-left h-24 overflow-hidden bg-slate-900 p-4 rounded-xl">
+                        </div>
                 </div>
 
                 <div id="step-2" class="hidden space-y-4">
-                    <p class="text-center text-[11px] font-black text-blue-600 uppercase mb-4 italic">High-Value Match Found</p>
-                    <input type="text" id="userName" placeholder="Legal Full Name" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 py-4 font-bold outline-none focus:border-blue-600">
-                    <input type="tel" id="userPhone" placeholder="Mobile: (555) 555-5555" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 py-4 font-bold outline-none focus:border-blue-600">
-                    <button onclick="submitLead()" class="w-full bg-blue-600 text-white font-black py-5 rounded-2xl shadow-xl uppercase tracking-widest">Secure My Callback</button>
-                    <p class="text-[9px] text-slate-400 text-center uppercase tracking-tighter italic">By clicking, you agree to receive a priority audit call.</p>
-                </div>
-
-                <div id="step-success" class="hidden py-10 text-center space-y-6">
-                    <div class="flex justify-center"><span class="text-6xl success-check">✓</span></div>
-                    <div class="bg-blue-50 border-2 border-blue-100 rounded-3xl p-6">
-                        <h3 class="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-2">Audit Status</h3>
-                        <p class="text-3xl font-black text-slate-900 italic" id="final-est">$35k - $150k+</p>
-                    </div>
-                    <div class="space-y-2">
-                        <p class="text-xs font-black text-slate-900 uppercase italic italic">Priority Queue Assigned</p>
-                        <p class="text-[11px] text-slate-500 font-medium leading-relaxed">
-                            "All auditors are currently in high-value negotiations. Your case ID <strong id="case-id" class="text-blue-600">#MVA-882</strong> has been assigned to the <strong>Priority Callback Queue</strong>."
-                        </p>
-                        <p class="text-[10px] font-bold text-emerald-600 uppercase animate-pulse">Expected Callback: < 15 Minutes</p>
-                    </div>
-                    <button onclick="closeModal()" class="text-[10px] font-black text-slate-400 uppercase underline">Close Secure Portal</button>
+                    <p class="text-center text-[11px] font-black text-blue-600 uppercase mb-4 italic">Statutory Match Found: Finalizing Report</p>
+                    <input type="text" id="userName" placeholder="Legal Full Name" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 font-bold">
+                    <input type="tel" id="userPhone" placeholder="Mobile: (555) 555-5555" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 font-bold">
+                    <button onclick="generateFinalAudit()" class="w-full bg-blue-600 text-white font-black py-5 rounded-2xl shadow-xl uppercase tracking-widest">
+                        Access Final Evaluation
+                    </button>
                 </div>
             </div>
         </div>
@@ -112,63 +155,103 @@
     <script>
         const statesMap = {"alabama":"Alabama","alaska":"Alaska","arizona":"Arizona","arkansas":"Arkansas","california":"California","colorado":"Colorado","connecticut":"Connecticut","delaware":"Delaware","florida":"Florida","georgia":"Georgia","hawaii":"Hawaii","idaho":"Idaho","illinois":"Illinois","indiana":"Indiana","iowa":"Iowa","kansas":"Kansas","kentucky":"Kentucky","louisiana":"Louisiana","maine":"Maine","maryland":"Maryland","massachusetts":"Massachusetts","michigan":"Michigan","minnesota":"Minnesota","mississippi":"Mississippi","missouri":"Missouri","montana":"Montana","nebraska":"Nebraska","nevada":"Nevada","new-hampshire":"New Hampshire","new-jersey":"New Jersey","new-mexico":"New Mexico","new-york":"New York","north-carolina":"North Carolina","north-dakota":"North Dakota","ohio":"Ohio","oklahoma":"Oklahoma","oregon":"Oregon","pennsylvania":"Pennsylvania","rhode-island":"Rhode Island","south-carolina":"South Carolina","south-dakota":"South Dakota","tennessee":"Tennessee","texas":"Texas","utah":"Utah","vermont":"Vermont","virginia":"Virginia","washington":"Washington","west-virginia":"West Virginia","wisconsin":"Wisconsin","wyoming":"Wyoming"};
         const MASTER_DB = {
-            "texas": { est: "$45k - $185k+", ph: "1-800-TEX-LAW1" },
-            "california": { est: "$35k - $150k+", ph: "1-800-CAL-LEGAL" },
-            "florida": { est: "$25k - $110k+", ph: "1-800-FLA-PAID" }
+            "texas": { statute: "Modified Comparative Fault (51%)", stats: "Leads U.S. in high-value commercial truck litigation.", est: "$45k - $185k+", ph: "1-800-TEX-LAW1" },
+            "california": { statute: "Pure Comparative Negligence", stats: "Maximum recovery limits for non-economic damages.", est: "$35k - $150k+", ph: "1-800-CAL-LEGAL" },
+            "florida": { statute: "Pure Comparative (No-Fault PIP)", stats: "Significant 'Permanent Injury' threshold requirements.", est: "$25k - $110k+", ph: "1-800-FLA-PAID" }
         };
 
-        window.openModal = () => { document.getElementById('leadModal').classList.remove('hidden'); };
-        window.closeModal = () => { document.getElementById('leadModal').classList.add('hidden'); };
+        function applyDynamic() {
+            const params = new URLSearchParams(window.location.search);
+            const path = window.location.pathname.replace('/','').toLowerCase();
+            const key = params.get('state') || path;
+            const name = statesMap[key] || "California";
+            const d = MASTER_DB[key] || { statute: `${name} Statutes govern liability.`, stats: `Risk factors for ${name} being analyzed.`, est: "$25k-$95k+", ph: "1-800-000-0000" };
 
-        function goToScan() {
+            document.getElementById('main-h1').innerText = `${name} Injury Review`;
+            document.getElementById('statute-info').innerText = d.statute;
+            document.getElementById('stats-info').innerText = d.stats;
+            document.getElementById('status-text').innerText = `SECURE CONNECTION: ${name.toUpperCase()}`;
+        }
+
+        window.openModal = () => { document.getElementById('leadModal').classList.remove('hidden'); };
+
+        function simulateLegalScan() {
             document.getElementById('step-1').classList.add('hidden');
             document.getElementById('step-scan').classList.remove('hidden');
-            const logs = ["> AUTHENTICATING...", "> SYNCING JURISDICTION...", "> CALCULATING INDEMNITY...", "> MATCHING AUDITOR..."];
+            document.getElementById('scan-bar').classList.remove('hidden');
+            
+            const logs = [
+                "> AUTHENTICATING JURISDICTION...",
+                "> ACCESSING 2026 STATUTE TABLES...",
+                "> ANALYZING CASE PRECEDENTS...",
+                "> CALCULATING INDEMNITY CAPS...",
+                "> OPTIMIZING FOR MAXIMUM RECOVERY...",
+                "> FINALIZING AUDIT PROTOCOL..."
+            ];
+            
             let i = 0;
             const container = document.getElementById('terminal-logs');
             const interval = setInterval(() => {
                 if (i < logs.length) {
-                    const p = document.createElement('p'); p.innerText = logs[i++]; container.appendChild(p); container.scrollTop = container.scrollHeight;
+                    const p = document.createElement('p');
+                    p.innerText = logs[i];
+                    container.appendChild(p);
+                    container.scrollTop = container.scrollHeight;
+                    i++;
                 } else {
                     clearInterval(interval);
                     setTimeout(() => {
                         document.getElementById('step-scan').classList.add('hidden');
                         document.getElementById('step-2').classList.remove('hidden');
+                        document.getElementById('step-dot').classList.add('bg-blue-600');
                     }, 500);
                 }
             }, 400);
         }
 
-        function submitLead() {
-            const name = document.getElementById('userName').value;
-            const phone = document.getElementById('userPhone').value;
-            if(!name || !phone) return alert("Security: Full data profile required for priority callback.");
+        window.generateFinalAudit = function() {
+            const n = document.getElementById('userName').value;
+            const p = document.getElementById('userPhone').value;
+            if(!n || !p) return alert("Security: Full data profile required.");
             
-            // --- DATA TRANSMISSION SIMULATION ---
-            console.log("LEAD CAPTURED:", {name, phone}); // 여기서 실제 DB나 메일로 쏠 수 있습니다.
-            
-            const params = new URLSearchParams(window.location.search);
-            const key = params.get('state') || 'california';
-            const d = MASTER_DB[key] || {est: "$25k-$95k+"};
+            const injury = document.getElementById('acc-injury').value;
+            const fault = document.getElementById('acc-fault').value;
+            const isHighValue = (injury === 'high' || injury === 'critical') && fault === 'clear';
 
-            document.getElementById('step-2').classList.add('hidden');
-            document.getElementById('step-success').classList.remove('hidden');
-            document.getElementById('final-est').innerText = d.est;
-            document.getElementById('case-id').innerText = "#MVA-" + Math.floor(Math.random()*900000);
-        }
+            const body = document.getElementById('modalBody');
+            body.innerHTML = `<div class="py-12 text-center animate-pulse font-black italic italic uppercase">Generating Encrypted Summary...</div>`;
 
-        // Phone Formatting
-        document.getElementById('userPhone').oninput = (e) => {
-            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+            setTimeout(() => {
+                const key = new URLSearchParams(window.location.search).get('state') || 'california';
+                const d = MASTER_DB[key] || {est: "$25k-$95k+", ph: "1-800-000-0000"};
+                
+                body.innerHTML = `
+                    <div class="text-center thumb-zone">
+                        ${isHighValue ? '<div class="priority-pulse inline-block bg-red-100 text-red-600 text-[10px] font-black px-4 py-1 rounded-full mb-4">★ PRIORITY TIER 1 CASE</div>' : ''}
+                        <div class="bg-blue-50 border-2 border-blue-100 rounded-3xl p-8 mb-6">
+                            <p class="text-[10px] font-black text-blue-600 uppercase mb-2 tracking-widest">Projected Recovery Value</p>
+                            <p class="text-4xl font-black text-slate-900 italic">${d.est}</p>
+                        </div>
+                        <p class="text-[11px] text-slate-500 font-bold uppercase mb-6 px-4 leading-relaxed">System has flagged this profile for immediate jurisdictional review.</p>
+                        <a href="tel:${d.ph}" class="block w-full bg-emerald-500 hover:bg-emerald-600 py-6 rounded-2xl text-white font-black text-xl shadow-2xl transition-all active:scale-95 uppercase italic tracking-widest">Connect with Auditor</a>
+                        <p class="mt-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest">Case ID: #MVA-${Math.floor(Math.random()*900000)}</p>
+                    </div>`;
+            }, 1500);
         };
 
         document.addEventListener('DOMContentLoaded', () => {
+            applyDynamic();
             const grid = document.getElementById('state-links');
             Object.entries(statesMap).forEach(([k,v]) => {
                 const a = document.createElement('a'); a.href = `?state=${k}`; a.innerText = v; a.className = 'hover:text-blue-600 transition-colors'; grid.appendChild(a);
             });
         });
+
+        // Phone Auto-format
+        document.getElementById('userPhone').oninput = (e) => {
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+        };
     </script>
 </body>
 </html>
