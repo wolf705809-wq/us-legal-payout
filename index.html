@@ -4,15 +4,19 @@
     <meta name="google-site-verification" content="PapVSNH3Bi1sYGuO2u9PDtcyfk8ROeS1hU2z7hEIM2k" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Jurisdictional Indemnity Review | Official 2026 Statutory Guide</title>
+    <title id="page-title">Statutory Indemnity Review | Official 2026 Jurisdictional Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #f8fafc; font-family: -apple-system, system-ui, sans-serif; }
         .calc-card { background: white; border-radius: 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         .live-dot { animation: pulse 2s infinite; }
+        .scanning { animation: pulse 1.5s infinite; color: #3b82f6; font-weight: 800; }
         .expert-box { border-left: 4px solid #2563eb; background: #f1f5f9; }
         .hidden { display: none !important; }
+        /* 텍스트가 슥 나타나는 효과 */
+        .fade-in { animation: fadeIn 0.8s ease-in forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="flex flex-col items-center min-h-screen">
@@ -20,20 +24,25 @@
     <div class="w-full bg-slate-900 text-white py-2 px-4 flex justify-center items-center gap-3 text-[10px] font-bold tracking-widest uppercase">
         <span class="flex items-center gap-1"><span class="h-2 w-2 bg-emerald-400 rounded-full live-dot"></span> ANALYTICAL ENGINE ACTIVE</span>
         <span class="text-slate-500">|</span>
-        <span>Total Payouts Analyzed: <span id="counter" class="text-emerald-400">$12,450,000</span>+</span>
+        <span>Total Payouts Analyzed: <span id="counter" class="text-emerald-400">$12,450,000</span></span>
     </div>
 
     <main class="flex-grow flex flex-col items-center justify-center w-full max-w-2xl px-6 py-12">
         <div class="text-center mb-10">
             <h1 id="main-heading" class="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight leading-tight italic">Jurisdictional Review</h1>
-            <p id="sub-heading" class="text-lg text-slate-500 font-medium">Official 2026 Statutory Indemnity & Liability Assessment</p>
+            <p id="sub-heading" class="text-lg text-slate-500 font-medium italic">Official 2026 Statutory Indemnity & Liability Assessment</p>
         </div>
 
         <div class="calc-card w-full p-10 border border-slate-100 relative overflow-hidden text-center mb-8">
             <div class="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
-            <p class="text-blue-600 font-black text-[11px] tracking-[0.3em] mb-8 uppercase">Advanced Adjudication System v5.6</p>
+            <p class="text-blue-600 font-black text-[11px] tracking-[0.3em] mb-8 uppercase">Advanced Adjudication System v5.7</p>
             <div class="bg-slate-50 rounded-2xl py-8 px-6 mb-10 border-2 border-dashed border-slate-200">
-                <p class="text-slate-400 text-sm font-medium">System localized for: <span id="current-state-display" class="text-slate-600 font-bold uppercase">Jurisdiction</span></p>
+                <p class="text-slate-400 text-sm font-medium">
+                    <span id="localized-status" class="flex items-center justify-center gap-2">
+                        <span class="h-2 w-2 bg-blue-600 rounded-full live-dot"></span> 
+                        LOCALIZING SYSTEM...
+                    </span>
+                </p>
             </div>
             <button id="main-cta-btn" onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black text-xl py-6 rounded-2xl transition duration-200 shadow-2xl active:scale-95 uppercase tracking-widest">
                 Initiate Legal Review
@@ -47,16 +56,16 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div class="expert-box p-4 rounded-r-xl">
                     <p class="text-[10px] font-bold text-blue-600 uppercase mb-1">Applicable Statute</p>
-                    <p id="statute-info" class="text-xs font-bold text-slate-700 leading-relaxed">Loading jurisdictional statutes...</p>
+                    <p id="statute-info" class="scanning text-[10px] tracking-widest uppercase">Fetching Statutes...</p>
                 </div>
                 <div class="expert-box p-4 rounded-r-xl">
                     <p class="text-[10px] font-bold text-blue-600 uppercase mb-1">Regional Risk Factors</p>
-                    <p id="stats-info" class="text-xs font-bold text-slate-700 leading-relaxed">Analyzing localized data...</p>
+                    <p id="stats-info" class="scanning text-[10px] tracking-widest uppercase">Analyzing Data...</p>
                 </div>
             </div>
             <div class="bg-blue-50 p-5 rounded-2xl border border-blue-100">
                 <p class="text-[10px] font-black text-blue-800 uppercase mb-2">Technical Insight (Lead Adjuster)</p>
-                <p id="insight-info" class="text-sm text-blue-900 font-medium leading-relaxed italic">Evaluating case law for maximum Statutory Indemnity...</p>
+                <p id="insight-info" class="text-sm text-blue-900 font-medium leading-relaxed italic opacity-0">Evaluating case law...</p>
             </div>
         </div>
 
@@ -74,8 +83,8 @@
             </div>
         </div>
 
-        <div class="w-full border-t border-slate-200 pt-10 px-4 pb-20">
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 text-center">Select Local Jurisdiction</p>
+        <div class="w-full border-t border-slate-200 pt-10 px-4 pb-20 text-center">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Select Local Jurisdiction</p>
             <div id="state-links" class="grid grid-cols-2 md:grid-cols-4 gap-2 text-[9px] font-bold text-slate-400 uppercase"></div>
         </div>
     </main>
@@ -99,7 +108,7 @@
                     <form id="leadForm" class="space-y-4">
                         <input required type="text" id="userName" placeholder="Full Name" class="w-full rounded-xl border border-slate-200 p-4 font-bold text-slate-700 outline-none focus:border-blue-600">
                         <input required type="text" id="userPhone" placeholder="Phone: 555-555-5555" maxlength="12" class="w-full rounded-xl border border-slate-200 p-4 font-bold text-slate-700 outline-none focus:border-blue-600">
-                        <button type="submit" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase">CLAIM YOUR EVALUATION NOW</button>
+                        <button type="submit" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase">CLAIM EVALUATION: NOW</button>
                     </form>
                 </div>
             </div>
@@ -108,14 +117,13 @@
 
     <script>
         const MASTER_DB = {
-            "california": { statute: "Pure Comparative Negligence (CA Civ. Code § 1714).", stats: "High frequency of lane-splitting motorcycle incidents in LA/SF.", insight: "California courts prioritize maximum medical recovery and non-economic damages.", estimate: "$35,000 - $150,000+", phone: "1-800-CAL-LEGAL", table: [{id:"2024-CA-882",type:"TBI",amt:"$1.25M"},{id:"2023-CA-104",type:"Spinal",amt:"$425k"}] },
-            "texas": { statute: "Modified Comparative Fault (51% Bar Rule).", stats: "Leader in commercial freight collisions on I-10 and I-35 corridors.", insight: "Securing commercial black-box data is mandatory for TX liability claims.", estimate: "$45,000 - $185,000+", phone: "1-800-TEX-LAW1", table: [{id:"2024-TX-991",type:"Trucking",amt:"$2.1M"},{id:"2023-TX-332",type:"Fracture",amt:"$310k"}] },
-            "florida": { statute: "Pure Comparative Fault. No-Fault PIP insurance rules apply.", stats: "Frequent hydroplaning accidents and elderly driver intersection strikes.", insight: "FL 'Permanent Injury' threshold must be met to unlock high-value indemnity.", estimate: "$25,000 - $110,000+", phone: "1-800-FLA-PAID", table: [{id:"2024-FL-100",type:"Multiple",amt:"$620k"},{id:"2023-FL-551",type:"Spinal",amt:"$1.85M"}] }
+            "california": { statute: "Pure Comparative Negligence (CA Civ. Code § 1714).", stats: "High frequency of lane-splitting motorcycle incidents in LA/SF.", insight: "California courts prioritize maximum medical recovery and non-economic damages.", est: "$35k-$150k+", ph: "1-800-CAL-LEGAL", table: [{id:"2024-CA-882",type:"TBI",amt:"$1.25M"},{id:"2023-CA-104",type:"Spinal",amt:"$425k"}] },
+            "texas": { statute: "Modified Comparative Fault (51% Bar Rule).", stats: "Leader in commercial freight collisions on I-10 and I-35 corridors.", insight: "Securing commercial black-box data is mandatory for TX liability claims.", est: "$45k-$185k+", ph: "1-800-TEX-LAW1", table: [{id:"2024-TX-991",type:"Trucking",amt:"$2.1M"},{id:"2023-TX-332",type:"Fracture",amt:"$310k"}] },
+            "florida": { statute: "Pure Comparative Fault. No-Fault PIP insurance rules apply.", stats: "Frequent hydroplaning accidents and elderly driver intersection strikes.", insight: "FL 'Permanent Injury' threshold must be met to unlock high-value indemnity.", est: "$25k-$110k+", ph: "1-800-FLA-PAID", table: [{id:"2024-FL-100",type:"Multiple",amt:"$620k"},{id:"2023-FL-551",type:"Spinal",amt:"$1.85M"}] }
         };
 
         const statesMap = {"alabama":"Alabama","alaska":"Alaska","arizona":"Arizona","arkansas":"Arkansas","california":"California","colorado":"Colorado","connecticut":"Connecticut","delaware":"Delaware","florida":"Florida","georgia":"Georgia","hawaii":"Hawaii","idaho":"Idaho","illinois":"Illinois","indiana":"Indiana","iowa":"Iowa","kansas":"Kansas","kentucky":"Kentucky","louisiana":"Louisiana","maine":"Maine","maryland":"Maryland","massachusetts":"Massachusetts","michigan":"Michigan","minnesota":"Minnesota","mississippi":"Mississippi","missouri":"Missouri","montana":"Montana","nebraska":"Nebraska","nevada":"Nevada","new-hampshire":"New Hampshire","new-jersey":"New Jersey","new-mexico":"New Mexico","new-york":"New York","north-carolina":"North Carolina","north-dakota":"North Dakota","ohio":"Ohio","oklahoma":"Oklahoma","oregon":"Oregon","pennsylvania":"Pennsylvania","rhode-island":"Rhode Island","south-carolina":"South Carolina","south-dakota":"South Dakota","tennessee":"Tennessee","texas":"Texas","utah":"Utah","vermont":"Vermont","virginia":"Virginia","washington":"Washington","west-virginia":"West Virginia","wisconsin":"Wisconsin","wyoming":"Wyoming"};
 
-        // GLOBAL FUNCTIONS
         window.openModal = function() { document.getElementById('leadModal').classList.remove('hidden'); document.getElementById('leadModal').style.display = 'flex'; };
         window.goToStep2 = function() { document.getElementById('step-1').classList.add('hidden'); document.getElementById('step-2').classList.remove('hidden'); };
 
@@ -123,21 +131,39 @@
             const path = window.location.pathname.replace('/', '').toLowerCase();
             const stateName = statesMap[path] || "California";
             const data = MASTER_DB[path] || {
-                statute: `${stateName} Statutes Applied. Comparative negligence rules govern local recovery.`,
+                statute: `${stateName} Revised Code. Pure Comparative negligence rules govern recovery.`,
                 stats: `Corridor risk assessment complete for ${stateName} metropolitan areas.`,
-                insight: `Winning in ${stateName} requires expert scene reconstruction and immediate file preservation.`,
-                estimate: "$15,000 - $85,000+", phone: "1-800-000-0000",
+                insight: `Winning in ${stateName} requires expert witness testimony and scene preservation.`,
+                est: "$20k-$90k+", ph: "1-800-000-0000",
                 table: [{id:`${stateName}-01`,type:"Complex",amt:"$115k"},{id:`${stateName}-02`,type:"Trauma",amt:"$45k"}]
             };
 
-            // RENDER DATA
-            document.getElementById('current-state-display').innerText = stateName;
-            document.getElementById('report-state-name').innerText = stateName;
-            document.getElementById('table-state-name').innerText = stateName;
-            document.getElementById('statute-info').innerText = data.statute;
-            document.getElementById('stats-info').innerText = data.stats;
-            document.getElementById('insight-info').innerText = data.insight;
+            // 1. DYNAMIC TEXT RENDERING (with delay for effect)
+            setTimeout(() => {
+                document.getElementById('localized-status').innerHTML = `<span class="h-2 w-2 bg-emerald-400 rounded-full live-dot"></span> SYSTEM LOCALIZED FOR: ${stateName.toUpperCase()}`;
+                document.getElementById('report-state-name').innerText = stateName;
+                document.getElementById('table-state-name').innerText = stateName;
+                
+                // 가짜 로딩 효과 후 텍스트 표시
+                setTimeout(() => {
+                    document.getElementById('statute-info').innerText = data.statute;
+                    document.getElementById('statute-info').classList.remove('scanning', 'text-[10px]');
+                    document.getElementById('statute-info').classList.add('fade-in');
+                }, 800);
 
+                setTimeout(() => {
+                    document.getElementById('stats-info').innerText = data.stats;
+                    document.getElementById('stats-info').classList.remove('scanning', 'text-[10px]');
+                    document.getElementById('stats-info').classList.add('fade-in');
+                }, 1400);
+
+                setTimeout(() => {
+                    document.getElementById('insight-info').innerText = data.insight;
+                    document.getElementById('insight-info').classList.replace('opacity-0', 'fade-in');
+                }, 2000);
+            }, 500);
+
+            // RENDER TABLE & LINKS
             const tableBody = document.getElementById('settlement-rows');
             data.table.forEach(r => {
                 const tr = document.createElement('tr'); tr.innerHTML = `<td class="px-4 py-3">${r.id}</td><td class="px-4 py-3">${r.type}</td><td class="px-4 py-3 text-emerald-600">${r.amt}</td>`;
@@ -150,21 +176,25 @@
                 footerGrid.appendChild(a);
             });
 
-            // COUNTER
-            let count = 12450320; setInterval(() => { count += Math.floor(Math.random() * 85); document.getElementById('counter').innerText = '$' + count.toLocaleString(); }, 3000);
+            // 2. REAL-TIME COUNTER (Smooth increments)
+            let count = 12450000;
+            setInterval(() => {
+                count += Math.floor(Math.random() * 7) + 1;
+                document.getElementById('counter').innerText = '$' + count.toLocaleString();
+            }, 1500);
 
             // LEAD FORM
             document.getElementById('leadForm').onsubmit = function(e) {
                 e.preventDefault();
                 const body = document.getElementById('modalBody');
-                body.innerHTML = `<div class="py-10 text-center animate-pulse"><p class="font-black text-slate-800 uppercase tracking-widest">Finalizing ${stateName} Report...</p></div>`;
+                body.innerHTML = `<div class="py-10 text-center animate-pulse"><p class="font-black text-slate-800 uppercase tracking-widest italic">Calculating Statutory Value for ${stateName}...</p></div>`;
                 setTimeout(() => {
                     body.innerHTML = `
                         <div class="py-6 text-center">
-                            <h3 class="text-xl font-black text-slate-900 leading-tight">Analysis Complete</h3>
-                            <div class="my-6 p-6 bg-slate-900 rounded-3xl text-white"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1">Estimated Indemnity Range*</p><p class="text-3xl font-black text-emerald-400">${data.estimate}</p></div>
-                            <p class="text-slate-600 font-bold text-xs px-4 mb-6 leading-relaxed">Evaluation suggests High-Value potential. Connect now to preserve Statutory Rights.</p>
-                            <a href="tel:${data.phone}" class="block w-full rounded-2xl bg-emerald-500 py-6 font-black text-white text-xl hover:bg-emerald-600 shadow-xl transition-all active:scale-95 uppercase tracking-widest">CLAIM CASE: ${data.phone}</a>
+                            <h3 class="text-xl font-black text-slate-900 leading-tight">Evaluation Complete</h3>
+                            <div class="my-6 p-6 bg-slate-900 rounded-3xl text-white"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1">Estimated Indemnity Range*</p><p class="text-3xl font-black text-emerald-400">${data.est}</p></div>
+                            <p class="text-slate-600 font-bold text-xs px-4 mb-6 leading-relaxed italic">Analysis identifies High-Value potential. Connect immediately to secure your legal file.</p>
+                            <a href="tel:${data.ph}" class="block w-full rounded-2xl bg-emerald-500 py-6 font-black text-white text-xl hover:bg-emerald-600 shadow-xl transition-all active:scale-95 uppercase tracking-widest italic">CLAIM CASE: ${data.ph}</a>
                         </div>`;
                 }, 2000);
             };
