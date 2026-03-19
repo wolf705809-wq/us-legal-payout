@@ -35,10 +35,10 @@
 
     <main class="flex-grow flex flex-col items-center justify-center w-full max-w-2xl px-6 py-12">
         <div class="text-center mb-10">
-            <h1 id="main-h1" class="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight leading-tight uppercase text-balance">
+            <h1 id="main-h1" class="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight leading-tight uppercase">
                 Injury & Collision Review
             </h1>
-            <p id="main-sub" class="text-lg text-slate-500 font-medium italic uppercase tracking-tighter text-balance">
+            <p id="main-sub" class="text-lg text-slate-500 font-medium italic uppercase tracking-tighter">
                 Official 2026 Statutory Indemnity & Liability Assessment
             </p>
         </div>
@@ -68,7 +68,7 @@
 
         <div class="calc-card w-full p-10 border border-slate-100 relative overflow-hidden text-center mb-8">
             <div class="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
-            <p class="text-blue-600 font-black text-[11px] tracking-[0.3em] mb-8 uppercase">Enterprise Jurisdictional Intelligence v9.3</p>
+            <p class="text-blue-600 font-black text-[11px] tracking-[0.3em] mb-8 uppercase text-balance">Enterprise Jurisdictional Intelligence v9.3</p>
             <div class="bg-slate-50 rounded-2xl py-8 px-6 mb-10 border-2 border-dashed border-slate-200">
                 <p class="text-slate-400 text-sm font-medium tracking-tight">
                     <span id="localized-status" class="flex items-center justify-center gap-2">
@@ -112,32 +112,28 @@
                 <a href="#" class="hover:text-blue-600">Legal Disclaimer</a>
                 <a href="#" class="hover:text-blue-600">Contact Us</a>
             </div>
-            <div class="text-[9px] text-slate-400 leading-relaxed uppercase tracking-wider space-y-4 max-w-xl mx-auto">
-                <p class="font-black text-slate-500">ATTORNEY ADVERTISING: This website is a legal advertisement and not a law firm or a lawyer referral service.</p>
-                <p>© 2026 US Settlement Review | All Jurisdictions Monitored</p>
-            </div>
+            <p class="text-[9px] text-slate-400 uppercase font-black">ATTORNEY ADVERTISING: OFFICIAL DATA AUDIT ONLY.</p>
         </footer>
     </main>
 
-    <div id="leadModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-4" style="display:none;">
+    <div id="leadModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-4">
         <div class="w-full max-w-md overflow-hidden rounded-[2.5rem] bg-white shadow-2xl">
             <div class="bg-slate-900 p-8 text-white text-center">
-                <h2 class="text-2xl font-black uppercase tracking-tight">Case Adjudication</h2>
+                <h2 class="text-2xl font-black uppercase tracking-tight italic">Case Adjudication</h2>
                 <p class="text-[9px] text-slate-500 tracking-[0.4em] uppercase mt-2 italic">Privilege Protected | 256-bit Encryption</p>
             </div>
             <div id="modalBody" class="p-10 flex flex-col items-center">
                 <div id="step-1" class="w-full">
                     <div class="space-y-4">
-                        <select id="acc-injury" class="w-full p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600"><option value="low">Soft Tissue / Whiplash</option><option value="high">Bone Fracture / Surgery</option><option value="critical">Traumatic Brain / Spinal</option></select>
-                        <select id="acc-hospital" class="w-full p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600"><option value="no">No Hospital Visit</option><option value="yes">Emergency Room / Overnight</option></select>
-                        <select id="acc-fault" class="w-full p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600"><option value="clear">Other Party at Fault</option><option value="unsure">Fault Unclear</option></select>
+                        <select id="acc-injury" class="w-full p-4 rounded-xl border-2 border-slate-100 font-bold text-slate-700 outline-none focus:border-blue-600"><option value="low">Soft Tissue / Whiplash</option><option value="high">Bone Fracture / Surgery</option><option value="critical">Traumatic Brain / Spinal</option></select>
+                        <select id="acc-fault" class="w-full p-4 rounded-xl border-2 border-slate-100 font-bold text-slate-700 outline-none focus:border-blue-600"><option value="clear">Other Party at Fault</option><option value="unsure">Fault Unclear</option></select>
                         <button onclick="goToStep2()" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase tracking-widest mt-4 shadow-lg active:scale-95">Analyze Statutory Value</button>
                     </div>
                 </div>
                 <div id="step-2" class="hidden w-full text-center">
-                    <p id="audit-status" class="text-xs font-bold text-blue-600 animate-pulse uppercase mb-6 italic tracking-tight">Analyzing Liability Statutes...</p>
-                    <input required type="text" id="userName" placeholder="Full Name" class="w-full rounded-xl border border-slate-200 p-4 font-bold text-slate-700 outline-none focus:border-blue-600 mb-4">
-                    <input required type="text" id="userPhone" placeholder="Phone: 555-555-5555" maxlength="12" class="w-full rounded-xl border border-slate-200 p-4 font-bold text-slate-700 outline-none focus:border-blue-600 mb-6">
+                    <p id="audit-status" class="text-xs font-bold text-blue-600 animate-pulse uppercase mb-6 italic">Analyzing Liability Statutes...</p>
+                    <input type="text" id="userName" placeholder="Full Name" class="w-full rounded-xl border-2 border-slate-100 p-4 font-bold text-slate-700 mb-4">
+                    <input type="text" id="userPhone" placeholder="Mobile: 555-555-5555" maxlength="12" class="w-full rounded-xl border-2 border-slate-100 p-4 font-bold text-slate-700 mb-6">
                     <button onclick="processFinalReport()" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase tracking-widest shadow-lg">SECURE MY EVALUATION</button>
                 </div>
             </div>
@@ -161,10 +157,9 @@
         const showToast = () => {
             const names = ["James", "Maria", "Robert", "Linda", "Michael", "Sarah", "David", "Emma"]; const cities = ["Houston", "Los Angeles", "Miami", "Chicago", "Phoenix", "Dallas"];
             const name = names[Math.floor(Math.random()*names.length)]; const city = cities[Math.floor(Math.random()*cities.length)];
-            const amount = (Math.floor(Math.random()*60) + 15) + ",200";
             const container = document.getElementById('toast-container'); if (!container) return;
             const toast = document.createElement('div'); toast.className = 'toast';
-            toast.innerHTML = `<p class="text-[11px] font-bold text-slate-800"><strong>${name} K.</strong> from ${city} secured a <strong>$${amount}</strong> vehicle settlement.</p>`;
+            toast.innerHTML = `<p class="text-[11px] font-bold text-slate-800"><strong>${name} K.</strong> from ${city} secured a <strong>$${(Math.floor(Math.random()*60) + 15)},200</strong> settlement.</p>`;
             container.appendChild(toast); setTimeout(() => toast.classList.add('show'), 100); setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 500); }, 5000);
         };
 
@@ -207,25 +202,31 @@
             });
         });
 
-        window.openModal = function() { document.getElementById('leadModal').style.display = 'flex'; };
+        // --- FIXED MODAL FUNCTIONS ---
+        window.openModal = function() {
+            const modal = document.getElementById('leadModal');
+            modal.classList.remove('hidden'); // Remove Tailwind's !important hidden
+            modal.style.display = 'flex'; // Explicitly set to flex
+        };
+
         window.goToStep2 = function() {
             const statusTexts = ["Scrutinizing Fault Liability...", "Verifying Medical Thresholds...", "Calculating Statutory Cap..."];
             let idx = 0; const timer = setInterval(() => { document.getElementById('audit-status').innerText = statusTexts[idx]; idx++; if(idx >= statusTexts.length) clearInterval(timer); }, 600);
-            document.getElementById('step-1').classList.add('hidden'); document.getElementById('step-2').classList.remove('hidden');
+            document.getElementById('step-1').classList.add('hidden'); 
+            document.getElementById('step-2').classList.remove('hidden');
         };
 
         window.processFinalReport = function() {
             const name = document.getElementById('userName').value; const phone = document.getElementById('userPhone').value;
-            if(!name || !phone) return alert("Validation Required");
+            if(!name || !phone) return alert("Please complete your profile.");
             const params = new URLSearchParams(window.location.search);
-            const state = statesMap[params.get('state')] || "California";
             const d = MASTER_DB[params.get('state')] || {est: "$25k-$95k+", ph: "1-800-000-0000"};
             const body = document.getElementById('modalBody');
-            body.innerHTML = `<div class="py-10 text-center animate-pulse font-black uppercase italic">Generating Adjudication Summary...</div>`;
+            body.innerHTML = `<div class="py-12 text-center animate-pulse font-black uppercase italic">Generating Adjudication Summary...</div>`;
             setTimeout(() => {
                 body.innerHTML = `
                     <div class="w-full text-center">
-                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 mb-6">
+                        <div class="bg-slate-50 border-2 border-slate-100 rounded-2xl p-6 mb-6">
                             <p class="text-[10px] font-black text-blue-600 uppercase mb-2">Projected Recovery</p>
                             <p class="text-3xl font-black text-slate-900 italic">${d.est}</p>
                         </div>
