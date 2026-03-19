@@ -4,7 +4,7 @@
     <meta name="google-site-verification" content="PapVSNH3Bi1sYGuO2u9PDtcyfk8ROeS1hU2z7hEIM2k" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Statutory Indemnity Review | 2026 Jurisdictional Guide</title>
+    <title id="page-title">Jurisdictional Indemnity Review | 2026 Statutory Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #f8fafc; font-family: -apple-system, system-ui, sans-serif; overflow-x: hidden; }
@@ -12,7 +12,7 @@
         @keyframes pulse-wave { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
         .live-pulse { animation: pulse-wave 2s infinite; border-radius: 50%; }
         .scanning-container { position: relative; overflow: hidden; }
-        .scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(to bottom, rgba(37, 99, 235, 0), rgba(37, 99, 235, 0.5), rgba(37, 99, 235, 0)); animation: scan 2s linear infinite; z-index: 10; display: none; }
+        .scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(to bottom, rgba(37, 99, 235, 0.5), rgba(37, 99, 235, 0)); animation: scan 2s linear infinite; z-index: 10; display: none; }
         @keyframes scan { from { top: 0%; } to { top: 100%; } }
         .expert-box { border-left: 4px solid #2563eb; background: #f1f5f9; }
         .hidden { display: none !important; }
@@ -21,7 +21,8 @@
         #toast-container { position: fixed; bottom: 20px; left: 20px; z-index: 100; pointer-events: none; }
         .toast { background: white; border-radius: 12px; padding: 12px 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-left: 4px solid #10b981; margin-top: 10px; transform: translateX(-150%); transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); opacity: 0; }
         .toast.show { transform: translateX(0); opacity: 1; }
-        .high-priority-tag { background: #fee2e2; color: #ef4444; padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 900; letter-spacing: 1px; }
+        .report-label { font-size: 9px; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+        .report-value { font-size: 13px; font-weight: 800; color: #1e293b; }
     </style>
 </head>
 <body class="flex flex-col items-center min-h-screen">
@@ -42,7 +43,7 @@
 
         <div class="calc-card w-full p-10 border border-slate-100 relative overflow-hidden text-center mb-8">
             <div class="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
-            <p class="text-blue-600 font-black text-[11px] tracking-[0.3em] mb-8 uppercase">AI Case Auditor Engine v7.0</p>
+            <p class="text-blue-600 font-black text-[11px] tracking-[0.3em] mb-8 uppercase">AI Case Auditor Engine v7.5</p>
             <div class="bg-slate-50 rounded-2xl py-8 px-6 mb-10 border-2 border-dashed border-slate-200">
                 <p class="text-slate-400 text-sm font-medium">
                     <span id="localized-status" class="flex items-center justify-center gap-2">
@@ -89,39 +90,20 @@
             <div id="modalBody" class="p-10">
                 <div id="step-1">
                     <div class="space-y-4">
-                        <div>
-                            <label class="text-[10px] font-black text-slate-400 uppercase">Injury Severity</label>
-                            <select id="acc-injury" class="w-full mt-1 p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600">
-                                <option value="low">Soft Tissue / Whiplash</option>
-                                <option value="high">Bone Fracture / Surgery</option>
-                                <option value="critical">Traumatic Brain / Spinal</option>
-                            </select>
+                        <div><label class="text-[10px] font-black text-slate-400 uppercase">Injury Severity</label>
+                            <select id="acc-injury" class="w-full mt-1 p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600"><option value="low">Soft Tissue / Whiplash</option><option value="high">Bone Fracture / Surgery</option><option value="critical">Traumatic Brain / Spinal</option></select>
                         </div>
-                        <div>
-                            <label class="text-[10px] font-black text-slate-400 uppercase">Emergency Care</label>
-                            <select id="acc-hospital" class="w-full mt-1 p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600">
-                                <option value="no">No Hospital Visit</option>
-                                <option value="yes">Emergency Room / Overnight</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-black text-slate-400 uppercase">Liability Status</label>
-                            <select id="acc-fault" class="w-full mt-1 p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600">
-                                <option value="clear">Other Party at Fault</option>
-                                <option value="unsure">Fault Unclear / Disputed</option>
-                                <option value="self">I was at Fault</option>
-                            </select>
+                        <div><label class="text-[10px] font-black text-slate-400 uppercase">Liability Status</label>
+                            <select id="acc-fault" class="w-full mt-1 p-4 rounded-xl border border-slate-200 font-bold text-slate-700 outline-none focus:border-blue-600"><option value="clear">Other Party at Fault</option><option value="unsure">Fault Unclear</option></select>
                         </div>
                         <button onclick="goToStep2()" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase tracking-widest mt-4">Audit Case Merit</button>
                     </div>
                 </div>
-                <div id="step-2" class="hidden">
-                    <form id="leadForm" class="space-y-4 text-center">
-                        <div class="py-4"><p id="audit-status" class="text-xs font-bold text-blue-600 animate-pulse uppercase tracking-tight italic">Analyzing Liability Statutes...</p></div>
-                        <input required type="text" id="userName" placeholder="Full Name" class="w-full rounded-xl border border-slate-200 p-4 font-bold text-slate-700 outline-none focus:border-blue-600">
-                        <input required type="text" id="userPhone" placeholder="Phone: 555-555-5555" maxlength="12" class="w-full rounded-xl border border-slate-200 p-4 font-bold text-slate-700 outline-none focus:border-blue-600">
-                        <button type="submit" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase">Generate Final Payout Report</button>
-                    </form>
+                <div id="step-2" class="hidden text-center">
+                    <p id="audit-status" class="text-xs font-bold text-blue-600 animate-pulse uppercase mb-6 italic">Analyzing Liability Statutes...</p>
+                    <input required type="text" id="userName" placeholder="Full Name" class="w-full rounded-xl border border-slate-200 p-4 font-bold text-slate-700 outline-none focus:border-blue-600 mb-4">
+                    <input required type="text" id="userPhone" placeholder="Phone: 555-555-5555" maxlength="12" class="w-full rounded-xl border border-slate-200 p-4 font-bold text-slate-700 outline-none focus:border-blue-600 mb-6">
+                    <button onclick="processFinalReport()" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase">GENERATE VALUATION REPORT</button>
                 </div>
             </div>
         </div>
@@ -198,40 +180,43 @@
             let idx = 0;
             const timer = setInterval(() => {
                 document.getElementById('audit-status').innerText = statusTexts[idx];
-                idx++;
-                if(idx >= statusTexts.length) clearInterval(timer);
+                idx++; if(idx >= statusTexts.length) clearInterval(timer);
             }, 600);
             document.getElementById('step-1').classList.add('hidden');
             document.getElementById('step-2').classList.remove('hidden');
         };
-        
-        document.getElementById('leadForm').onsubmit = function(e) {
-            e.preventDefault();
+
+        window.processFinalReport = function() {
+            const name = document.getElementById('userName').value;
+            const phone = document.getElementById('userPhone').value;
+            if(!name || !phone) { alert("Please complete your profile to view the report."); return; }
+
             const injury = document.getElementById('acc-injury').value;
-            const hosp = document.getElementById('acc-hospital').value;
-            const fault = document.getElementById('acc-fault').value;
-            const isHighValue = (injury === 'high' || injury === 'critical') && hosp === 'yes' && fault === 'clear';
+            const path = window.location.pathname.replace('/', '').toLowerCase();
+            const state = statesMap[path] || "California";
+            const d = MASTER_DB[path] || {est: "$25k-$95k+", ph: "1-800-000-0000"};
 
             const body = document.getElementById('modalBody');
-            body.innerHTML = `<div class="py-10 text-center animate-pulse"><p class="font-black text-slate-800 uppercase tracking-widest italic">Finalizing Case Audit...</p></div>`;
+            body.innerHTML = `<div class="py-10 text-center animate-pulse"><p class="font-black text-slate-800 uppercase tracking-widest italic">Generating Statutory Summary...</p></div>`;
             
             setTimeout(() => {
-                const path = window.location.pathname.replace('/', '').toLowerCase();
-                const d = MASTER_DB[path] || {est: "$25k-$95k+", ph: "1-800-000-0000"};
-                const priorityTag = isHighValue ? `<div class="mb-4"><span class="high-priority-tag">★ HIGH-VALUE PRIORITY CASE</span></div>` : '';
-                
                 body.innerHTML = `
-                    <div class="py-6 text-center">
-                        ${priorityTag}
-                        <h3 class="text-xl font-black text-slate-900 leading-tight">Audit Successful</h3>
-                        <div class="my-6 p-6 bg-slate-900 rounded-3xl text-white">
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1">Projected Statutory Value*</p>
-                            <p class="text-3xl font-black text-emerald-400">${d.est}</p>
+                    <div class="py-4">
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 mb-6 text-left">
+                            <h4 class="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-4">Preliminary Audit Summary</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between border-b border-slate-100 pb-1"><span class="report-label">Jurisdiction</span><span class="report-value">${state}</span></div>
+                                <div class="flex justify-between border-b border-slate-100 pb-1"><span class="report-label">Liability</span><span class="report-value">High-Probability</span></div>
+                                <div class="flex justify-between"><span class="report-label">Est. Value</span><span class="report-value text-emerald-600">${d.est}</span></div>
+                            </div>
                         </div>
-                        <p class="text-slate-600 font-bold text-xs px-4 mb-6 leading-relaxed italic">
-                            ${isHighValue ? "Our Lead Auditor has flagged this case for <strong>Immediate Priority Review</strong> due to high-value indicators." : "Case merit confirmed. Secure your official evaluation results by connecting with our jurisdictional team."}
+                        <p class="text-[11px] text-slate-600 font-bold leading-relaxed mb-6">
+                            "Summary generated. To **finalize this valuation** and initiate the official payout process, you must connect with your assigned review officer."
                         </p>
-                        <a href="tel:${d.ph}" class="block w-full rounded-2xl bg-emerald-500 py-6 font-black text-white text-xl hover:bg-emerald-600 shadow-xl transition-all active:scale-95 uppercase tracking-widest italic">CLAIM AUDIT REPORT: NOW</a>
+                        <a href="tel:${d.ph}" class="block w-full rounded-2xl bg-emerald-500 py-6 font-black text-white text-xl hover:bg-emerald-600 shadow-xl transition-all active:scale-95 uppercase tracking-widest italic">
+                            FINALIZE & CONNECT NOW
+                        </a>
+                        <p class="mt-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest">Official File ID: #${Math.floor(Math.random()*900000)+100000}</p>
                     </div>`;
             }, 2000);
         };
