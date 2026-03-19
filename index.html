@@ -25,7 +25,7 @@
     <main class="flex-grow flex flex-col items-center justify-center w-full max-w-2xl px-6 py-12">
         <div class="text-center mb-10">
             <h1 id="main-heading" class="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight leading-tight">State Calculator</h1>
-            <p id="sub-heading" class="text-lg text-slate-500 font-medium italic">2026 Legal Payout Assessment Engine</p>
+            <p id="sub-heading" class="text-lg text-slate-500 font-medium italic">Official 2026 Legal Payout Assessment</p>
         </div>
 
         <div class="calc-card w-full p-10 border border-slate-100 relative overflow-hidden text-center mb-8">
@@ -46,18 +46,17 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div class="expert-box p-4 rounded-r-xl">
                     <p class="text-[10px] font-bold text-blue-600 uppercase mb-1">Applicable Statute</p>
-                    <p id="statute-info" class="text-xs font-bold text-slate-700 leading-relaxed">Loading legal data...</p>
+                    <p id="statute-info" class="text-xs font-bold text-slate-700 leading-relaxed italic">Analyzing Statutes...</p>
                 </div>
                 <div class="expert-box p-4 rounded-r-xl">
                     <p class="text-[10px] font-bold text-blue-600 uppercase mb-1">Regional Accident Factors</p>
-                    <p id="stats-info" class="text-xs font-bold text-slate-700 leading-relaxed">Analyzing regional data...</p>
+                    <p id="stats-info" class="text-xs font-bold text-slate-700 leading-relaxed italic">Analyzing Data...</p>
                 </div>
             </div>
             <div class="bg-blue-50 p-5 rounded-2xl border border-blue-100">
                 <p class="text-[10px] font-black text-blue-800 uppercase mb-2">SJ Lee's Expert Insight</p>
-                <p id="insight-info" class="text-sm text-blue-900 font-medium leading-relaxed italic">Processing local case law factors for optimal payout...</p>
+                <p id="insight-info" class="text-sm text-blue-900 font-medium leading-relaxed italic">Evaluating local case law for maximum payout...</p>
             </div>
-            <p id="case-ref" class="mt-4 text-right text-[10px] font-bold text-slate-400 uppercase tracking-tighter"></p>
         </div>
 
         <div class="w-full border-t border-slate-200 pt-10">
@@ -74,69 +73,39 @@
             </div>
             <div id="modalBody" class="p-10">
                 <form id="leadForm" class="space-y-4">
+                    <p class="text-center text-xs font-bold text-slate-400 mb-4 italic">"Finalizing analysis for <span id="modal-state">State</span>"</p>
                     <input required type="text" id="userName" placeholder="Full Name" class="w-full rounded-xl border border-slate-200 p-4 font-bold text-slate-700 outline-none focus:border-blue-600">
                     <input required type="text" id="userPhone" placeholder="Phone: 555-555-5555" maxlength="12" class="w-full rounded-xl border border-slate-200 p-4 font-bold text-slate-700 outline-none focus:border-blue-600">
-                    <button type="submit" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase">Get My Estimate</button>
+                    <button type="submit" class="w-full rounded-2xl bg-blue-600 py-5 font-black text-white hover:bg-blue-700 uppercase tracking-widest">Claim My Estimate Now</button>
                 </form>
             </div>
         </div>
     </div>
 
     <script>
-        // S-TIER DATABASE (중복 방지용 핵심 데이터)
-        const S_TIER_DB = {
-            "california": {
-                "statute": "Pure Comparative Negligence (CA Civ. Code § 1714). Recover damages regardless of fault percentage.",
-                "stats": "Heavy congestion on I-5 & PCH. High percentage of lane-splitting motorcycle incidents.",
-                "insight": "California courts favor maximum medical recovery; prompt documentation of 'pain and suffering' is key.",
-                "case": "Ref: Doe v. Logistics (2024-CA) - $1.2M"
-            },
-            "texas": {
-                "statute": "Modified Comparative Fault (51% Bar). No recovery if you are over 50% at fault.",
-                "stats": "Leader in commercial trucking accidents on I-10 and I-35 energy corridors.",
-                "insight": "Commercial carrier liability is complex in TX; immediate black-box data preservation is mandatory.",
-                "case": "Ref: Garcia v. Hauler (2023-TX) - $850K"
-            },
-            "florida": {
-                "statute": "Pure Comparative Fault (Recently Amended). PIP insurance covers initial $10,000.",
-                "stats": "Frequent intersection collisions in Miami-Dade and Orlando tourism zones.",
-                "insight": "Permanent injury threshold is the gateway to non-economic damage claims in Florida.",
-                "case": "Ref: Miller v. Transit (2024-FL) - $620K"
-            },
-            "new-york": {
-                "statute": "Pure Comparative Negligence. Comprehensive No-Fault insurance system ($50k limit).",
-                "stats": "Dense urban taxi/rideshare collisions in NYC and high-speed accidents on Upstate I-87.",
-                "insight": "Meeting the 'Serious Injury' threshold under NY Insurance Law § 5102(d) is vital for high payouts.",
-                "case": "Ref: NYC Case #2024-081 - $450K"
-            },
-            "georgia": {
-                "statute": "Modified Comparative Fault (50% Bar). You must be less than 50% responsible.",
-                "stats": "Major freight hub. Significant increase in I-75 and I-85 tractor-trailer collisions.",
-                "insight": "Georgia's 'Direct Action' statute may allow suing insurers directly in trucking cases.",
-                "case": "Ref: Atlanta Case #2023-GA - $515K"
-            }
-        };
-
         const statesMap = {"alabama":"Alabama","alaska":"Alaska","arizona":"Arizona","arkansas":"Arkansas","california":"California","colorado":"Colorado","connecticut":"Connecticut","delaware":"Delaware","florida":"Florida","georgia":"Georgia","hawaii":"Hawaii","idaho":"Idaho","illinois":"Illinois","indiana":"Indiana","iowa":"Iowa","kansas":"Kansas","kentucky":"Kentucky","louisiana":"Louisiana","maine":"Maine","maryland":"Maryland","massachusetts":"Massachusetts","michigan":"Michigan","minnesota":"Minnesota","mississippi":"Mississippi","missouri":"Missouri","montana":"Montana","nebraska":"Nebraska","nevada":"Nevada","new-hampshire":"New Hampshire","new-jersey":"New Jersey","new-mexico":"New Mexico","new-york":"New York","north-carolina":"North Carolina","north-dakota":"North Dakota","ohio":"Ohio","oklahoma":"Oklahoma","oregon":"Oregon","pennsylvania":"Pennsylvania","rhode-island":"Rhode Island","south-carolina":"South Carolina","south-dakota":"South Dakota","tennessee":"Tennessee","texas":"Texas","utah":"Utah","vermont":"Vermont","virginia":"Virginia","washington":"Washington","west-virginia":"West Virginia","wisconsin":"Wisconsin","wyoming":"Wyoming"};
 
         const path = window.location.pathname.replace('/', '').toLowerCase();
         const stateName = statesMap[path] || "California";
-        const stateKey = S_TIER_DB[path] ? path : "california";
-        const data = S_TIER_DB[stateKey];
+        
+        // AUTO-GENERATOR FOR ALL STATES (중복 방지 핵심)
+        const generateData = (name) => ({
+            statute: `${name} Statutes & Civil Codes applied for 2026 assessment. Liability determined via local negligence rules.`,
+            stats: `High-risk corridors and intersection data analyzed for ${name} urban centers.`,
+            insight: `In ${name}, prompt reporting and medical evaluation are critical for maximizing recovery value.`
+        });
 
-        // RENDER PAGE CONTENT
-        document.getElementById('page-title').innerText = `${stateName} Settlement Calculator | 2026 Payout Guide`;
+        const data = generateData(stateName);
+
+        document.getElementById('page-title').innerText = `${stateName} Settlement Calculator | 2026 Guide`;
         document.getElementById('main-heading').innerHTML = `${stateName} <br><span class="text-blue-600">Calculator</span>`;
         document.getElementById('current-state-display').innerText = stateName;
         document.getElementById('report-state-name').innerText = stateName;
-        
-        // RENDER EXPERT DATA
+        document.getElementById('modal-state').innerText = stateName;
         document.getElementById('statute-info').innerText = data.statute;
         document.getElementById('stats-info').innerText = data.stats;
         document.getElementById('insight-info').innerText = data.insight;
-        document.getElementById('case-ref').innerText = data.case;
 
-        // RENDER FOOTER LINKS
         const footerGrid = document.getElementById('state-links');
         Object.entries(statesMap).forEach(([key, name]) => {
             const link = document.createElement('a');
@@ -146,7 +115,6 @@
             footerGrid.appendChild(link);
         });
 
-        // COUNTER LOGIC
         let count = 12450320;
         setInterval(() => {
             count += Math.floor(Math.random() * 85);
@@ -163,15 +131,15 @@
         document.getElementById('leadForm').onsubmit = function(e) {
             e.preventDefault();
             const body = document.getElementById('modalBody');
-            body.innerHTML = `<div class="py-10 text-center animate-pulse"><div class="h-12 w-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div><p class="font-black text-slate-800 uppercase tracking-widest">Validating ${stateName} Statutes...</p></div>`;
+            body.innerHTML = `<div class="py-10 text-center animate-pulse"><div class="h-12 w-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div><p class="font-black text-slate-800 uppercase tracking-widest">Finalizing ${stateName} Report...</p></div>`;
             setTimeout(() => {
                 body.innerHTML = `
                     <div class="py-6 text-center">
                         <div class="bg-emerald-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-50"><svg class="h-10 w-10 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
                         <h3 class="text-2xl font-black text-slate-900 leading-tight">Verification Successful</h3>
-                        <p class="mt-4 text-slate-600 font-medium tracking-tight px-4 leading-relaxed">Our AI confirms high-value potential for this case. Your unique Case ID is ready for activation.</p>
-                        <a href="tel:1-800-000-0000" class="mt-8 block w-full rounded-2xl bg-emerald-500 py-6 font-black text-white text-xl hover:bg-emerald-600 shadow-xl shadow-emerald-100 transition-all active:scale-95 uppercase tracking-wide">Claim Your Case Number Now</a>
-                        <p class="mt-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-loose">Case Tracking ID: #${Math.floor(Math.random()*900000)+100000} | Priority Review Active</p>
+                        <p class="mt-4 text-slate-600 font-medium tracking-tight px-4 leading-relaxed">AI indicates high-value potential. Your Case ID is ready for activation.</p>
+                        <a href="tel:1-800-000-0000" class="mt-8 block w-full rounded-2xl bg-emerald-500 py-6 font-black text-white text-xl hover:bg-emerald-600 shadow-xl transition-all active:scale-95 uppercase tracking-widest">Claim Your Case Number</a>
+                        <p class="mt-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest">Priority Review Active for ${stateName}</p>
                     </div>`;
             }, 3000);
         };
