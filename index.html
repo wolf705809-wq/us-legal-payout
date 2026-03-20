@@ -12,9 +12,9 @@
         .glass-panel { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
         .node-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
-        input { background: #0f172a !important; border: 1px solid #334155 !important; transition: all 0.3s ease; }
+        input { background: #0f172a !important; border: 1px solid #334155 !important; transition: all 0.3s ease; text-transform: uppercase; }
         input:focus { border-color: var(--jds-primary) !important; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
-        .tcpa-text { font-size: 10px; line-height: 1.4; color: #64748b; }
+        .tcpa-text { font-size: 10px; line-height: 1.4; color: #64748b; text-align: left; }
     </style>
 </head>
 <body class="antialiased overflow-x-hidden">
@@ -27,8 +27,8 @@
                     <span class="text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase">TCPA COMPLIANT NODE</span>
                 </div>
                 <div class="hidden md:block h-4 w-px bg-slate-800"></div>
-                <div class="hidden md:flex items-center gap-2 text-[10px] text-slate-500 font-mono">
-                    <span class="text-blue-500">ENCRYPTION:</span> <span>AES-256-GCM</span>
+                <div class="hidden md:flex items-center gap-2 text-[10px] text-slate-500 font-mono uppercase">
+                    <span class="text-blue-500">Encryption:</span> <span>AES-256-GCM Active</span>
                 </div>
             </div>
             <div class="text-[10px] font-black text-blue-500 tracking-tighter italic">JDS™ V9.4 PLATINUM</div>
@@ -40,26 +40,26 @@
             <h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-500">
                 LITIGATION <br><span class="text-blue-600">INTELLIGENCE.</span>
             </h1>
-            <p class="text-slate-400 max-w-xl mx-auto text-sm md:text-base leading-relaxed font-medium">
-                단순한 상담이 아닙니다. 귀하의 사건을 2026 연방 법률 데이터베이스와 대조하여 <span class="text-white border-b border-blue-500/50">즉각적인 관할권 배상 가치를 산출</span>합니다.
+            <p class="text-slate-400 max-w-xl mx-auto text-sm md:text-base leading-relaxed font-medium uppercase tracking-tight">
+                This is not a consultation. We cross-reference your incident against the <span class="text-white border-b border-blue-500/50">2026 Federal Tort Database</span> to calculate immediate jurisdictional settlement value.
             </p>
         </section>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
+            <div class="glass-panel p-6 rounded-2xl">
                 <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Queue Status</div>
                 <div class="text-2xl font-black text-white" id="capacity-val">94.2%</div>
-                <div class="text-[9px] text-red-500 font-bold mt-2 font-mono">SYSTEM LOAD: HIGH</div>
+                <div class="text-[9px] text-red-500 font-bold mt-2 font-mono uppercase">System Load: Critical</div>
             </div>
             <div class="glass-panel p-6 rounded-2xl md:col-span-2 border-l-4 border-blue-600">
                 <div class="flex justify-between items-start mb-4">
                     <div>
                         <div class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1">Active Jurisdiction</div>
-                        <div class="text-xl font-black text-white" id="active-state">FEDERAL (GLOBAL)</div>
+                        <div class="text-xl font-black text-white" id="active-state">FEDERAL (PENDING)</div>
                     </div>
                     <div class="text-right">
-                        <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Statute Limit</div>
-                        <div class="text-xs font-mono text-slate-300" id="statute-limit">SYNCING...</div>
+                        <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Statute of Limit</div>
+                        <div class="text-xs font-mono text-slate-300 uppercase" id="statute-limit">Syncing Node...</div>
                     </div>
                 </div>
                 <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
@@ -72,22 +72,24 @@
             <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
             <button onclick="openModal()" class="relative w-full glass-panel hover:bg-white/5 py-10 rounded-[2.5rem] transition-all flex flex-col items-center gap-4">
                 <span class="text-xs font-black tracking-[0.5em] text-blue-500 uppercase">Protocol Activation</span>
-                <span class="text-3xl md:text-4xl font-black text-white tracking-tighter uppercase">Check My Settlement Entitlement</span>
-                <span class="text-[10px] font-mono text-slate-500 uppercase">Legal Data Nodes: 50 States Optimized</span>
+                <span class="text-3xl md:text-4xl font-black text-white tracking-tighter uppercase">Check Settlement Entitlement</span>
+                <span class="text-[10px] font-mono text-slate-500 uppercase">Verify Recovery Potential in 120 Seconds</span>
             </button>
         </div>
+
+        <div id="state-links" class="mt-16 grid grid-cols-5 md:grid-cols-10 gap-2 opacity-30 hover:opacity-100 transition-opacity"></div>
     </main>
 
     <footer class="max-w-4xl mx-auto px-6 py-12 border-t border-white/5 text-center">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-[11px] text-slate-500 mb-8 uppercase font-bold tracking-widest">
             <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
-            <a href="#" class="hover:text-white transition-colors">CCPA Notice</a>
+            <a href="#" class="hover:text-white transition-colors">TCPA Disclosure</a>
         </div>
-        <div class="text-[10px] text-slate-600 leading-loose max-w-2xl mx-auto">
+        <div class="text-[10px] text-slate-600 leading-loose max-w-2xl mx-auto uppercase font-medium">
             © 2026 JDS™ JURISDICTIONAL INTELLIGENCE ENGINE. ALL RIGHTS RESERVED. <br>
             THIS IS AN ADVERTISING SERVICE. WE ARE NOT A LAW FIRM OR AN ATTORNEY REFERRAL SERVICE. <br>
-            OFFICE: 1201 ORANGE ST #600, WILMINGTON, DE 19801, USA | +1 (800) JDS-AUDIT
+            1201 ORANGE ST #600, WILMINGTON, DE 19801, USA | SECURE DATA PORTAL
         </div>
     </footer>
 
@@ -95,14 +97,14 @@
         <div class="w-full max-w-xl bg-[#0f172a] rounded-[3rem] border border-white/10 overflow-hidden shadow-2xl">
             <div id="modalBody" class="p-10">
                 <div id="step-1" class="space-y-6">
-                    <h2 class="text-2xl font-black text-white uppercase tracking-tighter text-center">Select Injury Category</h2>
+                    <h2 class="text-2xl font-black text-white uppercase tracking-tighter text-center">Injury Classification</h2>
                     <div class="grid gap-3">
                         <button onclick="nextStep()" class="p-5 rounded-2xl border border-white/5 bg-white/5 hover:border-blue-500 text-left font-bold transition-all flex justify-between">
                             <span>Motor Vehicle Accident</span>
                             <span class="text-blue-500 font-mono text-xs">MVA-PRO</span>
                         </button>
                         <button onclick="nextStep()" class="p-5 rounded-2xl border border-white/5 bg-white/5 hover:border-blue-500 text-left font-bold transition-all flex justify-between">
-                            <span>Serious Orthopedic Injury</span>
+                            <span>Spinal / Orthopedic</span>
                             <span class="text-blue-500 font-mono text-xs">ORTHO-X</span>
                         </button>
                         <button onclick="nextStep()" class="p-5 rounded-2xl border border-white/5 bg-red-500/5 hover:border-red-500 text-left font-bold transition-all text-red-400 flex justify-between">
@@ -118,18 +120,16 @@
                 </div>
 
                 <div id="step-2" class="hidden space-y-6">
-                    <h2 class="text-2xl font-black text-white uppercase tracking-tighter text-center">Audit Identity Sync</h2>
+                    <h2 class="text-2xl font-black text-white uppercase tracking-tighter text-center">Identity Synchronization</h2>
                     <div class="space-y-3">
-                        <input type="text" id="userName" placeholder="FULL LEGAL NAME" class="w-full p-5 rounded-2xl text-white font-bold uppercase text-sm">
-                        <input type="tel" id="userPhone" placeholder="MOBILE NUMBER" class="w-full p-5 rounded-2xl text-white font-bold uppercase text-sm">
+                        <input type="text" id="userName" placeholder="Full Legal Name" class="w-full p-5 rounded-2xl text-white font-bold text-sm">
+                        <input type="tel" id="userPhone" placeholder="Mobile Number (Secure)" class="w-full p-5 rounded-2xl text-white font-bold text-sm">
                     </div>
-                    
-                    <div class="tcpa-text px-2 italic">
-                        By clicking "LOCK ASSESSMENT DATA", I consent to receive recurring automated marketing calls/texts from JDS™ and its legal partners at the number provided, even if I am on a DNC list. Consent is not a condition of purchase. Msg/data rates apply.
+                    <div class="tcpa-text px-2">
+                        BY CLICKING "FINALIZE AUDIT", I PROVIDE MY EXPRESS WRITTEN CONSENT TO BE CONTACTED BY JDS™ AND ITS PARTNERS AT THE NUMBER PROVIDED VIA AUTOMATED TECHNOLOGY. CONSENT IS NOT REQUIRED FOR PURCHASE.
                     </div>
-
                     <button onclick="finalize()" class="w-full bg-blue-600 hover:bg-blue-500 py-6 rounded-2xl font-black tracking-widest transition-all uppercase">
-                        Lock Assessment Data
+                        Finalize Audit Data
                     </button>
                 </div>
             </div>
@@ -150,7 +150,7 @@
         function nextStep() {
             document.getElementById('step-1').classList.add('hidden');
             document.getElementById('step-loading').classList.remove('hidden');
-            const logs = ["> INIT JURISDICTION...", "> CROSS-REF TORT STATUTES...", "> AUTHENTICATING TCPA...", "> SYNCING LEGAL NODES..."];
+            const logs = ["> INITIATING NODE...", "> SCANNING TORT STATUTES...", "> VERIFYING TCPA COMPLIANCE...", "> DATA PACKETS READY."];
             let i = 0;
             const interval = setInterval(() => {
                 if(i < logs.length) {
@@ -162,14 +162,14 @@
                     setTimeout(() => {
                         document.getElementById('step-loading').classList.add('hidden');
                         document.getElementById('step-2').classList.remove('hidden');
-                    }, 600);
+                    }, 500);
                 }
             }, 300);
         }
 
         function finalize() {
-            if(document.getElementById('userPhone').value.length < 10) return alert("VALID CONTACT REQUIRED");
-            document.getElementById('modalBody').innerHTML = `<div class="text-center py-10"><h2 class="text-3xl font-black text-white mb-4">AUDIT SECURED</h2><p class="text-slate-400 text-sm uppercase">데이터가 관할권 심사관에게 전송되었습니다. 120초 이내에 결과를 전달합니다.</p></div>`;
+            if(document.getElementById('userPhone').value.length < 10) return alert("VALID ENTRY REQUIRED");
+            document.getElementById('modalBody').innerHTML = `<div class="text-center py-10"><div class="text-4xl mb-4">🔒</div><h2 class="text-2xl font-black text-white mb-2 uppercase">Audit Secured</h2><p class="text-slate-400 text-xs uppercase tracking-tight">Your analysis is being processed by our senior jurisdictional auditor. Expect a contact within 120 seconds.</p></div>`;
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -181,6 +181,10 @@
                 s.onclick = () => updateState(abbr);
                 grid.appendChild(s);
             });
+            setInterval(() => {
+                const val = (94 + Math.random() * 5).toFixed(1);
+                document.getElementById('capacity-val').innerText = val + "%";
+            }, 3000);
         });
     </script>
 </body>
