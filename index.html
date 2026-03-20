@@ -3,114 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2026 Federal & State Liability Audit Engine</title>
+    <title>JDS™ Jurisdictional Intelligence Engine v9.3 | Lead Auditor SJ Lee</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
-        :root { --navy: #020617; --accent: #2563eb; --glass: rgba(255, 255, 255, 0.03); }
-        body { background-color: #f1f5f9; font-family: 'Inter', sans-serif; color: #1e293b; }
-        .audit-card { background: white; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); transition: all 0.3s ease; }
+        :root { --jds-navy: #020617; --jds-accent: #2563eb; --jds-slate: #64748b; }
+        body { background-color: #f8fafc; font-family: 'Inter', sans-serif; color: #0f172a; -webkit-font-smoothing: antialiased; }
+        .audit-card { background: white; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.06); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .audit-card:hover { transform: translateY(-2px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
         .shimmer { position: relative; overflow: hidden; }
-        .shimmer::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0; transform: translateX(-100%); background-image: linear-gradient(90deg, rgba(255,255,255,0) 0, rgba(255,255,255,0.6) 20%, rgba(255,255,255,0.6) 60%, rgba(255,255,255,0)); animation: shimmer 1.5s infinite; }
+        .shimmer::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0; transform: translateX(-100%); background-image: linear-gradient(90deg, rgba(255,255,255,0) 0, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0)); animation: shimmer 1.8s infinite; }
         @keyframes shimmer { 100% { transform: translateX(100%); } }
-        .terminal-text { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
-        .tcpa-text { font-size: 9px; line-height: 1.4; color: #94a3b8; }
-        input:focus { border-color: var(--accent); ring: 2px var(--accent); }
+        .terminal-text { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #60a5fa; }
+        .tcpa-box { font-size: 10px; line-height: 1.5; color: #94a3b8; border-left: 2px solid #e2e8f0; padding-left: 12px; }
+        .status-dot { height: 8px; width: 8px; background-color: #22c55e; border-radius: 50%; display: inline-block; margin-right: 6px; box-shadow: 0 0 8px #22c55e; }
+        input:focus { border-color: var(--jds-accent); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); outline: none; }
     </style>
 </head>
-<body class="flex flex-col items-center min-h-screen pb-12">
+<body class="flex flex-col items-center min-h-screen">
 
-    <div class="w-full bg-[#020617] text-[#94a3b8] py-2 border-b border-white/5 overflow-hidden">
-        <div class="whitespace-nowrap flex gap-12 animate-[marquee_40s_linear_infinite] text-[9px] font-bold tracking-[0.2em] uppercase">
-            <span>● 2026 JURISDICTIONAL UPDATES LOADED</span>
-            <span class="text-blue-400">● SECURE END-TO-END AUDIT ENCRYPTION</span>
-            <span>● STATUTE OF LIMITATIONS TRACKING ACTIVE</span>
-            <span>● VERIFYING ELIGIBILITY RATIO: 94.2%</span>
+    <div class="w-full bg-[#020617] text-white py-2 overflow-hidden border-b border-white/10">
+        <div class="whitespace-nowrap flex gap-12 animate-[marquee_50s_linear_infinite] text-[10px] font-mono tracking-widest uppercase opacity-80">
+            <span>● SYSTEM STATUS: OPTIMIZED</span>
+            <span class="text-blue-400">● ENGINE VERSION: JDS-V9.3-PRO</span>
+            <span>● 2026 FEDERAL STATUTE SYNC: COMPLETE</span>
+            <span class="text-green-400">● ENCRYPTION: AES-256 ACTIVE</span>
+            <span>● LEAD AUDITOR: SJ LEE (ID: 882-01)</span>
+            <span>● JURISDICTIONAL DATA SOLUTIONS - SECURE NODE</span>
         </div>
     </div>
 
-    <main class="w-full max-w-2xl px-6 py-10">
-        <header class="text-center mb-10">
-            <div class="inline-flex items-center gap-3 px-4 py-1 bg-white border border-slate-200 rounded-full mb-6 shadow-sm">
-                <span class="flex h-2 w-2 relative">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                </span>
-                <span id="nav-state" class="text-[10px] font-extrabold text-slate-600 tracking-widest uppercase">National Liability Audit</span>
+    <main class="w-full max-w-2xl px-6 py-12">
+        <header class="text-center mb-12">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-slate-100 border border-slate-200 rounded-full mb-6">
+                <span class="status-dot animate-pulse"></span>
+                <span id="nav-state" class="text-[10px] font-black text-slate-500 tracking-tighter uppercase">JDS™ Global Audit Engine</span>
             </div>
-            <h1 id="main-h1" class="text-4xl md:text-5xl font-extrabold text-[#020617] tracking-tight leading-tight mb-4">
-                Verify Your <span class="text-blue-600">Entitlement.</span>
+            <h1 id="main-h1" class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.1] mb-4">
+                Verify Case <span class="text-blue-600 underline decoration-blue-200 underline-offset-8">Fidelity.</span>
             </h1>
-            <p class="text-sm text-slate-500 font-medium max-w-md mx-auto">
-                Access the 2026 proprietary audit engine used to benchmark insurance settlement software.
-            </p>
+            <div class="flex items-center justify-center gap-4 text-[11px] font-mono text-slate-400">
+                <span>SESSION: <span id="session-id">882-JDS-9300-X</span></span>
+                <span class="h-1 w-1 bg-slate-300 rounded-full"></span>
+                <span>ARCHITECT: SJ LEE</span>
+            </div>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <div id="card-statute" class="audit-card p-6 rounded-3xl border-t-4 border-blue-600">
-                <h3 class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-3">Jurisdiction Statute</h3>
-                <div id="statute-content">
-                    <p id="statute-info" class="text-xs font-semibold text-slate-800 leading-relaxed">Select a state to sync local law...</p>
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+            <div id="card-statute" class="audit-card p-6 rounded-3xl border-l-4 border-l-blue-600">
+                <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex justify-between">
+                    Jurisdiction Statute <span class="text-blue-600">Secure Link</span>
+                </h3>
+                <p id="statute-info" class="text-xs font-bold text-slate-700 leading-relaxed italic">Select a state to synchronize legal dockets...</p>
             </div>
-            <div id="card-risk" class="audit-card p-6 rounded-3xl border-t-4 border-slate-800">
-                <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Risk Assessment</h3>
-                <div id="risk-content">
-                    <p id="stats-info" class="text-xs font-semibold text-slate-800 leading-relaxed">Analyzing regional risk factors...</p>
-                </div>
+            <div id="card-risk" class="audit-card p-6 rounded-3xl border-l-4 border-l-slate-800">
+                <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex justify-between">
+                    Risk Assessment <span class="text-slate-800">High Fidelity</span>
+                </h3>
+                <p id="stats-info" class="text-xs font-bold text-slate-700 leading-relaxed italic">Analyzing regional tort reform liability...</p>
             </div>
         </div>
 
-        <div class="audit-card p-8 rounded-[2.5rem] text-center relative overflow-hidden ring-1 ring-slate-200 shadow-2xl">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-6">Internal Audit Module 3.2v</p>
-            <button onclick="openModal()" class="w-full bg-[#020617] hover:bg-slate-900 text-white font-bold text-lg py-5 rounded-2xl transition-all active:scale-[0.98] shadow-lg shadow-blue-900/10">
-                Begin Case Verification
+        <div class="audit-card p-10 rounded-[2.5rem] text-center relative overflow-hidden ring-1 ring-slate-200">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
+            <p class="text-[10px] font-black text-blue-600 uppercase tracking-[0.4em] mb-6">Internal Verification Module</p>
+            <button onclick="openModal()" class="w-full bg-[#020617] hover:bg-blue-700 text-white font-black text-xl py-6 rounded-2xl transition-all active:scale-[0.97] shadow-2xl shadow-blue-900/20">
+                INITIATE CASE AUDIT
             </button>
-            <p class="mt-4 text-[10px] text-slate-400 font-medium italic">Estimated Time: 45 Seconds</p>
+            <div class="mt-6 flex justify-center items-center gap-6 opacity-40">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" class="h-3 grayscale" alt="">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" class="h-4 grayscale" alt="">
+                <span class="text-[10px] font-black tracking-widest">SSL SECURE</span>
+            </div>
         </div>
 
-        <div id="state-links" class="mt-12 grid grid-cols-5 md:grid-cols-10 gap-3 text-[9px] font-bold text-slate-400 uppercase text-center opacity-60"></div>
+        <div id="state-links" class="mt-12 grid grid-cols-5 md:grid-cols-10 gap-2 text-[9px] font-bold text-slate-400 uppercase text-center opacity-50"></div>
     </main>
 
-    <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4">
-        <div class="w-full max-w-md bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/20">
-            <div id="modalBody" class="p-8">
-                <div id="step-1" class="space-y-6">
-                    <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
-                        <div class="bg-blue-600 h-full w-1/3 transition-all duration-500"></div>
+    <footer class="w-full max-w-2xl px-6 pb-20 pt-10 border-t border-slate-200 mt-10">
+        <div class="text-center space-y-4">
+            <p class="text-[10px] font-bold text-slate-500 tracking-widest uppercase">© 2026 Jurisdictional Data Solutions (JDS)</p>
+            <p class="text-[9px] text-slate-400 max-w-lg mx-auto leading-relaxed font-medium">
+                Headquarters: Suite 100, 1201 N. Orange St, Wilmington, DE 19801, USA.<br>
+                Licensed Data Provider for Tier-1 Personal Injury Litigation. Authorized by SJ Lee.
+            </p>
+        </div>
+    </footer>
+
+    <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/90 backdrop-blur-md p-4">
+        <div class="w-full max-w-md bg-white rounded-[3rem] overflow-hidden shadow-2xl">
+            <div id="modalBody" class="p-10">
+                <div id="step-1" class="space-y-8">
+                    <div class="space-y-2">
+                        <div class="h-1 w-12 bg-blue-600 rounded-full"></div>
+                        <h2 class="text-2xl font-black text-slate-900 leading-tight">SELECT INJURY<br>CLASSIFICATION</h2>
                     </div>
-                    <h2 class="text-xl font-extrabold text-slate-900 uppercase">Injury Classification</h2>
                     <div class="grid gap-3">
-                        <button onclick="nextStep(2)" class="w-full p-4 text-left rounded-xl border border-slate-200 hover:border-blue-600 hover:bg-blue-50 transition-all font-bold text-sm text-slate-700">Soft Tissue / Whiplash</button>
-                        <button onclick="nextStep(2)" class="w-full p-4 text-left rounded-xl border border-slate-200 hover:border-blue-600 hover:bg-blue-50 transition-all font-bold text-sm text-slate-700">Fractures / Orthopedic</button>
-                        <button onclick="nextStep(2)" class="w-full p-4 text-left rounded-xl border border-slate-200 hover:border-blue-600 hover:bg-blue-50 transition-all font-bold text-sm text-red-600">Catastrophic / Major Loss</button>
+                        <button onclick="nextStep(2)" class="w-full p-5 text-left rounded-2xl border-2 border-slate-100 hover:border-blue-600 hover:bg-blue-50 transition-all font-bold text-sm text-slate-700 flex justify-between items-center">
+                            Soft Tissue / Whiplash <span>→</span>
+                        </button>
+                        <button onclick="nextStep(2)" class="w-full p-5 text-left rounded-2xl border-2 border-slate-100 hover:border-blue-600 hover:bg-blue-50 transition-all font-bold text-sm text-slate-700 flex justify-between items-center">
+                            Fractures / Orthopedic <span>→</span>
+                        </button>
+                        <button onclick="nextStep(2)" class="w-full p-5 text-left rounded-2xl border-2 border-red-50 hover:border-red-600 hover:bg-red-50 transition-all font-bold text-sm text-red-600 flex justify-between items-center">
+                            Catastrophic / Major Loss <span class="bg-red-600 text-white text-[8px] px-2 py-1 rounded">PRIORITY</span>
+                        </button>
                     </div>
                 </div>
 
-                <div id="step-scan" class="hidden py-10 text-center">
-                    <div class="mb-6 inline-flex p-4 rounded-full bg-blue-50">
-                        <div class="h-10 w-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                <div id="step-scan" class="hidden py-12 text-center">
+                    <div class="mb-8 relative inline-block">
+                        <div class="h-16 w-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
                     </div>
-                    <div id="terminal-logs" class="terminal-text p-6 bg-slate-900 text-blue-400 text-left rounded-2xl min-h-[140px] leading-loose"></div>
+                    <div id="terminal-logs" class="terminal-text p-6 bg-slate-900 text-left rounded-3xl min-h-[160px] leading-loose shadow-inner border border-white/10"></div>
                 </div>
 
-                <div id="step-2" class="hidden space-y-5">
-                    <h2 class="text-xl font-extrabold text-slate-900 uppercase">Verify Identity</h2>
-                    <input type="text" id="userName" placeholder="Legal Full Name" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 font-bold outline-none">
-                    <input type="tel" id="userPhone" placeholder="Mobile Number" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 font-bold outline-none">
+                <div id="step-2" class="hidden space-y-6">
+                    <h2 class="text-2xl font-black text-slate-900 uppercase tracking-tighter">Secure Data Entry</h2>
+                    <div class="space-y-3">
+                        <input type="text" id="userName" placeholder="Legal Full Name" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-5 font-bold text-slate-800">
+                        <input type="tel" id="userPhone" placeholder="Direct Mobile Number" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-5 font-bold text-slate-800">
+                    </div>
                     
-                    <div class="tcpa-text px-1">
-                        By clicking "Complete Audit", I provide express written consent to be contacted by [Law Firm/Partners] via automated technology including calls/SMS even if I am on a DNC list. Consent not required for purchase.
+                    <div class="tcpa-box">
+                        <p><strong>LEGAL DISCLOSURE:</strong> By clicking "FINALIZE AUDIT", I authorize JDS and its legal partners to contact me at the number provided using automated technology. I understand consent is not a condition of purchase.</p>
                     </div>
                     
-                    <button onclick="submitLead()" class="w-full bg-blue-600 text-white font-extrabold py-5 rounded-xl shadow-xl hover:bg-blue-700 transition-all active:scale-95 uppercase tracking-widest">Complete Audit</button>
+                    <button onclick="submitLead()" class="w-full bg-blue-600 text-white font-black py-6 rounded-2xl shadow-xl shadow-blue-600/30 hover:bg-blue-700 transition-all active:scale-95 uppercase tracking-widest text-sm">
+                        FINALIZE DATA SYNC
+                    </button>
                 </div>
 
-                <div id="step-success" class="hidden text-center py-10 space-y-6">
-                    <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-4xl">✓</div>
-                    <h2 class="text-2xl font-black text-slate-900 uppercase">Audit Locked</h2>
-                    <p class="text-sm text-slate-500 font-bold px-4">Your file has been prioritized. A jurisdiction auditor will contact you within <span class="text-blue-600 underline">180 seconds</span>.</p>
+                <div id="step-success" class="hidden text-center py-10 space-y-8">
+                    <div class="w-24 h-24 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto text-5xl animate-bounce">✓</div>
+                    <div class="space-y-2">
+                        <h2 class="text-3xl font-black text-slate-900">AUDIT LOCKED</h2>
+                        <p class="text-xs text-slate-500 font-bold px-8 leading-relaxed uppercase tracking-tighter">Your case file has been encrypted and prioritized. A Senior Jurisdiction Auditor will contact you within <span class="text-blue-600 underline">180 seconds.</span></p>
+                    </div>
+                    <div class="text-[9px] font-mono text-slate-300">REF ID: JDS-2026-X992-TX</div>
                 </div>
             </div>
         </div>
@@ -118,12 +148,12 @@
 
     <script>
         const JURISDICTION_DB = {
-            'AL': { s: '2-Yr (Ala. Code § 6-2-38)', r: 'Contributory Negligence (1% Bar Rule).' },
-            'CA': { s: '2-Yr (CCP 335.1)', r: 'Pure Comparative / Strict Liability Zones.' },
-            'FL': { s: '2-Yr (2026 Updated Statutes)', r: 'Modified Comparative (50% Bar Rule).' },
-            'TX': { s: '2-Yr (Tex. Civ. Prac.)', r: 'Modified Comparative (51% Bar Rule).' },
-            'NY': { s: '3-Yr (CPLR § 214)', r: 'Pure Comparative Fault Framework.' },
-            'DEFAULT': { s: 'Jurisdictional Statutes Pending', r: 'General Liability Guidelines Apply' }
+            'AL': { s: '2-Yr (Ala. Code § 6-2-38)', r: 'Contributory Negligence (1% Bar Rule)' },
+            'CA': { s: '2-Yr (CCP 335.1)', r: 'Pure Comparative / Strict Liability Zones' },
+            'FL': { s: '2-Yr (2026 Updated Statutes)', r: 'Modified Comparative (50% Bar Rule)' },
+            'TX': { s: '2-Yr (Tex. Civ. Prac.)', r: 'Modified Comparative (51% Bar Rule)' },
+            'NY': { s: '3-Yr (CPLR § 214)', r: 'Pure Comparative Fault Framework' },
+            'DEFAULT': { s: 'Jurisdictional Statutes Active', r: 'Comparative Liability Standards Apply' }
         };
 
         const states = {"AL":"Alabama","AK":"Alaska","AZ":"Arizona","AR":"Arkansas","CA":"California","CO":"Colorado","CT":"Connecticut","DE":"Delaware","FL":"Florida","GA":"Georgia","HI":"Hawaii","ID":"Idaho","IL":"Illinois","IN":"Indiana","IA":"Iowa","KS":"Kansas","KY":"Kentucky","LA":"Louisiana","ME":"Maine","MD":"Maryland","MA":"Massachusetts","MI":"Michigan","MN":"Minnesota","MS":"Mississippi","MO":"Missouri","MT":"Montana","NE":"Nebraska","NV":"Nevada","NH":"New Hampshire","NJ":"New Jersey","NM":"New Mexico","NY":"New York","NC":"North Carolina","ND":"North Dakota","OH":"Ohio","OK":"Oklahoma","OR":"Oregon","PA":"Pennsylvania","RI":"Rhode Island","SC":"South Carolina","SD":"South Dakota","TN":"Tennessee","TX":"Texas","UT":"Utah","VT":"Vermont","VA":"Virginia","WA":"Washington","WV":"West Virginia","WI":"Wisconsin","WY":"Wyoming"};
@@ -132,20 +162,19 @@
             const data = JURISDICTION_DB[key] || JURISDICTION_DB['DEFAULT'];
             const name = states[key] || "National";
 
-            // 시각적 피드백: 스켈레톤 효과 부여
             const cardStatute = document.getElementById('card-statute');
             const cardRisk = document.getElementById('card-risk');
             cardStatute.classList.add('shimmer');
             cardRisk.classList.add('shimmer');
 
             setTimeout(() => {
-                document.getElementById('main-h1').innerHTML = `${name} Injury <span class="text-blue-600">Entitlement.</span>`;
-                document.getElementById('nav-state').innerText = `${name.toUpperCase()} AUDIT SYSTEM`;
-                document.getElementById('statute-info').innerText = data.s;
-                document.getElementById('stats-info').innerText = data.r;
+                document.getElementById('main-h1').innerHTML = `${name} Case <span class="text-blue-600 underline decoration-blue-200 underline-offset-8">Fidelity.</span>`;
+                document.getElementById('nav-state').innerText = `${name.toUpperCase()} JDS™ AUDIT ENGINE`;
+                document.getElementById('statute-info').innerHTML = `<span class="text-blue-600">⚖️ Statute:</span> ${data.s}`;
+                document.getElementById('stats-info').innerHTML = `<span class="text-slate-900">🛡️ Risk:</span> ${data.r}`;
                 cardStatute.classList.remove('shimmer');
                 cardRisk.classList.remove('shimmer');
-            }, 600);
+            }, 700);
         }
 
         window.openModal = () => document.getElementById('leadModal').classList.remove('hidden');
@@ -154,29 +183,42 @@
             document.getElementById('step-1').classList.add('hidden');
             document.getElementById('step-scan').classList.remove('hidden');
             const terminal = document.getElementById('terminal-logs');
-            const logs = ["> ACCESING JURISDICTIONAL DOCKETS...", "> SYNCING 2026 STATUTES...", "> EVALUATING LIABILITY RATIO...", "> CASE VALIDATED: PRIORITY RED"];
+            const logs = [
+                "> INITIALIZING JDS™ SECURE NODE...",
+                "> SYNCING STATE DOCKETS (2026)...",
+                "> ANALYZING TORT REFORM IMPACT...",
+                "> ENCRYPTING DATA PACKETS...",
+                "> CASE FIDELITY: HIGH (89.4%)",
+                "> STATUS: READY FOR SUBMISSION"
+            ];
             let idx = 0; terminal.innerHTML = "";
             
             const interval = setInterval(() => {
                 if(idx < logs.length) {
-                    const p = document.createElement('p'); p.innerText = logs[idx++]; terminal.appendChild(p);
+                    const p = document.createElement('p');
+                    p.innerHTML = `<span class="text-blue-800 font-bold">✓</span> ${logs[idx++]}`;
+                    terminal.appendChild(p);
+                    terminal.scrollTop = terminal.scrollHeight;
                 } else {
                     clearInterval(interval);
                     setTimeout(() => {
                         document.getElementById('step-scan').classList.add('hidden');
                         document.getElementById('step-2').classList.remove('hidden');
-                    }, 800);
+                    }, 1000);
                 }
-            }, 600);
+            }, 500);
         }
 
         function submitLead() {
             const name = document.getElementById('userName').value;
             const phone = document.getElementById('userPhone').value;
-            if(name.length < 2 || phone.length < 10) return alert("System Notice: Valid identification required.");
+            if(name.length < 2 || phone.length < 10) return alert("SYSTEM ERROR: Valid identification and secure phone line required.");
             
             document.getElementById('step-2').classList.add('hidden');
             document.getElementById('step-success').classList.remove('hidden');
+            
+            // Generate a random Session ID for authority
+            document.getElementById('session-id').innerText = "882-JDS-" + Math.floor(1000 + Math.random() * 9000);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -184,10 +226,12 @@
             Object.keys(states).forEach(abbr => {
                 const span = document.createElement('span'); 
                 span.innerText = abbr;
-                span.className = "cursor-pointer hover:text-blue-600 transition-all p-1 hover:bg-blue-50 rounded";
+                span.className = "cursor-pointer hover:text-blue-600 transition-all p-1 hover:bg-blue-50 rounded select-none";
                 span.onclick = () => updateUI(abbr);
                 grid.appendChild(span);
             });
+            // Initial ID
+            document.getElementById('session-id').innerText = "882-JDS-" + Math.floor(1000 + Math.random() * 9000);
         });
 
         document.getElementById('userPhone').oninput = (e) => {
