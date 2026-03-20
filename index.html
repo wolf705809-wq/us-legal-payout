@@ -41,6 +41,7 @@
         }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .animate-marquee { display: inline-block; animation: marquee 25s linear infinite; }
+        .input-error { border-color: #ef4444 !important; background-color: #fef2f2 !important; }
     </style>
 </head>
 <body class="flex flex-col items-center min-h-screen relative">
@@ -71,7 +72,6 @@
         <div class="solid-panel overflow-hidden mb-10 relative border-slate-300">
             <div class="bg-slate-900 relative overflow-hidden py-10 px-6 flex flex-col items-center justify-center min-h-[220px]">
                 <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(#334155 1px, transparent 1px), linear-gradient(90deg, #334155 1px, transparent 1px); background-size: 20px 20px;"></div>
-                
                 <div class="relative flex items-center justify-center mb-6 mt-2">
                     <div class="absolute w-32 h-32 bg-blue-500/10 rounded-full animate-ping" style="animation-duration: 3s;"></div>
                     <div class="absolute w-20 h-20 bg-blue-500/20 rounded-full animate-pulse"></div>
@@ -79,7 +79,6 @@
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
                     </div>
                 </div>
-
                 <div class="relative z-10 text-center space-y-2.5">
                     <div class="inline-flex items-center gap-2 px-3 py-1 bg-slate-800/80 border border-slate-700 rounded-md backdrop-blur-sm">
                         <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_5px_#34d399]"></span>
@@ -89,7 +88,6 @@
                     <p class="text-[10px] font-mono text-blue-400/80 tracking-widest">CONNECTING TO STATUTORY RECORDS...</p>
                 </div>
             </div>
-
             <div class="p-6 bg-white border-t border-slate-800">
                 <div class="flex items-center gap-2 mb-3">
                     <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -125,12 +123,6 @@
         </div>
     </main>
 
-    <footer class="fixed bottom-0 left-0 w-full bg-white border-t border-slate-100 p-4 z-40 text-center shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
-        <p class="text-[10px] text-slate-500 font-medium leading-tight max-w-2xl mx-auto">
-            IMPORTANT LEGAL DISCLAIMER: This evaluation portal is not a law firm, does not provide legal advice, and its findings are not definitive. By utilizing this service, you are requesting a formal case review from a partnered qualified attorney within your specific jurisdiction. Ver. 9.3 • © 2026 Division of Statutory Audit.
-        </p>
-    </footer>
-
     <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-5">
         <div class="w-full max-w-md bg-white rounded-[2.5rem] overflow-hidden shadow-2xl relative flex flex-col max-h-[92vh] border border-slate-100">
             <div class="bg-blue-50/50 p-7 text-center shrink-0 border-b border-blue-100 relative">
@@ -147,64 +139,67 @@
             <div id="modalBody" class="p-8 overflow-y-auto grow">
                 <div id="step-1" class="step-container space-y-3.5">
                     <p class="text-base font-bold text-slate-900 text-center mb-5">Please select the type of incident:</p>
-                    <button onclick="saveData('type', 'Auto'); nextStep(2);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left transition flex items-center gap-3"><span class="text-xl">🚗</span> Auto Accident</button>
-                    <button onclick="saveData('type', 'Motorcycle'); nextStep(2);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left transition flex items-center gap-3"><span class="text-xl">🏍️</span> Motorcycle Accident</button>
-                    <button onclick="saveData('type', 'Slip'); nextStep(2);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left transition flex items-center gap-3"><span class="text-xl">🚶</span> Slip and Fall</button>
-                    <button onclick="saveData('type', 'Other'); nextStep(2);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left transition flex items-center gap-3"><span class="text-xl">⚠️</span> Other Incident</button>
+                    <button type="button" onclick="saveData('type', 'Auto'); nextStep(2);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left transition flex items-center gap-3"><span class="text-xl">🚗</span> Auto Accident</button>
+                    <button type="button" onclick="saveData('type', 'Motorcycle'); nextStep(2);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left transition flex items-center gap-3"><span class="text-xl">🏍️</span> Motorcycle Accident</button>
+                    <button type="button" onclick="saveData('type', 'Slip'); nextStep(2);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left transition flex items-center gap-3"><span class="text-xl">🚶</span> Slip and Fall</button>
+                    <button type="button" onclick="saveData('type', 'Other'); nextStep(2);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left transition flex items-center gap-3"><span class="text-xl">⚠️</span> Other Incident</button>
                 </div>
 
                 <div id="step-2" class="step-container hidden space-y-3.5">
                     <p class="text-base font-bold text-slate-900 text-center mb-5">Identify the party at fault:</p>
-                    <button onclick="saveData('fault', 'not_at_fault'); nextStep(3);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left">I was NOT at fault (0%)</button>
-                    <button onclick="saveData('fault', 'shared'); nextStep(3);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left">Fault is unclear / Shared</button>
-                    <button onclick="disqualify('Fault');" class="w-full bg-white border-2 border-slate-200 hover:border-red-400 p-4 rounded-xl font-semibold text-slate-800 text-left">I was completely at fault (100%)</button>
+                    <button type="button" onclick="saveData('fault', 'not_at_fault'); nextStep(3);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left">I was NOT at fault (0%)</button>
+                    <button type="button" onclick="saveData('fault', 'shared'); nextStep(3);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left">Fault is unclear / Shared</button>
+                    <button type="button" onclick="disqualify('Fault');" class="w-full bg-white border-2 border-slate-200 hover:border-red-400 p-4 rounded-xl font-semibold text-slate-800 text-left">I was completely at fault (100%)</button>
                 </div>
 
                 <div id="step-3" class="step-container hidden space-y-3.5">
                     <p class="text-base font-bold text-slate-900 text-center mb-5">Required immediate medical attention?</p>
-                    <button onclick="saveData('medical', 'ambulance'); nextStep(4);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left">Yes, Ambulance / ER visit</button>
-                    <button onclick="saveData('medical', 'doctor'); nextStep(4);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left">Yes, admitted to hospital / saw doctor</button>
-                    <button onclick="disqualify('No Injury');" class="w-full bg-white border-2 border-slate-200 hover:border-red-400 p-4 rounded-xl font-semibold text-slate-800 text-left">No medical treatment required</button>
+                    <button type="button" onclick="saveData('medical', 'ambulance'); nextStep(4);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left">Yes, Ambulance / ER visit</button>
+                    <button type="button" onclick="saveData('medical', 'doctor'); nextStep(4);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left">Yes, admitted to hospital / saw doctor</button>
+                    <button type="button" onclick="disqualify('No Injury');" class="w-full bg-white border-2 border-slate-200 hover:border-red-400 p-4 rounded-xl font-semibold text-slate-800 text-left">No medical treatment required</button>
                 </div>
 
                 <div id="step-4" class="step-container hidden space-y-3.5">
                     <p class="text-base font-bold text-slate-900 text-center mb-5">Was a formal police report filed?</p>
-                    <button onclick="saveData('police', 'yes'); nextStep(5);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left">Yes</button>
-                    <button onclick="saveData('police', 'no'); nextStep(5);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left">No / Unsure</button>
+                    <button type="button" onclick="saveData('police', 'yes'); nextStep(5);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left">Yes</button>
+                    <button type="button" onclick="saveData('police', 'no'); nextStep(5);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left">No / Unsure</button>
                 </div>
 
                 <div id="step-5" class="step-container hidden space-y-3.5">
                     <p class="text-base font-bold text-slate-900 text-center mb-5">Are you currently represented by an attorney?</p>
-                    <button onclick="saveData('attorney', 'no'); nextStep(6);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left">No, I am seeking representation</button>
-                    <button onclick="disqualify('Has Attorney');" class="w-full bg-white border-2 border-slate-200 hover:border-red-400 p-4 rounded-xl font-semibold text-slate-800 text-left">Yes, I already have an attorney</button>
+                    <button type="button" onclick="saveData('attorney', 'no'); nextStep(6);" class="w-full bg-white border-2 border-slate-200 hover:border-blue-400 p-4 rounded-xl font-semibold text-slate-800 text-left">No, I am seeking representation</button>
+                    <button type="button" onclick="disqualify('Has Attorney');" class="w-full bg-white border-2 border-slate-200 hover:border-red-400 p-4 rounded-xl font-semibold text-slate-800 text-left">Yes, I already have an attorney</button>
                 </div>
 
-                <div id="step-6" class="step-container hidden space-y-4">
+                <form id="step-6" class="step-container hidden space-y-4" onsubmit="validateNarrative(event)">
                     <p class="text-base font-bold text-slate-900 text-center mb-1.5">Describe the incident and your injuries.</p>
-                    <textarea id="ai-narrative" rows="5" placeholder="e.g. I was stopped at a red light..." class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl p-4 text-sm font-medium focus:border-blue-500 outline-none resize-none shadow-inner"></textarea>
-                    <button onclick="validateNarrative()" class="w-full bg-slate-950 text-white font-bold py-4 rounded-xl shadow-md uppercase tracking-widest active:scale-[0.98] transition">Initialize NLP Analysis</button>
-                </div>
+                    <textarea id="ai-narrative" rows="5" placeholder="e.g. I was stopped at a red light..." class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl p-4 text-sm font-medium focus:border-blue-500 outline-none resize-none shadow-inner transition-colors"></textarea>
+                    <p id="error-narrative" class="hidden text-red-500 text-xs font-bold text-center mt-1">Please provide more detail (minimum 15 characters).</p>
+                    <button type="submit" class="w-full bg-slate-950 text-white font-bold py-4 rounded-xl shadow-md uppercase tracking-widest active:scale-[0.98] transition">Initialize NLP Analysis</button>
+                </form>
 
-                <div id="step-7" class="step-container hidden space-y-4">
+                <form id="step-7" class="step-container hidden space-y-4" onsubmit="validateIdentity(event)">
                     <p class="text-base font-bold text-slate-900 text-center mb-5">Define the recipient of the Audit Report:</p>
                     <div class="flex gap-3">
-                        <input type="text" id="fName" placeholder="First Name" class="w-1/2 bg-white border-2 border-slate-200 rounded-xl px-4 py-3.5 font-semibold text-slate-800 outline-none focus:border-blue-500 shadow-inner">
-                        <input type="text" id="lName" placeholder="Last Name" class="w-1/2 bg-white border-2 border-slate-200 rounded-xl px-4 py-3.5 font-semibold text-slate-800 outline-none focus:border-blue-500 shadow-inner">
+                        <input type="text" id="fName" placeholder="First Name" class="w-1/2 bg-white border-2 border-slate-200 rounded-xl px-4 py-3.5 font-semibold text-slate-800 outline-none focus:border-blue-500 shadow-inner transition-colors">
+                        <input type="text" id="lName" placeholder="Last Name" class="w-1/2 bg-white border-2 border-slate-200 rounded-xl px-4 py-3.5 font-semibold text-slate-800 outline-none focus:border-blue-500 shadow-inner transition-colors">
                     </div>
-                    <input type="email" id="email" placeholder="Official Email Address" class="w-full bg-white border-2 border-slate-200 rounded-xl px-4 py-3.5 font-semibold text-slate-800 outline-none focus:border-blue-500 shadow-inner">
-                    <button onclick="validateIdentity()" class="w-full bg-slate-950 text-white font-bold py-4 rounded-xl shadow-md uppercase tracking-widest">Continue to Final Step</button>
-                </div>
+                    <input type="email" id="email" placeholder="Official Email Address" class="w-full bg-white border-2 border-slate-200 rounded-xl px-4 py-3.5 font-semibold text-slate-800 outline-none focus:border-blue-500 shadow-inner transition-colors mt-3">
+                    <p id="error-identity" class="hidden text-red-500 text-xs font-bold text-center mt-1">Please complete all fields correctly.</p>
+                    <button type="submit" class="w-full bg-slate-950 text-white font-bold py-4 rounded-xl shadow-md uppercase tracking-widest mt-2">Continue to Final Step</button>
+                </form>
 
-                <div id="step-8" class="step-container hidden space-y-4">
+                <form id="step-8" class="step-container hidden space-y-4" onsubmit="submitFinalLead(event)">
                     <p class="text-sm font-bold text-blue-700 text-center mb-1.5 uppercase tracking-wide">Statutory Match Found!</p>
                     <p class="text-base font-extrabold text-slate-950 text-center mb-5 leading-tight">Enter your mobile number to receive your secure evaluation.</p>
-                    <input type="tel" id="userPhone" placeholder="(555) 555-5555" class="w-full bg-white border-2 border-slate-200 rounded-2xl px-4 py-5 font-extrabold text-2xl text-slate-950 text-center outline-none focus:border-blue-500 shadow-inner tracking-tight">
+                    <input type="tel" id="userPhone" placeholder="(555) 555-5555" class="w-full bg-white border-2 border-slate-200 rounded-2xl px-4 py-5 font-extrabold text-2xl text-slate-950 text-center outline-none focus:border-blue-500 shadow-inner tracking-tight transition-colors">
                     <label class="flex items-start gap-3.5 bg-slate-50 p-4 rounded-xl border border-slate-200 mt-5 cursor-pointer shadow-sm">
                         <input type="checkbox" id="tcpa" class="tcpa-check">
                         <span class="text-[10px] text-slate-600 font-medium leading-relaxed">I provide my express written consent to be contacted via automated systems.</span>
                     </label>
-                    <button onclick="submitFinalLead()" class="w-full bg-[#0047AB] hover:bg-[#003580] text-white font-black py-5 rounded-2xl shadow-xl uppercase tracking-widest italic mt-5 active:scale-[0.98] transition">Generate Final Evaluation</button>
-                </div>
+                    <p id="error-phone" class="hidden text-red-500 text-xs font-bold text-center mt-2">Please enter a valid number and check the consent box.</p>
+                    <button type="submit" class="w-full bg-[#0047AB] hover:bg-[#003580] text-white font-black py-5 rounded-2xl shadow-xl uppercase tracking-widest italic mt-3 active:scale-[0.98] transition">Generate Final Evaluation</button>
+                </form>
 
                 <div id="step-scan" class="hidden py-10 text-center space-y-6">
                     <div class="flex justify-center"><div class="h-16 w-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div></div>
@@ -216,7 +211,7 @@
                     <div class="text-red-500 text-5xl mb-3">⚠️</div>
                     <h3 class="font-extrabold text-lg text-slate-950 uppercase tracking-tight">Audit Terminated: Eligibility Not Met</h3>
                     <p class="text-xs text-slate-600 font-medium leading-relaxed max-w-xs mx-auto">Based on statutory mapping, you are ineligible for further audit at this time.</p>
-                    <button onclick="location.reload()" class="bg-slate-200 text-slate-800 px-5 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wide mt-3">Close & Reset</button>
+                    <button type="button" onclick="location.reload()" class="bg-slate-200 text-slate-800 px-5 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wide mt-3">Close & Reset</button>
                 </div>
 
                 <div id="step-final" class="hidden text-center thumb-zone py-5"></div>
@@ -269,24 +264,72 @@
             if(pf) { pf.style.width = '100%'; pf.style.backgroundColor = '#ef4444'; }
         }
 
-        function validateNarrative() {
-            const text = document.getElementById('ai-narrative').value.trim();
-            if(text.length < 15) { alert("Please provide more detail."); return; }
+        // --- Alert 제거 & Inline 에러 처리 추가 ---
+        function resetErrors(ids) {
+            ids.forEach(id => {
+                document.getElementById(id).classList.remove('input-error');
+            });
+        }
+
+        function validateNarrative(e) {
+            e.preventDefault(); // 폼 기본 제출(새로고침) 방지
+            const textarea = document.getElementById('ai-narrative');
+            const errorMsg = document.getElementById('error-narrative');
+            const text = textarea.value.trim();
+            
+            if(text.length < 15) { 
+                textarea.classList.add('input-error');
+                errorMsg.classList.remove('hidden');
+                return; 
+            }
+            textarea.classList.remove('input-error');
+            errorMsg.classList.add('hidden');
             saveData('narrative_text', text); nextStep(7);
         }
 
-        function validateIdentity() {
-            const f = document.getElementById('fName').value.trim();
-            const l = document.getElementById('lName').value.trim();
-            const e = document.getElementById('email').value.trim();
-            if(!f || !l || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) { alert("Complete all fields correctly."); return; }
-            saveData('firstName', f); saveData('lastName', l); saveData('email', e); nextStep(8);
+        function validateIdentity(e) {
+            e.preventDefault();
+            const fInput = document.getElementById('fName');
+            const lInput = document.getElementById('lName');
+            const eInput = document.getElementById('email');
+            const errorMsg = document.getElementById('error-identity');
+            
+            resetErrors(['fName', 'lName', 'email']);
+            
+            const f = fInput.value.trim();
+            const l = lInput.value.trim();
+            const em = eInput.value.trim();
+            let hasError = false;
+
+            if(!f) { fInput.classList.add('input-error'); hasError = true; }
+            if(!l) { lInput.classList.add('input-error'); hasError = true; }
+            if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { eInput.classList.add('input-error'); hasError = true; }
+
+            if(hasError) {
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+            errorMsg.classList.add('hidden');
+            saveData('firstName', f); saveData('lastName', l); saveData('email', em); nextStep(8);
         }
 
-        function submitFinalLead() {
+        function submitFinalLead(e) {
+            e.preventDefault();
             if (leadData.isSubmitting) return;
-            const phone = document.getElementById('userPhone').value;
-            if(phone.length < 14 || !document.getElementById('tcpa').checked) { alert("Valid number and consent required."); return; }
+            
+            const phoneInput = document.getElementById('userPhone');
+            const tcpaCheck = document.getElementById('tcpa');
+            const errorMsg = document.getElementById('error-phone');
+            const phone = phoneInput.value;
+            
+            resetErrors(['userPhone']);
+
+            if(phone.length < 14 || !tcpaCheck.checked) { 
+                if(phone.length < 14) phoneInput.classList.add('input-error');
+                errorMsg.classList.remove('hidden');
+                return; 
+            }
+            errorMsg.classList.add('hidden');
             
             leadData.isSubmitting = true;
             saveData('phone_number', phone);
@@ -306,6 +349,12 @@
             }, 500);
         }
 
+        // --- 전화번호(알파벳 포함)를 실제 숫자로 변환하는 유틸리티 ---
+        function convertPhoneLetters(phoneStr) {
+            const letterMap = { a:2,b:2,c:2, d:3,e:3,f:3, g:4,h:4,i:4, j:5,k:5,l:5, m:6,n:6,o:6, p:7,q:7,r:7,s:7, t:8,u:8,v:8, w:9,x:9,y:9,z:9 };
+            return phoneStr.toLowerCase().replace(/[a-z]/g, match => letterMap[match] || match);
+        }
+
         function renderFinalReport() {
             document.getElementById('step-scan').classList.add('hidden');
             const finalEl = document.getElementById('step-final');
@@ -316,12 +365,15 @@
             const name = statesMap[currentState] || "California";
             const d = MASTER_DB[currentState] || MASTER_DB['california'];
             const caseId = `STA-${currentState.substring(0,2).toUpperCase()}-${Math.floor(100000 + Math.random() * 900000)}`;
-
+            
+            // XSS 방어: innerHTML에는 틀(구조)만 넣고,
+            const cleanPhoneUri = convertPhoneLetters(d.ph); // 전화번호 알파벳 변환
+            
             finalEl.innerHTML = `
                 <div class="space-y-6 text-left">
                     <div class="border border-slate-200 bg-slate-50/50 rounded-2xl p-6">
                         <p class="text-[10px] font-bold text-slate-500 uppercase mb-2">Subject Name</p>
-                        <p class="text-xl font-bold text-slate-950">${leadData.firstName} ${leadData.lastName}</p>
+                        <p id="final-rendered-name" class="text-xl font-bold text-slate-950"></p>
                         <div class="grid grid-cols-2 gap-4 mt-5 border-t pt-5">
                             <div><p class="text-[10px] font-bold text-slate-500 uppercase">Jurisdiction</p><p class="text-sm font-semibold">${name}</p></div>
                             <div><p class="text-[10px] font-bold text-slate-500 uppercase">Case ID</p><p class="text-sm font-mono">${caseId}</p></div>
@@ -332,8 +384,11 @@
                         <p class="text-sm font-bold bg-blue-700/50 inline-block px-3 py-1 rounded-md">${d.statute}</p>
                     </div>
                 </div>
-                <a href="tel:${d.ph}" class="block w-full bg-emerald-600 py-6 rounded-2xl text-white font-black text-xl text-center mt-8">Connect with Auditor</a>
+                <a href="tel:${cleanPhoneUri}" class="block w-full bg-emerald-600 py-6 rounded-2xl text-white font-black text-xl text-center mt-8 shadow-lg active:scale-[0.98] transition">Connect with Auditor</a>
             `;
+
+            // XSS 방어: 사용자 입력값은 textContent로 안전하게 삽입
+            document.getElementById('final-rendered-name').textContent = `${leadData.firstName} ${leadData.lastName}`;
         }
 
         const phoneInput = document.getElementById('userPhone');
