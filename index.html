@@ -12,9 +12,9 @@
         .glass-panel { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
         .node-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
-        .stats-gradient { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); }
         input { background: #0f172a !important; border: 1px solid #334155 !important; transition: all 0.3s ease; }
         input:focus { border-color: var(--jds-primary) !important; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
+        .tcpa-text { font-size: 10px; line-height: 1.4; color: #64748b; }
     </style>
 </head>
 <body class="antialiased overflow-x-hidden">
@@ -24,11 +24,11 @@
             <div class="flex items-center gap-4">
                 <div class="flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-green-500 node-pulse"></span>
-                    <span class="text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase">System: Operational</span>
+                    <span class="text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase">TCPA COMPLIANT NODE</span>
                 </div>
                 <div class="hidden md:block h-4 w-px bg-slate-800"></div>
                 <div class="hidden md:flex items-center gap-2 text-[10px] text-slate-500 font-mono">
-                    <span class="text-blue-500">IP_ENCRYPT:</span> <span id="user-ip">192.168.1.XXX</span>
+                    <span class="text-blue-500">ENCRYPTION:</span> <span>AES-256-GCM</span>
                 </div>
             </div>
             <div class="text-[10px] font-black text-blue-500 tracking-tighter italic">JDS™ V9.4 PLATINUM</div>
@@ -47,14 +47,11 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
-                <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-100 transition-opacity">
-                    <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                </div>
                 <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Queue Status</div>
                 <div class="text-2xl font-black text-white" id="capacity-val">94.2%</div>
-                <div class="text-[9px] text-red-500 font-bold mt-2">HIGH LOAD: LIMITED SLOTS</div>
+                <div class="text-[9px] text-red-500 font-bold mt-2 font-mono">SYSTEM LOAD: HIGH</div>
             </div>
-            <div class="glass-panel p-6 rounded-2xl md:col-span-2 stats-gradient border-l-4 border-blue-600">
+            <div class="glass-panel p-6 rounded-2xl md:col-span-2 border-l-4 border-blue-600">
                 <div class="flex justify-between items-start mb-4">
                     <div>
                         <div class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1">Active Jurisdiction</div>
@@ -66,7 +63,7 @@
                     </div>
                 </div>
                 <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                    <div class="bg-blue-600 h-full w-2/3 animate-[progress_3s_ease-in-out_infinite]"></div>
+                    <div class="bg-blue-600 h-full w-2/3"></div>
                 </div>
             </div>
         </div>
@@ -75,54 +72,63 @@
             <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
             <button onclick="openModal()" class="relative w-full glass-panel hover:bg-white/5 py-10 rounded-[2.5rem] transition-all flex flex-col items-center gap-4">
                 <span class="text-xs font-black tracking-[0.5em] text-blue-500 uppercase">Protocol Activation</span>
-                <span class="text-3xl md:text-4xl font-black text-white tracking-tighter">INITIATE LIABILITY SCAN</span>
-                <span class="text-[10px] font-mono text-slate-500">ENCRYPTION: AES-256-GCM ACTIVE</span>
+                <span class="text-3xl md:text-4xl font-black text-white tracking-tighter uppercase">Check My Settlement Entitlement</span>
+                <span class="text-[10px] font-mono text-slate-500 uppercase">Legal Data Nodes: 50 States Optimized</span>
             </button>
         </div>
-
-        <div id="state-links" class="mt-16 grid grid-cols-5 md:grid-cols-10 gap-2 opacity-30 hover:opacity-100 transition-opacity"></div>
     </main>
 
+    <footer class="max-w-4xl mx-auto px-6 py-12 border-t border-white/5 text-center">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-[11px] text-slate-500 mb-8 uppercase font-bold tracking-widest">
+            <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+            <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+            <a href="#" class="hover:text-white transition-colors">CCPA Notice</a>
+        </div>
+        <div class="text-[10px] text-slate-600 leading-loose max-w-2xl mx-auto">
+            © 2026 JDS™ JURISDICTIONAL INTELLIGENCE ENGINE. ALL RIGHTS RESERVED. <br>
+            THIS IS AN ADVERTISING SERVICE. WE ARE NOT A LAW FIRM OR AN ATTORNEY REFERRAL SERVICE. <br>
+            OFFICE: 1201 ORANGE ST #600, WILMINGTON, DE 19801, USA | +1 (800) JDS-AUDIT
+        </div>
+    </footer>
+
     <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-xl p-4">
-        <div class="w-full max-w-xl bg-[#0f172a] rounded-[3rem] border border-white/10 overflow-hidden shadow-2xl shadow-blue-500/10">
-            <div id="modalBody" class="p-12">
-                <div id="step-1" class="space-y-8 text-center">
-                    <div class="inline-block p-4 rounded-full bg-blue-500/10 mb-2">
-                        <svg class="w-10 h-10 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04M12 21.48V22"></path></svg>
-                    </div>
-                    <h2 class="text-3xl font-black text-white uppercase tracking-tighter">Classification</h2>
+        <div class="w-full max-w-xl bg-[#0f172a] rounded-[3rem] border border-white/10 overflow-hidden shadow-2xl">
+            <div id="modalBody" class="p-10">
+                <div id="step-1" class="space-y-6">
+                    <h2 class="text-2xl font-black text-white uppercase tracking-tighter text-center">Select Injury Category</h2>
                     <div class="grid gap-3">
                         <button onclick="nextStep()" class="p-5 rounded-2xl border border-white/5 bg-white/5 hover:border-blue-500 text-left font-bold transition-all flex justify-between">
-                            <span>Severe Spinal / Orthopedic</span>
-                            <span class="text-blue-500 font-mono">CODE: SEV-01</span>
+                            <span>Motor Vehicle Accident</span>
+                            <span class="text-blue-500 font-mono text-xs">MVA-PRO</span>
                         </button>
                         <button onclick="nextStep()" class="p-5 rounded-2xl border border-white/5 bg-white/5 hover:border-blue-500 text-left font-bold transition-all flex justify-between">
-                            <span>Traumatic Brain Injury (TBI)</span>
-                            <span class="text-blue-500 font-mono">CODE: TBI-09</span>
+                            <span>Serious Orthopedic Injury</span>
+                            <span class="text-blue-500 font-mono text-xs">ORTHO-X</span>
                         </button>
                         <button onclick="nextStep()" class="p-5 rounded-2xl border border-white/5 bg-red-500/5 hover:border-red-500 text-left font-bold transition-all text-red-400 flex justify-between">
                             <span>Fatal / Wrongful Death</span>
-                            <span class="bg-red-500 text-white text-[8px] px-2 py-1 rounded self-center">PRIORITY 1</span>
+                            <span class="bg-red-500 text-white text-[8px] px-2 py-1 rounded self-center">PRIORITY</span>
                         </button>
                     </div>
                 </div>
 
-                <div id="step-loading" class="hidden py-20 text-center space-y-8">
-                    <div class="relative w-24 h-24 mx-auto">
-                        <div class="absolute inset-0 border-4 border-blue-500/20 rounded-full"></div>
-                        <div class="absolute inset-0 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                    </div>
-                    <div id="terminal-stream" class="font-mono text-[10px] text-blue-400 text-left max-w-xs mx-auto space-y-1 bg-black/40 p-6 rounded-xl border border-white/5"></div>
+                <div id="step-loading" class="hidden py-16 text-center space-y-6">
+                    <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                    <div id="terminal-stream" class="font-mono text-[10px] text-blue-400 text-left bg-black/40 p-6 rounded-xl border border-white/5"></div>
                 </div>
 
-                <div id="step-2" class="hidden space-y-6 text-center">
-                    <h2 class="text-3xl font-black text-white uppercase tracking-tighter mb-2">Sync Identified Node</h2>
-                    <p class="text-slate-400 text-xs uppercase tracking-widest mb-8">Identification required for final valuation</p>
-                    <div class="space-y-4">
-                        <input type="text" id="userName" placeholder="LEGAL NAME" class="w-full p-6 rounded-2xl text-white font-bold">
-                        <input type="tel" id="userPhone" placeholder="MOBILE (ENCRYPTED)" class="w-full p-6 rounded-2xl text-white font-bold">
+                <div id="step-2" class="hidden space-y-6">
+                    <h2 class="text-2xl font-black text-white uppercase tracking-tighter text-center">Audit Identity Sync</h2>
+                    <div class="space-y-3">
+                        <input type="text" id="userName" placeholder="FULL LEGAL NAME" class="w-full p-5 rounded-2xl text-white font-bold uppercase text-sm">
+                        <input type="tel" id="userPhone" placeholder="MOBILE NUMBER" class="w-full p-5 rounded-2xl text-white font-bold uppercase text-sm">
                     </div>
-                    <button onclick="finalize()" class="w-full bg-blue-600 hover:bg-blue-500 py-6 rounded-2xl font-black tracking-[0.2em] transition-all shadow-lg shadow-blue-600/20 uppercase mt-4">
+                    
+                    <div class="tcpa-text px-2 italic">
+                        By clicking "LOCK ASSESSMENT DATA", I consent to receive recurring automated marketing calls/texts from JDS™ and its legal partners at the number provided, even if I am on a DNC list. Consent is not a condition of purchase. Msg/data rates apply.
+                    </div>
+
+                    <button onclick="finalize()" class="w-full bg-blue-600 hover:bg-blue-500 py-6 rounded-2xl font-black tracking-widest transition-all uppercase">
                         Lock Assessment Data
                     </button>
                 </div>
@@ -131,20 +137,12 @@
     </div>
 
     <script>
-        const JURISDICTION_DATA = {
-            'TX': { limit: '2 Years / § 16.003', risk: 'Modified 51%' },
-            'FL': { limit: '2 Years / Ch. 95', risk: 'Modified 50%' },
-            'CA': { limit: '2 Years / CCP 335.1', risk: 'Pure Comp' },
-            'NY': { limit: '3 Years / CPLR 214', risk: 'Pure Comp' }
-        };
-
+        const JURISDICTION_DATA = { 'TX': { limit: '2 Years / § 16.003' }, 'FL': { limit: '2 Years / Ch. 95' }, 'CA': { limit: '2 Years / CCP 335.1' }, 'NY': { limit: '3 Years / CPLR 214' } };
         const states = {"AL":"Alabama","AK":"Alaska","AZ":"Arizona","AR":"Arkansas","CA":"California","CO":"Colorado","CT":"Connecticut","DE":"Delaware","FL":"Florida","GA":"Georgia","HI":"Hawaii","ID":"Idaho","IL":"Illinois","IN":"Indiana","IA":"Iowa","KS":"Kansas","KY":"Kentucky","LA":"Louisiana","ME":"Maine","MD":"Maryland","MA":"Massachusetts","MI":"Michigan","MN":"Minnesota","MS":"Mississippi","MO":"Missouri","MT":"Montana","NE":"Nebraska","NV":"Nevada","NH":"New Hampshire","NJ":"New Jersey","NM":"New Mexico","NY":"New York","NC":"North Carolina","ND":"North Dakota","OH":"Ohio","OK":"Oklahoma","OR":"Oregon","PA":"Pennsylvania","RI":"Rhode Island","SC":"South Carolina","SD":"South Dakota","TN":"Tennessee","TX":"Texas","UT":"Utah","VT":"Vermont","VA":"Virginia","WA":"Washington","WV":"West Virginia","WI":"Wisconsin","WY":"Wyoming"};
 
         function updateState(abbr) {
-            const data = JURISDICTION_DATA[abbr] || { limit: '2 Years (General)', risk: 'Comparative' };
             document.getElementById('active-state').innerText = states[abbr].toUpperCase();
-            document.getElementById('statute-limit').innerText = data.limit;
-            document.getElementById('statute-limit').classList.add('text-blue-400');
+            document.getElementById('statute-limit').innerText = JURISDICTION_DATA[abbr]?.limit || '2 Years (General)';
         }
 
         window.openModal = () => document.getElementById('leadModal').classList.remove('hidden');
@@ -152,45 +150,26 @@
         function nextStep() {
             document.getElementById('step-1').classList.add('hidden');
             document.getElementById('step-loading').classList.remove('hidden');
-            
-            const logs = [
-                "> INITIALIZING JURISDICTIONAL NODE...",
-                "> CROSS-REFERENCING TORT STATUTES...",
-                "> CALCULATING RECOVERY POTENTIAL...",
-                "> SECURITY HANDSHAKE: SUCCESS",
-                "> FINALIZING DATA PACKETS..."
-            ];
-            
+            const logs = ["> INIT JURISDICTION...", "> CROSS-REF TORT STATUTES...", "> AUTHENTICATING TCPA...", "> SYNCING LEGAL NODES..."];
             let i = 0;
-            const terminal = document.getElementById('terminal-stream');
             const interval = setInterval(() => {
                 if(i < logs.length) {
                     const p = document.createElement('div');
                     p.innerText = logs[i++];
-                    terminal.appendChild(p);
+                    document.getElementById('terminal-stream').appendChild(p);
                 } else {
                     clearInterval(interval);
                     setTimeout(() => {
                         document.getElementById('step-loading').classList.add('hidden');
                         document.getElementById('step-2').classList.remove('hidden');
-                    }, 800);
+                    }, 600);
                 }
-            }, 400);
+            }, 300);
         }
 
         function finalize() {
-            if(document.getElementById('userName').value.length < 2) return alert("VALID ID REQUIRED");
-            document.getElementById('modalBody').innerHTML = `
-                <div class="text-center py-10">
-                    <div class="text-6xl mb-6">🔒</div>
-                    <h2 class="text-3xl font-black text-white mb-4">AUDIT SECURED</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed uppercase tracking-tighter">
-                        고객님의 데이터가 관할권 수석 심사관에게 즉시 전송되었습니다.<br>
-                        <span class="text-blue-500 font-bold">120초 이내</span>에 배상 가치 분석 결과를 전달합니다.
-                    </p>
-                    <div class="mt-8 pt-8 border-t border-white/5 text-[10px] font-mono text-slate-600">REF: JDS-2026-X99-PRO</div>
-                </div>
-            `;
+            if(document.getElementById('userPhone').value.length < 10) return alert("VALID CONTACT REQUIRED");
+            document.getElementById('modalBody').innerHTML = `<div class="text-center py-10"><h2 class="text-3xl font-black text-white mb-4">AUDIT SECURED</h2><p class="text-slate-400 text-sm uppercase">데이터가 관할권 심사관에게 전송되었습니다. 120초 이내에 결과를 전달합니다.</p></div>`;
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -198,16 +177,10 @@
             Object.keys(states).forEach(abbr => {
                 const s = document.createElement('span');
                 s.innerText = abbr;
-                s.className = "cursor-pointer hover:text-blue-500 font-mono text-[10px] text-center p-1 transition-colors";
+                s.className = "cursor-pointer hover:text-blue-500 font-mono text-[9px] p-1";
                 s.onclick = () => updateState(abbr);
                 grid.appendChild(s);
             });
-            
-            // 실시간 용량 수치 변동 (신뢰성 부여)
-            setInterval(() => {
-                const val = (94 + Math.random() * 5).toFixed(1);
-                document.getElementById('capacity-val').innerText = val + "%";
-            }, 3000);
         });
     </script>
 </body>
