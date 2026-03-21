@@ -3,12 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <title>2026 California Traffic Accident Statutory Audit | AI Case Analysis</title>
-    <meta name="description" content="Official AI-driven statutory assessment for California accident claims. Analyze case value based on state precedents and liability factors. Powered by AI Audit Protocol v9.3.">
-    <meta name="author" content="Statutory Audit Division">
-    <meta name="robots" content="index, follow">
-
+    <title>Official Jurisdictional Audit | Legal Evaluation Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -54,7 +49,7 @@
             cursor: pointer;
         }
         .option-card:hover {
-            border-color: #CBD5S1;
+            border-color: #CBD5E1;
             background-color: #F8FAFC;
         }
         .input-error { border-color: #EF4444 !important; background-color: #FEF2F2 !important; }
@@ -183,9 +178,9 @@
                 <form id="step-6" class="step-container hidden space-y-4 fade-in" onsubmit="validateNarrative(event)">
                     <p class="text-[10px] font-semibold text-slate-400 tracking-[0.15em] uppercase mb-4">Section VI : Incident Narrative</p>
                     <h3 class="text-xl font-serif font-bold text-slate-900 mb-4">Provide a factual summary of the event.</h3>
-                    <textarea id="ai-narrative" rows="4" placeholder="Briefly describe incident and injuries..." class="w-full bg-slate-50 border border-slate-200 p-4 rounded text-sm outline-none resize-none"></textarea>
-                    <p id="error-narrative" class="hidden text-red-500 text-xs font-semibold mt-1">Please provide more detailed description (min 15 chars).</p>
-                    <button type="submit" class="premium-btn w-full text-white font-semibold text-sm py-4 rounded uppercase tracking-[0.1em] mt-4">Compile Narrative</button>
+                    <textarea id="ai-narrative" rows="4" minlength="20" placeholder="Please provide a detailed description. (e.g., 'I was stopped at a red light on Main St when a commercial truck rear-ended me. I am experiencing severe lower back pain...')" class="w-full bg-slate-50 border border-slate-200 p-4 rounded text-sm outline-none resize-none"></textarea>
+                    <p id="error-narrative" class="hidden text-red-500 text-xs font-semibold mt-1">Please provide more detailed description (min 20 chars).</p>
+                    <button type="submit" class="premium-btn w-full text-white font-semibold text-sm py-4 rounded uppercase tracking-[0.1em] mt-4">START AI LEGAL AUDIT</button>
                 </form>
                 <form id="step-7" class="step-container hidden space-y-4 fade-in" onsubmit="validateIdentity(event)">
                     <p class="text-[10px] font-semibold text-slate-400 tracking-[0.15em] uppercase mb-4">Section VII : Subject Identification</p>
@@ -209,7 +204,6 @@
                     <p id="error-phone" class="hidden text-red-500 text-xs font-semibold text-center mt-2">Valid number and consent required.</p>
                     <button type="submit" class="premium-btn w-full text-white font-semibold text-sm py-4 rounded uppercase tracking-[0.1em] mt-6 shadow-lg">Execute Final Audit</button>
                 </form>
-                
                 <div id="step-scan" class="hidden py-16 text-center fade-in">
                     <div class="relative w-16 h-16 mx-auto mb-8">
                         <svg class="animate-spin w-full h-full text-slate-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg>
@@ -241,6 +235,25 @@
         };
 
         let leadData = { isSubmitting: false };
+        // --- 여기서부터 복사하세요 ---
+const SYSTEM_PROMPT = (state, narrative) => `
+You are a highly experienced Senior Legal Auditor (Paralegal) specialized in ${state} tort law.
+Analyze the following incident narrative: "${narrative}"
+
+[Task]
+1. Assign a 'Liability Score' (1-10): How likely the other party is at fault.
+2. Assign a 'Damage Score' (1-10): Severity of physical/financial injury.
+3. Write a 'Legal Auditor's Brief': Exactly 2 formal sentences quoting relevant ${state} statutes (e.g., O.C.G.A, Cal. Civ. Code).
+
+[Output Format - JSON only]
+{
+  "liability_score": number,
+  "damage_score": number,
+  "brief": "string",
+  "statute_ref": "string"
+}
+`;
+// --- 여기까지 붙여넣으세요 ---
         const currentState = (new URLSearchParams(window.location.search).get('state') || 'california').toLowerCase();
 
         function applyDynamic() {
@@ -249,15 +262,12 @@
             if(document.getElementById('hero-state-name')) document.getElementById('hero-state-name').innerText = name;
             if(document.getElementById('statute-info')) document.getElementById('statute-info').innerText = d.statute;
             if(document.getElementById('stats-info')) document.getElementById('stats-info').innerText = d.stats;
-            
-            // [CEO 요청: 타이틀 로직 SSS+급으로 통일]
-            document.title = `2026 ${name} Statutory Audit | AI Case Analysis`;
+            document.title = `${name} Statutory Audit | Legal Evaluation`;
         }
         document.addEventListener('DOMContentLoaded', applyDynamic);
 
         window.openModal = () => { document.getElementById('leadModal').classList.remove('hidden'); saveData('origin_state', currentState); };
         function saveData(key, value) { leadData[key] = value; }
-        
         function nextStep(step) {
             document.querySelectorAll('.step-container').forEach(el => { el.classList.add('hidden'); el.classList.remove('fade-in'); });
             const nextEl = document.getElementById(`step-${step}`);
@@ -265,13 +275,14 @@
             const pf = document.getElementById('progress-fill');
             if(pf) pf.style.width = `${Math.min((step / 8) * 100, 100)}%`;
         }
-
         function disqualify(reason) { saveData('disqualified_reason', reason); document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden')); const disqEl = document.getElementById('step-disqualified'); disqEl.classList.remove('hidden'); disqEl.classList.add('fade-in'); const pf = document.getElementById('progress-fill'); if(pf) { pf.style.width = '100%'; pf.style.backgroundColor = '#CBD5E1'; } }
-        
+        function resetErrors(ids) { ids.forEach(id => { document.getElementById(id).classList.remove('input-error'); }); }
+
         function validateNarrative(e) {
             e.preventDefault();
             const textarea = document.getElementById('ai-narrative'), text = textarea.value.trim();
-            if(text.length < 15) { textarea.classList.add('input-error'); document.getElementById('error-narrative').classList.remove('hidden'); return; }
+            // UI 최적화: 검증 로직 20자로 변경
+            if(text.length < 20) { textarea.classList.add('input-error'); document.getElementById('error-narrative').classList.remove('hidden'); return; }
             saveData('narrative_text', text); nextStep(7);
         }
 
@@ -282,61 +293,137 @@
             saveData('firstName', f); saveData('lastName', l); saveData('email', em); nextStep(8);
         }
 
-        function submitFinalLead(e) {
-            e.preventDefault();
-            const phone = document.getElementById('userPhone').value;
-            if(phone.length < 14 || !document.getElementById('tcpa').checked) { document.getElementById('error-phone').classList.remove('hidden'); return; }
-            leadData.isSubmitting = true; saveData('phone_number', phone);
-            document.getElementById('step-8').classList.add('hidden');
-            document.getElementById('step-scan').classList.remove('hidden');
-            let i = 0; const textEl = document.getElementById('loading-text'), barEl = document.getElementById('loading-bar');
-            const interval = setInterval(() => {
-                if (i < 4) { barEl.style.width = (i + 1) * 25 + "%"; i++; } 
-                else { clearInterval(interval); setTimeout(renderFinalReport, 500); }
-            }, 600);
-        }
+ // --- 이 코드로 깔끔하게 교체하세요 ---
+async function submitFinalLead(e) {
+    e.preventDefault();
+    const phone = document.getElementById('userPhone').value;
+    
+    // 1. 유효성 검사
+    if(phone.length < 14 || !document.getElementById('tcpa').checked) { 
+        document.getElementById('error-phone').classList.remove('hidden'); 
+        return; 
+    }
+    
+    leadData.isSubmitting = true; 
+    saveData('phone_number', phone);
+    
+    // UI 전환
+    document.getElementById('step-8').classList.add('hidden');
+    document.getElementById('step-scan').classList.remove('hidden');
+    
+    const textEl = document.getElementById('loading-text');
+    const barEl = document.getElementById('loading-bar');
+
+    try {
+        // [안전 장치 추가] 주(State) 데이터가 없을 경우 캘리포니아로 기본 설정
+        const stateName = statesMap[currentState] || "California";
+        const stateDb = MASTER_DB[currentState] || MASTER_DB['california'];
+
+        // 2. AI 분석 시뮬레이션 및 연출
+        textEl.innerText = `Cross-referencing ${stateName} Statutes...`;
+        barEl.style.width = "30%";
+        
+        // 지시서(Prompt) 생성 (나중에 실제 API 연동 시 사용됨)
+        const prompt = SYSTEM_PROMPT(stateName, leadData.narrative_text);
+
+        await new Promise(resolve => setTimeout(resolve, 1500)); 
+        textEl.innerText = "Calculating Liability & Damage Scores...";
+        barEl.style.width = "70%";
+
+        // 3. 데이터 가공 (필드 이름 통일: brief)
+        const mockData = {
+            liability_score: 8,
+            damage_score: 9,
+            brief: `Preliminary audit suggests strong recovery potential under ${stateName} tort law.`,
+            statute_ref: stateDb.statute
+        };
+        const totalScore = mockData.liability_score + mockData.damage_score;
+        const leadGrade = totalScore >= 16 ? "High-Value" : "Standard";
+
+        // 4. 데이터 최종 저장 (Cursor가 지적한 필드명 brief로 통일)
+        saveData('ai_analysis', {
+            ...mockData,
+            lead_grade: leadGrade,
+            ai_brief: mockData.brief, // 백엔드용
+            statutory_reference: mockData.statute_ref
+        });
+
+        textEl.innerText = "Finalizing Statutory Auditor's Brief...";
+        barEl.style.width = "100%";
+        
+        setTimeout(renderFinalReport, 800);
+
+    } catch (error) {
+        console.error("Audit failed:", error);
+        textEl.innerText = "System error. Re-routing to manual audit...";
+        setTimeout(renderFinalReport, 1500);
+    }
+}
+// --- 여기까지가 깔끔한 함수 끝입니다. 이 아래에 중복된 코드가 있다면 다 지우셔야 해요! ---
 
         function convertPhoneLetters(phoneStr) {
             const letterMap = { a:2,b:2,c:2, d:3,e:3,f:3, g:4,h:4,i:4, j:5,k:5,l:5, m:6,n:6,o:6, p:7,q:7,r:7,s:7, t:8,u:8,v:8, w:9,x:9,y:9,z:9 };
             return phoneStr.toLowerCase().replace(/[a-z]/g, match => letterMap[match] || match);
         }
 
-        function renderFinalReport() {
-            document.getElementById('step-scan').classList.add('hidden');
-            const finalEl = document.getElementById('step-final');
-            finalEl.classList.remove('hidden');
-            const name = statesMap[currentState] || "California";
-            const d = MASTER_DB[currentState] || MASTER_DB['california'];
-            const caseId = `STA-${currentState.substring(0,2).toUpperCase()}-${Math.floor(Math.random() * 900000)}`;
-            const cleanPhoneUri = convertPhoneLetters(d.ph);
+        // --- 이 함수를 통째로 덮어씌우세요 ---
+function renderFinalReport() {
+    document.getElementById('step-scan').classList.add('hidden');
+    const finalEl = document.getElementById('step-final');
+    finalEl.classList.remove('hidden');
+
+    const name = statesMap[currentState] || "California";
+    const d = MASTER_DB[currentState] || MASTER_DB['california'];
+    const caseId = `STA-${currentState.substring(0,2).toUpperCase()}-${Math.floor(Math.random() * 900000)}`;
+    
+    // AI 분석 데이터 불러오기
+    const analysis = leadData.ai_analysis || { liability_score: 0, damage_score: 0, brief: "Analysis pending.", statute_ref: "N/A" };
+    
+    // [High-Value 판독 로직]
+    const totalScore = analysis.liability_score + analysis.damage_score;
+    const isHighValue = totalScore >= 16; 
+
+    finalEl.innerHTML = `
+        <div class="text-left mb-8">
+            <div class="flex justify-between items-start mb-4">
+                <p class="text-[10px] font-semibold text-emerald-600 tracking-[0.2em] uppercase">Audit Complete</p>
+                ${isHighValue ? `<span class="bg-blue-600 text-white text-[9px] font-bold px-2 py-1 rounded tracking-tighter animate-pulse">HIGH-VALUE CASE</span>` : ''}
+            </div>
             
-            finalEl.innerHTML = `
-                <div class="text-left mb-8">
-                    <p class="text-[10px] font-semibold text-emerald-600 tracking-[0.2em] uppercase mb-2 text-center">CASE ASSET ANALYSIS COMPLETE</p>
-                    <h2 class="text-3xl font-serif font-bold text-slate-900 mb-6 text-center">Final Dossier</h2>
-                    <div class="border border-slate-200 rounded p-6 bg-slate-50">
-                        <div class="border-b border-slate-200 pb-4 mb-4">
-                            <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-1">HIGH-INTENSITY CASE TYPE</p>
-                            <p id="final-rendered-name" class="text-lg font-bold text-slate-800"></p>
-                        </div>
-                        <div class="border-b border-slate-200 pb-4 mb-4">
-                            <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-1">ESTIMATED SETTLEMENT RANGE</p>
-                            <p class="text-2xl font-bold text-blue-700 tracking-tight">$42,500.00 - $115,000.00+</p>
-                            <p class="text-[9px] text-slate-400 mt-1 italic font-medium">*Based on jurisdictional tort precedents and loss of income analytics</p>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div><p class="text-[10px] font-semibold text-slate-400 tracking-widest mb-1">Jurisdiction</p><p class="text-sm font-semibold text-slate-800">${name}</p></div>
-                            <div><p class="text-[10px] font-semibold text-slate-400 tracking-widest mb-1">Reference ID</p><p class="text-sm font-mono text-slate-600">${caseId}</p></div>
-                        </div>
+            <h2 class="text-3xl font-serif font-bold text-slate-900 mb-6 text-center">Statutory Evaluation Dossier</h2>
+            
+            <div class="border border-slate-200 rounded p-6 bg-slate-50 space-y-4">
+                <div class="grid grid-cols-2 gap-4 border-b border-slate-200 pb-4">
+                    <div>
+                        <p class="text-[9px] font-semibold text-slate-400 uppercase tracking-widest">Liability Score</p>
+                        <p class="text-xl font-bold text-slate-800">${analysis.liability_score}/10</p>
+                    </div>
+                    <div>
+                        <p class="text-[9px] font-semibold text-slate-400 uppercase tracking-widest">Damage Severity</p>
+                        <p class="text-xl font-bold text-slate-800">${analysis.damage_score}/10</p>
                     </div>
                 </div>
-                <p class="text-[10px] font-semibold text-slate-900 tracking-[0.15em] uppercase mb-2 text-center mt-6">Case Brief</p>
-                <p class="text-xs text-blue-700 mb-6 text-center">[Preliminary assessment indicates high-payout eligibility]</p>
-                <a href="tel:${cleanPhoneUri}" class="premium-btn block w-full text-white font-semibold py-4 rounded uppercase tracking-[0.1em] text-center shadow-lg">Connect with Assigned Auditor</a>
-                <p class="text-[10px] text-slate-400 mt-4 font-medium text-center">Wait times are currently under 2 minutes.</p>
-            `;
-            document.getElementById('final-rendered-name').textContent = `${leadData.firstName} ${leadData.lastName}`;
-        }
+
+                <div>
+                    <p class="text-[9px] font-semibold text-slate-400 uppercase tracking-widest mb-1">Legal Auditor's Brief</p>
+                    <p class="text-sm font-medium text-slate-700 leading-relaxed italic border-l-2 border-blue-600 pl-3">
+                        "${analysis.brief}"
+                    </p>
+                    <p class="text-[10px] text-blue-700 mt-2 font-bold uppercase tracking-wide">
+                        Statutory Ref: ${analysis.statute_ref}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <a href="tel:${convertPhoneLetters(d.ph)}" class="premium-btn block w-full text-white font-semibold py-4 rounded uppercase tracking-[0.1em] text-center shadow-lg">
+            Connect with Assigned Auditor
+        </a>
+        <p class="text-[10px] text-slate-400 mt-4 font-medium text-center uppercase tracking-widest">
+            Priority Reference ID: ${caseId}
+        </p>
+    `;
+}
 
         const phoneInput = document.getElementById('userPhone');
         phoneInput.oninput = (e) => {
