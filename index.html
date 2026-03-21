@@ -196,13 +196,34 @@
                 <form id="step-8" class="step-container hidden space-y-4 fade-in" onsubmit="submitFinalLead(event)">
                     <div class="bg-blue-50/50 border border-blue-100 p-4 rounded mb-6 text-center"><p class="text-xs font-semibold text-blue-800 uppercase tracking-widest">Match Confirmed</p></div>
                     <h3 class="text-xl font-serif font-bold text-slate-900 text-center mb-6">Provide a direct number to securely transmit evaluation.</h3>
-                    <input type="tel" id="userPhone" placeholder="(555) 555-5555" class="w-full bg-slate-50 border border-slate-200 px-4 py-4 rounded text-xl font-bold text-slate-900 text-center outline-none tracking-widest">
+                    <div class="relative group">
+                        <input type="tel" id="userPhone" placeholder="(555) 555-5555" 
+                            class="w-full bg-slate-50 border border-slate-200 px-4 py-4 rounded text-xl font-bold text-slate-900 text-center outline-none tracking-widest focus:border-blue-600 transition-all">
+                        
+                        <div id="phone-verifier-badge" class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-1.5 opacity-0 transition-opacity duration-300">
+                            <span class="text-[9px] font-bold text-emerald-600 uppercase tracking-tighter">Verified</span>
+                            <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mt-3 px-1">
+                        <div class="flex items-center gap-1.5">
+                            <span class="relative flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                            </span>
+                            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Verified by System v9.3</p>
+                        </div>
+                        <p id="carrier-status" class="text-[9px] font-bold text-slate-300 uppercase tracking-widest">Waiting for input...</p>
+                    </div>
                     <label class="flex items-start gap-3 mt-6 cursor-pointer p-2">
                         <input type="checkbox" id="tcpa" class="w-4 h-4 mt-0.5 accent-blue-700 border-slate-300 rounded">
                         <span class="text-[11px] text-slate-500 leading-relaxed">I provide express written consent to be contacted regarding my evaluation via phone calls and text messages (including automated systems) at the number provided. I understand that consent is not a condition of purchase. Msg & data rates may apply.</span>
                     </label>
                     <p id="error-phone" class="hidden text-red-500 text-xs font-semibold text-center mt-2">Valid number and consent required.</p>
-                    <button type="submit" class="premium-btn w-full text-white font-semibold text-sm py-4 rounded uppercase tracking-[0.1em] mt-6 shadow-lg">Execute Final Audit</button>
+                    <button type="submit" id="submit-audit-btn" class="premium-btn w-full text-white font-semibold text-sm py-4 rounded uppercase tracking-[0.1em] mt-6 shadow-lg">Execute Final Audit</button>
                 </form>
                 <div id="step-scan" class="hidden py-16 text-center fade-in">
                     <div class="relative w-16 h-16 mx-auto mb-8">
@@ -233,6 +254,22 @@
             "florida": { statute: "Fla. Stat. § 768.81", stats: "Modified Comparative (No-Fault PIP)", ph: "1-800-FLA-PAID" },
             "georgia": { statute: "O.C.G.A. § 51-12-33", stats: "Modified Comparative (50% Bar)", ph: "1-800-GA-LEGAL" }
         };
+
+// --- [Step 3] 가짜 통신사 조회 엔진 ---
+const MOCK_CARRIER_DB = {
+    "Verizon": { type: "Mobile", safety: "High", risk: "Low" },
+    "AT&T": { type: "Mobile", safety: "High", risk: "Low" },
+    "T-Mobile": { type: "Mobile", safety: "High", risk: "Low" },
+    "VOIP/Internet": { type: "VOIP", safety: "Low", risk: "High" }
+};
+
+async function simulateCarrierLookup(phone) {
+    // 1.2초간 조회하는 척 하기 (연출)
+    await new Promise(resolve => setTimeout(resolve, 1200));
+    const carriers = Object.keys(MOCK_CARRIER_DB);
+    const randomName = carriers[Math.floor(Math.random() * carriers.length)];
+    return { name: randomName, ...MOCK_CARRIER_DB[randomName] };
+}
 
         let leadData = { isSubmitting: false };
         // --- 여기서부터 복사하세요 ---
@@ -426,16 +463,87 @@ function renderFinalReport() {
 }
 
         const phoneInput = document.getElementById('userPhone');
-        phoneInput.oninput = (e) => {
-            const input = e.target;
-            const pos = input.selectionStart, val = input.value, digitsBefore = val.substring(0, pos).replace(/\D/g, '').length, clean = val.replace(/\D/g, '');
-            const x = clean.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-            const formatted = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
-            input.value = formatted;
-            let newPos = 0, digitsCounted = 0;
-            while (digitsCounted < digitsBefore && newPos < formatted.length) { if (/\d/.test(formatted[newPos])) digitsCounted++; newPos++; }
-            input.setSelectionRange(newPos, newPos);
-        };
+// --- 이 블록 전체를 덮어씌우세요 ---
+// --- 이 블록으로 통째로 교체하세요 (차단 로직 포함 버전) ---
+phoneInput.oninput = async (e) => {
+    const input = e.target;
+    const pos = input.selectionStart, val = input.value, clean = val.replace(/\D/g, '');
+    const x = clean.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+    const formatted = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    input.value = formatted;
+    
+    // 1. 우리가 이름표 붙인 버튼과 안내창들을 가져옵니다.
+    const badge = document.getElementById('phone-verifier-badge');
+    const status = document.getElementById('carrier-status');
+    const submitBtn = document.getElementById('submit-audit-btn'); 
+
+    if (clean.length === 10) {
+        status.innerText = "Analyzing Carrier Data...";
+        status.classList.add('animate-pulse');
+
+        // 가짜 통신사 정보를 가져옵니다.
+        const carrierInfo = await simulateCarrierLookup(formatted);
+        
+        // 2. [신호등 로직] 안전 등급을 확인합니다.
+        if (carrierInfo.safety === "Low") {
+            // [빨간불] 가짜 번호나 인터넷 전화일 때
+            status.innerText = "Security Verification Failed: Low-Quality Line";
+            status.classList.replace('text-slate-300', 'text-red-500');
+            badge.classList.replace('opacity-100', 'opacity-0'); 
+            
+            // 버튼을 잠급니다 (클릭 불가)
+            submitBtn.disabled = true; 
+            submitBtn.style.opacity = "0.5"; 
+            submitBtn.innerText = "SECURITY BLOCK ACTIVE";
+        } else {
+            // [초록불] 정상적인 휴대폰 번호일 때
+            status.innerText = `Carrier: ${carrierInfo.name} | ${carrierInfo.safety} Safety`;
+            status.classList.replace('text-slate-300', 'text-emerald-600');
+            status.classList.remove('text-red-500');
+            badge.classList.replace('opacity-0', 'opacity-100');
+            
+            // 버튼을 엽니다 (클릭 가능)
+            submitBtn.disabled = false; 
+            submitBtn.style.opacity = "1";
+            submitBtn.innerText = "Execute Final Audit";
+        }
+        status.classList.remove('animate-pulse');
+        saveData('carrier_data', carrierInfo);
+    } else {
+        // 번호 입력 중일 때는 버튼을 초기화합니다.
+        badge.classList.add('opacity-0');
+        status.innerText = "Waiting for input...";
+        status.classList.remove('text-emerald-600', 'text-red-500', 'animate-pulse');
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = "1";
+        submitBtn.innerText = "Execute Final Audit";
+    }
+    input.setSelectionRange(pos, pos); 
+};
     </script>
+    // --- [Step 2 보완] 가짜 통신사 데이터베이스 (Mock DB) ---
+    const MOCK_CARRIER_DB = {
+        "Verizon": { type: "mobile", safety: "High", risk: "Low" },
+        "AT&T": { type: "mobile", safety: "High", risk: "Low" },
+        "T-Mobile": { type: "mobile", safety: "High", risk: "Low" },
+        "VOIP/Internet": { type: "landline", safety: "Low", risk: "High" }
+    };
+    
+    // 실제 API 호출을 흉내내는 함수
+    async function simulateCarrierLookup(phone) {
+        console.log(`[System] Simulating Lookup for: ${phone}`);
+        
+        // 1.5초간 서버와 통신하는 척 하기 (연출)
+        await new Promise(resolve => setTimeout(resolve, 1200));
+    
+        // 랜덤으로 통신사 하나 선택
+        const carriers = Object.keys(MOCK_CARRIER_DB);
+        const randomCarrier = carriers[Math.floor(Math.random() * carriers.length)];
+        
+        return {
+            carrier_name: randomCarrier,
+            ...MOCK_CARRIER_DB[randomCarrier]
+        };
+    }
 </body>
 </html>
