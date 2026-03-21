@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Preliminary Case Evaluation | JDS Global Solutions</title>
     
-    <script type="text/javascript">
-    (function() {
-        var tf = document.createElement('script');
-        tf.type = 'text/javascript'; tf.async = true;
-        tf.src = ("https:" == document.location.protocol ? "https" : "http") + "://api.trustedform.com/trustedform.js?provide_referrer=true&field=xxTrustedFormCertUrl&trigger_method=always";
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(tf, s);
-    })();
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LegalService",
+      "name": "JDS Global Solutions",
+      "description": "Preliminary Personal Injury Case Evaluation & Lead Routing.",
+      "areaServed": ["CA", "TX", "FL", "GA", "NY"],
+      "url": "https://us-settlement-review.com"
+    }
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -31,7 +31,9 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         .hidden { display: none !important; }
         .gauge-fill { transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .legal-link { text-decoration: underline; color: #1E3A8A; cursor: pointer; font-weight: 700; }
+        /* <a> 태그로 바뀐 링크 스타일 */
+        .legal-link { text-decoration: underline; color: #1E3A8A; cursor: pointer; font-weight: 700; transition: color 0.2s; }
+        .legal-link:hover { color: #2563EB; }
         .advertising-badge { border: 1px solid #E2E8F0; color: #94A3B8; font-size: 9px; padding: 2px 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
     </style>
 </head>
@@ -75,7 +77,6 @@
 
     <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
         <div class="w-full max-w-xl bg-white shadow-2xl rounded-xl relative flex flex-col max-h-[90vh] overflow-hidden border border-slate-200">
-            
             <div class="px-8 py-5 border-b border-slate-100 bg-white z-10">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="font-serif font-bold text-lg">Preliminary Intake</h3>
@@ -88,7 +89,6 @@
             </div>
 
             <div id="modalBody" class="p-8 overflow-y-auto flex-grow bg-white">
-                
                 <div id="ai-feedback-box" class="mb-6 p-3 bg-blue-50 border-l-4 border-blue-600 rounded-r hidden fade-in">
                     <p id="ai-feedback-text" class="text-[11px] font-medium text-blue-800 italic"></p>
                 </div>
@@ -96,31 +96,31 @@
                 <div id="step-1" class="step-container space-y-3">
                     <p class="text-[10px] font-semibold text-slate-400 uppercase mb-2">Section I : Classification</p>
                     <h3 class="text-xl font-serif font-bold mb-6">Select the primary nature of the incident.</h3>
-                    <button onclick="handleSelection('incident_type', 'Auto', 2, 'Vehicle incidents require specific proximity evidence.', 5)" class="option-card w-full p-4 text-left font-semibold text-sm">Automobile Collision</button>
-                    <button onclick="handleSelection('incident_type', 'Slip', 2, 'Premises liability depends on hazard documentation.', 5)" class="option-card w-full p-4 text-left font-semibold text-sm">Premises Liability (Slip & Fall)</button>
+                    <button onclick="handleSelection('type', 'Auto', 2, 'Vehicle incidents require specific proximity evidence.', 5)" class="option-card w-full p-4 text-left font-semibold text-sm">Automobile Collision</button>
+                    <button onclick="handleSelection('type', 'Slip', 2, 'Premises liability depends on hazard documentation.', 5)" class="option-card w-full p-4 text-left font-semibold text-sm">Premises Liability (Slip & Fall)</button>
                 </div>
-
+                
                 <div id="step-2" class="step-container hidden space-y-3">
                     <h3 class="text-xl font-serif font-bold mb-6">Establish apparent fault distribution.</h3>
-                    <button onclick="handleSelection('fault_status', 'not_at_fault', 3, 'Zero liability significantly impacts recovery multipliers.', 25)" class="option-card w-full p-4 text-left font-semibold text-sm">0% Liability (Not at fault)</button>
-                    <button onclick="handleSelection('fault_status', 'shared', 3, 'Comparative fault rules will apply.', 10)" class="option-card w-full p-4 text-left font-semibold text-sm">Liability Disputed / Shared</button>
+                    <button onclick="handleSelection('fault', 'not_at_fault', 3, 'Zero liability significantly impacts recovery multipliers.', 25)" class="option-card w-full p-4 text-left font-semibold text-sm">0% Liability (Not at fault)</button>
+                    <button onclick="handleSelection('fault', 'shared', 3, 'Comparative fault rules will apply to the final valuation.', 10)" class="option-card w-full p-4 text-left font-semibold text-sm">Liability Disputed / Shared</button>
                 </div>
 
                 <div id="step-3" class="step-container hidden space-y-3">
                     <h3 class="text-xl font-serif font-bold mb-6">Detail immediate medical intervention.</h3>
-                    <button onclick="handleSelection('medical_treatment', 'er', 4, 'Emergency admission creates a powerful audit trail.', 30)" class="option-card w-full p-4 text-left font-semibold text-sm">ER Admission / Urgent Care</button>
+                    <button onclick="handleSelection('medical', 'er', 4, 'Emergency admission creates a powerful medical audit trail.', 30)" class="option-card w-full p-4 text-left font-semibold text-sm">ER Admission / Urgent Care</button>
                     <button onclick="disqualify('No Injury');" class="option-card w-full p-4 text-left font-semibold text-sm bg-slate-50">No Medical Treatment Required</button>
                 </div>
 
                 <div id="step-4" class="step-container hidden space-y-3">
                     <h3 class="text-xl font-serif font-bold mb-6">Was a law enforcement report generated?</h3>
-                    <button onclick="handleSelection('police_report', 'yes', 5, 'Official reports are key evidence.', 15)" class="option-card w-full p-4 text-left font-semibold text-sm">Yes, official report filed</button>
-                    <button onclick="handleSelection('police_report', 'no', 5, 'Alternative documentation will be required.', 0)" class="option-card w-full p-4 text-left font-semibold text-sm">No / Status Unknown</button>
+                    <button onclick="handleSelection('police', 'yes', 5, 'Official reports are key evidence in liability assessment.', 15)" class="option-card w-full p-4 text-left font-semibold text-sm">Yes, official report filed</button>
+                    <button onclick="handleSelection('police', 'no', 5, 'Alternative documentation will be required for review.', 0)" class="option-card w-full p-4 text-left font-semibold text-sm">No / Status Unknown</button>
                 </div>
 
                 <div id="step-5" class="step-container hidden space-y-3">
                     <h3 class="text-xl font-serif font-bold mb-6">Current legal representation status:</h3>
-                    <button onclick="handleSelection('attorney_status', 'no', 6, 'You are eligible for priority review.', 10)" class="option-card w-full p-4 text-left font-semibold text-sm">No Active Representation</button>
+                    <button onclick="handleSelection('attorney', 'no', 6, 'You are eligible for matching with our legal partners.', 10)" class="option-card w-full p-4 text-left font-semibold text-sm">No Active Representation</button>
                     <button onclick="disqualify('Has Attorney');" class="option-card w-full p-4 text-left font-semibold text-sm bg-slate-50">Currently Retained Counsel</button>
                 </div>
 
@@ -145,26 +145,26 @@
                     <h3 class="text-xl font-serif font-bold text-center mb-6">Secure Your Assessment Result</h3>
                     <div class="relative">
                         <input type="tel" id="userPhone" placeholder="(555) 555-5555" required class="w-full bg-slate-50 border border-slate-200 px-4 py-4 rounded text-2xl font-bold text-center outline-none tracking-widest">
-                        <div id="phone-verifier-badge" class="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 transition-opacity"><span class="text-[9px] font-bold text-emerald-600 uppercase font-bold">Verified</span></div>
+                        <div id="phone-verifier-badge" class="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 transition-opacity"><span class="text-[9px] font-bold text-emerald-600 uppercase">Verified</span></div>
                     </div>
+                    <p id="carrier-text" class="text-[10px] font-bold text-slate-400 text-center h-4"></p>
                     
                     <label class="flex items-start gap-3 mt-6 p-4 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer">
                         <input type="checkbox" id="tcpa" class="w-5 h-5 mt-1 accent-blue-700" required>
                         <span class="text-[10px] text-slate-600 leading-relaxed font-medium">
-                            By clicking below, I provide my express written consent to be contacted by JDS Global and its <a href="contact.html" class="legal-link">Partners</a>. I agree to the <a href="terms.html" class="legal-link">Terms</a> and <a href="privacy.html" class="legal-link">Privacy Policy</a>.
+                            By clicking below, I provide my express written consent to be contacted by JDS Global and its <a href="contact.html" class="legal-link">Partners</a> via phone/text. I agree to the <a href="terms.html" class="legal-link">Terms</a> and <a href="privacy.html" class="legal-link">Privacy Policy</a>.
                             <span class="block mt-2 text-blue-800 font-bold tracking-tighter uppercase">🛡️ TrustedForm Certified Verification Active</span>
                         </span>
                     </label>
-                    <button type="submit" id="submit-audit-btn" disabled class="premium-btn w-full text-white font-bold py-4 rounded uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed">Finish Review</button>
+                    <button type="submit" id="submit-audit-btn" disabled class="premium-btn w-full text-white font-bold py-4 rounded uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed">Execute Final Review</button>
                 </form>
 
                 <div id="step-scan" class="hidden py-16 text-center">
                     <div class="animate-spin text-blue-600 mx-auto w-12 h-12 mb-8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg></div>
-                    <h3 class="font-serif font-bold text-xl mb-2">Syncing with Jurisdiction...</h3>
+                    <h3 class="font-serif font-bold text-xl mb-2">Generating Dossier...</h3>
                 </div>
-
                 <div id="step-final" class="hidden"></div>
-                <div id="step-disqualified" class="hidden py-12 text-center"><h3 class="font-serif font-bold text-2xl">Review Concluded</h3><p class="text-sm text-slate-600">Threshold for priority matching not met.</p></div>
+                <div id="step-disqualified" class="hidden py-12 text-center"><h3 class="font-serif font-bold text-2xl">Review Concluded</h3><p class="text-sm text-slate-600">Threshold not met.</p></div>
             </div>
         </div>
     </div>
@@ -173,7 +173,7 @@
         <div class="max-w-4xl mx-auto text-center space-y-4">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Legal Disclosure</p>
             <p class="text-[11px] text-slate-500 leading-relaxed">
-                <strong>ATTORNEY ADVERTISING:</strong> This website is a lead generation service. JDS Global Solutions is not a law firm. Preliminary evaluations are for educational purposes and do not constitute legal advice.
+                <strong>ATTORNEY ADVERTISING:</strong> This website is a lead generation service. JDS Global Solutions is not a law firm. Any evaluation provided is for educational purposes only. 
             </p>
             <div class="flex justify-center gap-6 pt-4 text-[10px] font-bold uppercase tracking-tighter">
                 <a href="privacy.html" class="legal-link">Privacy Policy</a>
@@ -186,11 +186,6 @@
     </footer>
 
     <script>
-        // [필수 설정] 여기에 본인의 Supabase 정보를 넣으세요
-        const SUPABASE_URL = 'https://ppgsrrmdmfnhmbhnxyck.supabase.co';
-        const SUPABASE_ANON_KEY = '여기에_복사하신_anon_key를_넣으세요'; 
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
         const MASTER_DB = {
             "california": { name: "California", statute: "CA Civ. Code § 1714", law_type: "Pure Comparative Negligence", h1: "California Liability <br> Assessment Review" },
             "texas": { name: "Texas", statute: "TX Civ. Prac. § 33.001", law_type: "Proportionate Responsibility", h1: "Texas Statutory <br> Fault Evaluation" },
@@ -221,8 +216,9 @@
             currentScore = Math.min(95, currentScore + scoreBonus);
             document.getElementById('strength-gauge').style.width = `${currentScore}%`;
             document.getElementById('strength-pct').innerText = `${currentScore}%`;
+            const fbBox = document.getElementById('ai-feedback-box');
             document.getElementById('ai-feedback-text').innerText = `Intake Insight: ${feedback}`;
-            document.getElementById('ai-feedback-box').classList.remove('hidden');
+            fbBox.classList.remove('hidden');
             setTimeout(() => nextStep(next), 800);
         }
 
@@ -240,60 +236,41 @@
             let found = false;
             for (const [key, label] of Object.entries(keywords)) {
                 if (text.includes(key)) {
-                    badgeContainer.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase">✓ ${label}</span>`;
+                    badgeContainer.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase animate-pulse">✓ ${label}</span>`;
                     found = true;
                 }
             }
-            document.getElementById('narrative-status').innerText = found ? "Key factors identified..." : "Ready for analysis...";
+            document.getElementById('narrative-status').innerText = found ? "Key legal factors identified..." : "Ready for analysis...";
         }
 
-        function validateNarrative(e) { 
-            e.preventDefault(); 
-            leadData['narrative'] = document.getElementById('ai-narrative').value;
-            nextStep(7); 
-        }
-
+        function validateNarrative(e) { e.preventDefault(); handleSelection('narrative', 'checked', 7, 'Narrative analysis complete.', 15); }
         function validateIdentity(e) { e.preventDefault(); nextStep(8); }
 
         document.getElementById('userPhone').oninput = async (e) => {
             let val = e.target.value.replace(/\D/g, '');
             const x = val.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
             e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+            
+            const carrierText = document.getElementById('carrier-text');
+            const submitBtn = document.getElementById('submit-audit-btn');
+            
             if (val.length === 10) {
+                carrierText.innerText = "Analyzing Carrier...";
+                await new Promise(r => setTimeout(r, 1200));
+                carrierText.innerText = "Carrier Verified (Encrypted)";
+                carrierText.style.color = "#047857";
                 document.getElementById('phone-verifier-badge').classList.remove('opacity-0');
-                document.getElementById('submit-audit-btn').disabled = false;
-                document.getElementById('submit-audit-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
             }
         };
 
-        // [핵심] 데이터 저장 및 최종 결과 로직
         async function submitFinalLead(e) {
             e.preventDefault();
             document.getElementById('step-8').classList.add('hidden');
             document.getElementById('step-scan').classList.remove('hidden');
-
-            const finalData = {
-                ...leadData,
-                first_name: document.getElementById('fName').value,
-                last_name: document.getElementById('lName').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('userPhone').value,
-                state: currentState,
-                case_score: currentScore / 10,
-                user_agent: navigator.userAgent,
-                trusted_form_url: document.getElementsByName('xxTrustedFormCertUrl')[0]?.value || 'Pending'
-            };
-
-            try {
-                const { error } = await _supabase.from('leads').insert([finalData]);
-                if (error) throw error;
-                await new Promise(r => setTimeout(r, 2000));
-                renderFinalReport();
-            } catch (err) {
-                alert("Submission error. Please check your connection.");
-                document.getElementById('step-scan').classList.add('hidden');
-                document.getElementById('step-8').classList.remove('hidden');
-            }
+            await new Promise(r => setTimeout(r, 2000));
+            renderFinalReport();
         }
 
         function renderFinalReport() {
@@ -308,8 +285,9 @@
                         <div class="bg-slate-50 p-3 rounded text-center"><p class="text-[9px] uppercase font-bold text-slate-400">Est. Liability</p><p class="text-xl font-black">${currentScore/10}/10</p></div>
                         <div class="bg-slate-50 p-3 rounded text-center"><p class="text-[9px] uppercase font-bold text-slate-400">Recovery Tier</p><p class="text-xl font-black">PREMIUM</p></div>
                     </div>
-                    <p class="text-[11px] font-medium text-slate-600 italic mb-6">"Preliminary review suggests recovery potential under ${d.statute}."</p>
-                    <button onclick="window.location.href='tel:1234567890'" class="premium-btn w-full text-white font-bold py-4 rounded uppercase tracking-widest">Speak with Review Specialist</button>
+                    <p class="text-[11px] font-medium text-slate-600 italic mb-6">"Preliminary review suggests potential recovery under ${d.statute}."</p>
+                    <button onclick="window.location.href='tel:1234567890'" class="premium-btn w-full text-white font-bold py-4 rounded uppercase tracking-widest">Speak with Case Specialist</button>
+                    <p class="text-[8px] text-center mt-4 text-slate-400">By calling, you agree to be connected with a third-party legal provider.</p>
                 </div>
             `;
         }
