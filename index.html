@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Official Jurisdictional Audit | Legal Evaluation Portal</title>
+    
+    <title>2026 California Traffic Accident Statutory Audit | AI Case Analysis</title>
+    <meta name="description" content="Official AI-driven statutory assessment for California accident claims. Analyze case value based on state precedents and liability factors. Powered by AI Audit Protocol v9.3.">
+    <meta name="author" content="Statutory Audit Division">
+    <meta name="robots" content="index, follow">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -49,7 +54,7 @@
             cursor: pointer;
         }
         .option-card:hover {
-            border-color: #CBD5E1;
+            border-color: #CBD5S1;
             background-color: #F8FAFC;
         }
         .input-error { border-color: #EF4444 !important; background-color: #FEF2F2 !important; }
@@ -204,6 +209,7 @@
                     <p id="error-phone" class="hidden text-red-500 text-xs font-semibold text-center mt-2">Valid number and consent required.</p>
                     <button type="submit" class="premium-btn w-full text-white font-semibold text-sm py-4 rounded uppercase tracking-[0.1em] mt-6 shadow-lg">Execute Final Audit</button>
                 </form>
+                
                 <div id="step-scan" class="hidden py-16 text-center fade-in">
                     <div class="relative w-16 h-16 mx-auto mb-8">
                         <svg class="animate-spin w-full h-full text-slate-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg>
@@ -243,22 +249,25 @@
             if(document.getElementById('hero-state-name')) document.getElementById('hero-state-name').innerText = name;
             if(document.getElementById('statute-info')) document.getElementById('statute-info').innerText = d.statute;
             if(document.getElementById('stats-info')) document.getElementById('stats-info').innerText = d.stats;
-            document.title = `${name} Statutory Audit | Legal Evaluation`;
+            
+            // [CEO 요청: 타이틀 로직 SSS+급으로 통일]
+            document.title = `2026 ${name} Statutory Audit | AI Case Analysis`;
         }
         document.addEventListener('DOMContentLoaded', applyDynamic);
 
         window.openModal = () => { document.getElementById('leadModal').classList.remove('hidden'); saveData('origin_state', currentState); };
         function saveData(key, value) { leadData[key] = value; }
+        
         function nextStep(step) {
             document.querySelectorAll('.step-container').forEach(el => { el.classList.add('hidden'); el.classList.remove('fade-in'); });
             const nextEl = document.getElementById(`step-${step}`);
             if(nextEl) { nextEl.classList.remove('hidden'); void nextEl.offsetWidth; nextEl.classList.add('fade-in'); document.getElementById('modalBody').scrollTop = 0; }
             const pf = document.getElementById('progress-fill');
-            if(progressFill) progressFill.style.width = `${Math.min((step / 8) * 100, 100)}%`;
+            if(pf) pf.style.width = `${Math.min((step / 8) * 100, 100)}%`;
         }
-        function disqualify(reason) { saveData('disqualified_reason', reason); document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden')); const disqEl = document.getElementById('step-disqualified'); disqEl.classList.remove('hidden'); disqEl.classList.add('fade-in'); const pf = document.getElementById('progress-fill'); if(pf) { pf.style.width = '100%'; pf.style.backgroundColor = '#CBD5E1'; } }
-        function resetErrors(ids) { ids.forEach(id => { document.getElementById(id).classList.remove('input-error'); }); }
 
+        function disqualify(reason) { saveData('disqualified_reason', reason); document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden')); const disqEl = document.getElementById('step-disqualified'); disqEl.classList.remove('hidden'); disqEl.classList.add('fade-in'); const pf = document.getElementById('progress-fill'); if(pf) { pf.style.width = '100%'; pf.style.backgroundColor = '#CBD5E1'; } }
+        
         function validateNarrative(e) {
             e.preventDefault();
             const textarea = document.getElementById('ai-narrative'), text = textarea.value.trim();
