@@ -86,22 +86,25 @@
 
         // vCard 다운로드 기능
         function downloadVCard() {
-            const vcard = "BEGIN:VCARD\n" +
-                          "VERSION:3.0\n" +
-                          "FN:JDS Case Specialist\n" +
-                          "ORG:JDS Global Solutions;\n" +
-                          "TEL;TYPE=WORK,VOICE:+18005550199\n" +
-                          "TITLE:Case Evaluation Team\n" +
-                          "URL:https://us-settlement-review.com\n" +
-                          "END:VCARD";
-            
-            const blob = new Blob([vcard], { type: "text/vcard" });
-            const url = window.URL.createObjectURL(blob);
-            const newLink = document.createElement('a');
-            newLink.download = "JDS_Specialist.vcf";
-            newLink.href = url;
-            newLink.click();
-        }
-    </script>
-</body>
-</html>
+    const vcard = "BEGIN:VCARD\n" +
+                  "VERSION:3.0\n" +
+                  "FN:JDS Case Specialist\n" +
+                  "ORG:JDS Global Solutions;\n" +
+                  "TEL;TYPE=WORK,VOICE:+18005550199\n" +
+                  "TITLE:Case Evaluation Team\n" +
+                  "URL:https://us-settlement-review.com\n" +
+                  "END:VCARD";
+    
+    // 안드로이드/iOS 호환성을 높인 다운로드 로직
+    const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'JDS_Specialist.vcf');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // 다운로드 후 안내 메시지 살짝 띄우기 (선택)
+    alert("Contact file downloaded. Please open the file to save it to your phone.");
+}
