@@ -22,7 +22,7 @@
     <style>
         :root { --premium-navy: #0B1120; --premium-blue: #1E3A8A; --surface-color: #FAFAFA; }
         body { background-color: var(--surface-color); font-family: 'Inter', sans-serif; color: #0F172A; -webkit-font-smoothing: antialiased; }
-        input, textarea, select { font-size: 16px !important; }
+        input, textarea, select { font-size: 16px !important; } /* iOS 확대 방지 */
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .glass-panel { background: #FFFFFF; border: 1px solid rgba(15, 23, 42, 0.08); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.04); border-radius: 8px; }
         .premium-btn { background-color: var(--premium-navy); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; -webkit-tap-highlight-color: transparent; }
@@ -33,7 +33,6 @@
         .hidden { display: none !important; }
         .gauge-fill { transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .legal-link { text-decoration: underline; color: #1E3A8A; cursor: pointer; font-weight: 700; transition: color 0.2s; }
-        .legal-link:hover { color: #2563EB; }
         .advertising-badge { border: 1px solid #E2E8F0; color: #94A3B8; font-size: 9px; padding: 2px 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
         #modalBody::-webkit-scrollbar { width: 0px; background: transparent; }
     </style>
@@ -109,7 +108,7 @@
 
                 <div id="step-3" class="step-container hidden space-y-3">
                     <h3 class="text-xl font-serif font-bold mb-6">Detail immediate medical intervention.</h3>
-                    <button onclick="handleSelection('medical_treatment', 'er', 4, 'Emergency admission creates a powerful medical audit trail.', 30)" class="option-card w-full p-4 text-left font-semibold text-base">ER Admission / Urgent Care</button>
+                    <button onclick="handleSelection('medical_treatment', 'er', 4, 'Emergency admission creates a powerful audit trail.', 30)" class="option-card w-full p-4 text-left font-semibold text-base">ER Admission / Urgent Care</button>
                     <button onclick="disqualify('No Injury');" class="option-card w-full p-4 text-left font-semibold text-base bg-slate-50">No Medical Treatment Required</button>
                 </div>
 
@@ -127,7 +126,7 @@
 
                 <form id="step-6" class="step-container hidden space-y-4" onsubmit="validateNarrative(event)">
                     <div class="flex justify-between items-center"><h3 class="text-xl font-serif font-bold">Incident Narrative</h3><span id="narrative-status" class="text-[9px] font-bold text-slate-400 uppercase italic tracking-tighter">Ready for analysis...</span></div>
-                    <textarea id="ai-narrative" rows="4" oninput="analyzeNarrative()" placeholder="e.g. I was stopped at a red light..." class="w-full bg-slate-50 border border-slate-200 p-4 rounded text-base outline-none resize-none focus:border-blue-500"></textarea>
+                    <textarea id="ai-narrative" rows="4" oninput="analyzeNarrative()" placeholder="e.g. I was stopped at a red light when a commercial truck hit me..." class="w-full bg-slate-50 border border-slate-200 p-4 rounded text-base outline-none resize-none focus:border-blue-500"></textarea>
                     <div id="keyword-badges" class="flex flex-wrap gap-2"></div>
                     <button type="submit" class="premium-btn w-full text-white font-semibold text-sm py-4 rounded uppercase tracking-widest mt-4">Execute Intake Review</button>
                 </form>
@@ -156,14 +155,14 @@
                             <span class="block mt-2 text-blue-800 font-bold tracking-tighter uppercase">🛡️ TrustedForm Certified Verification Active</span>
                         </span>
                     </label>
-                    <button type="submit" id="submit-audit-btn" disabled class="premium-btn w-full text-white font-bold py-4 rounded uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed">Finish Review</button>
+                    <button type="submit" id="submit-audit-btn" disabled class="premium-btn w-full text-white font-bold py-4 rounded uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed">Finish & View Report</button>
                 </form>
 
                 <div id="step-scan" class="hidden py-16 text-center">
                     <div class="animate-spin text-blue-600 mx-auto w-12 h-12 mb-8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg></div>
                     <h3 class="font-serif font-bold text-xl mb-2">Syncing with Jurisdiction...</h3>
                 </div>
-                <div id="step-final" class="hidden"></div>
+
                 <div id="step-disqualified" class="hidden py-12 text-center"><h3 class="font-serif font-bold text-2xl">Review Concluded</h3><p class="text-sm text-slate-600">Threshold not met.</p></div>
             </div>
         </div>
@@ -173,7 +172,7 @@
         <div class="max-w-4xl mx-auto text-center space-y-4 pb-10 md:pb-0">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Legal Disclosure</p>
             <p class="text-[11px] text-slate-500 leading-relaxed px-4">
-                <strong>ATTORNEY ADVERTISING:</strong> JDS Global Solutions is not a law firm. Preliminary evaluations do not constitute legal advice.
+                <strong>ATTORNEY ADVERTISING:</strong> JDS Global Solutions is not a law firm. Preliminary evaluations do not constitute legal advice. 
             </p>
             <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 pt-4 text-[10px] font-bold uppercase tracking-tighter">
                 <a href="privacy.html" class="legal-link">Privacy Policy</a>
@@ -186,7 +185,7 @@
     </footer>
 
     <script>
-        // 🌟 [에러 방지 적용] 주소와 키 뒤에 .trim()을 붙여서 공백을 자동 제거합니다.
+        // [중요] Supabase 설정 - 공백 제거 trim() 적용
         const SUPABASE_URL = 'https://ppgsrrmdmfnhmbhnxyck.supabase.co'.trim();
         const SUPABASE_ANON_KEY = 'sb_publishable_zH0sJpPT_bKlEWsg7ltY-Q_WT8Cn43T'.trim(); 
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -251,7 +250,7 @@
             let found = false;
             for (const [key, label] of Object.entries(keywords)) {
                 if (text.includes(key)) {
-                    badgeContainer.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase animate-pulse">✓ ${label}</span>`;
+                    badgeContainer.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase">✓ ${label}</span>`;
                     found = true;
                 }
             }
@@ -271,11 +270,13 @@
             e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
             if (val.length === 10) {
                 document.getElementById('phone-verifier-badge').classList.remove('opacity-0');
-                document.getElementById('submit-audit-btn').disabled = false;
-                document.getElementById('submit-audit-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+                const btn = document.getElementById('submit-audit-btn');
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
             }
         };
 
+        // [최종 로직] 데이터 저장 후 success.html로 리다이렉트
         async function submitFinalLead(e) {
             e.preventDefault();
             document.getElementById('step-8').classList.add('hidden');
@@ -294,42 +295,25 @@
                 narrative: leadData.narrative || '',
                 state: currentState,
                 case_score: currentScore / 10,
-                user_agent: navigator.userAgent,
-                trusted_form_url: document.getElementsByName('xxTrustedFormCertUrl')[0]?.value || 'Pending'
+                trusted_form_url: document.getElementsByName('xxTrustedFormCertUrl')[0]?.value || 'Pending',
+                user_agent: navigator.userAgent
             };
 
             try {
-                // 🌟 실제 데이터 전송
+                // Supabase에 데이터 삽입
                 const { error } = await _supabase.from('leads').insert([finalData]);
                 if (error) throw error;
-                await new Promise(r => setTimeout(r, 2000));
-                renderFinalReport();
+
+                // 성공 시 2초 대기 후 success.html로 이동
+                await new Promise(r => setTimeout(r, 1500));
+                window.location.href = 'success.html'; 
+                
             } catch (err) {
-                // [수정] 에러 메시지를 alert으로 더 자세히 띄웁니다.
-                console.error("저장 실패:", err);
-                alert("에러 발생: " + (err.message || "Key의 앞뒤 공백을 확인해 주세요."));
+                console.error("Submission error:", err);
+                alert("Submission error: " + (err.message || "Please check your network connection."));
                 document.getElementById('step-scan').classList.add('hidden');
                 document.getElementById('step-8').classList.remove('hidden');
             }
-        }
-
-        function renderFinalReport() {
-            document.getElementById('step-scan').classList.add('hidden');
-            const final = document.getElementById('step-final');
-            final.classList.remove('hidden');
-            const d = MASTER_DB[currentState];
-            final.innerHTML = `
-                <div class="p-6 border-4 border-double border-slate-200 bg-white text-left shadow-xl rounded-lg fade-in">
-                    <div class="text-center mb-4"><p class="text-[10px] font-bold text-blue-800 uppercase tracking-widest">Case Review Summary</p></div>
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div class="bg-slate-50 p-3 rounded text-center"><p class="text-[9px] uppercase font-bold text-slate-400">Est. Liability</p><p class="text-xl font-black">${currentScore/10}/10</p></div>
-                        <div class="bg-slate-50 p-3 rounded text-center"><p class="text-[9px] uppercase font-bold text-slate-400">Recovery Tier</p><p class="text-xl font-black">PREMIUM</p></div>
-                    </div>
-                    <p class="text-[11px] font-medium text-slate-600 italic mb-6">"Preliminary review suggests potential recovery under ${d.statute}."</p>
-                    <button onclick="window.location.href='tel:1234567890'" class="premium-btn w-full text-white font-bold py-4 rounded uppercase tracking-widest active:scale-95">Speak with Case Specialist</button>
-                    <p class="text-[8px] text-center mt-4 text-slate-400">By calling, you agree to be connected with a third-party legal provider.</p>
-                </div>
-            `;
         }
 
         function disqualify(r) { 
