@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Review Initiated | JDS Global Solutions</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root { --premium-navy: #0B1120; --premium-blue: #1E3A8A; --surface-color: #FAFAFA; }
         body { background-color: var(--surface-color); font-family: 'Inter', sans-serif; color: #0F172A; -webkit-font-smoothing: antialiased; }
@@ -18,6 +20,7 @@
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
+
     <nav class="w-full bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center z-10 sticky top-0">
         <div class="flex items-center gap-3">
             <div class="w-2 h-2 rounded-full bg-blue-700"></div>
@@ -27,19 +30,33 @@
     </nav>
 
     <main class="w-full max-w-2xl mx-auto px-6 pt-12 md:pt-20 pb-24 flex-grow flex flex-col items-center text-center">
+        
         <div class="success-checkmark mb-8 fade-in">
             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
             </svg>
         </div>
+
         <div class="fade-in" style="animation-delay: 0.1s;">
             <p class="text-[10px] font-bold text-blue-700 tracking-[0.25em] uppercase mb-4">Intake Receipt Confirmed</p>
             <h1 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-6">Review Protocol <br /> Successfully Initiated</h1>
             <p class="text-slate-500 text-sm md:text-base max-w-md mx-auto leading-relaxed mb-10">
-                Your case details have been securely transmitted to our <strong>Evaluation Department</strong>. A jurisdictional specialist will review the liability factors shortly.
+                Your case details have been securely transmitted to our Evaluation Department.
             </p>
         </div>
-        <div class="glass-panel w-full p-6 md:p-8 mb-10 fade-in text-left border-l-4 border-l-blue-700" style="animation-delay: 0.2s;">
+
+        <div class="w-full max-w-md p-6 bg-emerald-50 border border-emerald-100 rounded-xl mb-10 fade-in" style="animation-delay: 0.2s;">
+            <p class="text-[10px] font-bold text-emerald-700 uppercase tracking-widest mb-4 text-center">Important: Save Our ID</p>
+            <button onclick="downloadVCard()" class="w-full bg-emerald-600 text-white font-bold py-4 rounded shadow-lg flex items-center justify-center gap-3 hover:bg-emerald-700 transition-all active:scale-95">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                SAVE SPECIALIST ID TO PHONE
+            </button>
+            <p class="text-[9px] text-emerald-600 mt-3 text-center italic leading-tight">
+                *Save this contact to ensure our evaluation call bypasses your spam filter.
+            </p>
+        </div>
+
+        <div class="glass-panel w-full p-6 md:p-8 mb-10 fade-in text-left border-l-4 border-l-blue-700" style="animation-delay: 0.3s;">
             <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6">Security & Protocol Receipt</h3>
             <div class="space-y-4">
                 <div class="flex justify-between border-b border-slate-50 pb-3">
@@ -48,7 +65,7 @@
                 </div>
                 <div class="flex justify-between border-b border-slate-50 pb-3">
                     <span class="text-xs font-semibold text-slate-500">Case Reference ID</span>
-                    <span id="case-id" class="text-xs font-mono font-bold text-slate-900">JDS-XXXX-XXXX</span>
+                    <span id="case-id" class="text-xs font-mono font-bold text-slate-900">JDS-74FD-2A47</span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-xs font-semibold text-slate-500">Estimated Review Time</span>
@@ -56,10 +73,7 @@
                 </div>
             </div>
         </div>
-        <div class="mt-12 fade-in" style="animation-delay: 0.4s;">
-            <p class="text-[10px] font-bold text-slate-400 uppercase mb-4">Urgent Inquiry?</p>
-            <button onclick="window.location.href='tel:1234567890'" class="premium-btn text-white font-semibold text-xs px-10 py-4 rounded shadow-lg uppercase tracking-widest w-full sm:w-auto">Speak to a Specialist Now</button>
-        </div>
+
     </main>
 
     <footer class="w-full bg-white border-t border-slate-200 p-8 text-center">
@@ -67,7 +81,27 @@
     </footer>
 
     <script>
+        // 무작위 케이스 ID 생성
         document.getElementById('case-id').innerText = 'JDS-' + Math.random().toString(36).substr(2, 4).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+
+        // vCard 다운로드 기능
+        function downloadVCard() {
+            const vcard = "BEGIN:VCARD\n" +
+                          "VERSION:3.0\n" +
+                          "FN:JDS Case Specialist\n" +
+                          "ORG:JDS Global Solutions;\n" +
+                          "TEL;TYPE=WORK,VOICE:+18005550199\n" +
+                          "TITLE:Case Evaluation Team\n" +
+                          "URL:https://us-settlement-review.com\n" +
+                          "END:VCARD";
+            
+            const blob = new Blob([vcard], { type: "text/vcard" });
+            const url = window.URL.createObjectURL(blob);
+            const newLink = document.createElement('a');
+            newLink.download = "JDS_Specialist.vcf";
+            newLink.href = url;
+            newLink.click();
+        }
     </script>
 </body>
 </html>
