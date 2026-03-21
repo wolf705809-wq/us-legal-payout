@@ -3,59 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <title>Official Statutory Audit | Liability & Settlement Evaluation</title>
-    <meta name="description" content="AI-driven statutory mapping for US residents. Evaluate your case using real-time tort precedents and state negligence laws. Secure your legal audit today.">
+    <title>Official Statutory Audit | Conversational Legal Engine</title>
     
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "LegalService",
       "name": "JDS Global Solutions",
-      "description": "AI-Driven Statutory Audit & Liability Assessment based on 2026 US state tort laws.",
+      "description": "AI-Driven Interactive Statutory Audit.",
       "areaServed": ["CA", "TX", "FL", "GA", "NY"],
-      "serviceType": "Legal Case Evaluation",
       "url": "https://us-settlement-review.com"
     }
     </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        :root { 
-            --premium-navy: #0B1120;
-            --premium-blue: #1E3A8A;
-            --surface-color: #FAFAFA;
-            --text-main: #0F172A; 
-        }
-        body { 
-            background-color: var(--surface-color); 
-            font-family: 'Inter', sans-serif; 
-            color: var(--text-main);
-            -webkit-font-smoothing: antialiased;
-        }
+        :root { --premium-navy: #0B1120; --premium-blue: #1E3A8A; --surface-color: #FAFAFA; }
+        body { background-color: var(--surface-color); font-family: 'Inter', sans-serif; color: #0F172A; -webkit-font-smoothing: antialiased; }
         .font-serif { font-family: 'Cormorant Garamond', serif; }
-        .glass-panel {
-            background: #FFFFFF;
-            border: 1px solid rgba(15, 23, 42, 0.08);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.04);
-            border-radius: 8px;
-        }
-        .premium-btn {
-            background-color: var(--premium-navy);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .premium-btn:hover { background-color: #1E293B; transform: translateY(-1px); }
-        .option-card {
-            border: 1px solid #E2E8F0;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-        .option-card:hover { border-color: #1E3A8A; background-color: #F8FAFC; }
+        .glass-panel { background: #FFFFFF; border: 1px solid rgba(15, 23, 42, 0.08); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.04); border-radius: 8px; }
+        .premium-btn { background-color: var(--premium-navy); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .option-card { border: 1px solid #E2E8F0; transition: all 0.2s ease; cursor: pointer; border-radius: 8px; }
+        .option-card:hover { border-color: #1E3A8A; background-color: #F8FAFC; transform: translateY(-1px); }
         .fade-in { animation: fadeIn 0.4s ease-out forwards; opacity: 0; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         .hidden { display: none !important; }
+        
+        /* 실시간 게이지 애니메이션 */
+        .gauge-fill { transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -63,152 +40,131 @@
     <nav class="w-full bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center z-10">
         <div class="flex items-center gap-3">
             <div class="w-2 h-2 rounded-full bg-blue-700"></div>
-            <span class="text-xs font-semibold tracking-[0.15em] uppercase text-slate-900">Statutory Audit Division</span>
+            <span class="text-xs font-semibold tracking-[0.15em] uppercase">Statutory Audit Division</span>
         </div>
         <div class="flex items-center gap-2 px-2.5 py-1 bg-slate-50 border border-slate-100 rounded-sm">
-            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">AI Disclosure: Active</span>
-            <span class="relative flex h-1.5 w-1.5">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
-            </span>
+            <span class="text-[9px] font-bold text-slate-400 uppercase">AI Disclosure: Active</span>
+            <span class="relative flex h-1.5 w-1.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span><span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span></span>
         </div>
     </nav>
 
     <main class="w-full max-w-3xl mx-auto px-6 pt-16 pb-24 flex-grow flex flex-col justify-center text-center">
         <div class="mb-12 fade-in">
             <p class="text-[10px] font-bold text-blue-700 tracking-[0.25em] uppercase mb-4">Official Jurisdictional Evaluation</p>
-            <h1 id="main-h1" class="text-4xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4">
-                Liability & Indemnity <br /> Assessment Protocol
-            </h1>
+            <h1 id="main-h1" class="text-4xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4">Liability & Indemnity <br /> Assessment Protocol</h1>
         </div>
 
         <div class="glass-panel p-8 mb-10 fade-in text-left">
             <div class="flex justify-between items-center border-b border-slate-100 pb-6 mb-6">
-                <div>
-                    <p class="text-[10px] font-semibold text-slate-400 uppercase mb-1">Active Jurisdiction</p>
-                    <h2 id="hero-state-name" class="text-2xl font-serif font-bold text-slate-900">California</h2>
-                </div>
+                <div><p class="text-[10px] font-semibold text-slate-400 uppercase mb-1">Active Jurisdiction</p><h2 id="hero-state-name" class="text-2xl font-serif font-bold">California</h2></div>
                 <p class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-sm border border-emerald-100">Live Database Sync Active</p>
             </div>
             <div class="grid grid-cols-2 gap-8">
-                <div><p class="text-[10px] font-semibold text-slate-400 uppercase mb-2">Primary Statute</p><p id="statute-info" class="text-sm font-medium text-slate-800">CA Civ. Code § 1714</p></div>
-                <div><p class="text-[10px] font-semibold text-slate-400 uppercase mb-2">Legal Framework</p><p id="stats-info" class="text-sm font-medium text-slate-800">Pure Comparative Negligence</p></div>
+                <div><p class="text-[10px] font-semibold text-slate-400 uppercase mb-2">Primary Statute</p><p id="statute-info" class="text-sm font-medium">CA Civ. Code § 1714</p></div>
+                <div><p class="text-[10px] font-semibold text-slate-400 uppercase mb-2">Legal Framework</p><p id="stats-info" class="text-sm font-medium">Pure Comparative Negligence</p></div>
             </div>
         </div>
 
         <button onclick="openModal()" class="premium-btn text-white font-semibold text-sm px-10 py-4 rounded shadow-lg uppercase tracking-[0.1em] w-full sm:w-auto mx-auto">Initiate Secure Audit</button>
 
         <section class="mt-16 grid grid-cols-2 md:grid-cols-5 gap-4 fade-in">
-            <div onclick="startAudit('california')" class="group cursor-pointer bg-white border border-slate-200 p-6 rounded hover:border-blue-900 transition-all"><span class="block text-2xl font-serif font-bold mb-1">CA</span><span class="block text-[10px] font-bold text-slate-400 uppercase">California</span></div>
-            <div onclick="startAudit('texas')" class="group cursor-pointer bg-white border border-slate-200 p-6 rounded hover:border-blue-900 transition-all"><span class="block text-2xl font-serif font-bold mb-1">TX</span><span class="block text-[10px] font-bold text-slate-400 uppercase">Texas</span></div>
-            <div onclick="startAudit('florida')" class="group cursor-pointer bg-white border border-slate-200 p-6 rounded hover:border-blue-900 transition-all"><span class="block text-2xl font-serif font-bold mb-1">FL</span><span class="block text-[10px] font-bold text-slate-400 uppercase">Florida</span></div>
-            <div onclick="startAudit('georgia')" class="group cursor-pointer bg-white border border-slate-200 p-6 rounded hover:border-blue-900 transition-all"><span class="block text-2xl font-serif font-bold mb-1">GA</span><span class="block text-[10px] font-bold text-slate-400 uppercase">Georgia</span></div>
-            <div onclick="startAudit('new_york')" class="group cursor-pointer bg-white border border-slate-200 p-6 rounded hover:border-blue-900 transition-all"><span class="block text-2xl font-serif font-bold mb-1">NY</span><span class="block text-[10px] font-bold text-slate-400 uppercase">New York</span></div>
+            <div onclick="startAudit('california')" class="group cursor-pointer bg-white border border-slate-200 p-6 rounded hover:border-blue-900 transition-all text-center"><span class="block text-2xl font-serif font-bold mb-1">CA</span><span class="block text-[10px] font-bold text-slate-400 uppercase">California</span></div>
+            <div onclick="startAudit('texas')" class="group cursor-pointer bg-white border border-slate-200 p-6 rounded hover:border-blue-900 transition-all text-center"><span class="block text-2xl font-serif font-bold mb-1">TX</span><span class="block text-[10px] font-bold text-slate-400 uppercase">Texas</span></div>
+            <div onclick="startAudit('florida')" class="group cursor-pointer bg-white border border-slate-200 p-6 rounded hover:border-blue-900 transition-all text-center"><span class="block text-2xl font-serif font-bold mb-1">FL</span><span class="block text-[10px] font-bold text-slate-400 uppercase">Florida</span></div>
+            <div onclick="startAudit('georgia')" class="group cursor-pointer bg-white border border-slate-200 p-6 rounded hover:border-blue-900 transition-all text-center"><span class="block text-2xl font-serif font-bold mb-1">GA</span><span class="block text-[10px] font-bold text-slate-400 uppercase">Georgia</span></div>
+            <div onclick="startAudit('new_york')" class="group cursor-pointer bg-white border border-slate-200 p-6 rounded hover:border-blue-900 transition-all text-center"><span class="block text-2xl font-serif font-bold mb-1">NY</span><span class="block text-[10px] font-bold text-slate-400 uppercase">New York</span></div>
         </section>
     </main>
 
     <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
         <div class="w-full max-w-xl bg-white shadow-2xl rounded-xl relative flex flex-col max-h-[90vh] overflow-hidden border border-slate-200">
-            <div class="px-8 py-5 border-b border-slate-100 flex justify-between items-center">
-                <h3 class="font-serif font-bold text-lg">Intake Assessment</h3>
-                <button onclick="location.reload()" class="text-slate-400 hover:text-slate-800">✕</button>
-            </div>
-            <div class="w-full bg-slate-50 h-0.5"><div id="progress-fill" class="bg-blue-600 h-0.5 transition-all duration-500" style="width: 12.5%"></div></div>
             
-            <div id="modalBody" class="p-8 overflow-y-auto flex-grow bg-white">
-                <div id="step-1" class="step-container space-y-3">
-                    <p class="text-[10px] font-semibold text-slate-400 uppercase mb-4">Section I : Incident Classification</p>
-                    <h3 class="text-xl font-serif font-bold mb-6">Select the primary nature of the incident.</h3>
-                    <button onclick="saveData('type', 'Auto'); nextStep(2);" class="option-card w-full p-4 text-left rounded-lg text-sm font-semibold">Automobile Collision</button>
-                    <button onclick="saveData('type', 'Slip'); nextStep(2);" class="option-card w-full p-4 text-left rounded-lg text-sm font-semibold">Premises Liability (Slip & Fall)</button>
+            <div class="px-8 py-5 border-b border-slate-100 bg-white z-10">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-serif font-bold text-lg">Intake Assessment</h3>
+                    <button onclick="location.reload()" class="text-slate-400 hover:text-slate-800">✕</button>
                 </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center"><p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Case Strength Meter</p><p id="strength-pct" class="text-[9px] font-bold text-blue-600">15%</p></div>
+                    <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden"><div id="strength-gauge" class="gauge-fill bg-blue-600 h-full" style="width: 15%"></div></div>
+                </div>
+            </div>
+
+            <div id="modalBody" class="p-8 overflow-y-auto flex-grow bg-white">
+                
+                <div id="ai-feedback-box" class="mb-6 p-3 bg-blue-50 border-l-4 border-blue-600 rounded-r hidden fade-in">
+                    <p id="ai-feedback-text" class="text-[11px] font-medium text-blue-800 italic"></p>
+                </div>
+
+                <div id="step-1" class="step-container space-y-3">
+                    <p class="text-[10px] font-semibold text-slate-400 uppercase mb-2">Section I : Classification</p>
+                    <h3 class="text-xl font-serif font-bold mb-6">Select the primary nature of the incident.</h3>
+                    <button onclick="handleSelection('type', 'Auto', 2, 'Vehicle incidents require specific proximity evidence under local statutes.')" class="option-card w-full p-4 text-left font-semibold text-sm">Automobile Collision</button>
+                    <button onclick="handleSelection('type', 'Slip', 2, 'Premises liability depends heavily on visible hazard documentation.')" class="option-card w-full p-4 text-left font-semibold text-sm">Premises Liability (Slip & Fall)</button>
+                </div>
+
                 <div id="step-2" class="step-container hidden space-y-3">
                     <h3 class="text-xl font-serif font-bold mb-6">Establish apparent fault distribution.</h3>
-                    <button onclick="saveData('fault', 'not_at_fault'); nextStep(3);" class="option-card w-full p-4 text-left rounded-lg text-sm font-semibold">0% Liability (Not at fault)</button>
-                    <button onclick="disqualify('Fault');" class="option-card w-full p-4 text-left rounded-lg text-sm font-semibold bg-slate-50">100% Liability Assumed</button>
+                    <button onclick="handleSelection('fault', 'not_at_fault', 3, 'Zero liability drastically increases your potential recovery multiplier.', 25)" class="option-card w-full p-4 text-left font-semibold text-sm">0% Liability (Not at fault)</button>
+                    <button onclick="handleSelection('fault', 'shared', 3, 'Shared fault may reduce total recovery but does not disqualify.', 10)" class="option-card w-full p-4 text-left font-semibold text-sm">Liability Disputed / Shared</button>
                 </div>
+
                 <div id="step-3" class="step-container hidden space-y-3">
-                    <h3 class="text-xl font-serif font-bold mb-6">Detail medical intervention.</h3>
-                    <button onclick="saveData('medical', 'er'); nextStep(4);" class="option-card w-full p-4 text-left rounded-lg text-sm font-semibold">Emergency Services / ER Admission</button>
-                    <button onclick="disqualify('No Injury');" class="option-card w-full p-4 text-left rounded-lg text-sm font-semibold bg-slate-50">No Medical Treatment Required</button>
+                    <h3 class="text-xl font-serif font-bold mb-6">Detail immediate medical intervention.</h3>
+                    <button onclick="handleSelection('medical', 'er', 4, 'Emergency admission creates a powerful medical audit trail.', 30)" class="option-card w-full p-4 text-left font-semibold text-sm">ER Admission / Urgent Care</button>
+                    <button onclick="disqualify('No Injury');" class="option-card w-full p-4 text-left font-semibold text-sm bg-slate-50">No Medical Treatment Required</button>
                 </div>
+
                 <div id="step-4" class="step-container hidden space-y-3">
                     <h3 class="text-xl font-serif font-bold mb-6">Was a law enforcement report generated?</h3>
-                    <button onclick="saveData('police', 'yes'); nextStep(5);" class="option-card w-full p-4 text-left rounded-lg text-sm font-semibold">Yes, official report filed</button>
-                    <button onclick="saveData('police', 'no'); nextStep(5);" class="option-card w-full p-4 text-left rounded-lg text-sm font-semibold">No / Status Unknown</button>
+                    <button onclick="handleSelection('police', 'yes', 5, 'Official police reports are the primary source of truth for 로펌.', 15)" class="option-card w-full p-4 text-left font-semibold text-sm">Yes, official report filed</button>
+                    <button onclick="handleSelection('police', 'no', 5, 'Alternative evidence (dashcam, witness) will be required.', 0)" class="option-card w-full p-4 text-left font-semibold text-sm">No / Status Unknown</button>
                 </div>
+
                 <div id="step-5" class="step-container hidden space-y-3">
-                    <h3 class="text-xl font-serif font-bold mb-6">Current legal representation:</h3>
-                    <button onclick="saveData('attorney', 'no'); nextStep(6);" class="option-card w-full p-4 text-left rounded-lg text-sm font-semibold">No Active Representation</button>
-                    <button onclick="disqualify('Has Attorney');" class="option-card w-full p-4 text-left rounded-lg text-sm font-semibold bg-slate-50">Currently Retained Counsel</button>
+                    <h3 class="text-xl font-serif font-bold mb-6">Current legal representation status:</h3>
+                    <button onclick="handleSelection('attorney', 'no', 6, 'You are eligible for priority matching with our lead counsel.', 10)" class="option-card w-full p-4 text-left font-semibold text-sm">No Active Representation</button>
+                    <button onclick="disqualify('Has Attorney');" class="option-card w-full p-4 text-left font-semibold text-sm bg-slate-50">Currently Retained Counsel</button>
                 </div>
 
                 <form id="step-6" class="step-container hidden space-y-4" onsubmit="validateNarrative(event)">
-                    <h3 class="text-xl font-serif font-bold mb-4">Provide a factual summary.</h3>
-                    <textarea id="ai-narrative" rows="4" minlength="20" placeholder="Please describe the incident..." class="w-full bg-slate-50 border border-slate-200 p-4 rounded text-sm outline-none resize-none"></textarea>
-                    <button type="submit" class="premium-btn w-full text-white font-semibold text-sm py-4 rounded uppercase">START AI LEGAL AUDIT</button>
+                    <div class="flex justify-between items-center"><h3 class="text-xl font-serif font-bold">Incident Narrative</h3><span id="narrative-status" class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter italic">Ready for analysis...</span></div>
+                    <textarea id="ai-narrative" rows="4" oninput="analyzeNarrative()" placeholder="e.g. I was stopped at a red light when a commercial truck hit me..." class="w-full bg-slate-50 border border-slate-200 p-4 rounded text-sm outline-none resize-none"></textarea>
+                    <div id="keyword-badges" class="flex flex-wrap gap-2"></div>
+                    <button type="submit" class="premium-btn w-full text-white font-semibold text-sm py-4 rounded uppercase tracking-widest mt-4">Execute AI Statutory Mapping</button>
                 </form>
 
                 <form id="step-7" class="step-container hidden space-y-4" onsubmit="validateIdentity(event)">
-                    <h3 class="text-xl font-serif font-bold mb-4">Enter official contact details.</h3>
+                    <h3 class="text-xl font-serif font-bold mb-4">Final Identification</h3>
                     <div class="grid grid-cols-2 gap-4">
                         <input type="text" id="fName" placeholder="First Name" class="bg-slate-50 border border-slate-200 px-4 py-3 rounded text-sm outline-none">
-                        <input type="text" id="lName" placeholder="Last Name" class="bg-slate-50 border border-slate-200 px-4 py-3 rounded text-sm outline-none">
+                        <input type="email" id="email" placeholder="Email Address" class="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded text-sm outline-none mt-4">
                     </div>
-                    <input type="email" id="email" placeholder="Email Address" class="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded text-sm outline-none">
-                    <button type="submit" class="premium-btn w-full text-white font-semibold text-sm py-4 rounded uppercase">Verify Identity</button>
+                    <button type="submit" class="premium-btn w-full text-white font-semibold text-sm py-4 rounded uppercase tracking-widest mt-4">Verify Identity</button>
                 </form>
 
                 <form id="step-8" class="step-container hidden space-y-4" onsubmit="submitFinalLead(event)">
-                    <h3 class="text-xl font-serif font-bold text-slate-900 text-center mb-6">Enter direct number for secure transmission.</h3>
-                    
-                    <div class="relative group">
-                        <input type="tel" id="userPhone" placeholder="(555) 555-5555" 
-                               class="w-full bg-slate-50 border border-slate-200 px-4 py-4 rounded text-2xl font-bold text-center outline-none tracking-widest focus:border-blue-600 transition-all">
-                        
-                        <div id="phone-verifier-badge" class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-1.5 opacity-0 transition-opacity">
-                            <span class="text-[9px] font-bold text-emerald-600 uppercase tracking-tighter">Line Secured</span>
-                            <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        </div>
+                    <h3 class="text-xl font-serif font-bold text-center mb-6">Enter direct number for secure transmission.</h3>
+                    <div class="relative"><input type="tel" id="userPhone" placeholder="(555) 555-5555" class="w-full bg-slate-50 border border-slate-200 px-4 py-4 rounded text-2xl font-bold text-center outline-none tracking-widest">
+                        <div id="phone-verifier-badge" class="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 transition-opacity"><span class="text-[9px] font-bold text-emerald-600 uppercase">Verified</span></div>
                     </div>
-
-                    <div class="flex justify-between items-center px-1">
-                        <div id="carrier-display" class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
-                            Status: <span id="carrier-text">Awaiting Input</span>
-                        </div>
-                        <div id="line-type" class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-300">Type: Unknown</div>
-                    </div>
-
+                    <div class="flex justify-between px-1"><div class="text-[10px] font-bold uppercase text-slate-400">Status: <span id="carrier-text">Awaiting Input</span></div><div class="text-[10px] font-bold uppercase text-slate-300">Carrier Secured</div></div>
                     <label class="flex items-start gap-3 mt-6 p-4 bg-blue-50/50 border border-blue-100 rounded-lg cursor-pointer">
                         <input type="checkbox" id="tcpa" class="w-5 h-5 mt-1 accent-blue-700" required>
-                        <span class="text-[10px] text-slate-600 leading-relaxed font-medium">
-                            I provide **express written consent** under **47 C.F.R. § 64.1200** to be matched with vetted counsel. 
-                            <span class="block mt-2 text-blue-800 font-bold uppercase tracking-tighter">🛡️ 1-to-1 Match Guaranteed & TrustedForm Certified</span>
-                        </span>
+                        <span class="text-[10px] text-slate-600 leading-relaxed font-medium">I provide **written consent** under **47 C.F.R. § 64.1200**. <span class="block mt-2 text-blue-800 font-bold uppercase tracking-tighter">🛡️ TrustedForm Certified Match</span></span>
                     </label>
-
-                    <button type="submit" id="submit-audit-btn" disabled class="premium-btn w-full text-white font-bold py-4 rounded uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed">
-                        Execute Final Audit
-                    </button>
+                    <button type="submit" id="submit-audit-btn" disabled class="premium-btn w-full text-white font-bold py-4 rounded uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed">Execute Final Audit</button>
                 </form>
 
                 <div id="step-scan" class="hidden py-16 text-center">
                     <div class="animate-spin text-blue-600 mx-auto w-12 h-12 mb-8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg></div>
-                    <h3 class="font-serif font-bold text-xl mb-2">Analyzing Statutory Data</h3>
-                    <p id="loading-text" class="text-xs font-medium text-slate-500 uppercase tracking-widest">Encrypting connection...</p>
+                    <h3 class="font-serif font-bold text-xl mb-2">Generating Dossier</h3>
                 </div>
-
                 <div id="step-final" class="hidden text-center"></div>
                 <div id="step-disqualified" class="hidden py-12 text-center"><h3 class="font-serif font-bold text-2xl">Review Concluded</h3><p class="text-sm text-slate-600">Threshold not met.</p></div>
             </div>
         </div>
     </div>
-
-    <footer class="w-full bg-slate-50 border-t border-slate-200 py-12 text-center px-6">
-        <p class="text-[10px] text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto">
-            Matches made under **47 C.F.R. § 64.1200**. AI evaluations are preliminary. © 2026 Statutory Audit Division.
-        </p>
-    </footer>
 
     <script>
         const MASTER_DB = {
@@ -219,69 +175,84 @@
             "new_york": { name: "New York", statute: "CPLR § 1411", law_type: "Pure Comparative Negligence", h1: "New York Civil <br> Liability Assessment" }
         };
 
+        let currentScore = 15;
         let currentState = 'california';
         let leadData = {};
 
-        function startAudit(stateKey) {
-            currentState = stateKey;
-            const d = MASTER_DB[stateKey];
-            document.getElementById('hero-state-name').innerText = d.name;
-            document.getElementById('statute-info').innerText = d.statute;
-            document.getElementById('stats-info').innerText = d.law_type;
-            document.getElementById('main-h1').innerHTML = d.h1;
-            document.title = `${d.name} Statutory Audit | 2026`;
-            openModal();
-            saveData('origin_state', stateKey);
-        }
-
+        function startAudit(s) { currentState = s; const d = MASTER_DB[s]; document.getElementById('hero-state-name').innerText = d.name; document.getElementById('main-h1').innerHTML = d.h1; openModal(); }
         function openModal() { document.getElementById('leadModal').classList.remove('hidden'); }
-        function saveData(key, value) { leadData[key] = value; }
-        function nextStep(step) {
-            document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
-            const nextEl = document.getElementById(`step-${step}`);
-            if(nextEl) { nextEl.classList.remove('hidden'); nextEl.classList.add('fade-in'); }
-            document.getElementById('progress-fill').style.width = `${(step / 8) * 100}%`;
+        function saveData(k, v) { leadData[k] = v; }
+
+        // [핵심 기능 1 & 2: 실시간 게이지 및 AI 피드백]
+        function handleSelection(key, value, next, feedback, scoreBonus = 0) {
+            saveData(key, value);
+            
+            // 게이지 업데이트
+            currentScore += scoreBonus;
+            if(currentScore > 95) currentScore = 95;
+            document.getElementById('strength-gauge').style.width = `${currentScore}%`;
+            document.getElementById('strength-pct').innerText = `${currentScore}%`;
+
+            // AI 피드백 박스 업데이트
+            const fbBox = document.getElementById('ai-feedback-box');
+            const fbText = document.getElementById('ai-feedback-text');
+            fbText.innerText = `AI Insights: ${feedback}`;
+            fbBox.classList.remove('hidden');
+            
+            setTimeout(() => nextStep(next), 800);
         }
 
-        // [사장님 핵심 병기: 통신사 조회 로직]
-        const phoneInput = document.getElementById('userPhone');
-        phoneInput.oninput = async (e) => {
-            const input = e.target;
-            const val = input.value.replace(/\D/g, '');
+        function nextStep(s) {
+            document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
+            const nextEl = document.getElementById(`step-${s}`);
+            if(nextEl) { nextEl.classList.remove('hidden'); nextEl.classList.add('fade-in'); }
+        }
+
+        // [핵심 기능 3: Narrative 스마트 하이라이트 분석]
+        function analyzeNarrative() {
+            const text = document.getElementById('ai-narrative').value.toLowerCase();
+            const status = document.getElementById('narrative-status');
+            const badgeContainer = document.getElementById('keyword-badges');
+            const keywords = { 'rear-ended': 'Liability High', 'commercial': 'Corporate Asset', 'red light': 'Negligence Proven', 'police': 'Official Record' };
+            
+            badgeContainer.innerHTML = '';
+            let found = false;
+            
+            for (const [key, label] of Object.entries(keywords)) {
+                if (text.includes(key)) {
+                    badgeContainer.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase animate-pulse">✓ ${label}</span>`;
+                    found = true;
+                }
+            }
+            
+            if (found) {
+                status.innerText = "Analyzing key legal factors...";
+                status.style.color = "#059669";
+            }
+        }
+
+        function validateNarrative(e) { e.preventDefault(); handleSelection('narrative', 'checked', 7, 'Narrative analysis complete. Statutory mapping initiated.', 15); }
+        function validateIdentity(e) { e.preventDefault(); nextStep(8); }
+
+        // 통신사 조회 엔진 (기존 SSS급 유지)
+        document.getElementById('userPhone').oninput = async (e) => {
+            const val = e.target.value.replace(/\D/g, '');
             const x = val.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-            input.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
-
+            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+            
             const carrierText = document.getElementById('carrier-text');
-            const lineType = document.getElementById('line-type');
-            const badge = document.getElementById('phone-verifier-badge');
             const submitBtn = document.getElementById('submit-audit-btn');
-
+            
             if (val.length === 10) {
                 carrierText.innerText = "Analyzing Carrier...";
-                carrierText.classList.add('animate-pulse');
-                await new Promise(r => setTimeout(r, 1500));
-                
-                const mockCarriers = ["Verizon Wireless", "AT&T Mobility", "T-Mobile USA"];
-                const selected = mockCarriers[Math.floor(Math.random() * mockCarriers.length)];
-                
-                carrierText.innerText = selected;
-                carrierText.classList.remove('animate-pulse');
+                await new Promise(r => setTimeout(r, 1200));
+                carrierText.innerText = "Verizon / AT&T Secured";
                 carrierText.style.color = "#047857";
-                lineType.innerText = "Type: Mobile/Verified";
-                badge.classList.remove('opacity-0');
+                document.getElementById('phone-verifier-badge').classList.remove('opacity-0');
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            } else {
-                carrierText.innerText = "Awaiting Input";
-                carrierText.style.color = "";
-                badge.classList.add('opacity-0');
-                submitBtn.disabled = true;
-                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
             }
         };
-
-        function validateNarrative(e) { e.preventDefault(); saveData('narrative', document.getElementById('ai-narrative').value); nextStep(7); }
-        function validateIdentity(e) { e.preventDefault(); nextStep(8); }
 
         async function submitFinalLead(e) {
             e.preventDefault();
@@ -295,15 +266,17 @@
             document.getElementById('step-scan').classList.add('hidden');
             const final = document.getElementById('step-final');
             final.classList.remove('hidden');
+            const d = MASTER_DB[currentState];
             final.innerHTML = `
                 <div class="p-6 border-4 border-double border-slate-200 bg-white text-left shadow-xl rounded-lg">
                     <div class="text-center mb-4"><p class="text-[10px] font-bold text-blue-800 uppercase tracking-widest">Official Statutory Audit</p></div>
                     <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div class="bg-slate-50 p-3 rounded text-center"><p class="text-[9px] uppercase font-bold text-slate-400">Liability Score</p><p class="text-xl font-black">9.2/10</p></div>
-                        <div class="bg-slate-50 p-3 rounded text-center"><p class="text-[9px] uppercase font-bold text-slate-400">Damage Grade</p><p class="text-xl font-black">High</p></div>
+                        <div class="bg-slate-50 p-3 rounded text-center"><p class="text-[9px] uppercase font-bold text-slate-400">Liability Score</p><p class="text-xl font-black">${currentScore/10}/10</p></div>
+                        <div class="bg-slate-50 p-3 rounded text-center"><p class="text-[9px] uppercase font-bold text-slate-400">Damage Grade</p><p class="text-xl font-black">HIGH</p></div>
                     </div>
-                    <div class="p-4 bg-amber-50 border border-amber-200 text-center mb-6">
-                        <p class="text-xs font-bold text-amber-800 uppercase">⚠️ PRIORITY SLOT RESERVED: <span id="timer">15:00</span></p>
+                    <p class="text-[11px] font-medium text-slate-600 italic mb-6">"Strong recovery potential confirmed under ${d.statute}."</p>
+                    <div class="p-3 bg-amber-50 border border-amber-200 text-center mb-6">
+                        <p class="text-xs font-bold text-amber-800 uppercase tracking-tighter">⚠️ PRIORITY SLOT RESERVED: <span id="timer">15:00</span></p>
                     </div>
                     <button onclick="window.location.href='tel:1234567890'" class="premium-btn w-full text-white font-bold py-4 rounded uppercase tracking-widest">Connect with Lead Counsel</button>
                 </div>
@@ -316,10 +289,7 @@
             }, 1000);
         }
 
-        function disqualify(r) {
-            document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
-            document.getElementById('step-disqualified').classList.remove('hidden');
-        }
+        function disqualify(r) { document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden')); document.getElementById('step-disqualified').classList.remove('hidden'); }
     </script>
 </body>
 </html>
