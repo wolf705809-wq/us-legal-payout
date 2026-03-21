@@ -109,7 +109,7 @@
 
                 <div id="step-3" class="step-container hidden space-y-3">
                     <h3 class="text-xl font-serif font-bold mb-6">Detail immediate medical intervention.</h3>
-                    <button onclick="handleSelection('medical_treatment', 'er', 4, 'Emergency admission creates a powerful audit trail.', 30)" class="option-card w-full p-4 text-left font-semibold text-base">ER Admission / Urgent Care</button>
+                    <button onclick="handleSelection('medical_treatment', 'er', 4, 'Emergency admission creates a powerful medical audit trail.', 30)" class="option-card w-full p-4 text-left font-semibold text-base">ER Admission / Urgent Care</button>
                     <button onclick="disqualify('No Injury');" class="option-card w-full p-4 text-left font-semibold text-base bg-slate-50">No Medical Treatment Required</button>
                 </div>
 
@@ -186,9 +186,9 @@
     </footer>
 
     <script>
-        // [필수] Supabase 설정
-        const SUPABASE_URL = 'https://ppgsrrmdmfnhmbhnxyck.supabase.co';
-        const SUPABASE_ANON_KEY = '여기에_복사하신_anon_key를_넣으세요'; 
+        // 🌟 [에러 방지 적용] 주소와 키 뒤에 .trim()을 붙여서 공백을 자동 제거합니다.
+        const SUPABASE_URL = 'https://ppgsrrmdmfnhmbhnxyck.supabase.co'.trim();
+        const SUPABASE_ANON_KEY = 'sb_publishable_zH0sJpPT_bKlEWsg7ltY-Q_WT8Cn43T'.trim(); 
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         const MASTER_DB = {
@@ -251,7 +251,7 @@
             let found = false;
             for (const [key, label] of Object.entries(keywords)) {
                 if (text.includes(key)) {
-                    badgeContainer.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase">✓ ${label}</span>`;
+                    badgeContainer.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase animate-pulse">✓ ${label}</span>`;
                     found = true;
                 }
             }
@@ -276,7 +276,6 @@
             }
         };
 
-        // [실제 저장 로직]
         async function submitFinalLead(e) {
             e.preventDefault();
             document.getElementById('step-8').classList.add('hidden');
@@ -300,13 +299,15 @@
             };
 
             try {
+                // 🌟 실제 데이터 전송
                 const { error } = await _supabase.from('leads').insert([finalData]);
                 if (error) throw error;
                 await new Promise(r => setTimeout(r, 2000));
                 renderFinalReport();
             } catch (err) {
-                console.error("저장 실패:", err.message);
-                alert("Submission error: " + err.message);
+                // [수정] 에러 메시지를 alert으로 더 자세히 띄웁니다.
+                console.error("저장 실패:", err);
+                alert("에러 발생: " + (err.message || "Key의 앞뒤 공백을 확인해 주세요."));
                 document.getElementById('step-scan').classList.add('hidden');
                 document.getElementById('step-8').classList.remove('hidden');
             }
