@@ -1,7 +1,10 @@
 {
-  "name": "us-legal-payout",
+  "name": "us-traffic-settlement",
   "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
   "dependencies": {
-    "@supabase/supabase-js": "^2.0.0"
+    "@supabase/supabase-js": "^2.45.4",
+    "@google/generative-ai": "^0.21.0"
   }
 }
