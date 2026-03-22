@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   const ip = forwarded ? forwarded.split(/, /)[0] : req.socket.remoteAddress;
 
   try {
-    // [1] Cloudflare 봇 검증
+    // [1] 봇 검증
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -37,36 +37,31 @@ export default async function handler(req, res) {
       } catch (e) { console.error("Twilio Error:", e.message); }
     }
 
-    // [3] AI 분석 (정식 모델명 사용 및 에러 핸들링)
-    let aiBrief = "Pending Analysis";
+    // [3] AI 분석 (에러 로깅 강화)
+    let aiBrief = "Manual Analysis (AI logic applied)";
     let aiScore = 5;
+    let aiErrorLog = null;
     const text = (leadData.narrative || "").toLowerCase();
 
     if (genAI && text.length > 5) {
       try {
-        // 가장 안정적인 gemini-1.5-flash 모델 사용
+        // 가장 표준적인 모델명 하나로 정면 돌파!
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        const prompt = `Analyze this accident description: "${text}". 
-        Provide a 1-sentence summary and a score from 1-10 based on severity (trucks, injuries, surgery are high score). 
-        Return ONLY valid JSON format like this: {"brief": "summary here", "score": 10}`;
-        
-        const result = await model.generateContent(prompt);
+        const result = await model.generateContent(`Analyze accident: "${text}". Return ONLY JSON: {"brief": "summary", "score": 10}`);
         const response = await result.response;
-        const responseText = response.text().replace(/```json|```/g, "").trim();
-        const aiRes = JSON.parse(responseText);
-        
+        const aiRes = JSON.parse(response.text().replace(/```json|```/g, "").trim());
         aiBrief = aiRes.brief;
         aiScore = aiRes.score;
-      } catch (aiErr) {
-        // AI 실패 시 사령관님의 v9.3 키워드 엔진 자동 가동
-        aiBrief = `Manual Analysis (AI logic applied)`;
+      } catch (e) {
+        // [진단] 에러가 나면 수동 채점을 돌리되, 에러 내용을 변수에 저장!
+        aiErrorLog = e.message; 
         if (text.includes("truck") || text.includes("18-wheeler")) aiScore += 3;
         if (text.includes("hospital") || text.includes("surgery") || text.includes("broken")) aiScore += 4;
         if (aiScore > 10) aiScore = 10;
       }
     }
 
-    // [4] 데이터 최종 저장
+    // [4] 데이터 저장 (ai_error 칸에 범인의 증거를 남김)
     delete leadData['cf-turnstile-response'];
     const { error } = await supabase.from('leads').insert([{
       ...leadData,
@@ -75,6 +70,7 @@ export default async function handler(req, res) {
       line_type: lineType,
       ai_brief: aiBrief,
       ai_score: aiScore,
+      ai_error: aiErrorLog, // 여기에 구글의 핑계가 적힙니다.
       lead_grade: (aiScore >= 8 && lineType === 'mobile') ? 'High-Value' : 'Standard'
     }]);
 
