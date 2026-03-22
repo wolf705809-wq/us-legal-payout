@@ -15,7 +15,7 @@
     })();
     </script>
 
-    <<link rel="stylesheet" href="style.css">>
+    <link rel="stylesheet" href="style.css?v=1.2">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -200,7 +200,6 @@
         let leadData = {};
         let tcpaCheckedAt = null;
 
-        // [증거 강화] 체크박스 클릭 시점 기록
         document.getElementById('tcpa').addEventListener('change', function(e) {
             const btn = document.getElementById('submit-audit-btn');
             if (this.checked) {
