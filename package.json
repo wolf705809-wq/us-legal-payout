@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
-    "@google/generative-ai": "^0.21.0"
+    "@google/generative-ai": "^0.21.0",
+    "twilio": "^5.4.0"
   }
 }
