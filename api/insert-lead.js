@@ -13,7 +13,7 @@ export default async function handler(req, res) {
   const ip = forwarded ? forwarded.split(/, /)[0] : req.socket.remoteAddress;
 
   try {
-    // 1. 봇 검증 (Cloudflare)
+    // 1. 봇 차단 검증 (Cloudflare)
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -22,20 +22,19 @@ export default async function handler(req, res) {
     const verification = await verifyRes.json();
     if (!verification.success) return res.status(403).json({ success: false, error: 'Bot detected.' });
 
-    // 2. AI 분석 (이중 백업 로직)
+    // 2. AI 분석 (이중/삼중 백업 시스템)
     let aiBrief = "Summary unavailable";
     let aiScore = 0;
 
     if (genAI && leadData.narrative) {
-      // 시도할 모델 리스트 (Flash가 안 되면 Pro로!)
-      const modelNames = ["gemini-1.5-flash", "gemini-pro", "gemini-1.0-pro"];
+      // 구글이 거부할 수 없는 모델 리스트 (최신부터 안정버전 순)
+      const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-pro"];
       
-      for (const modelName of modelNames) {
+      for (const modelName of modelsToTry) {
         try {
-          console.log(`Trying AI Model: ${modelName}...`);
+          console.log(`[SYSTEM] Attempting with model: ${modelName}`);
           const model = genAI.getGenerativeModel({ model: modelName });
-          const prompt = `Analyze accident: "${leadData.narrative}". 
-          Return ONLY JSON: {"brief": "3 key points", "score": number 1-10}`;
+          const prompt = `Analyze accident: "${leadData.narrative}". Return strictly JSON: {"brief": "summary", "score": number}`;
           
           const result = await model.generateContent(prompt);
           const response = await result.response;
@@ -44,17 +43,17 @@ export default async function handler(req, res) {
           
           aiBrief = aiRes.brief;
           aiScore = aiRes.score;
-          console.log(`Success with ${modelName}!`);
-          break; // 성공하면 반복 중단
+          console.log(`[SUCCESS] AI processing complete with ${modelName}`);
+          break; // 성공하면 루프 탈출
         } catch (aiErr) {
-          console.error(`${modelName} failed:`, aiErr.message);
-          aiBrief = `AI Error: ${aiErr.message}`;
-          // 다음 모델로 넘어가서 다시 시도함
+          console.error(`[FAIL] ${modelName} failed: ${aiErr.message}`);
+          aiBrief = `AI error on all models: ${aiErr.message}`;
+          // 다음 모델로 계속 진행
         }
       }
     }
 
-    // 3. 데이터 저장
+    // 3. 데이터 저장 (AI가 다 실패해도 원본 데이터는 무조건 저장!)
     delete leadData['cf-turnstile-response'];
     const { error } = await supabase.from('leads').insert([{
       ...leadData,
@@ -68,7 +67,7 @@ export default async function handler(req, res) {
     return res.status(200).json({ success: true });
 
   } catch (err) {
-    console.error("Critical Error:", err.message);
+    console.error("[CRITICAL] Final Error:", err.message);
     return res.status(500).json({ success: false, error: err.message });
   }
 }
