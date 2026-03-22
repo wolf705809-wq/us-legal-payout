@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Preliminary Case Evaluation | JDS Global Solutions</title>
     
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
     <script type="text/javascript">
     (function() {
         var tf = document.createElement('script');
@@ -33,6 +35,8 @@
         .legal-link { text-decoration: underline; color: #1E3A8A; cursor: pointer; font-weight: 700; transition: color 0.2s; }
         .advertising-badge { border: 1px solid #E2E8F0; color: #94A3B8; font-size: 9px; padding: 2px 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
         #modalBody::-webkit-scrollbar { width: 0px; background: transparent; }
+        /* Turnstile 위젯 중앙 정렬 */
+        .cf-turnstile { display: flex; justify-content: center; margin-bottom: 1rem; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -146,6 +150,9 @@
                         <div id="phone-verifier-badge" class="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 transition-opacity"><span class="text-[9px] font-bold text-emerald-600 uppercase">Verified</span></div>
                     </div>
                     <p id="carrier-text" class="text-[10px] font-bold text-slate-400 text-center h-4"></p>
+                    
+                    <div class="cf-turnstile" data-sitekey="0x4AAAAAACuTQ4GK1w5nO44e"></div>
+
                     <label class="flex items-start gap-3 mt-4 p-4 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer">
                         <input type="checkbox" id="tcpa" class="w-5 h-5 mt-1 accent-blue-700 shrink-0" required>
                         <span class="text-[10px] text-slate-600 leading-relaxed font-medium">
@@ -267,9 +274,17 @@
             }
         };
 
-        // [최종 로직] 이제 API Route(/api/insert-lead)를 통해 데이터를 안전하게 보냅니다.
         async function submitFinalLead(e) {
             e.preventDefault();
+            
+            // Turnstile 토큰 가져오기 (이름이 cf-turnstile-response인 요소를 찾음)
+            const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
+            
+            if (!turnstileToken) {
+                alert("Please complete the security check.");
+                return;
+            }
+
             document.getElementById('step-8').classList.add('hidden');
             document.getElementById('step-scan').classList.remove('hidden');
 
@@ -287,11 +302,12 @@
                 state: currentState,
                 case_score: currentScore / 10,
                 trusted_form_url: document.getElementsByName('xxTrustedFormCertUrl')[0]?.value || 'Pending',
-                user_agent: navigator.userAgent
+                user_agent: navigator.userAgent,
+                // 서버로 검증 토큰 함께 전송
+                "cf-turnstile-response": turnstileToken
             };
 
             try {
-                // 수파베이스 직접 호출 대신 우리 서버(/api/insert-lead)로 쏩니다.
                 const response = await fetch('/api/insert-lead', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -306,7 +322,7 @@
                 
             } catch (err) {
                 console.error("Submission error:", err);
-                alert("System Busy. Please try again later.");
+                alert("Submission failed. " + (err.message || "Please try again."));
                 document.getElementById('step-scan').classList.add('hidden');
                 document.getElementById('step-8').classList.remove('hidden');
             }
