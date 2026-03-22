@@ -6,7 +6,6 @@
     <title>Preliminary Case Evaluation | JDS Global Solutions</title>
     
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-
     <script type="text/javascript">
     (function() {
         var tf = document.createElement('script');
@@ -35,7 +34,6 @@
         .legal-link { text-decoration: underline; color: #1E3A8A; cursor: pointer; font-weight: 700; transition: color 0.2s; }
         .advertising-badge { border: 1px solid #E2E8F0; color: #94A3B8; font-size: 9px; padding: 2px 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
         #modalBody::-webkit-scrollbar { width: 0px; background: transparent; }
-        /* Turnstile 위젯 중앙 정렬 */
         .cf-turnstile { display: flex; justify-content: center; margin-bottom: 1rem; }
     </style>
 </head>
@@ -149,7 +147,6 @@
                         <input type="tel" id="userPhone" placeholder="(555) 555-5555" required class="w-full bg-slate-50 border border-slate-200 px-4 py-4 rounded text-2xl font-bold text-center outline-none tracking-widest focus:border-blue-500">
                         <div id="phone-verifier-badge" class="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 transition-opacity"><span class="text-[9px] font-bold text-emerald-600 uppercase">Verified</span></div>
                     </div>
-                    <p id="carrier-text" class="text-[10px] font-bold text-slate-400 text-center h-4"></p>
                     
                     <div class="cf-turnstile" data-sitekey="0x4AAAAAACuTQ4GK1w5nO44e"></div>
 
@@ -201,6 +198,21 @@
         let currentScore = 15;
         let currentState = 'california';
         let leadData = {};
+        let tcpaCheckedAt = null;
+
+        // [증거 강화] 체크박스 클릭 시점 기록
+        document.getElementById('tcpa').addEventListener('change', function(e) {
+            const btn = document.getElementById('submit-audit-btn');
+            if (this.checked) {
+                tcpaCheckedAt = new Date().toISOString();
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                tcpaCheckedAt = null;
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        });
 
         function startAudit(s) { 
             currentState = s; 
@@ -260,7 +272,22 @@
             nextStep(7); 
         }
 
-        function validateIdentity(e) { e.preventDefault(); nextStep(8); }
+        function validateIdentity(e) { 
+            e.preventDefault(); 
+            const fName = document.getElementById('fName').value.trim();
+            const lName = document.getElementById('lName').value.trim();
+            const nameRegex = /^[A-Za-z\s\-']+$/;
+
+            if (!nameRegex.test(fName) || !nameRegex.test(lName)) {
+                alert("Please enter a valid name (letters only).");
+                return;
+            }
+            if (fName.length < 2 || lName.length < 2) {
+                alert("Name is too short.");
+                return;
+            }
+            nextStep(8); 
+        }
 
         document.getElementById('userPhone').oninput = async (e) => {
             let val = e.target.value.replace(/\D/g, '');
@@ -268,18 +295,16 @@
             e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
             if (val.length === 10) {
                 document.getElementById('phone-verifier-badge').classList.remove('opacity-0');
-                const btn = document.getElementById('submit-audit-btn');
-                btn.disabled = false;
-                btn.classList.remove('opacity-50', 'cursor-not-allowed');
             }
         };
 
         async function submitFinalLead(e) {
             e.preventDefault();
-            
-            // Turnstile 토큰 가져오기 (이름이 cf-turnstile-response인 요소를 찾음)
+            if (!document.getElementById('tcpa').checked) {
+                alert("Please agree to the TCPA terms.");
+                return;
+            }
             const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
-            
             if (!turnstileToken) {
                 alert("Please complete the security check.");
                 return;
@@ -301,9 +326,10 @@
                 narrative: leadData.narrative || '',
                 state: currentState,
                 case_score: currentScore / 10,
+                tcpa_consent: true,
+                tcpa_consent_date: tcpaCheckedAt,
                 trusted_form_url: document.getElementsByName('xxTrustedFormCertUrl')[0]?.value || 'Pending',
                 user_agent: navigator.userAgent,
-                // 서버로 검증 토큰 함께 전송
                 "cf-turnstile-response": turnstileToken
             };
 
@@ -313,16 +339,13 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(finalData)
                 });
-
                 const result = await response.json();
                 if (!result.success) throw new Error(result.error);
-
                 await new Promise(r => setTimeout(r, 1500));
                 window.location.href = 'success.html'; 
-                
             } catch (err) {
                 console.error("Submission error:", err);
-                alert("Submission failed. " + (err.message || "Please try again."));
+                alert("Submission failed. " + err.message);
                 document.getElementById('step-scan').classList.add('hidden');
                 document.getElementById('step-8').classList.remove('hidden');
             }
