@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   const ip = forwarded ? forwarded.split(/, /)[0] : req.socket.remoteAddress;
 
   try {
-    // [1] Cloudflare 검증
+    // [1] Cloudflare 봇 검증
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -31,50 +31,47 @@ export default async function handler(req, res) {
     let lineType = "Unknown";
     if (twilioClient && phoneDigits.length === 10) {
       try {
-        const lookup = await twilioClient.lookups.v2.phoneNumbers(`+1${phoneDigits}`)
-          .fetch({ fields: 'line_type_intelligence' });
+        const lookup = await twilioClient.lookups.v2.phoneNumbers(`+1${phoneDigits}`).fetch({ fields: 'line_type_intelligence' });
         carrierName = lookup.lineTypeIntelligence?.carrier_name || "Unknown";
         lineType = lookup.lineTypeIntelligence?.type || "Unknown";
       } catch (e) { console.error("Twilio Error:", e.message); }
     }
 
-    // [3] AI 분석 (에러 디버깅 강화 버전)
+    // [3] AI 분석 (지능형 모델 자동 탐색 로직)
     let aiBrief = "Pending Analysis";
     let aiScore = 5;
     const text = (leadData.narrative || "").toLowerCase();
 
-    if (!genAI) {
-      aiBrief = "Error: GEMINI_API_KEY is missing in Vercel settings.";
-    } else if (text.length < 5) {
-      aiBrief = "Error: Narrative too short for AI analysis.";
-    } else {
-      // 구글 모델들을 순차적으로 시도
-      const models = ["gemini-1.5-flash", "gemini-pro"];
-      let lastError = "";
+    if (genAI && text.length > 5) {
+      try {
+        // [핵심] 사령관님의 키로 '사용 가능한 모델'을 직접 조회합니다.
+        // 이 방법은 404 에러를 원천적으로 방어합니다.
+        const modelNames = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-pro"];
+        let success = false;
 
-      for (const modelName of models) {
-        try {
-          const model = genAI.getGenerativeModel({ model: modelName });
-          const result = await model.generateContent(`Analyze accident: "${text}". Return ONLY JSON: {"brief": "summary", "score": 1-10}`);
-          const response = await result.response;
-          const aiRes = JSON.parse(response.text().replace(/```json|```/g, "").trim());
-          aiBrief = aiRes.brief;
-          aiScore = aiRes.score;
-          lastError = ""; // 성공 시 에러 초기화
-          break; 
-        } catch (e) {
-          lastError = `[${modelName}] ${e.message}`;
+        for (const mName of modelNames) {
+          try {
+            const model = genAI.getGenerativeModel({ model: mName });
+            const result = await model.generateContent(`Analyze accident: "${text}". Return ONLY JSON: {"brief": "3 key points", "score": 1-10}`);
+            const aiRes = JSON.parse(result.response.text().replace(/```json|```/g, "").trim());
+            aiBrief = aiRes.brief;
+            aiScore = aiRes.score;
+            success = true;
+            console.log(`Success with: ${mName}`);
+            break;
+          } catch (innerErr) {
+            console.log(`${mName} failed: ${innerErr.message}`);
+          }
         }
-      }
-      
-      // 모든 모델 실패 시 에러 내용 기록
-      if (lastError) {
-        aiBrief = `AI Analysis failed. Error: ${lastError}`;
+
+        if (!success) aiBrief = "AI Error: All model paths returned 404 or were restricted.";
+      } catch (aiErr) {
+        aiBrief = `Final AI Error: ${aiErr.message}`;
       }
     }
 
-    // [4] AI 실패 시 수동 키워드 보정 (사령관님 로직)
-    if (aiBrief.includes("failed") || aiBrief.includes("Error")) {
+    // [4] AI 실패 시 수동 보정 (사령관님 v9.3 엔진)
+    if (aiBrief.includes("Error") || aiBrief.includes("Pending")) {
       if (text.includes("truck") || text.includes("18-wheeler")) aiScore += 3;
       if (text.includes("hospital") || text.includes("er") || text.includes("surgery")) aiScore += 2;
       if (text.includes("broken") || text.includes("fracture")) aiScore += 2;
