@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   const ip = forwarded ? forwarded.split(/, /)[0] : req.socket.remoteAddress;
 
   try {
-    // [1] 봇 차단 (Cloudflare)
+    // [1] 봇 차단
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -24,28 +24,27 @@ export default async function handler(req, res) {
     const verification = await verifyRes.json();
     if (!verification.success) return res.status(403).json({ success: false, error: 'Bot detected.' });
 
-    // [2] 통신사 조회 (Twilio)
+    // [2] Twilio 통신사 정밀 조회
     let carrierName = "Unknown";
     let lineType = "Unknown";
     if (twilioClient && phoneDigits.length === 10) {
       try {
         const lookup = await twilioClient.lookups.v2.phoneNumbers(`+1${phoneDigits}`).fetch({ fields: 'line_type_intelligence' });
         carrierName = lookup.lineTypeIntelligence?.carrier_name || "Unknown";
-        lineType = lookup.lineTypeIntelligence?.type || "Unknown";
-      } catch (e) { console.error("Twilio Lookup Error:", e.message); }
+        lineType = lookup.lineTypeIntelligence?.type || "Unknown"; // mobile, landline, voip 등
+      } catch (e) { console.error("Twilio Error:", e.message); }
     }
 
-    // [3] v10.0 고정밀 키워드 분석 엔진 (AI 대체)
-    let finalBrief = "System V10.0 Analysis: ";
-    let finalScore = 5; // 기본 점수
+    // [3] v10.1 정밀 분석 엔진
+    let finalBrief = "V10.1 Analysis: ";
+    let finalScore = 5;
     const text = (leadData.narrative || "").toLowerCase();
 
-    // 키워드별 가중치 부여
+    // 키워드 분석
     const scoringMap = [
-      { key: ["truck", "18-wheeler", "semi", "commercial"], score: 3, label: "Commercial Vehicle" },
-      { key: ["hospital", "er", "surgery", "ambulance", "icu"], score: 3, label: "Severe Medical" },
-      { key: ["broken", "fracture", "spine", "neck", "brain"], score: 2, label: "Critical Injury" },
-      { key: ["police", "report", "citation"], score: 1, label: "Law Enforcement Involved" }
+      { key: ["truck", "18-wheeler", "semi"], score: 3, label: "Commercial Vehicle" },
+      { key: ["hospital", "surgery", "ambulance"], score: 3, label: "Severe Medical" },
+      { key: ["broken", "fracture", "spine"], score: 2, label: "Critical Injury" }
     ];
 
     let detectedTags = [];
@@ -56,26 +55,35 @@ export default async function handler(req, res) {
       }
     });
 
-    finalScore = Math.min(10, finalScore);
-    finalBrief += detectedTags.length > 0 ? detectedTags.join(" | ") : "Standard Personal Injury Case";
+    // [중요] VOIP(인터넷전화) 페널티 로직
+    let grade = "Standard";
+    if (lineType === 'voip') {
+      finalScore -= 5; // 점수 폭락
+      detectedTags.push("VOIP DETECTED (Low Quality)");
+      grade = "Low-Quality (VOIP)";
+    } else if (finalScore >= 8 && lineType === 'mobile') {
+      grade = "High-Value";
+    }
 
-    // [4] 최종 데이터 저장
+    finalScore = Math.max(0, Math.min(10, finalScore));
+    finalBrief += detectedTags.length > 0 ? detectedTags.join(" | ") : "Standard Case";
+
+    // [4] DB 저장
     delete leadData['cf-turnstile-response'];
     const { error } = await supabase.from('leads').insert([{
       ...leadData,
       ip_address: ip,
       carrier_name: carrierName,
       line_type: lineType,
-      ai_brief: finalBrief, // 이름은 유지하되 내용은 우리가 만든 분석글로!
+      ai_brief: finalBrief,
       ai_score: finalScore,
-      lead_grade: (finalScore >= 8 && lineType === 'mobile') ? 'High-Value' : 'Standard'
+      lead_grade: grade // 여기서 'Low-Quality'가 찍힙니다.
     }]);
 
     if (error) throw error;
     return res.status(200).json({ success: true });
 
   } catch (err) {
-    console.error("Critical System Error:", err.message);
     return res.status(500).json({ success: false, error: err.message });
   }
 }
