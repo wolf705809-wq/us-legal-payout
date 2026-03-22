@@ -27,37 +27,37 @@ export default async function handler(req, res) {
     const verification = await verifyRes.json();
     if (!verification.success) return res.status(403).json({ success: false, error: 'Bot detected.' });
 
-    // 2. AI 분석 (에러가 나도 저장은 되도록 설계)
+    // 2. AI 분석 (모델 이름을 gemini-1.5-flash-latest로 변경)
     let aiBrief = "Summary unavailable (AI Error)";
     let aiScore = 0;
 
     if (genAI && leadData.narrative && leadData.narrative.length > 5) {
       try {
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        // [중요] 404 에러를 피하기 위해 -latest 접미사를 붙였습니다.
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
         const prompt = `Analyze this accident report: "${leadData.narrative}". 
-        1. Summarize in 3 bullet points. 
-        2. Give a priority score 1-10 based on severity. 
-        Return strictly in JSON: {"brief": "string", "score": number}`;
+        Return strictly in JSON: {"brief": "summary in 3 points", "score": number 1-10}`;
         
         const result = await model.generateContent(prompt);
         const text = result.response.text().replace(/```json|```/g, "").trim();
         const aiRes = JSON.parse(text);
         aiBrief = aiRes.brief;
         aiScore = aiRes.score;
-      } catch (e) { console.error("AI Error:", e.message); }
+      } catch (e) { 
+        console.error("AI Error:", e.message); 
+        aiBrief = `AI processing failed: ${e.message}`;
+      }
     }
 
-    // 3. 최종 데이터 조립 및 저장
+    // 3. 최종 데이터 저장
     delete leadData['cf-turnstile-response'];
-    const finalData = {
+    const { error } = await supabase.from('leads').insert([{
       ...leadData,
       ip_address: ip,
       ai_brief: aiBrief,
       ai_score: aiScore,
       lead_grade: aiScore >= 8 ? 'High-Value' : 'Standard'
-    };
-
-    const { error } = await supabase.from('leads').insert([finalData]);
+    }]);
     if (error) throw error;
 
     return res.status(200).json({ success: true });
