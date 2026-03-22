@@ -13,7 +13,7 @@ export default async function handler(req, res) {
   const ip = forwarded ? forwarded.split(/, /)[0] : req.socket.remoteAddress;
 
   try {
-    // 1. 봇 차단 검증 (Cloudflare)
+    // 1. 봇 검증
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -22,38 +22,39 @@ export default async function handler(req, res) {
     const verification = await verifyRes.json();
     if (!verification.success) return res.status(403).json({ success: false, error: 'Bot detected.' });
 
-    // 2. AI 분석 (이중/삼중 백업 시스템)
-    let aiBrief = "Summary unavailable";
-    let aiScore = 0;
+    // 2. [비상 대책] 기본 점수 계산기 (AI 실패 대비용)
+    let aiBrief = "AI Analysis skipped/failed. Manual keywords detected.";
+    let aiScore = 5; // 기본 점수
+    const text = (leadData.narrative || "").toLowerCase();
 
-    if (genAI && leadData.narrative) {
-      // 구글이 거부할 수 없는 모델 리스트 (최신부터 안정버전 순)
-      const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-pro"];
-      
-      for (const modelName of modelsToTry) {
-        try {
-          console.log(`[SYSTEM] Attempting with model: ${modelName}`);
-          const model = genAI.getGenerativeModel({ model: modelName });
-          const prompt = `Analyze accident: "${leadData.narrative}". Return strictly JSON: {"brief": "summary", "score": number}`;
-          
-          const result = await model.generateContent(prompt);
-          const response = await result.response;
-          const text = response.text().replace(/```json|```/g, "").trim();
-          const aiRes = JSON.parse(text);
-          
-          aiBrief = aiRes.brief;
-          aiScore = aiRes.score;
-          console.log(`[SUCCESS] AI processing complete with ${modelName}`);
-          break; // 성공하면 루프 탈출
-        } catch (aiErr) {
-          console.error(`[FAIL] ${modelName} failed: ${aiErr.message}`);
-          aiBrief = `AI error on all models: ${aiErr.message}`;
-          // 다음 모델로 계속 진행
+    // 키워드 기반 수동 채점 (사령관님의 v9.3 로직 이식)
+    if (text.includes("truck") || text.includes("18-wheeler")) aiScore += 3;
+    if (text.includes("hospital") || text.includes("er") || text.includes("surgery")) aiScore += 2;
+    if (text.includes("broken") || text.includes("fracture") || text.includes("spine")) aiScore += 2;
+    if (aiScore > 10) aiScore = 10;
+
+    // 3. AI 분석 시도 (실패해도 중단되지 않음)
+    if (genAI && text.length > 5) {
+      try {
+        // 가장 안정적인 3가지 이름을 순차적으로 시도
+        const modelNames = ["gemini-1.5-flash-latest", "gemini-1.5-pro", "gemini-pro"];
+        for (const name of modelNames) {
+          try {
+            const model = genAI.getGenerativeModel({ model: name });
+            const result = await model.generateContent(`Analyze: "${text}". Return ONLY JSON: {"brief": "3 key points", "score": 1-10}`);
+            const response = await result.response;
+            const aiRes = JSON.parse(response.text().replace(/```json|```/g, "").trim());
+            aiBrief = aiRes.brief;
+            aiScore = aiRes.score;
+            break; // 하나라도 성공하면 루프 탈출
+          } catch (e) { console.log(`${name} failed, trying next...`); }
         }
+      } catch (aiErr) {
+        console.error("All AI models failed, using manual score.");
       }
     }
 
-    // 3. 데이터 저장 (AI가 다 실패해도 원본 데이터는 무조건 저장!)
+    // 4. 데이터 저장 (여기서 실패는 없다)
     delete leadData['cf-turnstile-response'];
     const { error } = await supabase.from('leads').insert([{
       ...leadData,
@@ -67,7 +68,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ success: true });
 
   } catch (err) {
-    console.error("[CRITICAL] Final Error:", err.message);
     return res.status(500).json({ success: false, error: err.message });
   }
 }
