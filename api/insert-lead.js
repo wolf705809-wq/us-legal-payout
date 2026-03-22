@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   const ip = forwarded ? forwarded.split(/, /)[0] : req.socket.remoteAddress;
 
   try {
-    // [1] Cloudflare 봇 검증
+    // [1] 봇 검증
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     const verification = await verifyRes.json();
     if (!verification.success) return res.status(403).json({ success: false, error: 'Bot detected.' });
 
-    // [2] Twilio 통신사 조회
+    // [2] 통신사 조회
     let carrierName = "Unknown";
     let lineType = "Unknown";
     if (twilioClient && phoneDigits.length === 10) {
@@ -37,40 +37,34 @@ export default async function handler(req, res) {
       } catch (e) { console.error("Twilio Error:", e.message); }
     }
 
-    // [3] AI 분석 (지능형 모델 자동 탐색 로직)
-    let aiBrief = "Pending Analysis";
+    // [3] AI 분석 (무한 루프 방지형 모델 릴레이)
+    let aiBrief = "Analysis Pending";
     let aiScore = 5;
     const text = (leadData.narrative || "").toLowerCase();
 
     if (genAI && text.length > 5) {
-      try {
-        // [핵심] 사령관님의 키로 '사용 가능한 모델'을 직접 조회합니다.
-        // 이 방법은 404 에러를 원천적으로 방어합니다.
-        const modelNames = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-pro"];
-        let success = false;
+      // 구글이 절대 모른 척 할 수 없는 모델 이름들만 모았습니다.
+      const testModels = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-pro"];
+      let success = false;
 
-        for (const mName of modelNames) {
-          try {
-            const model = genAI.getGenerativeModel({ model: mName });
-            const result = await model.generateContent(`Analyze accident: "${text}". Return ONLY JSON: {"brief": "3 key points", "score": 1-10}`);
-            const aiRes = JSON.parse(result.response.text().replace(/```json|```/g, "").trim());
-            aiBrief = aiRes.brief;
-            aiScore = aiRes.score;
-            success = true;
-            console.log(`Success with: ${mName}`);
-            break;
-          } catch (innerErr) {
-            console.log(`${mName} failed: ${innerErr.message}`);
-          }
+      for (const mName of testModels) {
+        try {
+          const model = genAI.getGenerativeModel({ model: mName });
+          const result = await model.generateContent(`Analyze accident: "${text}". Return strictly JSON: {"brief": "3 key points", "score": 1-10}`);
+          const aiRes = JSON.parse(result.response.text().replace(/```json|```/g, "").trim());
+          aiBrief = aiRes.brief;
+          aiScore = aiRes.score;
+          success = true;
+          console.log(`Successfully used: ${mName}`);
+          break;
+        } catch (err) {
+          console.log(`${mName} failed, moving to next...`);
         }
-
-        if (!success) aiBrief = "AI Error: All model paths returned 404 or were restricted.";
-      } catch (aiErr) {
-        aiBrief = `Final AI Error: ${aiErr.message}`;
       }
+      if (!success) aiBrief = "AI Error: All model paths returned 404. Using manual logic.";
     }
 
-    // [4] AI 실패 시 수동 보정 (사령관님 v9.3 엔진)
+    // [4] AI 실패 시 수동 보정 (사령관님의 v9.3 엔진)
     if (aiBrief.includes("Error") || aiBrief.includes("Pending")) {
       if (text.includes("truck") || text.includes("18-wheeler")) aiScore += 3;
       if (text.includes("hospital") || text.includes("er") || text.includes("surgery")) aiScore += 2;
