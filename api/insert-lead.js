@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   const ip = forwarded ? forwarded.split(/, /)[0] : req.socket.remoteAddress;
 
   try {
-    // [1] 봇 검증
+    // [1] Cloudflare 봇 검증
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     const verification = await verifyRes.json();
     if (!verification.success) return res.status(403).json({ success: false, error: 'Bot detected.' });
 
-    // [2] 통신사 조회
+    // [2] Twilio 통신사 조회
     let carrierName = "Unknown";
     let lineType = "Unknown";
     if (twilioClient && phoneDigits.length === 10) {
@@ -37,42 +37,36 @@ export default async function handler(req, res) {
       } catch (e) { console.error("Twilio Error:", e.message); }
     }
 
-    // [3] AI 분석 (무한 루프 방지형 모델 릴레이)
-    let aiBrief = "Analysis Pending";
+    // [3] AI 분석 (정식 모델명 사용 및 에러 핸들링)
+    let aiBrief = "Pending Analysis";
     let aiScore = 5;
     const text = (leadData.narrative || "").toLowerCase();
 
     if (genAI && text.length > 5) {
-      // 구글이 절대 모른 척 할 수 없는 모델 이름들만 모았습니다.
-      const testModels = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-pro"];
-      let success = false;
-
-      for (const mName of testModels) {
-        try {
-          const model = genAI.getGenerativeModel({ model: mName });
-          const result = await model.generateContent(`Analyze accident: "${text}". Return strictly JSON: {"brief": "3 key points", "score": 1-10}`);
-          const aiRes = JSON.parse(result.response.text().replace(/```json|```/g, "").trim());
-          aiBrief = aiRes.brief;
-          aiScore = aiRes.score;
-          success = true;
-          console.log(`Successfully used: ${mName}`);
-          break;
-        } catch (err) {
-          console.log(`${mName} failed, moving to next...`);
-        }
+      try {
+        // 가장 안정적인 gemini-1.5-flash 모델 사용
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const prompt = `Analyze this accident description: "${text}". 
+        Provide a 1-sentence summary and a score from 1-10 based on severity (trucks, injuries, surgery are high score). 
+        Return ONLY valid JSON format like this: {"brief": "summary here", "score": 10}`;
+        
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const responseText = response.text().replace(/```json|```/g, "").trim();
+        const aiRes = JSON.parse(responseText);
+        
+        aiBrief = aiRes.brief;
+        aiScore = aiRes.score;
+      } catch (aiErr) {
+        // AI 실패 시 사령관님의 v9.3 키워드 엔진 자동 가동
+        aiBrief = `Manual Analysis (AI logic applied)`;
+        if (text.includes("truck") || text.includes("18-wheeler")) aiScore += 3;
+        if (text.includes("hospital") || text.includes("surgery") || text.includes("broken")) aiScore += 4;
+        if (aiScore > 10) aiScore = 10;
       }
-      if (!success) aiBrief = "AI Error: All model paths returned 404. Using manual logic.";
     }
 
-    // [4] AI 실패 시 수동 보정 (사령관님의 v9.3 엔진)
-    if (aiBrief.includes("Error") || aiBrief.includes("Pending")) {
-      if (text.includes("truck") || text.includes("18-wheeler")) aiScore += 3;
-      if (text.includes("hospital") || text.includes("er") || text.includes("surgery")) aiScore += 2;
-      if (text.includes("broken") || text.includes("fracture")) aiScore += 2;
-      if (aiScore > 10) aiScore = 10;
-    }
-
-    // [5] 최종 저장
+    // [4] 데이터 최종 저장
     delete leadData['cf-turnstile-response'];
     const { error } = await supabase.from('leads').insert([{
       ...leadData,
