@@ -6,6 +6,7 @@
     <title>Preliminary Case Evaluation | JDS Global Solutions</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     
     <script type="text/javascript">
@@ -170,26 +171,43 @@
         </div>
     </div>
 
-    <footer class="w-full bg-white border-t border-slate-200 p-10 mt-20">
-        <div class="max-w-5xl mx-auto text-center">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 text-[11px] font-bold text-slate-600 uppercase tracking-widest border-b border-slate-100 pb-10">
-                <div><p class="text-slate-400 mb-1">Contact Support</p><p>support@jdsglobalsolutions.com</p></div>
-                <div><p class="text-slate-400 mb-1">Corporate Address</p><p>주소 입력칸</p></div>
-                <div><p class="text-slate-400 mb-1">Direct Verification</p><p>미국 번호 입력칸</p></div>
+    <footer class="w-full bg-[#0B1120] text-[#94A3B8] p-12 md:p-20 mt-20">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 pb-16 border-b border-slate-800 text-center md:text-left">
+                <div class="space-y-4">
+                    <p class="text-white text-[10px] font-bold uppercase tracking-[0.3em]">Direct Support</p>
+                    <p class="text-sm font-medium hover:text-white transition-colors cursor-pointer">support@jdsglobalsolutions.com</p>
+                </div>
+                <div class="space-y-4">
+                    <p class="text-white text-[10px] font-bold uppercase tracking-[0.3em]">Corporate HQ</p>
+                    <p class="text-sm font-medium leading-relaxed">
+                        1201 North Market Street, Suite 111<br/>
+                        Wilmington, DE 19801, USA
+                    </p>
+                </div>
+                <div class="space-y-4">
+                    <p class="text-white text-[10px] font-bold uppercase tracking-[0.3em]">Verification Line</p>
+                    <p class="text-sm font-medium hover:text-white transition-colors cursor-pointer">+1 (888) 512-0941</p>
+                </div>
             </div>
-            <div class="flex flex-wrap justify-center gap-x-8 gap-y-4 text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-10">
-                <a href="privacy.html" class="hover:text-blue-700 underline underline-offset-4">Privacy Policy</a>
-                <a href="terms.html" class="hover:text-blue-700 underline underline-offset-4">Terms of Service</a>
-                <a href="contact.html" class="hover:text-blue-700 underline underline-offset-4">Contact Us</a>
-                <a href="ccpa.html" class="hover:text-blue-700 underline underline-offset-4">Do Not Sell My Info</a>
+
+            <div class="flex flex-wrap justify-center gap-x-12 gap-y-6 py-12 text-[9px] font-bold uppercase tracking-[0.2em]">
+                <a href="privacy.html" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="terms.html" class="hover:text-white transition-colors">Terms of Service</a>
+                <a href="contact.html" class="hover:text-white transition-colors">Contact Us</a>
+                <a href="ccpa.html" class="hover:text-white transition-colors">CCPA / Do Not Sell My Info</a>
+                <a href="disclaimer.html" class="hover:text-white transition-colors">Legal Disclaimer</a>
             </div>
-            <div class="space-y-6 max-w-4xl mx-auto">
-                <p class="text-[11px] text-slate-500 leading-relaxed text-justify md:text-center px-4">
-                    <strong>ATTORNEY ADVERTISING:</strong> JDS Global Solutions is a performance marketing platform and not a law firm. This site is for educational purposes only.
+
+            <div class="max-w-3xl mx-auto space-y-8 text-center">
+                <p class="text-[10px] leading-relaxed text-slate-500 font-medium">
+                    <strong class="text-slate-400">ATTORNEY ADVERTISING:</strong> JDS Global Solutions is a high-intent performance marketing firm. We are not a law firm, attorney referral service, or a substitute for legal counsel. No attorney-client relationship is formed through your use of this site. Case evaluations are preliminary. Participation does not guarantee legal representation or financial recovery.
                 </p>
-                <p class="text-[9px] text-slate-300 pt-6 font-semibold uppercase tracking-widest">
-                    © 2026 JDS GLOBAL SOLUTIONS. ALL RIGHTS RESERVED.
-                </p>
+                <div class="pt-8 border-t border-slate-800/50">
+                    <p class="text-[9px] tracking-[0.4em] font-bold text-slate-600 uppercase">
+                        © 2026 JDS GLOBAL SOLUTIONS. ALL RIGHTS RESERVED.
+                    </p>
+                </div>
             </div>
         </div>
     </footer>
@@ -277,10 +295,12 @@
                 incident_type: leadData.incident_type || 'Unknown',
                 state: currentState,
                 case_score: currentScore / 10,
+                // [CRITICAL] TrustedForm URL Collection
                 trusted_form_url: document.getElementsByName('xxTrustedFormCertUrl')[0]?.value || 'Pending',
                 user_agent: navigator.userAgent,
                 tcpa_consent: true,
                 tcpa_consent_date: tcpaCheckedAt,
+                // [CRITICAL] Turnstile Token Verification
                 "cf-turnstile-response": turnstileToken
             };
 
