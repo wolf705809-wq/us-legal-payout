@@ -1,205 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Preliminary Case Evaluation | JDS Global Solutions</title>
-    
+
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
     <script type="text/javascript">
     (function() {
         var tf = document.createElement('script');
-        tf.type = 'text/javascript'; tf.async = true;
-        tf.src = ("https:" == document.location.protocol ? "https" : "http") + "://api.trustedform.com/trustedform.js?provide_referrer=true&field=xxTrustedFormCertUrl&trigger_method=always";
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(tf, s);
-    })();
-    </script>
-
-    <link rel="stylesheet" href="style.css?v=1.2">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root { --premium-navy: #0B1120; --premium-blue: #1E3A8A; --surface-color: #FAFAFA; }
-        body { background-color: var(--surface-color); font-family: 'Inter', sans-serif; color: #0F172A; -webkit-font-smoothing: antialiased; }
-        input, textarea, select { font-size: 16px !important; }
-        .font-serif { font-family: 'Cormorant Garamond', serif; }
-        .glass-panel { background: #FFFFFF; border: 1px solid rgba(15, 23, 42, 0.08); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.04); border-radius: 8px; }
-        .premium-btn { background-color: var(--premium-navy); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; -webkit-tap-highlight-color: transparent; }
-        .option-card { border: 1px solid #E2E8F0; transition: all 0.2s ease; cursor: pointer; border-radius: 8px; background: white; -webkit-tap-highlight-color: transparent; }
-        .option-card:hover { border-color: #1E3A8A; background-color: #F8FAFC; transform: translateY(-1px); }
-        .fade-in { animation: fadeIn 0.4s ease-out forwards; opacity: 0; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .hidden { display: none !important; }
-        .gauge-fill { transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@@ -35,7 +34,6 @@
         .legal-link { text-decoration: underline; color: #1E3A8A; cursor: pointer; font-weight: 700; transition: color 0.2s; }
         .advertising-badge { border: 1px solid #E2E8F0; color: #94A3B8; font-size: 9px; padding: 2px 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
         #modalBody::-webkit-scrollbar { width: 0px; background: transparent; }
+        /* Turnstile 위젯 중앙 정렬 */
         .cf-turnstile { display: flex; justify-content: center; margin-bottom: 1rem; }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
-
-    <nav class="w-full bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center z-10 sticky top-0">
-        <div class="flex items-center gap-3">
-            <div class="w-2 h-2 rounded-full bg-blue-700"></div>
-            <span class="text-[10px] md:text-xs font-semibold tracking-[0.15em] uppercase">Case Evaluation Division</span>
-        </div>
-        <div class="advertising-badge scale-90 md:scale-100">Attorney Advertising</div>
-    </nav>
-
-    <main class="w-full max-w-3xl mx-auto px-6 pt-10 md:pt-16 pb-24 flex-grow flex flex-col justify-center text-center">
-        <div class="mb-8 md:mb-12 fade-in">
-            <p class="text-[10px] font-bold text-blue-700 tracking-[0.25em] uppercase mb-4">Jurisdictional Evaluation Protocol</p>
-            <h1 id="main-h1" class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4">Liability & Recovery <br /> Assessment Review</h1>
-        </div>
-
-        <div class="glass-panel p-6 md:p-8 mb-10 fade-in text-left">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-6 mb-6">
-                <div><p class="text-[10px] font-semibold text-slate-400 uppercase mb-1">Active Jurisdiction</p><h2 id="hero-state-name" class="text-2xl font-serif font-bold">California</h2></div>
-                <p class="text-[10px] md:text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-sm border border-emerald-100">Live Sync Active</p>
-            </div>
-            <div class="grid grid-cols-2 gap-4 md:gap-8">
-                <div><p class="text-[10px] font-semibold text-slate-400 uppercase mb-2">Primary Statute</p><p id="statute-info" class="text-xs md:text-sm font-medium">CA Civ. Code § 1714</p></div>
-                <div><p class="text-[10px] font-semibold text-slate-400 uppercase mb-2">Legal Framework</p><p id="stats-info" class="text-xs md:text-sm font-medium">Pure Comparative Negligence</p></div>
-            </div>
-        </div>
-
-        <button onclick="openModal()" class="premium-btn text-white font-semibold text-sm px-10 py-4 rounded shadow-lg uppercase tracking-[0.1em] w-full sm:w-auto mx-auto active:scale-95">Initiate Intake Review</button>
-
-        <section class="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 fade-in">
-            <div onclick="startAudit('california')" class="option-card p-4 md:p-6 text-center"><span class="block text-xl md:text-2xl font-serif font-bold mb-1">CA</span><span class="block text-[9px] md:text-[10px] font-bold text-slate-400 uppercase">California</span></div>
-            <div onclick="startAudit('texas')" class="option-card p-4 md:p-6 text-center"><span class="block text-xl md:text-2xl font-serif font-bold mb-1">TX</span><span class="block text-[9px] md:text-[10px] font-bold text-slate-400 uppercase">Texas</span></div>
-            <div onclick="startAudit('florida')" class="option-card p-4 md:p-6 text-center"><span class="block text-xl md:text-2xl font-serif font-bold mb-1">FL</span><span class="block text-[9px] md:text-[10px] font-bold text-slate-400 uppercase">Florida</span></div>
-            <div onclick="startAudit('georgia')" class="option-card p-4 md:p-6 text-center"><span class="block text-xl md:text-2xl font-serif font-bold mb-1">GA</span><span class="block text-[9px] md:text-[10px] font-bold text-slate-400 uppercase">Georgia</span></div>
-            <div onclick="startAudit('new_york')" class="option-card p-4 md:p-6 text-center"><span class="block text-xl md:text-2xl font-serif font-bold mb-1">NY</span><span class="block text-[9px] md:text-[10px] font-bold text-slate-400 uppercase">New York</span></div>
-        </section>
-    </main>
-
-    <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-slate-900/60 backdrop-blur-sm">
-        <div class="w-full max-w-xl bg-white shadow-2xl rounded-t-2xl md:rounded-xl relative flex flex-col max-h-[92vh] md:max-h-[90vh] overflow-hidden border border-slate-200">
-            <div class="px-6 md:px-8 py-5 border-b border-slate-100 bg-white z-10">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-serif font-bold text-lg">Preliminary Intake</h3>
-                    <button onclick="closeModal()" class="text-slate-400 hover:text-slate-800 p-2">✕</button>
-                </div>
-                <div class="space-y-2">
-                    <div class="flex justify-between items-center"><p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Est. Case Strength</p><p id="strength-pct" class="text-[9px] font-bold text-blue-600">15%</p></div>
-                    <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden"><div id="strength-gauge" class="gauge-fill bg-blue-600 h-full" style="width: 15%"></div></div>
-                </div>
-            </div>
-
-            <div id="modalBody" class="p-6 md:p-8 overflow-y-auto flex-grow bg-white pb-12 md:pb-8">
-                <div id="ai-feedback-box" class="mb-6 p-3 bg-blue-50 border-l-4 border-blue-600 rounded-r hidden fade-in">
-                    <p id="ai-feedback-text" class="text-[11px] font-medium text-blue-800 italic"></p>
-                </div>
-
-                <div id="step-1" class="step-container space-y-3">
-                    <p class="text-[10px] font-semibold text-slate-400 uppercase mb-2">Section I : Classification</p>
-                    <h3 class="text-xl font-serif font-bold mb-6">Select the primary nature of the incident.</h3>
-                    <button onclick="handleSelection('incident_type', 'Auto', 2, 'Vehicle incidents require specific proximity evidence.', 5)" class="option-card w-full p-4 text-left font-semibold text-base">Automobile Collision</button>
-                    <button onclick="handleSelection('incident_type', 'Slip', 2, 'Premises liability depends on hazard documentation.', 5)" class="option-card w-full p-4 text-left font-semibold text-base">Premises Liability (Slip & Fall)</button>
-                </div>
-                
-                <div id="step-2" class="step-container hidden space-y-3">
-                    <h3 class="text-xl font-serif font-bold mb-6">Establish apparent fault distribution.</h3>
-                    <button onclick="handleSelection('fault_status', 'not_at_fault', 3, 'Zero liability impacts recovery multipliers.', 25)" class="option-card w-full p-4 text-left font-semibold text-base">0% Liability (Not at fault)</button>
-                    <button onclick="handleSelection('fault_status', 'shared', 3, 'Comparative fault rules will apply.', 10)" class="option-card w-full p-4 text-left font-semibold text-base">Liability Disputed / Shared</button>
-                </div>
-
-                <div id="step-3" class="step-container hidden space-y-3">
-                    <h3 class="text-xl font-serif font-bold mb-6">Detail immediate medical intervention.</h3>
-                    <button onclick="handleSelection('medical_treatment', 'er', 4, 'Emergency admission creates a powerful audit trail.', 30)" class="option-card w-full p-4 text-left font-semibold text-base">ER Admission / Urgent Care</button>
-                    <button onclick="disqualify('No Injury');" class="option-card w-full p-4 text-left font-semibold text-base bg-slate-50">No Medical Treatment Required</button>
-                </div>
-
-                <div id="step-4" class="step-container hidden space-y-3">
-                    <h3 class="text-xl font-serif font-bold mb-6">Was a law enforcement report generated?</h3>
-                    <button onclick="handleSelection('police_report', 'yes', 5, 'Official reports are key evidence.', 15)" class="option-card w-full p-4 text-left font-semibold text-base">Yes, official report filed</button>
-                    <button onclick="handleSelection('police_report', 'no', 5, 'Alternative documentation will be required.', 0)" class="option-card w-full p-4 text-left font-semibold text-base">No / Status Unknown</button>
-                </div>
-
-                <div id="step-5" class="step-container hidden space-y-3">
-                    <h3 class="text-xl font-serif font-bold mb-6">Current legal representation status:</h3>
-                    <button onclick="handleSelection('attorney_status', 'no', 6, 'You are eligible for priority matching.', 10)" class="option-card w-full p-4 text-left font-semibold text-base">No Active Representation</button>
-                    <button onclick="disqualify('Has Attorney');" class="option-card w-full p-4 text-left font-semibold text-base bg-slate-50">Currently Retained Counsel</button>
-                </div>
-
-                <form id="step-6" class="step-container hidden space-y-4" onsubmit="validateNarrative(event)">
-                    <div class="flex justify-between items-center"><h3 class="text-xl font-serif font-bold">Incident Narrative</h3><span id="narrative-status" class="text-[9px] font-bold text-slate-400 uppercase italic tracking-tighter">Ready for analysis...</span></div>
-                    <textarea id="ai-narrative" rows="4" oninput="analyzeNarrative()" placeholder="e.g. I was stopped at a red light when a commercial truck hit me..." class="w-full bg-slate-50 border border-slate-200 p-4 rounded text-base outline-none resize-none focus:border-blue-500"></textarea>
-                    <div id="keyword-badges" class="flex flex-wrap gap-2"></div>
-                    <button type="submit" class="premium-btn w-full text-white font-semibold text-sm py-4 rounded uppercase tracking-widest mt-4">Execute Intake Review</button>
-                </form>
-
-                <form id="step-7" class="step-container hidden space-y-4" onsubmit="validateIdentity(event)">
-                    <h3 class="text-xl font-serif font-bold mb-4">Verification Details</h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <input type="text" id="fName" placeholder="First Name" required class="bg-slate-50 border border-slate-200 px-4 py-3 rounded text-base outline-none focus:border-blue-500 w-full">
-                        <input type="text" id="lName" placeholder="Last Name" required class="bg-slate-50 border border-slate-200 px-4 py-3 rounded text-base outline-none focus:border-blue-500 w-full">
-                    </div>
-                    <input type="email" id="email" placeholder="Email Address" required class="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded text-base outline-none focus:border-blue-500">
-                    <button type="submit" class="premium-btn w-full text-white font-semibold text-sm py-4 rounded uppercase tracking-widest mt-4">Verify Identity</button>
-                </form>
-
-                <form id="step-8" class="step-container hidden space-y-4" onsubmit="submitFinalLead(event)">
-                    <h3 class="text-xl font-serif font-bold text-center mb-6">Secure Your Assessment Result</h3>
-                    <div class="relative">
+@@ -149,7 +147,6 @@ <h3 class="text-xl font-serif font-bold text-center mb-6">Secure Your Assessment
                         <input type="tel" id="userPhone" placeholder="(555) 555-5555" required class="w-full bg-slate-50 border border-slate-200 px-4 py-4 rounded text-2xl font-bold text-center outline-none tracking-widest focus:border-blue-500">
                         <div id="phone-verifier-badge" class="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 transition-opacity"><span class="text-[9px] font-bold text-emerald-600 uppercase">Verified</span></div>
                     </div>
-                    
+                    <p id="carrier-text" class="text-[10px] font-bold text-slate-400 text-center h-4"></p>
+
                     <div class="cf-turnstile" data-sitekey="0x4AAAAAACuTQ4GK1w5nO44e"></div>
 
-                    <label class="flex items-start gap-3 mt-4 p-4 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer">
-                        <input type="checkbox" id="tcpa" class="w-5 h-5 mt-1 accent-blue-700 shrink-0" required>
-                        <span class="text-[10px] text-slate-600 leading-relaxed font-medium">
-                            By clicking below, I provide my express written consent to be contacted by JDS Global and its <a href="contact.html" class="legal-link">Partners</a>. I agree to the <a href="terms.html" class="legal-link">Terms</a> and <a href="privacy.html" class="legal-link">Privacy Policy</a>.
-                            <span class="block mt-2 text-blue-800 font-bold tracking-tighter uppercase">🛡️ TrustedForm Certified Verification Active</span>
-                        </span>
-                    </label>
-                    <button type="submit" id="submit-audit-btn" disabled class="premium-btn w-full text-white font-bold py-4 rounded uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed">Finish & View Report</button>
-                </form>
-
-                <div id="step-scan" class="hidden py-16 text-center">
-                    <div class="animate-spin text-blue-600 mx-auto w-12 h-12 mb-8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg></div>
-                    <h3 class="font-serif font-bold text-xl mb-2">Syncing with Jurisdiction...</h3>
-                </div>
-
-                <div id="step-disqualified" class="hidden py-12 text-center"><h3 class="font-serif font-bold text-2xl">Review Concluded</h3><p class="text-sm text-slate-600">Threshold not met.</p></div>
-            </div>
-        </div>
-    </div>
-
-    <footer class="w-full bg-white border-t border-slate-200 p-8 md:p-10 mt-20">
-        <div class="max-w-4xl mx-auto text-center space-y-4 pb-10 md:pb-0">
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Legal Disclosure</p>
-            <p class="text-[11px] text-slate-500 leading-relaxed px-4">
-                <strong>ATTORNEY ADVERTISING:</strong> JDS Global Solutions is not a law firm. Preliminary evaluations do not constitute legal advice. 
-            </p>
-            <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 pt-4 text-[10px] font-bold uppercase tracking-tighter">
-                <a href="privacy.html" class="legal-link">Privacy Policy</a>
-                <a href="terms.html" class="legal-link">Terms of Service</a>
-                <a href="privacy.html#dns" class="legal-link">Do Not Sell My Info</a>
-                <a href="contact.html" class="legal-link">Contact Us</a>
-            </div>
-            <p class="text-[9px] text-slate-300 pt-6">© 2026 JDS GLOBAL SOLUTIONS. ALL RIGHTS RESERVED.</p>
-        </div>
-    </footer>
-
-    <script>
-        const MASTER_DB = {
-            "california": { name: "California", statute: "CA Civ. Code § 1714", law_type: "Pure Comparative Negligence", h1: "California Liability <br> Assessment Review" },
-            "texas": { name: "Texas", statute: "TX Civ. Prac. § 33.001", law_type: "Proportionate Responsibility", h1: "Texas Statutory <br> Fault Evaluation" },
-            "florida": { name: "Florida", statute: "Fla. Stat. § 768.81", law_type: "Modified Comparative Fault", h1: "Florida Recovery <br> Assessment Review" },
-            "georgia": { name: "Georgia", statute: "O.C.G.A. § 51-12-33", law_type: "Modified Comparative Fault", h1: "Georgia Negligence <br> Statutory Review" },
-            "new_york": { name: "New York", statute: "CPLR § 1411", law_type: "Pure Comparative Negligence", h1: "New York Liability <br> Assessment Review" }
-        };
-
+@@ -201,6 +198,21 @@ <h3 class="font-serif font-bold text-xl mb-2">Syncing with Jurisdiction...</h3>
         let currentScore = 15;
         let currentState = 'california';
         let leadData = {};
         let tcpaCheckedAt = null;
 
+        // [증거 강화] 체크박스 클릭 시점 기록
         document.getElementById('tcpa').addEventListener('change', function(e) {
             const btn = document.getElementById('submit-audit-btn');
             if (this.checked) {
@@ -215,62 +43,11 @@
 
         function startAudit(s) { 
             currentState = s; 
-            const d = MASTER_DB[s]; 
-            document.getElementById('hero-state-name').innerText = d.name; 
-            document.getElementById('main-h1').innerHTML = d.h1;
-            document.getElementById('statute-info').innerText = d.statute;
-            document.getElementById('stats-info').innerText = d.law_type;
-            openModal(); 
-        }
-
-        function openModal() { 
-            document.getElementById('leadModal').classList.remove('hidden'); 
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() { 
-            document.getElementById('leadModal').classList.add('hidden'); 
-            document.body.style.overflow = '';
-        }
-
-        function handleSelection(key, value, next, feedback, scoreBonus = 0) {
-            leadData[key] = value;
-            currentScore = Math.min(95, currentScore + scoreBonus);
-            document.getElementById('strength-gauge').style.width = `${currentScore}%`;
-            document.getElementById('strength-pct').innerText = `${currentScore}%`;
-            document.getElementById('ai-feedback-text').innerText = `Intake Insight: ${feedback}`;
-            document.getElementById('ai-feedback-box').classList.remove('hidden');
-            setTimeout(() => nextStep(next), 800);
-        }
-
-        function nextStep(s) {
-            document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
-            const nextEl = document.getElementById(`step-${s}`);
-            if(nextEl) { 
-                nextEl.classList.remove('hidden'); 
-                nextEl.classList.add('fade-in'); 
-                document.getElementById('modalBody').scrollTop = 0;
-            }
-        }
-
-        function analyzeNarrative() {
-            const text = document.getElementById('ai-narrative').value.toLowerCase();
-            const badgeContainer = document.getElementById('keyword-badges');
-            const keywords = { 'rear-ended': 'High Liability', 'commercial': 'Corporate Asset', 'red light': 'Negligence Proof', 'ambulance': 'Medical Evidence' };
-            badgeContainer.innerHTML = '';
-            for (const [key, label] of Object.entries(keywords)) {
-                if (text.includes(key)) {
-                    badgeContainer.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase">✓ ${label}</span>`;
-                }
-            }
-        }
-
-        function validateNarrative(e) { 
-            e.preventDefault(); 
-            leadData['narrative'] = document.getElementById('ai-narrative').value;
+@@ -260,26 +272,39 @@ <h3 class="font-serif font-bold text-xl mb-2">Syncing with Jurisdiction...</h3>
             nextStep(7); 
         }
 
+        function validateIdentity(e) { e.preventDefault(); nextStep(8); }
         function validateIdentity(e) { 
             e.preventDefault(); 
             const fName = document.getElementById('fName').value.trim();
@@ -294,34 +71,26 @@
             e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
             if (val.length === 10) {
                 document.getElementById('phone-verifier-badge').classList.remove('opacity-0');
+                const btn = document.getElementById('submit-audit-btn');
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
             }
         };
 
         async function submitFinalLead(e) {
             e.preventDefault();
+            
+            // Turnstile 토큰 가져오기 (이름이 cf-turnstile-response인 요소를 찾음)
             if (!document.getElementById('tcpa').checked) {
                 alert("Please agree to the TCPA terms.");
                 return;
             }
             const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
+            
             if (!turnstileToken) {
                 alert("Please complete the security check.");
                 return;
-            }
-
-            document.getElementById('step-8').classList.add('hidden');
-            document.getElementById('step-scan').classList.remove('hidden');
-
-            const finalData = {
-                first_name: document.getElementById('fName').value,
-                last_name: document.getElementById('lName').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('userPhone').value,
-                incident_type: leadData.incident_type || 'Unknown',
-                fault_status: leadData.fault_status || 'Unknown',
-                medical_treatment: leadData.medical_treatment || 'Unknown',
-                police_report: leadData.police_report || 'Unknown',
-                attorney_status: leadData.attorney_status || 'Unknown',
+@@ -301,9 +326,10 @@ <h3 class="font-serif font-bold text-xl mb-2">Syncing with Jurisdiction...</h3>
                 narrative: leadData.narrative || '',
                 state: currentState,
                 case_score: currentScore / 10,
@@ -329,31 +98,25 @@
                 tcpa_consent_date: tcpaCheckedAt,
                 trusted_form_url: document.getElementsByName('xxTrustedFormCertUrl')[0]?.value || 'Pending',
                 user_agent: navigator.userAgent,
+                // 서버로 검증 토큰 함께 전송
                 "cf-turnstile-response": turnstileToken
             };
 
-            try {
-                const response = await fetch('/api/insert-lead', {
-                    method: 'POST',
+@@ -313,16 +339,13 @@ <h3 class="font-serif font-bold text-xl mb-2">Syncing with Jurisdiction...</h3>
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(finalData)
                 });
+
                 const result = await response.json();
                 if (!result.success) throw new Error(result.error);
+
                 await new Promise(r => setTimeout(r, 1500));
                 window.location.href = 'success.html'; 
+                
             } catch (err) {
                 console.error("Submission error:", err);
+                alert("Submission failed. " + (err.message || "Please try again."));
                 alert("Submission failed. " + err.message);
                 document.getElementById('step-scan').classList.add('hidden');
                 document.getElementById('step-8').classList.remove('hidden');
             }
-        }
-
-        function disqualify(r) { 
-            document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden')); 
-            document.getElementById('step-disqualified').classList.remove('hidden'); 
-        }
-    </script>
-</body>
-</html>
