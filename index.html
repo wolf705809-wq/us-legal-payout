@@ -14,15 +14,13 @@
     })();
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root { --premium-navy: #0B1120; --premium-blue: #1E3A8A; --surface-color: #FAFAFA; }
         body { background-color: var(--surface-color); font-family: 'Inter', sans-serif; color: #0F172A; -webkit-font-smoothing: antialiased; }
-        input, textarea, select { font-size: 16px !important; } /* iOS 확대 방지 */
+        input, textarea, select { font-size: 16px !important; }
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .glass-panel { background: #FFFFFF; border: 1px solid rgba(15, 23, 42, 0.08); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.04); border-radius: 8px; }
         .premium-btn { background-color: var(--premium-navy); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; -webkit-tap-highlight-color: transparent; }
@@ -172,7 +170,7 @@
         <div class="max-w-4xl mx-auto text-center space-y-4 pb-10 md:pb-0">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Legal Disclosure</p>
             <p class="text-[11px] text-slate-500 leading-relaxed px-4">
-                <strong>ATTORNEY ADVERTISING:</strong> JDS Global Solutions is not a law firm. Preliminary evaluations do not constitute legal advice. 
+                <strong>ATTORNEY ADVERTISING:</strong> JDS Global Solutions is not a law firm. Preliminary evaluations do not constitute legal advice. 
             </p>
             <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 pt-4 text-[10px] font-bold uppercase tracking-tighter">
                 <a href="privacy.html" class="legal-link">Privacy Policy</a>
@@ -185,11 +183,6 @@
     </footer>
 
     <script>
-        // [중요] Supabase 설정 - 공백 제거 trim() 적용
-        const SUPABASE_URL = 'https://ppgsrrmdmfnhmbhnxyck.supabase.co'.trim();
-        const SUPABASE_ANON_KEY = 'sb_publishable_zH0sJpPT_bKlEWsg7ltY-Q_WT8Cn43T'.trim(); 
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
         const MASTER_DB = {
             "california": { name: "California", statute: "CA Civ. Code § 1714", law_type: "Pure Comparative Negligence", h1: "California Liability <br> Assessment Review" },
             "texas": { name: "Texas", statute: "TX Civ. Prac. § 33.001", law_type: "Proportionate Responsibility", h1: "Texas Statutory <br> Fault Evaluation" },
@@ -247,11 +240,9 @@
             const badgeContainer = document.getElementById('keyword-badges');
             const keywords = { 'rear-ended': 'High Liability', 'commercial': 'Corporate Asset', 'red light': 'Negligence Proof', 'ambulance': 'Medical Evidence' };
             badgeContainer.innerHTML = '';
-            let found = false;
             for (const [key, label] of Object.entries(keywords)) {
                 if (text.includes(key)) {
                     badgeContainer.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase">✓ ${label}</span>`;
-                    found = true;
                 }
             }
         }
@@ -276,7 +267,7 @@
             }
         };
 
-        // [최종 로직] 데이터 저장 후 success.html로 리다이렉트
+        // [최종 로직] 이제 API Route(/api/insert-lead)를 통해 데이터를 안전하게 보냅니다.
         async function submitFinalLead(e) {
             e.preventDefault();
             document.getElementById('step-8').classList.add('hidden');
@@ -300,17 +291,22 @@
             };
 
             try {
-                // Supabase에 데이터 삽입
-                const { error } = await _supabase.from('leads').insert([finalData]);
-                if (error) throw error;
+                // 수파베이스 직접 호출 대신 우리 서버(/api/insert-lead)로 쏩니다.
+                const response = await fetch('/api/insert-lead', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(finalData)
+                });
 
-                // 성공 시 2초 대기 후 success.html로 이동
+                const result = await response.json();
+                if (!result.success) throw new Error(result.error);
+
                 await new Promise(r => setTimeout(r, 1500));
                 window.location.href = 'success.html'; 
                 
             } catch (err) {
                 console.error("Submission error:", err);
-                alert("Submission error: " + (err.message || "Please check your network connection."));
+                alert("System Busy. Please try again later.");
                 document.getElementById('step-scan').classList.add('hidden');
                 document.getElementById('step-8').classList.remove('hidden');
             }
