@@ -6,8 +6,8 @@
     <title>Preliminary Case Evaluation | JDS Global Solutions</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    
     <script type="text/javascript">
     (function() {
         var tf = document.createElement('script');
@@ -100,7 +100,7 @@
                     <button onclick="handleSelection('incident_type', 'Auto', 2, 'Vehicle incidents require specific proximity evidence.', 5)" class="option-card w-full p-4 text-left font-semibold text-base">Automobile Collision</button>
                     <button onclick="handleSelection('incident_type', 'Slip', 2, 'Premises liability depends on hazard documentation.', 5)" class="option-card w-full p-4 text-left font-semibold text-base">Premises Liability (Slip & Fall)</button>
                 </div>
-                
+
                 <div id="step-2" class="step-container hidden space-y-3">
                     <h3 class="text-xl font-serif font-bold mb-6">Establish apparent fault distribution.</h3>
                     <button onclick="handleSelection('fault_status', 'not_at_fault', 3, 'Zero liability impacts recovery multipliers.', 25)" class="option-card w-full p-4 text-left font-semibold text-base">0% Liability (Not at fault)</button>
@@ -149,7 +149,9 @@
                         <div id="phone-verifier-badge" class="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 transition-opacity"><span class="text-[9px] font-bold text-emerald-600 uppercase">Verified</span></div>
                     </div>
                     <p id="carrier-text" class="text-[10px] font-bold text-slate-400 text-center h-4"></p>
+                    
                     <div class="cf-turnstile" data-sitekey="0x4AAAAAACuTQ4GK1w5nO44e"></div>
+
                     <label class="flex items-start gap-3 mt-4 p-4 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer">
                         <input type="checkbox" id="tcpa" class="w-5 h-5 mt-1 accent-blue-700 shrink-0" required>
                         <span class="text-[10px] text-slate-600 leading-relaxed font-medium">
@@ -158,7 +160,7 @@
                     </label>
                     <button type="submit" id="submit-audit-btn" disabled class="premium-btn w-full text-white font-bold py-4 rounded uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed">Finish & View Report</button>
                 </form>
-                
+
                 <div id="step-scan" class="hidden py-16 text-center">
                     <div class="animate-spin text-blue-600 mx-auto w-12 h-12 mb-8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg></div>
                     <h3 class="font-serif font-bold text-xl mb-2">Syncing with Jurisdiction...</h3>
@@ -168,13 +170,27 @@
         </div>
     </div>
 
-    <footer class="w-full bg-white border-t border-slate-200 p-8 mt-20">
-        <div class="max-w-4xl mx-auto text-center space-y-4">
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Legal Disclosure</p>
-            <p class="text-[11px] text-slate-500 leading-relaxed px-4">
-                <strong>ATTORNEY ADVERTISING:</strong> JDS Global Solutions is not a law firm.
-            </p>
-            <p class="text-[9px] text-slate-300 pt-6">© 2026 JDS GLOBAL SOLUTIONS. ALL RIGHTS RESERVED.</p>
+    <footer class="w-full bg-white border-t border-slate-200 p-10 mt-20">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 text-[11px] font-bold text-slate-600 uppercase tracking-widest border-b border-slate-100 pb-10">
+                <div><p class="text-slate-400 mb-1">Contact Support</p><p>support@jdsglobalsolutions.com</p></div>
+                <div><p class="text-slate-400 mb-1">Corporate Address</p><p>주소 입력칸</p></div>
+                <div><p class="text-slate-400 mb-1">Direct Verification</p><p>미국 번호 입력칸</p></div>
+            </div>
+            <div class="flex flex-wrap justify-center gap-x-8 gap-y-4 text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-10">
+                <a href="privacy.html" class="hover:text-blue-700 underline underline-offset-4">Privacy Policy</a>
+                <a href="terms.html" class="hover:text-blue-700 underline underline-offset-4">Terms of Service</a>
+                <a href="contact.html" class="hover:text-blue-700 underline underline-offset-4">Contact Us</a>
+                <a href="ccpa.html" class="hover:text-blue-700 underline underline-offset-4">Do Not Sell My Info</a>
+            </div>
+            <div class="space-y-6 max-w-4xl mx-auto">
+                <p class="text-[11px] text-slate-500 leading-relaxed text-justify md:text-center px-4">
+                    <strong>ATTORNEY ADVERTISING:</strong> JDS Global Solutions is a performance marketing platform and not a law firm. This site is for educational purposes only.
+                </p>
+                <p class="text-[9px] text-slate-300 pt-6 font-semibold uppercase tracking-widest">
+                    © 2026 JDS GLOBAL SOLUTIONS. ALL RIGHTS RESERVED.
+                </p>
+            </div>
         </div>
     </footer>
 
@@ -205,16 +221,7 @@
             }
         });
 
-        function startAudit(s) { 
-            currentState = s; 
-            const d = MASTER_DB[s]; 
-            document.getElementById('hero-state-name').innerText = d.name; 
-            document.getElementById('main-h1').innerHTML = d.h1;
-            document.getElementById('statute-info').innerText = d.statute;
-            document.getElementById('stats-info').innerText = d.law_type;
-            openModal(); 
-        }
-
+        function startAudit(s) { currentState = s; const d = MASTER_DB[s]; document.getElementById('hero-state-name').innerText = d.name; document.getElementById('main-h1').innerHTML = d.h1; openModal(); }
         function openModal() { document.getElementById('leadModal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
         function closeModal() { document.getElementById('leadModal').classList.add('hidden'); document.body.style.overflow = ''; }
 
@@ -240,18 +247,12 @@
             const keywords = { 'rear-ended': 'High Liability', 'commercial': 'Corporate Asset', 'ambulance': 'Medical Evidence' };
             badgeContainer.innerHTML = '';
             for (const [key, label] of Object.entries(keywords)) {
-                if (text.includes(key)) {
-                    badgeContainer.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase">✓ ${label}</span>`;
-                }
+                if (text.includes(key)) { badgeContainer.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase">✓ ${label}</span>`; }
             }
         }
 
         function validateNarrative(e) { e.preventDefault(); leadData['narrative'] = document.getElementById('ai-narrative').value; nextStep(7); }
-        function validateIdentity(e) { 
-            e.preventDefault(); 
-            if (document.getElementById('fName').value.length < 2) return;
-            nextStep(8); 
-        }
+        function validateIdentity(e) { e.preventDefault(); nextStep(8); }
 
         document.getElementById('userPhone').oninput = (e) => {
             let val = e.target.value.replace(/\D/g, '');
@@ -264,7 +265,7 @@
             e.preventDefault();
             const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
             if (!turnstileToken) { alert("Please complete security check."); return; }
-            
+
             document.getElementById('step-8').classList.add('hidden');
             document.getElementById('step-scan').classList.remove('hidden');
 
@@ -275,18 +276,22 @@
                 phone: document.getElementById('userPhone').value,
                 incident_type: leadData.incident_type || 'Unknown',
                 state: currentState,
+                case_score: currentScore / 10,
+                trusted_form_url: document.getElementsByName('xxTrustedFormCertUrl')[0]?.value || 'Pending',
+                user_agent: navigator.userAgent,
                 tcpa_consent: true,
                 tcpa_consent_date: tcpaCheckedAt,
                 "cf-turnstile-response": turnstileToken
             };
 
             try {
-                await fetch('/api/insert-lead', {
+                const response = await fetch('/api/insert-lead', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(finalData)
                 });
-                window.location.href = 'success.html'; 
+                if(response.ok) { window.location.href = 'success.html'; }
+                else { throw new Error("Submission Failed"); }
             } catch (err) {
                 alert("Submission failed. " + err.message);
                 document.getElementById('step-scan').classList.add('hidden');
