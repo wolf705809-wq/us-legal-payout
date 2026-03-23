@@ -192,22 +192,29 @@
             "texas": { name: "Texas", statute: "TX Civ. Prac. § 33.001", law_type: "Proportionate Responsibility" },
             "florida": { name: "Florida", statute: "Fla. Stat. § 768.81", law_type: "Modified Comparative Fault" },
             "georgia": { name: "Georgia", statute: "O.C.G.A. § 51-12-33", law_type: "Modified Comparative Fault" },
-            "new_york": { name: "New York", statute: "CPLR § 1411", law_type: "Pure Comparative Negligence" }
+            "new_york": { name: "New York", statute: "CPLR § 1411", law_type: "Pure Comparative Negligence" },
+            "atlanta": { name: "Atlanta, GA", statute: "O.C.G.A. § 51-12-33", law_type: "Modified Comparative Fault" },
+            "houston": { name: "Houston, TX", statute: "TX Civ. Prac. § 33.001", law_type: "Proportionate Responsibility" },
+            "dallas": { name: "Dallas, TX", statute: "TX Civ. Prac. § 33.001", law_type: "Proportionate Responsibility" },
+            "miami": { name: "Miami, FL", statute: "Fla. Stat. § 768.81", law_type: "Modified Comparative Fault" }
         };
 
         let currentScore = 10;
         let currentState = 'california';
         let leadFormData = {}; // 데이터를 저장할 전역 객체
 
-        function startAudit(s) { 
+       function startAudit(s) { 
             currentState = s; 
             const d = MASTER_DB[s]; 
+            
+            // 이 줄이 추가되었습니다: 주소창을 /texas 등으로 바꿉니다.
+            window.history.pushState({}, '', `/${s}`); 
+            
             document.getElementById('hero-state-name').innerText = d.name; 
             document.getElementById('statute-info').innerText = d.statute; 
             document.getElementById('stats-info').innerText = d.law_type; 
             openModal(); 
         }
-
         function openModal() { document.getElementById('leadModal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
         function closeModal() { document.getElementById('leadModal').classList.add('hidden'); document.body.style.overflow = ''; }
 
@@ -298,6 +305,21 @@
             alert("Already represented cases require manual review. Please contact support.");
             closeModal();
         }
+        // 페이지가 처음 열릴 때 주소를 읽어서 화면을 바꿉니다.
+        window.addEventListener('DOMContentLoaded', () => {
+            // 주소창에서 /texas 같은 문구를 가져옵니다.
+            const path = window.location.pathname.replace('/', '').toLowerCase();
+            
+            // 만약 그 문구가 우리 데이터베이스(MASTER_DB)에 있다면 실행!
+            if (path && MASTER_DB[path]) {
+                const d = MASTER_DB[path];
+                currentState = path;
+                document.getElementById('hero-state-name').innerText = d.name; 
+                document.getElementById('statute-info').innerText = d.statute; 
+                document.getElementById('stats-info').innerText = d.law_type;
+                document.title = `${d.name} High-Value Case Evaluation | JDS Global`;
+            }
+        });
     </script>
 </body>
 </html>
