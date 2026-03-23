@@ -147,7 +147,7 @@
                     <h3 class="text-xl font-serif font-bold text-center mb-6">Secure Your Assessment</h3>
                     <input type="tel" id="userPhone" placeholder="(555) 555-5555" required class="w-full bg-slate-50 border-2 border-slate-200 px-4 py-5 rounded-xl text-2xl font-bold text-center outline-none tracking-widest focus:border-blue-500">
                     
-                    <div class="cf-turnstile flex justify-center" data-sitekey="0x4AAAAAACuTQ4GK1w5nO44e"></div>
+                    <div class="cf-turnstile flex justify-center" data-sitekey="0x4AAAAAACuTQ4GK1w5nO44e" data-callback="onTurnstileVerified" data-expired-callback="onTurnstileExpired"></div>
 
                     <label class="flex items-start gap-3 mt-4 p-4 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer">
                         <input type="checkbox" id="tcpa" class="w-5 h-5 mt-1 accent-blue-700 shrink-0" required>
@@ -197,6 +197,32 @@
     let currentScore = 10;
     let currentState = 'california';
     let leadFormData = {};
+    let turnstileVerified = false;
+    let turnstileToken = '';
+
+    function syncSubmitState() {
+        const tcpa = document.getElementById('tcpa');
+        const submitBtn = document.getElementById('submit-btn');
+        if (!submitBtn) return;
+
+        const canSubmit = !!tcpa && tcpa.checked && turnstileVerified;
+        submitBtn.disabled = !canSubmit;
+        submitBtn.classList.toggle('cursor-not-allowed', !canSubmit);
+        submitBtn.classList.toggle('opacity-50', !canSubmit);
+        submitBtn.classList.toggle('opacity-100', canSubmit);
+    }
+
+    function onTurnstileVerified(token) {
+        turnstileToken = token || '';
+        turnstileVerified = true;
+        syncSubmitState();
+    }
+
+    function onTurnstileExpired() {
+        turnstileToken = '';
+        turnstileVerified = false;
+        syncSubmitState();
+    }
 
     // 2. 주소나 버튼 클릭에 따라 화면 글자를 바꿔주는 '변신 함수'
     function applyStateData(key) {
@@ -272,11 +298,30 @@
 
     async function submitFinalLead(e) {
         e.preventDefault();
+        const tcpa = document.getElementById('tcpa');
+        if (!tcpa || !tcpa.checked) {
+            alert("FCC 규정에 따라 1:1 매칭 동의가 반드시 필요합니다.");
+            return;
+        }
+        if (!turnstileVerified) {
+            alert("보안 확인을 완료해 주세요.");
+            return;
+        }
+
+        // 브라우저 기본 required 검증(전화번호 등)을 한 번 더 확인합니다.
+        if (e.target && typeof e.target.checkValidity === 'function' && !e.target.checkValidity()) {
+            e.target.reportValidity();
+            return;
+        }
+
         leadFormData.fName = document.getElementById('fName').value;
         leadFormData.lName = document.getElementById('lName').value;
         leadFormData.email = document.getElementById('email').value;
         leadFormData.phone = document.getElementById('userPhone').value;
         leadFormData.narrative = document.getElementById('narrative-box').value;
+
+        leadFormData.tcpa_checked = true;
+        leadFormData.turnstileToken = turnstileToken;
         
         document.getElementById('step-8').classList.add('hidden');
         document.getElementById('step-scan').classList.remove('hidden');
@@ -299,6 +344,11 @@
         let m = v.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
         e.target.value = !m[2] ? m[1] : '(' + m[1] + ') ' + m[2] + (m[3] ? '-' + m[3] : '');
     };
+
+    // tcpa 변경 시 즉시 제출 가능 여부를 반영합니다.
+    const tcpaEl = document.getElementById('tcpa');
+    if (tcpaEl) tcpaEl.addEventListener('change', syncSubmitState);
+    syncSubmitState();
 
     function disqualify() {
         alert("Already represented cases require manual review. Please contact support.");
