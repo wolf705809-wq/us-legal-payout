@@ -91,7 +91,6 @@
             </div>
 
             <div id="modalBody" class="p-8 overflow-y-auto flex-grow bg-white">
-                
                 <div id="step-1" class="step-container space-y-4">
                     <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 01: Classification</p>
                     <h3 class="text-xl font-serif font-bold">Nature of the incident?</h3>
@@ -198,12 +197,22 @@
 
         let currentScore = 10;
         let currentState = 'california';
+        let leadFormData = {}; // 데이터를 저장할 전역 객체
 
-        function startAudit(s) { currentState = s; const d = MASTER_DB[s]; document.getElementById('hero-state-name').innerText = d.name; document.getElementById('statute-info').innerText = d.statute; document.getElementById('stats-info').innerText = d.law_type; openModal(); }
+        function startAudit(s) { 
+            currentState = s; 
+            const d = MASTER_DB[s]; 
+            document.getElementById('hero-state-name').innerText = d.name; 
+            document.getElementById('statute-info').innerText = d.statute; 
+            document.getElementById('stats-info').innerText = d.law_type; 
+            openModal(); 
+        }
+
         function openModal() { document.getElementById('leadModal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
         function closeModal() { document.getElementById('leadModal').classList.add('hidden'); document.body.style.overflow = ''; }
 
         function handleSelect(key, val, next, feedback, bonus) {
+            leadFormData[key] = val; // 데이터 축적
             currentScore = Math.min(95, currentScore + bonus);
             document.getElementById('strength-gauge').style.width = currentScore + '%';
             const fbBox = document.getElementById('ai-feedback-box');
@@ -233,11 +242,50 @@
             btn.classList.toggle('opacity-50', !this.checked);
         });
 
+        // [핵심] 실제 데이터를 API로 전송하는 함수
         async function submitFinalLead(e) {
             e.preventDefault();
+
+            // 1. 입력된 개인정보 수집
+            leadFormData.fName = document.getElementById('fName').value;
+            leadFormData.lName = document.getElementById('lName').value;
+            leadFormData.email = document.getElementById('email').value;
+            leadFormData.phone = document.getElementById('userPhone').value;
+            leadFormData.narrative = document.getElementById('narrative-box').value;
+            leadFormData.state = currentState;
+            
+            // 2. Turnstile 및 TrustedForm 토큰 수집
+            leadFormData['cf-turnstile-response'] = turnstile.getResponse();
+            leadFormData['xxTrustedFormCertUrl'] = document.getElementsByName('xxTrustedFormCertUrl')[0]?.value || '';
+
+            // 3. 화면 전환 (스캐닝 애니메이션)
             document.getElementById('step-8').classList.add('hidden');
             document.getElementById('step-scan').classList.remove('hidden');
-            setTimeout(() => { window.location.href = 'success.html'; }, 2000);
+
+            try {
+                // 4. 백엔드 API 호출 (실제 전송)
+                const response = await fetch('/api/index', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(leadFormData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // 성공 시 이동
+                    window.location.href = 'success.html';
+                } else {
+                    alert('Submission Error: ' + result.error);
+                    document.getElementById('step-8').classList.remove('hidden');
+                    document.getElementById('step-scan').classList.add('hidden');
+                }
+            } catch (err) {
+                alert('Connection to AI server failed.');
+                console.error(err);
+                document.getElementById('step-8').classList.remove('hidden');
+                document.getElementById('step-scan').classList.add('hidden');
+            }
         }
 
         document.getElementById('userPhone').oninput = (e) => {
@@ -245,6 +293,11 @@
             let m = v.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
             e.target.value = !m[2] ? m[1] : '(' + m[1] + ') ' + m[2] + (m[3] ? '-' + m[3] : '');
         };
+
+        function disqualify() {
+            alert("Already represented cases require manual review. Please contact support.");
+            closeModal();
+        }
     </script>
 </body>
 </html>
