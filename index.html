@@ -37,17 +37,14 @@
     <nav class="w-full bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
         <div class="flex items-center gap-3">
             <div class="w-2.5 h-2.5 rounded-full bg-blue-700"></div>
-            <span class="text-xs font-bold tracking-widest uppercase"><span id="nav-state-name" class="text-xs font-bold tracking-widest uppercase"><span id="nav-state-name" class="text-xs font-bold tracking-widest uppercase">Case Evaluation Division</span></span></span>
-        </div>
+           <span id="nav-state-name" class="text-xs font-bold tracking-widest uppercase">Case Evaluation Division</span>
         <div class="border border-slate-200 text-[#94A3B8] text-[9px] px-2 py-1 uppercase font-bold tracking-tighter">Attorney Advertising</div>
     </nav>
 
     <main class="max-w-3xl mx-auto px-6 pt-12 md:pt-20 pb-24 text-center w-full flex-grow">
         <div class="mb-10">
             <p class="text-[10px] font-bold text-blue-700 tracking-[0.3em] uppercase mb-4">Jurisdictional Evaluation Protocol</p>
-            <h1 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4"><h1 id="hero-title" class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4">Liability & Recovery Review</h1></h1>
-        </div>
-
+           <h1 id="hero-title" class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4">Liability & Recovery Review</h1>
         <div class="glass-panel p-6 md:p-8 mb-10 text-left">
             <div class="flex justify-between items-center border-b border-slate-100 pb-5 mb-5">
                 <div><p class="text-[9px] font-bold text-slate-400 uppercase">Active Jurisdiction</p><h2 id="hero-state-name" class="text-2xl font-serif font-bold">California</h2></div>
@@ -186,155 +183,127 @@
         </div>
     </footer>
 
-    <script>
-       // 이 함수가 주소에 따라 화면의 글자들을 싹 바꿔주는 역할을 합니다.
-        function applyStateData(key) {
-            currentState = key;
-            const d = MASTER_DB[key];
-            
-            // 1. 브라우저 탭 제목 변경 (SEO용)
-            document.title = `${d.name} Car Accident Settlement Evaluation | ${d.statute}`;
-            
-            // 2. 상단 내비게이션 이름 변경 (아이디가 있는 경우)
-            const navName = document.getElementById('nav-state-name');
-            if(navName) navName.innerText = `${d.name} Case Audit Division`;
-            
-            // 3. 메인 제목 변경
-            const heroTitle = document.getElementById('hero-title');
-            if(heroTitle) heroTitle.innerText = `${d.name} <h1 id="hero-title" class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4">Liability & Recovery Review</h1>`;
-            
-            // 4. 주 이름 및 법령 정보 변경
-            document.getElementById('hero-state-name').innerText = d.name;
-            document.getElementById('statute-info').innerText = d.statute;
-            document.getElementById('stats-info').innerText = d.law_type;
+   <script>
+    // 1. 모든 도시/주 데이터를 담은 '데이터 주머니'입니다.
+    const MASTER_DB = {
+        "california": { name: "California", statute: "CA Civ. Code § 1714", law_type: "Pure Comparative Negligence" },
+        "texas": { name: "Texas", statute: "TX Civ. Prac. § 33.001", law_type: "Proportionate Responsibility" },
+        "florida": { name: "Florida", statute: "Fla. Stat. § 768.81", law_type: "Modified Comparative Fault" },
+        "georgia": { name: "Georgia", statute: "O.C.G.A. § 51-12-33", law_type: "Modified Comparative Fault" },
+        "new_york": { name: "New York", statute: "CPLR § 1411", law_type: "Pure Comparative Negligence" },
+        "atlanta": { name: "Atlanta", statute: "O.C.G.A. § 51-12-33", law_type: "Modified Comparative Fault" }
+    };
 
-            // 5. 나중에 서버로 보낼 데이터에도 이 주 이름을 저장
-            leadFormData.state = d.name;
+    let currentScore = 10;
+    let currentState = 'california';
+    let leadFormData = {};
+
+    // 2. 주소나 버튼 클릭에 따라 화면 글자를 바꿔주는 '변신 함수'
+    function applyStateData(key) {
+        if (!MASTER_DB[key]) return;
+        
+        currentState = key;
+        const d = MASTER_DB[key];
+        
+        // 브라우저 탭 제목 변경
+        document.title = `${d.name} High-Value Case Evaluation | JDS Global`;
+        
+        // 상단바 이름 변경
+        const navName = document.getElementById('nav-state-name');
+        if(navName) navName.innerText = `${d.name} Case Audit Division`;
+        
+        // 메인 제목 변경
+        const heroTitle = document.getElementById('hero-title');
+        if(heroTitle) heroTitle.innerText = `${d.name} Liability & Recovery Review`;
+        
+        // 주 정보 카드 변경
+        document.getElementById('hero-state-name').innerText = d.name;
+        document.getElementById('statute-info').innerText = d.statute;
+        document.getElementById('stats-info').innerText = d.law_type;
+
+        // 폼 전송 데이터에 주 이름 저장
+        leadFormData.state = d.name;
+    }
+
+    // 버튼 클릭 시 실행
+    function startAudit(s) { 
+        window.history.pushState({}, '', `/${s}`); 
+        applyStateData(s); 
+        openModal(); 
+    }
+
+    function openModal() { document.getElementById('leadModal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+    function closeModal() { document.getElementById('leadModal').classList.add('hidden'); document.body.style.overflow = ''; }
+
+    function handleSelect(key, val, next, feedback, bonus) {
+        leadFormData[key] = val;
+        currentScore = Math.min(95, currentScore + bonus);
+        document.getElementById('strength-gauge').style.width = currentScore + '%';
+        const fbBox = document.getElementById('ai-feedback-box');
+        document.getElementById('ai-feedback-text').innerText = `AI INSIGHT: ${feedback}`;
+        fbBox.classList.remove('hidden');
+        setTimeout(() => nextStep(next), 600);
+    }
+
+    function nextStep(s) {
+        document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
+        document.getElementById(`step-${s}`).classList.remove('hidden');
+    }
+
+    function analyzeText() {
+        const text = document.getElementById('narrative-box').value.toLowerCase();
+        const badges = document.getElementById('keyword-badges');
+        const keywords = { 'rear-ended': 'High Liability', 'hospital': 'Major Damages', 'commercial': 'Corporate Asset' };
+        badges.innerHTML = '';
+        for (const [key, label] of Object.entries(keywords)) {
+            if (text.includes(key)) badges.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase animate-pulse">✓ ${label}</span>`;
         }
+    }
 
-        let currentScore = 10;
-        let currentState = 'california';
-        let leadFormData = {}; // 데이터를 저장할 전역 객체
-
-     function startAudit(s) { 
-            // 1. 주소창을 해당 주로 바꿉니다 (예: /texas)
-            window.history.pushState({}, '', `/${s}`); 
-            
-            // 2. 위에서 만든 변신 함수를 실행해서 글자들을 바꿉니다
-            applyStateData(s); 
-            
-            // 3. 모달창을 엽니다
-            openModal(); 
+    // 3. [중요] 페이지가 처음 켜질 때 URL을 읽어서 화면을 세팅함
+    window.addEventListener('DOMContentLoaded', () => {
+        const path = window.location.pathname.replace('/', '').toLowerCase();
+        if (path && MASTER_DB[path]) {
+            applyStateData(path);
+        } else {
+            applyStateData('california'); // 주소가 없으면 캘리포니아로 시작
         }
-        function openModal() { document.getElementById('leadModal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
-        function closeModal() { document.getElementById('leadModal').classList.add('hidden'); document.body.style.overflow = ''; }
+    });
 
-        function handleSelect(key, val, next, feedback, bonus) {
-            leadFormData[key] = val; // 데이터 축적
-            currentScore = Math.min(95, currentScore + bonus);
-            document.getElementById('strength-gauge').style.width = currentScore + '%';
-            const fbBox = document.getElementById('ai-feedback-box');
-            document.getElementById('ai-feedback-text').innerText = `AI INSIGHT: ${feedback}`;
-            fbBox.classList.remove('hidden');
-            setTimeout(() => nextStep(next), 600);
-        }
+    async function submitFinalLead(e) {
+        e.preventDefault();
+        leadFormData.fName = document.getElementById('fName').value;
+        leadFormData.lName = document.getElementById('lName').value;
+        leadFormData.email = document.getElementById('email').value;
+        leadFormData.phone = document.getElementById('userPhone').value;
+        leadFormData.narrative = document.getElementById('narrative-box').value;
+        
+        document.getElementById('step-8').classList.add('hidden');
+        document.getElementById('step-scan').classList.remove('hidden');
 
-        function nextStep(s) {
-            document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`step-${s}`).classList.remove('hidden');
-        }
+        try {
+            const response = await fetch('/api/index', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(leadFormData)
+            });
+            const result = await response.json();
+            if (result.success) { window.location.href = 'success.html'; }
+            else { alert('Error: ' + result.error); }
+        } catch (err) { console.error(err); }
+    }
 
-        function analyzeText() {
-            const text = document.getElementById('narrative-box').value.toLowerCase();
-            const badges = document.getElementById('keyword-badges');
-            const keywords = { 'rear-ended': 'High Liability', 'hospital': 'Major Damages', 'commercial': 'Corporate Asset' };
-            badges.innerHTML = '';
-            for (const [key, label] of Object.entries(keywords)) {
-                if (text.includes(key)) badges.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase animate-pulse">✓ ${label}</span>`;
-            }
-        }
+    // 전화번호 자동 포맷 기능
+    document.getElementById('userPhone').oninput = (e) => {
+        let v = e.target.value.replace(/\D/g, '');
+        let m = v.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        e.target.value = !m[2] ? m[1] : '(' + m[1] + ') ' + m[2] + (m[3] ? '-' + m[3] : '');
+    };
 
-        document.getElementById('tcpa').addEventListener('change', function() {
-            const btn = document.getElementById('submit-btn');
-            btn.disabled = !this.checked;
-            btn.classList.toggle('opacity-50', !this.checked);
-        });
-
-        // [핵심] 실제 데이터를 API로 전송하는 함수
-        async function submitFinalLead(e) {
-            e.preventDefault();
-
-            // 1. 입력된 개인정보 수집
-            leadFormData.fName = document.getElementById('fName').value;
-            leadFormData.lName = document.getElementById('lName').value;
-            leadFormData.email = document.getElementById('email').value;
-            leadFormData.phone = document.getElementById('userPhone').value;
-            leadFormData.narrative = document.getElementById('narrative-box').value;
-            leadFormData.state = currentState;
-            
-            // 2. Turnstile 및 TrustedForm 토큰 수집
-            leadFormData['cf-turnstile-response'] = turnstile.getResponse();
-            leadFormData['xxTrustedFormCertUrl'] = document.getElementsByName('xxTrustedFormCertUrl')[0]?.value || '';
-
-            // 3. 화면 전환 (스캐닝 애니메이션)
-            document.getElementById('step-8').classList.add('hidden');
-            document.getElementById('step-scan').classList.remove('hidden');
-
-            try {
-                // 4. 백엔드 API 호출 (실제 전송)
-                const response = await fetch('/api/index', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(leadFormData)
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    // 성공 시 이동
-                    window.location.href = 'success.html';
-                } else {
-                    alert('Submission Error: ' + result.error);
-                    document.getElementById('step-8').classList.remove('hidden');
-                    document.getElementById('step-scan').classList.add('hidden');
-                }
-            } catch (err) {
-                alert('Connection to AI server failed.');
-                console.error(err);
-                document.getElementById('step-8').classList.remove('hidden');
-                document.getElementById('step-scan').classList.add('hidden');
-            }
-        }
-
-        document.getElementById('userPhone').oninput = (e) => {
-            let v = e.target.value.replace(/\D/g, '');
-            let m = v.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-            e.target.value = !m[2] ? m[1] : '(' + m[1] + ') ' + m[2] + (m[3] ? '-' + m[3] : '');
-        };
-
-        function disqualify() {
-            alert("Already represented cases require manual review. Please contact support.");
-            closeModal();
-        }
-        // [추가된 로직] 페이지가 로드될 때 실행되는 함수
-        window.addEventListener('DOMContentLoaded', () => {
-            // 1. 주소창에서 '/' 뒤의 글자를 가져옵니다 (예: /texas -> texas)
-            const path = window.location.pathname.replace('/', '').toLowerCase();
-            
-            // 2. 만약 그 글자가 MASTER_DB에 등록된 도시/주 이름이라면
-            if (path && MASTER_DB[path]) {
-                const d = MASTER_DB[path];
-                currentState = path;
-                
-                // 3. 화면의 텍스트들을 해당 주 데이터로 교체합니다
-                document.getElementById('hero-state-name').innerText = d.name; 
-                document.getElementById('statute-info').innerText = d.statute; 
-                document.getElementById('stats-info').innerText = d.law_type;
-                
-                // 4. 브라우저 탭의 제목도 바꿉니다
-                document.title = `${d.name} High-Value Case Evaluation | JDS Global`;
-            }
-        });
-    </script>
+    function disqualify() {
+        alert("Already represented cases require manual review. Please contact support.");
+        closeModal();
+    }
+</script>
 </body>
 </html>
