@@ -187,32 +187,43 @@
     </footer>
 
     <script>
-        const MASTER_DB = {
-            "california": { name: "California", statute: "CA Civ. Code § 1714", law_type: "Pure Comparative Negligence" },
-            "texas": { name: "Texas", statute: "TX Civ. Prac. § 33.001", law_type: "Proportionate Responsibility" },
-            "florida": { name: "Florida", statute: "Fla. Stat. § 768.81", law_type: "Modified Comparative Fault" },
-            "georgia": { name: "Georgia", statute: "O.C.G.A. § 51-12-33", law_type: "Modified Comparative Fault" },
-            "new_york": { name: "New York", statute: "CPLR § 1411", law_type: "Pure Comparative Negligence" },
-            "atlanta": { name: "Atlanta, GA", statute: "O.C.G.A. § 51-12-33", law_type: "Modified Comparative Fault" },
-            "houston": { name: "Houston, TX", statute: "TX Civ. Prac. § 33.001", law_type: "Proportionate Responsibility" },
-            "dallas": { name: "Dallas, TX", statute: "TX Civ. Prac. § 33.001", law_type: "Proportionate Responsibility" },
-            "miami": { name: "Miami, FL", statute: "Fla. Stat. § 768.81", law_type: "Modified Comparative Fault" }
-        };
+       // 이 함수가 주소에 따라 화면의 글자들을 싹 바꿔주는 역할을 합니다.
+        function applyStateData(key) {
+            currentState = key;
+            const d = MASTER_DB[key];
+            
+            // 1. 브라우저 탭 제목 변경 (SEO용)
+            document.title = `${d.name} Car Accident Settlement Evaluation | ${d.statute}`;
+            
+            // 2. 상단 내비게이션 이름 변경 (아이디가 있는 경우)
+            const navName = document.getElementById('nav-state-name');
+            if(navName) navName.innerText = `${d.name} Case Audit Division`;
+            
+            // 3. 메인 제목 변경
+            const heroTitle = document.getElementById('hero-title');
+            if(heroTitle) heroTitle.innerText = `${d.name} Liability & Recovery Review`;
+            
+            // 4. 주 이름 및 법령 정보 변경
+            document.getElementById('hero-state-name').innerText = d.name;
+            document.getElementById('statute-info').innerText = d.statute;
+            document.getElementById('stats-info').innerText = d.law_type;
+
+            // 5. 나중에 서버로 보낼 데이터에도 이 주 이름을 저장
+            leadFormData.state = d.name;
+        }
 
         let currentScore = 10;
         let currentState = 'california';
         let leadFormData = {}; // 데이터를 저장할 전역 객체
 
-       function startAudit(s) { 
-            currentState = s; 
-            const d = MASTER_DB[s]; 
-            
-            // 이 줄이 추가되었습니다: 주소창을 /texas 등으로 바꿉니다.
+     function startAudit(s) { 
+            // 1. 주소창을 해당 주로 바꿉니다 (예: /texas)
             window.history.pushState({}, '', `/${s}`); 
             
-            document.getElementById('hero-state-name').innerText = d.name; 
-            document.getElementById('statute-info').innerText = d.statute; 
-            document.getElementById('stats-info').innerText = d.law_type; 
+            // 2. 위에서 만든 변신 함수를 실행해서 글자들을 바꿉니다
+            applyStateData(s); 
+            
+            // 3. 모달창을 엽니다
             openModal(); 
         }
         function openModal() { document.getElementById('leadModal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
