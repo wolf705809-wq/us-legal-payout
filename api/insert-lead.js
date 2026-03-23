@@ -74,7 +74,7 @@ export default async function handler(req, res) {
             police_report: leadData.police,
             has_attorney: leadData.atty,
             narrative: leadData.narrative,
-            ip_address: ip,
+            user_ip: ip,
             carrier_name: carrierName,
             line_type: lineType,
             ai_score: finalScore,
