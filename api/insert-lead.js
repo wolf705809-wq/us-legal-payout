@@ -1,42 +1,30 @@
-// index.js (Vercel/Node.js 환경)
 import { createClient } from '@supabase/supabase-js';
-import twilio from 'twilio'; // require 대신 import 사용
+import twilio from 'twilio';
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
-
-// Twilio 클라이언트를 핸들러 외부에서 초기화 (재사용성)
 const twilioClient = (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) 
     ? twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN) : null;
 
 export default async function handler(req, res) {
-    // CORS 처리 (필요시)
-    if (req.method === 'OPTIONS') return res.status(200).end();
     if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
 
     try {
         const leadData = req.body;
-        const { 
-            fName, lName, email, phone, narrative, 
-            state, type, fault, med, police, atty,
-            'cf-turnstile-response': token 
-        } = leadData;
+        const token = leadData['cf-turnstile-response'];
+        const phoneDigits = (leadData.phone || "").replace(/\D/g, '');
+        const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
 
-        const phoneDigits = phone.replace(/\D/g, '');
-
-        // [1] Cloudflare Turnstile (봇 차단) 검증
+        // [1] Cloudflare Turnstile 봇 체크
         const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `secret=${process.env.TURNSTILE_SECRET_KEY}&response=${token}`,
         });
         const verification = await verifyRes.json();
-        if (!verification.success) {
-            return res.status(403).json({ success: false, error: '보안 검증에 실패했습니다. (Bot detected)' });
-        }
+        if (!verification.success) return res.status(403).json({ success: false, error: 'Bot detected.' });
 
-        // [2] Twilio 통신사 조회 (VOIP 여부 확인)
-        let carrierName = "Unknown";
-        let lineType = "Unknown";
+        // [2] Twilio 통신사 정밀 조회
+        let carrierName = "Unknown", lineType = "Unknown";
         if (twilioClient && phoneDigits.length === 10) {
             try {
                 const lookup = await twilioClient.lookups.v2.phoneNumbers(`+1${phoneDigits}`).fetch({ fields: 'line_type_intelligence' });
@@ -45,25 +33,24 @@ export default async function handler(req, res) {
             } catch (e) { console.error("Twilio Error:", e.message); }
         }
 
-        // [3] AI 정밀 분석 엔진 (V10.1)
+        // [3] AI 점수 분석 엔진 (V10.1)
         let finalScore = 5;
         let detectedTags = [];
-        const textContent = (narrative || "").toLowerCase();
+        const narrativeText = (leadData.narrative || "").toLowerCase();
 
         const scoringMap = [
-            { key: ["truck", "18-wheeler", "semi", "commercial"], score: 3, label: "Commercial Vehicle" },
-            { key: ["hospital", "surgery", "ambulance", "er"], score: 3, label: "Severe Medical" },
-            { key: ["broken", "fracture", "spine", "brain"], score: 2, label: "Critical Injury" }
+            { key: ["truck", "18-wheeler", "semi"], score: 3, label: "Commercial Vehicle" },
+            { key: ["hospital", "surgery", "ambulance"], score: 3, label: "Severe Medical" },
+            { key: ["broken", "fracture", "spine"], score: 2, label: "Critical Injury" }
         ];
 
         scoringMap.forEach(item => {
-            if (item.key.some(k => textContent.includes(k))) {
+            if (item.key.some(k => narrativeText.includes(k))) {
                 finalScore += item.score;
                 detectedTags.push(item.label);
             }
         });
 
-        // VOIP 페널티 및 등급 판정
         let grade = "Standard";
         if (lineType === 'voip') {
             finalScore -= 5;
@@ -72,23 +59,22 @@ export default async function handler(req, res) {
         } else if (finalScore >= 8 && lineType === 'mobile') {
             grade = "High-Value";
         }
-
         finalScore = Math.max(0, Math.min(10, finalScore));
 
         // [4] DB 저장 (Supabase)
-        const { error: dbError } = await supabase.from('leads').insert([{
-            first_name: fName,
-            last_name: lName,
-            email: email,
+        const { error } = await supabase.from('leads').insert([{
+            first_name: leadData.fName,
+            last_name: leadData.lName,
+            email: leadData.email,
             phone: phoneDigits,
-            narrative: narrative,
-            state: state,
-            case_type: type,
-            fault_status: fault,
-            medical_status: med,
-            police_report: police,
-            has_attorney: atty,
-            ip_address: req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress,
+            state: leadData.state,
+            case_type: leadData.type,
+            fault_status: leadData.fault,
+            medical_status: leadData.med,
+            police_report: leadData.police,
+            has_attorney: leadData.atty,
+            narrative: leadData.narrative,
+            ip_address: ip,
             carrier_name: carrierName,
             line_type: lineType,
             ai_score: finalScore,
@@ -96,12 +82,10 @@ export default async function handler(req, res) {
             lead_grade: grade
         }]);
 
-        if (dbError) throw dbError;
-
-        return res.status(200).json({ success: true, grade: grade });
+        if (error) throw error;
+        return res.status(200).json({ success: true, grade });
 
     } catch (err) {
-        console.error("API Error:", err);
         return res.status(500).json({ success: false, error: err.message });
     }
 }
