@@ -321,6 +321,9 @@
         leadFormData.narrative = document.getElementById('narrative-box').value;
 
         leadFormData.tcpa_checked = true;
+        // Server expects Cloudflare Turnstile token under this field name.
+        leadFormData['cf-turnstile-response'] = turnstileToken;
+        // Keep a legacy field name for any future/other handlers.
         leadFormData.turnstileToken = turnstileToken;
         
         document.getElementById('step-8').classList.add('hidden');
