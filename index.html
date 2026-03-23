@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title id="dynamic-title">Case Evaluation | JDS Global</title>
-    
+    <title id="dynamic-title">High-Value Case Evaluation | JDS Global</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     
@@ -20,32 +19,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* [마스터 스위치] 이 변수들이 모든 색깔을 조절합니다 */
+        /* [마스터 스위치] 이 변수가 디자인을 깨지 않고 색깔만 바꿉니다 */
         :root { 
-            --premium-color: #0B1120; /* 기본 네이비 */
-            --premium-accent: #1E3A8A; 
+            --premium-navy: #0B1120; 
+            --premium-blue: #1E3A8A; /* 이 값이 주소에 따라 바뀝니다 */
         }
-        body { background-color: #FAFAFA; font-family: 'Inter', sans-serif; color: #0F172A; }
+        body { background-color: #FAFAFA; font-family: 'Inter', sans-serif; color: #0F172A; -webkit-font-smoothing: antialiased; }
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .glass-panel { background: #FFFFFF; border: 1px solid rgba(15, 23, 42, 0.08); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05); border-radius: 12px; }
-        
-        /* 버튼과 강조색에 변수 적용 */
-        .premium-btn { background-color: var(--premium-color) !important; color: white; transition: all 0.2s ease; }
-        .text-theme { color: var(--premium-color) !important; }
-        .border-theme { border-color: var(--premium-color) !important; }
-        
+        .premium-btn { background-color: var(--premium-navy); color: white; transition: all 0.2s ease; cursor: pointer; }
         .option-card { border: 1px solid #E2E8F0; transition: all 0.2s ease; cursor: pointer; border-radius: 8px; background: white; padding: 20px; font-weight: 600; }
-        .option-card:hover { border-color: var(--premium-accent); background-color: #F8FAFC; transform: translateY(-1px); }
+        .option-card:hover { border-color: var(--premium-blue); background-color: #F8FAFC; transform: translateY(-1px); }
         .step-container { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .hidden { display: none !important; }
+        #ai-feedback-box { border-left: 4px solid var(--premium-blue); transition: all 0.3s ease; }
+
+        /* 색상 가변 적용을 위한 클래스 추가 (디자인 보존용) */
+        .theme-text { color: var(--premium-blue) !important; }
+        .theme-bg { background-color: var(--premium-blue) !important; }
+        .theme-border { border-color: var(--premium-blue) !important; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
     <nav class="w-full bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
         <div class="flex items-center gap-3">
-            <div class="w-2.5 h-2.5 rounded-full bg-blue-700" style="background-color: var(--premium-color) !important;"></div>
+            <div class="w-2.5 h-2.5 rounded-full theme-bg"></div>
             <span class="text-xs font-bold tracking-widest uppercase">Case Evaluation Division</span>
         </div>
         <div class="border border-slate-200 text-[#94A3B8] text-[9px] px-2 py-1 uppercase font-bold tracking-tighter">Attorney Advertising</div>
@@ -53,245 +53,255 @@
 
     <main class="max-w-3xl mx-auto px-6 pt-12 md:pt-20 pb-24 text-center w-full flex-grow">
         <div class="mb-10">
-            <p class="text-[10px] font-bold text-theme tracking-[0.3em] uppercase mb-4">Jurisdictional Evaluation Protocol</p>
+            <p class="text-[10px] font-bold theme-text tracking-[0.3em] uppercase mb-4">Jurisdictional Evaluation Protocol</p>
             <h1 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4">Liability & Recovery Review</h1>
         </div>
 
-        <div class="glass-panel p-6 md:p-8 mb-10 text-left border-theme" style="border-top-width: 4px;">
+        <div class="glass-panel p-6 md:p-8 mb-10 text-left">
             <div class="flex justify-between items-center border-b border-slate-100 pb-5 mb-5">
-                <div>
-                    <p class="text-[9px] font-bold text-slate-400 uppercase">Active Jurisdiction</p>
-                    <h2 id="hero-state-name" class="text-2xl font-serif font-bold">...</h2>
-                </div>
+                <div><p class="text-[9px] font-bold text-slate-400 uppercase">Active Jurisdiction</p><h2 id="hero-state-name" class="text-2xl font-serif font-bold">California</h2></div>
                 <div class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100 flex items-center gap-2">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Live Sync Active
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-8">
-                <div>
-                    <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Primary Statute</p>
-                    <p id="statute-info" class="text-xs md:text-sm font-medium">...</p>
-                </div>
-                <div>
-                    <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Legal Framework</p>
-                    <p id="stats-info" class="text-xs md:text-sm font-medium">...</p>
-                </div>
+                <div><p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Primary Statute</p><p id="statute-info" class="text-xs md:text-sm font-medium">CA Civ. Code § 1714</p></div>
+                <div><p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Legal Framework</p><p id="stats-info" class="text-xs md:text-sm font-medium">Pure Comparative Negligence</p></div>
             </div>
         </div>
 
         <button onclick="openModal()" class="premium-btn text-white font-bold text-sm px-12 py-5 rounded shadow-xl uppercase tracking-widest w-full sm:w-auto active:scale-95 mb-16">
             Initiate Case Audit
         </button>
+
+        <section class="grid grid-cols-2 md:grid-cols-5 gap-3">
+            <div onclick="startAudit('california')" class="option-card p-4 text-center font-serif font-bold">CA</div>
+            <div onclick="startAudit('texas')" class="option-card p-4 text-center font-serif font-bold">TX</div>
+            <div onclick="startAudit('florida')" class="option-card p-4 text-center font-serif font-bold">FL</div>
+            <div onclick="startAudit('georgia')" class="option-card p-4 text-center font-serif font-bold">GA</div>
+            <div onclick="startAudit('new_york')" class="option-card p-4 text-center font-serif font-bold">NY</div>
+        </section>
     </main>
 
     <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
         <div class="w-full max-w-xl bg-white shadow-2xl rounded-t-2xl md:rounded-xl flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden">
-             <div id="step-1" class="step-container p-8 space-y-4">
-                <h3 class="text-xl font-serif font-bold">Nature of the incident?</h3>
-                <button onclick="handleSelect('type', 'Auto', 2, 'Vehicle cases require insurance verification.', 10)" class="option-card w-full text-left">Motor Vehicle Collision</button>
-                </div>
-             <div id="step-scan" class="hidden py-16 text-center">
-                <p>AI 정밀 분석 중...</p>
-             </div>
-        </div>
-    </div>
-
-    <script>
-        // [상위 1% 데이터 맵] 모든 주 정보를 여기에 모읍니다
-        const STATE_MASTER = {
-            "california": { name: "California", statute: "CA Civ. Code § 1714", law_type: "Pure Comparative Negligence", color: "#F59E0B" },
-            "texas": { name: "Texas", statute: "TX Civ. Prac. § 33.001", law_type: "Proportionate Responsibility", color: "#B91C1C" },
-            "florida": { name: "Florida", statute: "Fla. Stat. § 768.81", law_type: "Modified Comparative Fault", color: "#0D9488" },
-            "new-york": { name: "New York", statute: "CPLR § 1411", law_type: "Pure Comparative Negligence", color: "#475569" },
-            "georgia": { name: "Georgia", statute: "O.C.G.A. § 51-12-33", law_type: "Modified Comparative Fault", color: "#065F46" }
-        };
-
-        // --- [마법의 로우팅 로직] ---
-        function initPage() {
-            // 1. 주소창에서 단어 가져오기 (예: yoursit.com/texas -> "texas")
-            let path = window.location.pathname.replace(/\//g, '').toLowerCase();
             
-            // 2. 만약 주소에 아무것도 없으면 기본값 'california'
-            let data = STATE_MASTER[path] || STATE_MASTER['california'];
-
-            // 3. 화면에 데이터 꽂아주기
-            document.getElementById('dynamic-title').innerText = `${data.name} | Case Evaluation`;
-            document.getElementById('hero-state-name').innerText = data.name;
-            document.getElementById('statute-info').innerText = data.statute;
-            document.getElementById('stats-info').innerText = data.law_type;
-
-            // 4. 테마 색상 바꾸기
-            document.documentElement.style.setProperty('--premium-color', data.color);
-            document.documentElement.style.setProperty('--premium-accent', data.color + 'CC');
-            
-            // 전역 변수 설정
-            window.currentState = path || 'california';
-        }
-
-        // 페이지 시작 시 실행
-        initPage();
-
-        // --- 기존 기능 로직 (handleSelect, submit 등 보존) ---
-        let leadFormData = {};
-        function openModal() { document.getElementById('leadModal').classList.remove('hidden'); }
-        function closeModal() { document.getElementById('leadModal').classList.add('hidden'); }
-        function handleSelect(k, v, n, f, b) {
-            leadFormData[k] = v;
-            setTimeout(() => nextStep(n), 400);
-        }
-        function nextStep(s) {
-            document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`step-${s}`)?.classList.remove('hidden');
-        }
-        // ... (나머지 폼 전송 로직 등)
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title id="dynamic-title">Case Evaluation | JDS Global</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    
-    <script type="text/javascript">
-    (function() {
-        var tf = document.createElement('script');
-        tf.type = 'text/javascript'; tf.async = true;
-        tf.src = ("https:" == document.location.protocol ? "https" : "http") + "://api.trustedform.com/trustedform.js?provide_referrer=true&field=xxTrustedFormCertUrl&trigger_method=always";
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(tf, s);
-    })();
-    </script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        /* [마스터 스위치] 이 변수들이 모든 색깔을 조절합니다 */
-        :root { 
-            --premium-color: #0B1120; /* 기본 네이비 */
-            --premium-accent: #1E3A8A; 
-        }
-        body { background-color: #FAFAFA; font-family: 'Inter', sans-serif; color: #0F172A; }
-        .font-serif { font-family: 'Cormorant Garamond', serif; }
-        .glass-panel { background: #FFFFFF; border: 1px solid rgba(15, 23, 42, 0.08); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05); border-radius: 12px; }
-        
-        /* 버튼과 강조색에 변수 적용 */
-        .premium-btn { background-color: var(--premium-color) !important; color: white; transition: all 0.2s ease; }
-        .text-theme { color: var(--premium-color) !important; }
-        .border-theme { border-color: var(--premium-color) !important; }
-        
-        .option-card { border: 1px solid #E2E8F0; transition: all 0.2s ease; cursor: pointer; border-radius: 8px; background: white; padding: 20px; font-weight: 600; }
-        .option-card:hover { border-color: var(--premium-accent); background-color: #F8FAFC; transform: translateY(-1px); }
-        .step-container { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .hidden { display: none !important; }
-    </style>
-</head>
-<body class="flex flex-col min-h-screen">
-
-    <nav class="w-full bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
-        <div class="flex items-center gap-3">
-            <div class="w-2.5 h-2.5 rounded-full bg-blue-700" style="background-color: var(--premium-color) !important;"></div>
-            <span class="text-xs font-bold tracking-widest uppercase">Case Evaluation Division</span>
-        </div>
-        <div class="border border-slate-200 text-[#94A3B8] text-[9px] px-2 py-1 uppercase font-bold tracking-tighter">Attorney Advertising</div>
-    </nav>
-
-    <main class="max-w-3xl mx-auto px-6 pt-12 md:pt-20 pb-24 text-center w-full flex-grow">
-        <div class="mb-10">
-            <p class="text-[10px] font-bold text-theme tracking-[0.3em] uppercase mb-4">Jurisdictional Evaluation Protocol</p>
-            <h1 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4">Liability & Recovery Review</h1>
-        </div>
-
-        <div class="glass-panel p-6 md:p-8 mb-10 text-left border-theme" style="border-top-width: 4px;">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-5 mb-5">
-                <div>
-                    <p class="text-[9px] font-bold text-slate-400 uppercase">Active Jurisdiction</p>
-                    <h2 id="hero-state-name" class="text-2xl font-serif font-bold">...</h2>
+            <div class="px-8 py-6 border-b border-slate-100 bg-white sticky top-0 z-10">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-serif font-bold text-xl">Case Intake Audit</h3>
+                    <button onclick="closeModal()" class="text-slate-400 hover:text-slate-800 p-2">✕</button>
                 </div>
-                <div class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100 flex items-center gap-2">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Live Sync Active
+                <div id="ai-feedback-box" class="mb-4 p-3 bg-blue-50 rounded hidden">
+                    <p id="ai-feedback-text" class="text-[10px] font-bold theme-text uppercase tracking-tight"></p>
+                </div>
+                <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                    <div id="strength-gauge" class="theme-bg h-full transition-all duration-700" style="width: 10%"></div>
                 </div>
             </div>
-            <div class="grid grid-cols-2 gap-8">
-                <div>
-                    <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Primary Statute</p>
-                    <p id="statute-info" class="text-xs md:text-sm font-medium">...</p>
+
+            <div id="modalBody" class="p-8 overflow-y-auto flex-grow bg-white">
+                <div id="step-1" class="step-container space-y-4">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 01: Classification</p>
+                    <h3 class="text-xl font-serif font-bold">Nature of the incident?</h3>
+                    <button onclick="handleSelect('type', 'Auto', 2, 'Vehicle cases require immediate insurance verification.', 10)" class="option-card w-full text-left">Motor Vehicle Collision</button>
+                    <button onclick="handleSelect('type', 'Slip', 2, 'Premises liability depends on notice of hazard.', 10)" class="option-card w-full text-left">Premises Liability (Slip & Fall)</button>
                 </div>
-                <div>
-                    <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Legal Framework</p>
-                    <p id="stats-info" class="text-xs md:text-sm font-medium">...</p>
+
+                <div id="step-2" class="step-container hidden space-y-4">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 02: Liability</p>
+                    <h3 class="text-xl font-serif font-bold">Establish fault distribution.</h3>
+                    <button onclick="handleSelect('fault', 'none', 3, 'Zero liability status significantly enhances recovery.', 25)" class="option-card w-full text-left">0% Liability (Not At Fault)</button>
+                    <button onclick="handleSelect('fault', 'shared', 3, 'Comparative negligence rules will apply.', 10)" class="option-card w-full text-left">Liability is Disputed / Shared</button>
+                </div>
+
+                <div id="step-3" class="step-container hidden space-y-4">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 03: Damages</p>
+                    <h3 class="text-xl font-serif font-bold">Detail medical intervention.</h3>
+                    <button onclick="handleSelect('med', 'er', 4, 'Emergency care visits establish essential causality.', 30)" class="option-card w-full text-left">ER / Hospital Admission</button>
+                    <button onclick="handleSelect('med', 'later', 4, 'Delayed treatment requires specific documentation.', 10)" class="option-card w-full text-left">Follow-up with Doctor Later</button>
+                </div>
+
+                <div id="step-4" class="step-container hidden space-y-4">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 04: Evidence</p>
+                    <h3 class="text-xl font-serif font-bold">Was an official report filed?</h3>
+                    <button onclick="handleSelect('police', 'yes', 5, 'Official reports are considered primary evidence.', 15)" class="option-card w-full text-left">Yes, police report generated</button>
+                    <button onclick="handleSelect('police', 'no', 5, 'Secondary documentation will be required.', 0)" class="option-card w-full text-left">No / Status Unknown</button>
+                </div>
+
+                <div id="step-5" class="step-container hidden space-y-4">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 05: Legal Status</p>
+                    <h3 class="text-xl font-serif font-bold">Do you have an active attorney?</h3>
+                    <button onclick="handleSelect('atty', 'no', 6, 'You are eligible for priority counsel matching.', 10)" class="option-card w-full text-left">No Active Representation</button>
+                    <button onclick="disqualify()" class="option-card w-full text-left opacity-60">Already Retained Counsel</button>
+                </div>
+
+                <div id="step-6" class="step-container hidden space-y-4">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 06: Analysis</p>
+                    <h3 class="text-xl font-serif font-bold">Incident Narrative</h3>
+                    <textarea id="narrative-box" rows="4" oninput="analyzeText()" placeholder="e.g. I was stopped at a red light..." class="w-full bg-slate-50 border border-slate-200 p-4 rounded outline-none focus:theme-border"></textarea>
+                    <div id="keyword-badges" class="flex flex-wrap gap-2"></div>
+                    <button onclick="nextStep(7)" class="premium-btn w-full py-4 rounded uppercase tracking-widest">Execute AI Audit</button>
+                </div>
+
+                <div id="step-7" class="step-container hidden space-y-4">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 07: Verification</p>
+                    <h3 class="text-xl font-serif font-bold text-center">Identity Details</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" id="fName" placeholder="First Name" class="bg-slate-50 border p-4 rounded outline-none w-full">
+                        <input type="text" id="lName" placeholder="Last Name" class="bg-slate-50 border p-4 rounded outline-none w-full">
+                    </div>
+                    <input type="email" id="email" placeholder="Email Address" class="w-full bg-slate-50 border p-4 rounded outline-none">
+                    <button onclick="nextStep(8)" class="premium-btn w-full py-4 rounded uppercase tracking-widest mt-4">Review Results</button>
+                </div>
+
+                <form id="step-8" class="step-container hidden space-y-4" onsubmit="submitFinalLead(event)">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest text-center">Section 08: Security</p>
+                    <h3 class="text-xl font-serif font-bold text-center mb-6">Secure Your Assessment</h3>
+                    <input type="tel" id="userPhone" placeholder="(555) 555-5555" required class="w-full bg-slate-50 border-2 border-slate-200 px-4 py-5 rounded-xl text-2xl font-bold text-center outline-none tracking-widest focus:theme-border">
+                    <div class="cf-turnstile flex justify-center" data-sitekey="0x4AAAAAACuTQ4GK1w5nO44e"></div>
+
+                    <label class="flex items-start gap-3 mt-4 p-4 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer">
+                        <input type="checkbox" id="tcpa" class="w-5 h-5 mt-1 accent-blue-700 shrink-0" required>
+                        <span class="text-[10px] text-slate-600 leading-relaxed font-medium">
+                            I provide express written consent to be contacted regarding my case. I agree to the <a href="terms.html" class="underline font-bold">Terms</a> and <a href="privacy.html" class="underline font-bold">Privacy Policy</a>.
+                        </span>
+                    </label>
+                    <button type="submit" id="submit-btn" disabled class="premium-btn w-full py-5 rounded-xl uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed">Finish & View Report</button>
+                </form>
+
+                <div id="step-scan" class="hidden py-16 text-center">
+                    <div class="animate-spin theme-text mx-auto w-12 h-12 mb-8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg></div>
+                    <h3 class="font-serif font-bold text-xl mb-2">Syncing Data Streams...</h3>
                 </div>
             </div>
         </div>
-
-        <button onclick="openModal()" class="premium-btn text-white font-bold text-sm px-12 py-5 rounded shadow-xl uppercase tracking-widest w-full sm:w-auto active:scale-95 mb-16">
-            Initiate Case Audit
-        </button>
-    </main>
-
-    <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-        <div class="w-full max-w-xl bg-white shadow-2xl rounded-t-2xl md:rounded-xl flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden">
-             <div id="step-1" class="step-container p-8 space-y-4">
-                <h3 class="text-xl font-serif font-bold">Nature of the incident?</h3>
-                <button onclick="handleSelect('type', 'Auto', 2, 'Vehicle cases require insurance verification.', 10)" class="option-card w-full text-left">Motor Vehicle Collision</button>
-                </div>
-             <div id="step-scan" class="hidden py-16 text-center">
-                <p>AI 정밀 분석 중...</p>
-             </div>
-        </div>
     </div>
 
+    <footer class="w-full bg-[#0B1120] text-[#94A3B8] p-12 md:p-20 mt-auto border-t border-slate-800">
+        <div class="max-w-6xl mx-auto text-center md:text-left">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 pb-16 border-b border-slate-800">
+                <div><p class="text-white text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Direct Support</p><p class="text-sm">support@jdsglobalsolutions.com</p></div>
+                <div><p class="text-white text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Corporate HQ</p><p class="text-sm">1201 N Market St, Wilmington, DE 19801</p></div>
+                <div><p class="text-white text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Verification Line</p><p class="text-sm">+1 (888) 512-0941</p></div>
+            </div>
+            <div class="flex flex-wrap justify-center gap-10 py-12 text-[9px] font-bold uppercase tracking-[0.2em]">
+                <a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="ccpa.html">CCPA / Do Not Sell</a><a href="disclaimer.html">Legal Disclaimer</a>
+            </div>
+            <div class="max-w-3xl mx-auto text-center space-y-6">
+                <p class="text-[10px] text-slate-500"><strong>ATTORNEY ADVERTISING:</strong> JDS Global Solutions is a marketing firm.</p>
+                <p class="text-[9px] tracking-[0.4em] font-bold text-slate-600">© 2026 JDS GLOBAL SOLUTIONS. ALL RIGHTS RESERVED.</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        // [상위 1% 데이터 맵] 모든 주 정보를 여기에 모읍니다
-        const STATE_MASTER = {
+        // [수술 부위 1] MASTER_DB에 테마 색깔 추가
+        const MASTER_DB = {
             "california": { name: "California", statute: "CA Civ. Code § 1714", law_type: "Pure Comparative Negligence", color: "#F59E0B" },
             "texas": { name: "Texas", statute: "TX Civ. Prac. § 33.001", law_type: "Proportionate Responsibility", color: "#B91C1C" },
             "florida": { name: "Florida", statute: "Fla. Stat. § 768.81", law_type: "Modified Comparative Fault", color: "#0D9488" },
-            "new-york": { name: "New York", statute: "CPLR § 1411", law_type: "Pure Comparative Negligence", color: "#475569" },
-            "georgia": { name: "Georgia", statute: "O.C.G.A. § 51-12-33", law_type: "Modified Comparative Fault", color: "#065F46" }
+            "georgia": { name: "Georgia", statute: "O.C.G.A. § 51-12-33", law_type: "Modified Comparative Fault", color: "#065F46" },
+            "new_york": { name: "New York", statute: "CPLR § 1411", law_type: "Pure Comparative Negligence", color: "#475569" }
         };
 
-        // --- [마법의 로우팅 로직] ---
-        function initPage() {
-            // 1. 주소창에서 단어 가져오기 (예: yoursit.com/texas -> "texas")
-            let path = window.location.pathname.replace(/\//g, '').toLowerCase();
-            
-            // 2. 만약 주소에 아무것도 없으면 기본값 'california'
-            let data = STATE_MASTER[path] || STATE_MASTER['california'];
-
-            // 3. 화면에 데이터 꽂아주기
-            document.getElementById('dynamic-title').innerText = `${data.name} | Case Evaluation`;
-            document.getElementById('hero-state-name').innerText = data.name;
-            document.getElementById('statute-info').innerText = data.statute;
-            document.getElementById('stats-info').innerText = data.law_type;
-
-            // 4. 테마 색상 바꾸기
-            document.documentElement.style.setProperty('--premium-color', data.color);
-            document.documentElement.style.setProperty('--premium-accent', data.color + 'CC');
-            
-            // 전역 변수 설정
-            window.currentState = path || 'california';
-        }
-
-        // 페이지 시작 시 실행
-        initPage();
-
-        // --- 기존 기능 로직 (handleSelect, submit 등 보존) ---
+        let currentScore = 10;
+        let currentState = 'california';
         let leadFormData = {};
-        function openModal() { document.getElementById('leadModal').classList.remove('hidden'); }
-        function closeModal() { document.getElementById('leadModal').classList.add('hidden'); }
-        function handleSelect(k, v, n, f, b) {
-            leadFormData[k] = v;
-            setTimeout(() => nextStep(n), 400);
+
+        // [수술 부위 2] 주소창을 읽어서 자동으로 페이지를 세팅하는 함수
+        function initDynamicPage() {
+            // 주소창에서 단어 추출 (예: /texas 면 "texas")
+            const path = window.location.pathname.replace(/\//g, '').toLowerCase();
+            const stateKey = MASTER_DB[path] ? path : 'california';
+            
+            startAudit(stateKey); // 해당 주로 자동 시작
         }
+
+        function startAudit(s) { 
+            currentState = s; 
+            const d = MASTER_DB[s]; 
+            
+            // 텍스트 업데이트
+            document.getElementById('hero-state-name').innerText = d.name; 
+            document.getElementById('statute-info').innerText = d.statute; 
+            document.getElementById('stats-info').innerText = d.law_type; 
+            document.getElementById('dynamic-title').innerText = `${d.name} Liability Review | JDS Global`;
+
+            // [핵심] 테마 색상 업데이트
+            document.documentElement.style.setProperty('--premium-blue', d.color);
+        }
+
+        // 페이지 로드 시 실행
+        window.onload = initDynamicPage;
+
+        // --- 이하 원본 로직 보존 ---
+        function openModal() { document.getElementById('leadModal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+        function closeModal() { document.getElementById('leadModal').classList.add('hidden'); document.body.style.overflow = ''; }
+
+        function handleSelect(key, val, next, feedback, bonus) {
+            leadFormData[key] = val;
+            currentScore = Math.min(95, currentScore + bonus);
+            document.getElementById('strength-gauge').style.width = currentScore + '%';
+            const fbBox = document.getElementById('ai-feedback-box');
+            document.getElementById('ai-feedback-text').innerText = `AI INSIGHT: ${feedback}`;
+            fbBox.classList.remove('hidden');
+            setTimeout(() => nextStep(next), 600);
+        }
+
         function nextStep(s) {
             document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`step-${s}`)?.classList.remove('hidden');
+            document.getElementById(`step-${s}`).classList.remove('hidden');
         }
-        // ... (나머지 폼 전송 로직 등)
+
+        function analyzeText() {
+            const text = document.getElementById('narrative-box').value.toLowerCase();
+            const badges = document.getElementById('keyword-badges');
+            const keywords = { 'rear-ended': 'High Liability', 'hospital': 'Major Damages', 'commercial': 'Corporate Asset' };
+            badges.innerHTML = '';
+            for (const [key, label] of Object.entries(keywords)) {
+                if (text.includes(key)) badges.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase animate-pulse">✓ ${label}</span>`;
+            }
+        }
+
+        document.getElementById('tcpa').addEventListener('change', function() {
+            const btn = document.getElementById('submit-btn');
+            btn.disabled = !this.checked;
+            btn.classList.toggle('opacity-50', !this.checked);
+        });
+
+        async function submitFinalLead(e) {
+            e.preventDefault();
+            leadFormData.fName = document.getElementById('fName').value;
+            leadFormData.lName = document.getElementById('lName').value;
+            leadFormData.email = document.getElementById('email').value;
+            leadFormData.phone = document.getElementById('userPhone').value;
+            leadFormData.narrative = document.getElementById('narrative-box').value;
+            leadFormData.state = currentState;
+            leadFormData['cf-turnstile-response'] = turnstile.getResponse();
+            leadFormData['xxTrustedFormCertUrl'] = document.getElementsByName('xxTrustedFormCertUrl')[0]?.value || '';
+
+            document.getElementById('step-8').classList.add('hidden');
+            document.getElementById('step-scan').classList.remove('hidden');
+
+            try {
+                const response = await fetch('/api/index', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(leadFormData)
+                });
+                const result = await response.json();
+                if (result.success) { window.location.href = 'success.html'; } 
+                else { alert('Error: ' + result.error); document.getElementById('step-8').classList.remove('hidden'); document.getElementById('step-scan').classList.add('hidden'); }
+            } catch (err) { alert('Server Connection Failed'); }
+        }
+
+        document.getElementById('userPhone').oninput = (e) => {
+            let v = e.target.value.replace(/\D/g, '');
+            let m = v.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+            e.target.value = !m[2] ? m[1] : '(' + m[1] + ') ' + m[2] + (m[3] ? '-' + m[3] : '');
+        };
+
+        function disqualify() { alert("Representation Case Found."); closeModal(); }
     </script>
 </body>
 </html>
