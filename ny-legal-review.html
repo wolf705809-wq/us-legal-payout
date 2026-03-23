@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>New York Liability & Recovery Review | CPLR § 1411</title>
-    <meta name="description" content="Professional New York case evaluation under CPLR § 1411. Pure comparative negligence audit for NYC & NY State.">
+    <meta name="description" content="Professional New York case evaluation under CPLR § 1411. NYC & NY State legal audit.">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -21,7 +21,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        :root { --premium-navy: #0F172A; --ny-accent: #334155; } /* 뉴욕 전용 다크 슬레이트 */
+        :root { --premium-navy: #0F172A; --ny-slate: #334155; }
         body { background-color: #FAFAFA; font-family: 'Inter', sans-serif; color: #0F172A; -webkit-font-smoothing: antialiased; }
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .glass-panel { background: #FFFFFF; border: 1px solid rgba(15, 23, 42, 0.08); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05); border-radius: 12px; }
@@ -39,22 +39,22 @@
     <nav class="w-full bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
         <div class="flex items-center gap-3">
             <div class="w-2.5 h-2.5 rounded-full bg-slate-900"></div>
-            <span class="text-xs font-bold tracking-widest uppercase">New York Case Audit Division</span>
+            <span class="text-xs font-bold tracking-widest uppercase text-slate-900">New York Case Audit Division</span>
         </div>
         <div class="border border-slate-200 text-[#94A3B8] text-[9px] px-2 py-1 uppercase font-bold tracking-tighter">Attorney Advertising</div>
     </nav>
 
     <main class="max-w-3xl mx-auto px-6 pt-12 md:pt-20 pb-24 text-center w-full flex-grow">
-        <div class="mb-10">
-            <p class="text-[10px] font-bold text-slate-500 tracking-[0.3em] uppercase mb-4">New York Jurisdictional Protocol</p>
-            <h1 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4">Liability & Recovery Review</h1>
+        <div class="mb-10 text-center">
+            <p class="text-[10px] font-bold text-slate-500 tracking-[0.3em] uppercase mb-4">Jurisdictional Evaluation Protocol</p>
+            <h1 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4 text-center">New York Liability Review</h1>
         </div>
 
         <div class="glass-panel p-6 md:p-8 mb-10 text-left">
             <div class="flex justify-between items-center border-b border-slate-100 pb-5 mb-5">
                 <div><p class="text-[9px] font-bold text-slate-400 uppercase">Active Jurisdiction</p><h2 class="text-2xl font-serif font-bold">New York State</h2></div>
-                <div class="text-[10px] font-bold text-slate-600 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-100 flex items-center gap-2">
-                    <span class="w-1.5 h-1.5 rounded-full bg-slate-500 animate-pulse"></span> Live Statutory Sync
+                <div class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Live Statutory Sync
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-8">
@@ -64,20 +64,20 @@
         </div>
 
         <button onclick="openModal()" class="premium-btn text-white font-bold text-sm px-12 py-5 rounded shadow-xl uppercase tracking-widest w-full sm:w-auto active:scale-95">
-            Initiate New York Case Audit
+            Initiate NY Case Audit
         </button>
     </main>
 
-    <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-        <div class="w-full max-w-xl bg-white shadow-2xl rounded-t-2xl md:rounded-xl flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden">
+    <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 text-left">
+        <div class="w-full max-w-xl bg-white shadow-2xl rounded-t-2xl md:rounded-xl flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden text-left">
             
-            <div class="px-8 py-6 border-b border-slate-100 bg-white sticky top-0 z-10">
+            <div class="px-8 py-6 border-b border-slate-100 bg-white sticky top-0 z-10 text-left">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-serif font-bold text-xl text-slate-900 underline decoration-slate-300">New York Case Intake</h3>
+                    <h3 class="font-serif font-bold text-xl text-slate-900">New York Case Intake Audit</h3>
                     <button onclick="closeModal()" class="text-slate-400 hover:text-slate-800 p-2">✕</button>
                 </div>
-                <div id="ai-feedback-box" class="mb-4 p-3 bg-slate-50 rounded hidden">
-                    <p id="ai-feedback-text" class="text-[10px] font-bold text-slate-600 uppercase tracking-tight"></p>
+                <div id="ai-feedback-box" class="mb-4 p-3 bg-slate-50 rounded hidden text-left">
+                    <p id="ai-feedback-text" class="text-[10px] font-bold text-slate-800 uppercase tracking-tight"></p>
                 </div>
                 <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
                     <div id="strength-gauge" class="bg-slate-900 h-full transition-all duration-700" style="width: 15%"></div>
@@ -85,63 +85,64 @@
             </div>
 
             <div id="modalBody" class="p-8 overflow-y-auto flex-grow bg-white text-left">
-                <div id="step-1" class="step-container space-y-4 text-left">
+                <div id="step-1" class="step-container space-y-4">
                     <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 01: Classification</p>
-                    <h3 class="text-xl font-serif font-bold">Nature of the incident?</h3>
+                    <h3 class="text-xl font-serif font-bold text-left">Nature of the incident in NY?</h3>
                     <button onclick="handleSelect('type', 'Auto', 2, 'Vehicle cases require immediate insurance verification.', 10)" class="option-card w-full">Motor Vehicle Collision</button>
                     <button onclick="handleSelect('type', 'Slip', 2, 'Premises liability depends on notice of hazard.', 10)" class="option-card w-full">Premises Liability (Slip & Fall)</button>
                 </div>
 
                 <div id="step-2" class="step-container hidden space-y-4">
-                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 02: Liability</p>
-                    <h3 class="text-xl font-serif font-bold">Establish fault distribution.</h3>
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest text-left">Section 02: Liability</p>
+                    <h3 class="text-xl font-serif font-bold text-left">Establish fault distribution.</h3>
                     <button onclick="handleSelect('fault', 'none', 3, 'Zero liability status significantly enhances recovery.', 25)" class="option-card w-full">0% Liability (Not At Fault)</button>
-                    <button onclick="handleSelect('fault', 'shared', 3, 'New York CPLR § 1411 rules will apply.', 10)" class="option-card w-full">Liability is Disputed / Shared</button>
+                    <button onclick="handleSelect('fault', 'shared', 3, 'CPLR § 1411 comparative rules will apply.', 10)" class="option-card w-full">Liability is Disputed / Shared</button>
                 </div>
 
                 <div id="step-3" class="step-container hidden space-y-4">
-                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 03: Damages</p>
-                    <h3 class="text-xl font-serif font-bold">Detail medical intervention.</h3>
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest text-left">Section 03: Damages</p>
+                    <h3 class="text-xl font-serif font-bold text-left">Detail medical intervention.</h3>
                     <button onclick="handleSelect('med', 'er', 4, 'Emergency care visits establish essential causality.', 30)" class="option-card w-full">ER / Hospital Admission</button>
                     <button onclick="handleSelect('med', 'later', 4, 'Delayed treatment requires specific documentation.', 10)" class="option-card w-full">Follow-up with Doctor Later</button>
                 </div>
 
                 <div id="step-4" class="step-container hidden space-y-4">
-                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 04: Evidence</p>
-                    <h3 class="text-xl font-serif font-bold">Was an official report filed?</h3>
-                    <button onclick="handleSelect('police', 'yes', 5, 'Official reports are considered primary evidence.', 15)" class="option-card w-full">Yes, police report generated</button>
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest text-left">Section 04: Evidence</p>
+                    <h3 class="text-xl font-serif font-bold text-left">Was an official report filed?</h3>
+                    <button onclick="handleSelect('police', 'yes', 5, 'Official NY reports are considered primary evidence.', 15)" class="option-card w-full">Yes, police report generated</button>
                     <button onclick="handleSelect('police', 'no', 5, 'Secondary documentation will be required.', 0)" class="option-card w-full">No / Status Unknown</button>
                 </div>
 
-                <div id="step-5" class="step-container hidden space-y-4">
-                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 05: Legal Status</p>
-                    <h3 class="text-xl font-serif font-bold">Do you have an active attorney?</h3>
+                <div id="step-5" class="step-container hidden space-y-4 text-left">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest text-left">Section 05: Representation</p>
+                    <h3 class="text-xl font-serif font-bold text-left">Do you have an active attorney?</h3>
                     <button onclick="handleSelect('atty', 'no', 6, 'You are eligible for priority counsel matching.', 10)" class="option-card w-full text-blue-800 font-bold">No Active Representation</button>
-                    <button onclick="alert('Our system only evaluates unrepresented cases.')" class="option-card w-full opacity-50">Already Retained Counsel</button>
+                    <button onclick="alert('Our NY system only evaluates unrepresented cases.')" class="option-card w-full opacity-60">Already Retained Counsel</button>
                 </div>
 
                 <div id="step-6" class="step-container hidden space-y-4">
-                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 06: Analysis</p>
-                    <h3 class="text-xl font-serif font-bold text-slate-900">Incident Narrative</h3>
-                    <textarea id="narrative-box" rows="4" oninput="analyzeText()" placeholder="e.g. I was stopped at a red light in Brooklyn..." class="w-full bg-slate-50 border border-slate-200 p-4 rounded outline-none focus:border-slate-900"></textarea>
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest text-left">Section 06: Analysis</p>
+                    <h3 class="text-xl font-serif font-bold text-left">Incident Narrative</h3>
+                    <textarea id="narrative-box" rows="4" oninput="analyzeText()" placeholder="e.g. I was stopped at a red light..." class="w-full bg-slate-50 border border-slate-200 p-4 rounded outline-none focus:border-slate-900 text-left"></textarea>
+                    <p id="char-count" class="text-[10px] text-slate-400 text-right">0 / 15 characters minimum</p>
                     <div id="keyword-badges" class="flex flex-wrap gap-2"></div>
-                    <button onclick="nextStep(7)" class="premium-btn w-full py-4 rounded uppercase tracking-widest font-bold">Next</button>
+                    <button id="narrative-next" disabled onclick="nextStep(7)" class="premium-btn w-full py-4 rounded uppercase tracking-widest opacity-50 cursor-not-allowed font-bold">Continue</button>
                 </div>
 
                 <div id="step-7" class="step-container hidden space-y-4">
-                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 07: Verification</p>
-                    <h3 class="text-xl font-serif font-bold">Identity Details</h3>
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest text-left">Section 07: Verification</p>
+                    <h3 class="text-xl font-serif font-bold text-left">Identity Details</h3>
                     <div class="grid grid-cols-2 gap-4">
                         <input type="text" id="fName" placeholder="First Name" class="bg-slate-50 border p-4 rounded outline-none w-full focus:border-slate-900 font-bold">
                         <input type="text" id="lName" placeholder="Last Name" class="bg-slate-50 border p-4 rounded outline-none w-full focus:border-slate-900 font-bold">
                     </div>
                     <input type="email" id="email" placeholder="Email Address" class="w-full bg-slate-50 border p-4 rounded outline-none focus:border-slate-900 font-bold">
-                    <button onclick="nextStep(8)" class="premium-btn w-full py-4 rounded uppercase tracking-widest font-bold">Review Final Results</button>
+                    <button onclick="nextStep(8)" class="premium-btn w-full py-4 rounded uppercase tracking-widest font-bold">View Final Report</button>
                 </div>
 
                 <form id="step-8" class="step-container hidden space-y-4" onsubmit="submitFinalLead(event)">
                     <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest text-center">Section 08: Security</p>
-                    <h3 class="text-xl font-serif font-bold text-center mb-6">Secure Your New York Report</h3>
+                    <h3 class="text-xl font-serif font-bold text-center mb-6">Final Authorization</h3>
                     <input type="tel" id="userPhone" placeholder="(555) 555-5555" required class="w-full bg-white border-2 border-slate-900 px-4 py-5 rounded-xl text-2xl font-bold text-center outline-none tracking-widest">
                     
                     <div class="cf-turnstile flex justify-center" data-sitekey="0x4AAAAAACuTQ4GK1w5nO44e"></div>
@@ -149,27 +150,22 @@
                     <label class="flex items-start gap-3 mt-4 p-4 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer">
                         <input type="checkbox" id="tcpa" class="w-5 h-5 mt-1 accent-slate-900 shrink-0" required>
                         <span class="text-[10px] text-slate-600 leading-relaxed font-medium">
-                            I provide express written consent to be contacted regarding my New York case. I agree to the <a href="terms.html" class="underline font-bold">Terms</a> and <a href="privacy.html" class="underline font-bold">Privacy Policy</a>.
+                            I provide express written consent to be contacted regarding my case. I agree to the <a href="terms.html" class="underline font-bold">Terms</a> and <a href="privacy.html" class="underline font-bold">Privacy Policy</a>.
                         </span>
                     </label>
-                    <button type="submit" id="submit-btn" disabled class="premium-btn w-full py-5 rounded-xl uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed font-bold">Submit Final Audit</button>
+                    <button type="submit" id="submit-btn" disabled class="premium-btn w-full py-5 rounded-xl uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed font-bold">Finish & Execute Sync</button>
                 </form>
 
                 <div id="step-scan" class="hidden py-16 text-center">
                     <div class="animate-spin text-slate-900 mx-auto w-12 h-12 mb-8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg></div>
-                    <h3 class="font-serif font-bold text-xl mb-2 italic">Syncing Data Streams...</h3>
+                    <h3 class="font-serif font-bold text-xl mb-2 italic">Syncing NY Statues...</h3>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="w-full bg-[#0B1120] text-[#94A3B8] p-12 md:p-20 mt-auto border-t border-slate-800">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 pb-16 border-b border-slate-800 text-center md:text-left">
-                <div><p class="text-white text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Direct Support</p><p class="text-sm italic">support@us-settlement-review.com</p></div>
-                <div><p class="text-white text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Statutory Compliance</p><p class="text-sm font-bold">CPLR § 1411 (New York State)</p></div>
-                <div><p class="text-white text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Verification Line</p><p class="text-sm">+1 (888) 512-0941</p></div>
-            </div>
+    <footer class="w-full bg-[#0B1120] text-[#94A3B8] p-12 mt-auto border-t border-slate-800">
+        <div class="max-w-6xl mx-auto text-center">
             <div class="flex flex-wrap justify-center gap-10 py-12 text-[9px] font-bold uppercase tracking-[0.2em]">
                 <a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="disclaimer.html">Legal Disclaimer</a>
             </div>
@@ -200,12 +196,25 @@
         }
 
         function analyzeText() {
-            const text = document.getElementById('narrative-box').value.toLowerCase();
+            const text = document.getElementById('narrative-box').value;
+            const btn = document.getElementById('narrative-next');
+            const count = document.getElementById('char-count');
+            
+            count.innerText = `${text.length} / 15 characters minimum`;
+            
+            if(text.length >= 15) {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+
             const badges = document.getElementById('keyword-badges');
             const keywords = { 'rear-ended': 'High Liability', 'hospital': 'Major Damages', 'brooklyn': 'Local Jurisdiction' };
             badges.innerHTML = '';
             for (const [key, label] of Object.entries(keywords)) {
-                if (text.includes(key)) badges.innerHTML += `<span class="px-2 py-1 bg-slate-100 text-slate-700 text-[8px] font-bold rounded uppercase animate-pulse">✓ ${label}</span>`;
+                if (text.toLowerCase().includes(key)) badges.innerHTML += `<span class="px-2 py-1 bg-slate-100 text-slate-700 text-[8px] font-bold rounded uppercase animate-pulse">✓ ${label}</span>`;
             }
         }
 
@@ -215,23 +224,23 @@
             btn.classList.toggle('opacity-50', !this.checked);
         });
 
-        // [핵심!] 실제 서버로 리드를 전송하는 코드 (fetch 추가)
+        // [핵심!] 실제 서버로 리드를 전송하는 코드
         async function submitFinalLead(e) {
             e.preventDefault();
             
-            // 데이터 수집
             leadData.firstName = document.getElementById('fName').value;
             leadData.lastName = document.getElementById('lName').value;
             leadData.email = document.getElementById('email').value;
             leadData.phone = document.getElementById('userPhone').value;
             leadData.description = document.getElementById('narrative-box').value;
             leadData.xxTrustedFormCertUrl = document.querySelector('input[name="xxTrustedFormCertUrl"]')?.value || "";
+            // Turnstile 토큰 추가 (이게 없으면 서버에서 거부할 수 있음)
+            leadData['cf-turnstile-response'] = document.querySelector('[name="cf-turnstile-response"]').value;
 
             document.getElementById('step-8').classList.add('hidden');
             document.getElementById('step-scan').classList.remove('hidden');
 
             try {
-                // 사장님의 API 주소로 전송!
                 const response = await fetch('/api/insert-lead', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -241,17 +250,17 @@
                 if (response.ok) {
                     setTimeout(() => { window.location.href = '/success'; }, 1500);
                 } else {
-                    alert("Submission error. Please check your information.");
+                    const errData = await response.json();
+                    alert("Submission error: " + (errData.message || "Please check your info."));
                     document.getElementById('step-scan').classList.add('hidden');
                     document.getElementById('step-8').classList.remove('hidden');
                 }
             } catch (err) {
-                console.error("Submission failed:", err);
+                console.error(err);
                 alert("Network error. Try again.");
             }
         }
 
-        // 전화번호 자동 포맷팅
         document.getElementById('userPhone').oninput = (e) => {
             let v = e.target.value.replace(/\D/g, '');
             let m = v.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
