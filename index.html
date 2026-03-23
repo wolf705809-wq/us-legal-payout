@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Case Evaluation | JDS Global Solutions</title>
+    <title>High-Value Case Evaluation | JDS Global</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     
@@ -23,13 +23,13 @@
         body { background-color: #FAFAFA; font-family: 'Inter', sans-serif; color: #0F172A; -webkit-font-smoothing: antialiased; }
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .glass-panel { background: #FFFFFF; border: 1px solid rgba(15, 23, 42, 0.08); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05); border-radius: 12px; }
-        .premium-btn { background-color: var(--premium-navy); transition: all 0.2s ease; cursor: pointer; }
-        .premium-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .option-card { border: 1px solid #E2E8F0; transition: all 0.2s ease; cursor: pointer; border-radius: 8px; background: white; }
+        .premium-btn { background-color: var(--premium-navy); color: white; transition: all 0.2s ease; cursor: pointer; }
+        .option-card { border: 1px solid #E2E8F0; transition: all 0.2s ease; cursor: pointer; border-radius: 8px; background: white; padding: 20px; font-weight: 600; }
         .option-card:hover { border-color: var(--premium-blue); background-color: #F8FAFC; transform: translateY(-1px); }
         .step-container { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .hidden { display: none !important; }
+        #ai-feedback-box { border-left: 4px solid var(--premium-blue); transition: all 0.3s ease; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -37,7 +37,7 @@
     <nav class="w-full bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
         <div class="flex items-center gap-3">
             <div class="w-2.5 h-2.5 rounded-full bg-blue-700"></div>
-            <span class="text-xs font-bold tracking-widest uppercase text-slate-900">Case Evaluation Division</span>
+            <span class="text-xs font-bold tracking-widest uppercase">Case Evaluation Division</span>
         </div>
         <div class="border border-slate-200 text-[#94A3B8] text-[9px] px-2 py-1 uppercase font-bold tracking-tighter">Attorney Advertising</div>
     </nav>
@@ -45,7 +45,7 @@
     <main class="max-w-3xl mx-auto px-6 pt-12 md:pt-20 pb-24 text-center w-full flex-grow">
         <div class="mb-10">
             <p class="text-[10px] font-bold text-blue-700 tracking-[0.3em] uppercase mb-4">Jurisdictional Evaluation Protocol</p>
-            <h1 id="main-h1" class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4">Liability & Recovery Review</h1>
+            <h1 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4">Liability & Recovery Review</h1>
         </div>
 
         <div class="glass-panel p-6 md:p-8 mb-10 text-left">
@@ -62,108 +62,127 @@
         </div>
 
         <button onclick="openModal()" class="premium-btn text-white font-bold text-sm px-12 py-5 rounded shadow-xl uppercase tracking-widest w-full sm:w-auto active:scale-95 mb-16">
-            Initiate Intake Review
+            Initiate Case Audit
         </button>
 
-        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6">Change Jurisdiction</p>
         <section class="grid grid-cols-2 md:grid-cols-5 gap-3">
-            <div onclick="startAudit('california')" class="option-card p-4 text-center"><span class="block text-lg font-serif font-bold">CA</span></div>
-            <div onclick="startAudit('texas')" class="option-card p-4 text-center"><span class="block text-lg font-serif font-bold">TX</span></div>
-            <div onclick="startAudit('florida')" class="option-card p-4 text-center"><span class="block text-lg font-serif font-bold">FL</span></div>
-            <div onclick="startAudit('georgia')" class="option-card p-4 text-center"><span class="block text-lg font-serif font-bold">GA</span></div>
-            <div onclick="startAudit('new_york')" class="option-card p-4 text-center"><span class="block text-lg font-serif font-bold">NY</span></div>
+            <div onclick="startAudit('california')" class="option-card p-4 text-center font-serif font-bold">CA</div>
+            <div onclick="startAudit('texas')" class="option-card p-4 text-center font-serif font-bold">TX</div>
+            <div onclick="startAudit('florida')" class="option-card p-4 text-center font-serif font-bold">FL</div>
+            <div onclick="startAudit('georgia')" class="option-card p-4 text-center font-serif font-bold">GA</div>
+            <div onclick="startAudit('new_york')" class="option-card p-4 text-center font-serif font-bold">NY</div>
         </section>
     </main>
 
     <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-        <div class="w-full max-w-xl bg-white shadow-2xl rounded-t-2xl md:rounded-xl flex flex-col max-h-[92vh] border border-slate-200">
-            <div class="px-8 py-6 border-b border-slate-100">
+        <div class="w-full max-w-xl bg-white shadow-2xl rounded-t-2xl md:rounded-xl flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden">
+            
+            <div class="px-8 py-6 border-b border-slate-100 bg-white sticky top-0 z-10">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-serif font-bold text-xl">Preliminary Intake</h3>
+                    <h3 class="font-serif font-bold text-xl">Case Intake Audit</h3>
                     <button onclick="closeModal()" class="text-slate-400 hover:text-slate-800 p-2">✕</button>
                 </div>
-                <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden"><div id="strength-gauge" class="bg-blue-600 h-full transition-all duration-700" style="width: 15%"></div></div>
+                <div id="ai-feedback-box" class="mb-4 p-3 bg-blue-50 rounded hidden">
+                    <p id="ai-feedback-text" class="text-[10px] font-bold text-blue-800 uppercase tracking-tight"></p>
+                </div>
+                <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                    <div id="strength-gauge" class="bg-blue-600 h-full transition-all duration-700" style="width: 10%"></div>
+                </div>
             </div>
 
             <div id="modalBody" class="p-8 overflow-y-auto flex-grow bg-white">
+                
                 <div id="step-1" class="step-container space-y-4">
-                    <h3 class="text-xl font-serif font-bold">Incident Classification</h3>
-                    <button onclick="handleSelection('type', 'Auto', 2, 'Vehicle cases require rapid evidence securing.', 10)" class="option-card w-full p-5 text-left font-semibold">Motor Vehicle Collision</button>
-                    <button onclick="handleSelection('type', 'Slip', 2, 'Premises liability depends on documentation.', 10)" class="option-card w-full p-5 text-left font-semibold">Slip & Fall Incident</button>
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 01: Classification</p>
+                    <h3 class="text-xl font-serif font-bold">Nature of the incident?</h3>
+                    <button onclick="handleSelect('type', 'Auto', 2, 'Vehicle cases require immediate insurance verification.', 10)" class="option-card w-full text-left">Motor Vehicle Collision</button>
+                    <button onclick="handleSelect('type', 'Slip', 2, 'Premises liability depends on notice of hazard.', 10)" class="option-card w-full text-left">Premises Liability (Slip & Fall)</button>
                 </div>
 
                 <div id="step-2" class="step-container hidden space-y-4">
-                    <h3 class="text-xl font-serif font-bold">Fault Distribution</h3>
-                    <button onclick="handleSelection('fault', 'none', 3, 'Zero liability maximizes recovery multipliers.', 25)" class="option-card w-full p-5 text-left font-semibold">0% Liability (Not at fault)</button>
-                    <button onclick="handleSelection('fault', 'shared', 3, 'Comparative fault rules will apply.', 10)" class="option-card w-full p-5 text-left font-semibold">Liability Disputed / Shared</button>
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 02: Liability</p>
+                    <h3 class="text-xl font-serif font-bold">Establish fault distribution.</h3>
+                    <button onclick="handleSelect('fault', 'none', 3, 'Zero liability status significantly enhances recovery.', 25)" class="option-card w-full text-left">0% Liability (Not At Fault)</button>
+                    <button onclick="handleSelect('fault', 'shared', 3, 'Comparative negligence rules will apply.', 10)" class="option-card w-full text-left">Liability is Disputed / Shared</button>
                 </div>
 
-                <div id="step-3" class="step-container hidden space-y-4 text-left">
-                    <h3 class="text-xl font-serif font-bold mb-4">Identity Verification</h3>
+                <div id="step-3" class="step-container hidden space-y-4">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 03: Damages</p>
+                    <h3 class="text-xl font-serif font-bold">Detail medical intervention.</h3>
+                    <button onclick="handleSelect('med', 'er', 4, 'Emergency care visits establish essential causality.', 30)" class="option-card w-full text-left">ER / Hospital Admission</button>
+                    <button onclick="handleSelect('med', 'later', 4, 'Delayed treatment requires specific documentation.', 10)" class="option-card w-full text-left">Follow-up with Doctor Later</button>
+                </div>
+
+                <div id="step-4" class="step-container hidden space-y-4">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 04: Evidence</p>
+                    <h3 class="text-xl font-serif font-bold">Was an official report filed?</h3>
+                    <button onclick="handleSelect('police', 'yes', 5, 'Official reports are considered primary evidence.', 15)" class="option-card w-full text-left">Yes, police report generated</button>
+                    <button onclick="handleSelect('police', 'no', 5, 'Secondary documentation will be required.', 0)" class="option-card w-full text-left">No / Status Unknown</button>
+                </div>
+
+                <div id="step-5" class="step-container hidden space-y-4">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 05: Legal Status</p>
+                    <h3 class="text-xl font-serif font-bold">Do you have an active attorney?</h3>
+                    <button onclick="handleSelect('atty', 'no', 6, 'You are eligible for priority counsel matching.', 10)" class="option-card w-full text-left">No Active Representation</button>
+                    <button onclick="disqualify()" class="option-card w-full text-left opacity-60">Already Retained Counsel</button>
+                </div>
+
+                <div id="step-6" class="step-container hidden space-y-4">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 06: Analysis</p>
+                    <h3 class="text-xl font-serif font-bold">Incident Narrative</h3>
+                    <textarea id="narrative-box" rows="4" oninput="analyzeText()" placeholder="e.g. I was stopped at a red light..." class="w-full bg-slate-50 border border-slate-200 p-4 rounded outline-none focus:border-blue-500"></textarea>
+                    <div id="keyword-badges" class="flex flex-wrap gap-2"></div>
+                    <button onclick="nextStep(7)" class="premium-btn w-full py-4 rounded uppercase tracking-widest">Execute AI Audit</button>
+                </div>
+
+                <div id="step-7" class="step-container hidden space-y-4">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 07: Verification</p>
+                    <h3 class="text-xl font-serif font-bold text-center">Identity Details</h3>
                     <div class="grid grid-cols-2 gap-4">
-                        <input type="text" id="fName" placeholder="First Name" required class="bg-slate-50 border border-slate-200 p-4 rounded outline-none focus:border-blue-500 w-full">
-                        <input type="text" id="lName" placeholder="Last Name" required class="bg-slate-50 border border-slate-200 p-4 rounded outline-none w-full focus:border-blue-500">
+                        <input type="text" id="fName" placeholder="First Name" class="bg-slate-50 border p-4 rounded outline-none w-full">
+                        <input type="text" id="lName" placeholder="Last Name" class="bg-slate-50 border p-4 rounded outline-none w-full">
                     </div>
-                    <input type="email" id="email" placeholder="Email Address" required class="w-full bg-slate-50 border border-slate-200 p-4 rounded outline-none focus:border-blue-500">
-                    <button onclick="nextStep(4)" class="premium-btn w-full text-white font-bold py-4 rounded uppercase tracking-widest mt-4">Next Step</button>
+                    <input type="email" id="email" placeholder="Email Address" class="w-full bg-slate-50 border p-4 rounded outline-none">
+                    <button onclick="nextStep(8)" class="premium-btn w-full py-4 rounded uppercase tracking-widest mt-4">Review Results</button>
                 </div>
 
-                <form id="step-4" class="step-container hidden space-y-4" onsubmit="submitFinalLead(event)">
-                    <h3 class="text-xl font-serif font-bold text-center">Final Security Step</h3>
-                    <input type="tel" id="userPhone" placeholder="(555) 555-5555" required class="w-full bg-slate-50 border border-slate-200 px-4 py-5 rounded-xl text-2xl font-bold text-center outline-none tracking-widest focus:border-blue-500">
+                <form id="step-8" class="step-container hidden space-y-4" onsubmit="submitFinalLead(event)">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest text-center">Section 08: Security</p>
+                    <h3 class="text-xl font-serif font-bold text-center mb-6">Secure Your Assessment</h3>
+                    <input type="tel" id="userPhone" placeholder="(555) 555-5555" required class="w-full bg-slate-50 border-2 border-slate-200 px-4 py-5 rounded-xl text-2xl font-bold text-center outline-none tracking-widest focus:border-blue-500">
                     
-                    <div class="cf-turnstile" data-sitekey="0x4AAAAAACuTQ4GK1w5nO44e"></div>
+                    <div class="cf-turnstile flex justify-center" data-sitekey="0x4AAAAAACuTQ4GK1w5nO44e"></div>
 
                     <label class="flex items-start gap-3 mt-4 p-4 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer">
                         <input type="checkbox" id="tcpa" class="w-5 h-5 mt-1 accent-blue-700 shrink-0" required>
                         <span class="text-[10px] text-slate-600 leading-relaxed font-medium">
-                            By clicking "Finish & View Report", I provide my express written consent to be contacted by JDS Global Solutions and its partners at the number provided above. Consent is not a condition of purchase. I agree to the <a href="terms.html" class="underline font-bold text-blue-800">Terms</a> and <a href="privacy.html" class="underline font-bold text-blue-800">Privacy Policy</a>.
+                            I provide express written consent to be contacted regarding my case. I agree to the <a href="terms.html" class="underline font-bold">Terms</a> and <a href="privacy.html" class="underline font-bold">Privacy Policy</a>.
                         </span>
                     </label>
-                    <button type="submit" id="submit-btn" disabled class="premium-btn w-full text-white font-bold py-5 rounded-xl uppercase tracking-[0.2em] shadow-xl opacity-50">
-                        Finish & View Report
-                    </button>
+                    <button type="submit" id="submit-btn" disabled class="premium-btn w-full py-5 rounded-xl uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed">Finish & View Report</button>
                 </form>
 
                 <div id="step-scan" class="hidden py-16 text-center">
                     <div class="animate-spin text-blue-600 mx-auto w-12 h-12 mb-8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg></div>
-                    <h3 class="font-serif font-bold text-xl">Syncing Data Streams...</h3>
+                    <h3 class="font-serif font-bold text-xl mb-2">Syncing Data Streams...</h3>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="w-full bg-[#0B1120] text-[#94A3B8] p-12 md:p-20 mt-auto">
+    <footer class="w-full bg-[#0B1120] text-[#94A3B8] p-12 md:p-20 mt-auto border-t border-slate-800">
         <div class="max-w-6xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 pb-16 border-b border-slate-800 text-center md:text-left">
-                <div class="space-y-4">
-                    <p class="text-white text-[10px] font-bold uppercase tracking-[0.3em]">Direct Support</p>
-                    <p class="text-sm font-medium hover:text-white cursor-pointer">support@jdsglobalsolutions.com</p>
-                </div>
-                <div class="space-y-4">
-                    <p class="text-white text-[10px] font-bold uppercase tracking-[0.3em]">Corporate HQ</p>
-                    <p class="text-sm font-medium">1201 N Market St, Wilmington, DE 19801</p>
-                </div>
-                <div class="space-y-4">
-                    <p class="text-white text-[10px] font-bold uppercase tracking-[0.3em]">Verification Line</p>
-                    <p class="text-sm font-medium">+1 (888) 512-0941</p>
-                </div>
+                <div><p class="text-white text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Direct Support</p><p class="text-sm">support@jdsglobalsolutions.com</p></div>
+                <div><p class="text-white text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Corporate HQ</p><p class="text-sm">1201 N Market St, Wilmington, DE 19801</p></div>
+                <div><p class="text-white text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Verification Line</p><p class="text-sm">+1 (888) 512-0941</p></div>
             </div>
-
-            <div class="flex flex-wrap justify-center gap-x-12 gap-y-6 py-12 text-[9px] font-bold uppercase tracking-[0.2em]">
-                <a href="privacy.html" class="hover:text-white">Privacy Policy</a>
-                <a href="terms.html" class="hover:text-white">Terms of Service</a>
-                <a href="ccpa.html" class="hover:text-white">CCPA / Do Not Sell My Info</a>
-                <a href="disclaimer.html" class="hover:text-white">Legal Disclaimer</a>
+            <div class="flex flex-wrap justify-center gap-10 py-12 text-[9px] font-bold uppercase tracking-[0.2em]">
+                <a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="ccpa.html">CCPA / Do Not Sell</a><a href="disclaimer.html">Legal Disclaimer</a>
             </div>
-
-            <div class="max-w-3xl mx-auto text-center space-y-8">
-                <p class="text-[10px] leading-relaxed text-slate-500 font-medium">
-                    <strong class="text-slate-400">ATTORNEY ADVERTISING:</strong> JDS Global Solutions is a performance marketing firm. We are not a law firm or a substitute for legal counsel. Case evaluations are preliminary. Participation does not guarantee financial recovery.
-                </p>
-                <p class="text-[9px] tracking-[0.4em] font-bold text-slate-600 uppercase border-t border-slate-800/50 pt-8">
-                    © 2026 JDS GLOBAL SOLUTIONS. ALL RIGHTS RESERVED.
-                </p>
+            <div class="max-w-3xl mx-auto text-center space-y-6">
+                <p class="text-[10px] text-slate-500"><strong>ATTORNEY ADVERTISING:</strong> JDS Global Solutions is a marketing firm. No attorney-client relationship is formed. Participation does not guarantee financial recovery.</p>
+                <p class="text-[9px] tracking-[0.4em] font-bold text-slate-600">© 2026 JDS GLOBAL SOLUTIONS. ALL RIGHTS RESERVED.</p>
             </div>
         </div>
     </footer>
@@ -177,16 +196,35 @@
             "new_york": { name: "New York", statute: "CPLR § 1411", law_type: "Pure Comparative Negligence" }
         };
 
+        let currentScore = 10;
+        let currentState = 'california';
+
+        function startAudit(s) { currentState = s; const d = MASTER_DB[s]; document.getElementById('hero-state-name').innerText = d.name; document.getElementById('statute-info').innerText = d.statute; document.getElementById('stats-info').innerText = d.law_type; openModal(); }
         function openModal() { document.getElementById('leadModal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
         function closeModal() { document.getElementById('leadModal').classList.add('hidden'); document.body.style.overflow = ''; }
+
+        function handleSelect(key, val, next, feedback, bonus) {
+            currentScore = Math.min(95, currentScore + bonus);
+            document.getElementById('strength-gauge').style.width = currentScore + '%';
+            const fbBox = document.getElementById('ai-feedback-box');
+            document.getElementById('ai-feedback-text').innerText = `AI INSIGHT: ${feedback}`;
+            fbBox.classList.remove('hidden');
+            setTimeout(() => nextStep(next), 600);
+        }
+
         function nextStep(s) {
             document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
             document.getElementById(`step-${s}`).classList.remove('hidden');
         }
 
-        function handleSelection(key, value, next, feedback, bonus) {
-            document.getElementById('strength-gauge').style.width = (bonus + 20) + '%';
-            setTimeout(() => nextStep(next), 600);
+        function analyzeText() {
+            const text = document.getElementById('narrative-box').value.toLowerCase();
+            const badges = document.getElementById('keyword-badges');
+            const keywords = { 'rear-ended': 'High Liability', 'hospital': 'Major Damages', 'commercial': 'Corporate Asset' };
+            badges.innerHTML = '';
+            for (const [key, label] of Object.entries(keywords)) {
+                if (text.includes(key)) badges.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase animate-pulse">✓ ${label}</span>`;
+            }
         }
 
         document.getElementById('tcpa').addEventListener('change', function() {
@@ -197,7 +235,7 @@
 
         async function submitFinalLead(e) {
             e.preventDefault();
-            document.getElementById('step-4').classList.add('hidden');
+            document.getElementById('step-8').classList.add('hidden');
             document.getElementById('step-scan').classList.remove('hidden');
             setTimeout(() => { window.location.href = 'success.html'; }, 2000);
         }
