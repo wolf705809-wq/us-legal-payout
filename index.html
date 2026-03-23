@@ -45,7 +45,7 @@
     <main class="max-w-3xl mx-auto px-6 pt-12 md:pt-20 pb-24 text-center w-full flex-grow">
         <div class="mb-10">
             <p class="text-[10px] font-bold text-blue-700 tracking-[0.3em] uppercase mb-4">Jurisdictional Evaluation Protocol</p>
-            <h1 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4">Liability & Recovery Review</h1>
+            <h1 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4"><h1 id="hero-title" class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4">Liability & Recovery Review</h1></h1>
         </div>
 
         <div class="glass-panel p-6 md:p-8 mb-10 text-left">
@@ -201,7 +201,7 @@
             
             // 3. 메인 제목 변경
             const heroTitle = document.getElementById('hero-title');
-            if(heroTitle) heroTitle.innerText = `${d.name} Liability & Recovery Review`;
+            if(heroTitle) heroTitle.innerText = `${d.name} <h1 id="hero-title" class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4">Liability & Recovery Review</h1>`;
             
             // 4. 주 이름 및 법령 정보 변경
             document.getElementById('hero-state-name').innerText = d.name;
