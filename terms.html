@@ -1,89 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"> <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terms of Service | JDS Global Solutions</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 2. 키보드 사용자를 위한 포커스 가독성 강화 */
+        a:focus, button:focus {
+            outline: 3px solid #2563eb;
+            outline-offset: 2px;
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-700 p-6 md:p-16 font-sans leading-relaxed">
-    <div class="max-w-4xl mx-auto bg-white p-8 md:p-12 border border-slate-200 shadow-lg rounded-sm">
+<body class="bg-slate-50 text-slate-800 p-6 md:p-16 font-sans leading-relaxed">
+    
+    <main class="max-w-4xl mx-auto bg-white p-8 md:p-12 border border-slate-200 shadow-lg rounded-sm" role="main">
         
         <header class="mb-10 border-b pb-6">
             <h1 class="text-4xl font-extrabold mb-2 text-slate-900 uppercase tracking-tight">Terms of Service</h1>
             <p class="text-sm text-slate-500 font-medium tracking-wide">Last Updated: March 23, 2026</p>
         </header>
 
-        <section class="mb-10 bg-red-50 p-6 border-l-4 border-red-600">
-            <p class="text-xs font-black text-red-700 uppercase mb-2 tracking-widest">Important Legal Notice: Attorney Advertising</p>
+        <section class="mb-10 bg-red-50 p-6 border-l-4 border-red-600" aria-labelledby="legal-notice-title">
+            <h2 id="legal-notice-title" class="text-xs font-black text-red-700 uppercase mb-2 tracking-widest">Important Legal Notice: Attorney Advertising</h2>
             <p class="text-sm text-red-900 leading-snug">
-                This website is a group advertisement and a legal lead generation service. JDS Global Solutions is <strong>NOT a law firm</strong>, a lawyer referral service, or a government agency. We do not provide legal advice, and no attorney-client relationship is formed by using this site.
+                This website is a group advertisement and a legal lead generation service. JDS Global Solutions is <strong>NOT a law firm</strong>, a lawyer referral service, or a government agency. We do not provide legal advice.
             </p>
         </section>
 
-        <section class="mb-8">
-            <h2 class="text-xl font-bold mb-4 text-slate-900 border-b pb-1">1. No Legal Advice or Representation</h2>
-            <p class="text-sm text-slate-600 mb-4">
-                The "Settlement Calculator" and evaluation tools provided are for <strong>illustrative and informational purposes only</strong>. The estimates generated are not a guarantee of any specific legal outcome or settlement amount.
-            </p>
-            <p class="text-sm text-slate-600">
-                Communication through this website does not constitute legal advice. An attorney-client relationship is only established through a separate, written agreement with a licensed legal professional.
+        <section class="mb-8" aria-labelledby="section-1">
+            <h2 id="section-1" class="text-xl font-bold mb-4 text-slate-900 border-b pb-1">1. No Legal Advice or Representation</h2>
+            <p class="text-sm text-slate-700 mb-4">
+                The "Settlement Calculator" and evaluation tools provided are for <strong>illustrative and informational purposes only</strong>. The estimates generated are not a guarantee of any specific legal outcome.
             </p>
         </section>
 
-        <section class="mb-8 bg-slate-50 p-6 rounded-md border border-slate-100">
-            <h2 class="text-xl font-bold mb-4 text-slate-900 border-b pb-1 flex items-center">
-                2. TCPA Consent & Communications
-            </h2>
-            <p class="text-sm text-slate-600 font-semibold mb-3">
-                By clicking "Submit" or using our evaluation tools, you provide your express written consent to the following:
+        <section class="mb-8 bg-slate-50 p-6 rounded-md border border-slate-100" aria-labelledby="section-2">
+            <h2 id="section-2" class="text-xl font-bold mb-4 text-slate-900 border-b pb-1">2. TCPA Consent & Communications</h2>
+            <p class="text-sm text-slate-700 font-semibold mb-3">
+                By clicking "Submit", you provide your express written consent to the following:
             </p>
-            <ul class="list-disc ml-5 text-sm text-slate-600 space-y-2 italic">
-                <li>You agree to be contacted by JDS Global Solutions and our partner law firms via telephone, SMS/MMS (text messages), or email.</li>
-                <li>You consent to receive communications via automated dialing systems (ADSP) or pre-recorded messages, even if your number is on a federal or state "Do Not Call" registry.</li>
-                <li>You acknowledge that your consent is not a condition of purchase. Message and data rates may apply.</li>
+            <ul class="list-disc ml-5 text-sm text-slate-700 space-y-2 italic">
+                <li>Consent to be contacted by JDS Global Solutions and our partner law firms via telephone, SMS/MMS, or email.</li>
+                <li>Consent to receive communications via automated dialing systems (ADSP) even if you are on a "Do Not Call" registry.</li>
             </ul>
         </section>
 
-        <section class="mb-8">
-            <h2 class="text-xl font-bold mb-4 text-slate-900 border-b pb-1">3. Lead Routing & Third-Party Disclosure</h2>
-            <p class="text-sm text-slate-600 mb-4">
-                We operate as a matchmaker between potential claimants and independent legal professionals. We do not endorse or recommend specific lawyers. Any legal representation you receive from a third party is subject to a separate agreement between you and that professional.
+        <section class="mb-8" aria-labelledby="section-3">
+            <h2 id="section-3" class="text-xl font-bold mb-4 text-slate-900 border-b pb-1">3. Limitation of Liability</h2>
+            <p class="text-sm text-slate-700 uppercase font-bold text-xs mb-2">Read Carefully:</p>
+            <p class="text-sm text-slate-700 italic">
+                IN NO EVENT SHALL JDS GLOBAL SOLUTIONS BE LIABLE FOR ANY INDIRECT, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING FROM YOUR USE OF OUR SERVICES.
             </p>
         </section>
 
-        <section class="mb-8">
-            <h2 class="text-xl font-bold mb-4 text-slate-900 border-b pb-1 uppercase tracking-tighter text-xs">4. Limitation of Liability</h2>
-            <p class="text-sm text-slate-600 uppercase font-bold text-xs mb-2 text-slate-500">READ CAREFULLY:</p>
-            <p class="text-sm text-slate-600 italic">
-                IN NO EVENT SHALL JDS GLOBAL SOLUTIONS BE LIABLE FOR ANY INDIRECT, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING FROM THE USE OF OUR SERVICES. OUR TOTAL LIABILITY SHALL NOT EXCEED $100 OR THE AMOUNT PAID BY YOU, WHICHEVER IS LESS.
+        <section class="mb-8 border-2 border-slate-900 p-6" aria-labelledby="section-4">
+            <h2 id="section-4" class="text-xl font-bold mb-4 text-slate-900 border-b pb-1">4. Dispute Resolution & Mandatory Arbitration</h2>
+            <p class="text-sm text-slate-700 mb-4 font-bold">
+                ANY DISPUTE SHALL BE RESOLVED THROUGH BINDING INDIVIDUAL ARBITRATION. YOU WAIVE YOUR RIGHT TO A JURY TRIAL.
             </p>
         </section>
 
-        <section class="mb-8 border-2 border-slate-900 p-6">
-            <h2 class="text-xl font-bold mb-4 text-slate-900 border-b pb-1">5. Dispute Resolution & Mandatory Arbitration</h2>
-            <p class="text-sm text-slate-600 mb-4 font-bold">
-                ANY DISPUTE ARISING FROM THESE TERMS SHALL BE RESOLVED THROUGH BINDING INDIVIDUAL ARBITRATION.
+        <section class="mb-8 bg-blue-50 p-6 border border-blue-100" aria-labelledby="section-5">
+            <h2 id="section-5" class="text-xl font-bold mb-4 text-blue-900">5. Accessibility Commitment (ADA)</h2>
+            <p class="text-sm text-blue-800 mb-4">
+                JDS Global Solutions is committed to ensuring digital accessibility for people with disabilities. We are continually improving the user experience for everyone and applying the relevant accessibility standards (WCAG 2.1 Level AA).
             </p>
-            <p class="text-sm text-slate-600">
-                You hereby waive your right to a jury trial or to participate in a class-action lawsuit. All arbitrations will take place in [INSERT YOUR BUSINESS STATE, e.g., Delaware/California] under the rules of the American Arbitration Association (AAA).
-            </p>
-        </section>
-
-        <section class="mb-8">
-            <h2 class="text-xl font-bold mb-4 text-slate-900 border-b pb-1">6. Eligibility & Compliance</h2>
-            <p class="text-sm text-slate-600">
-                You must be at least 18 years of age to use this service. Use of this site is void where prohibited by law. Residents of certain states may be subject to additional disclosures as required by local Bar Association rules.
+            <p class="text-sm text-blue-800">
+                If you encounter any accessibility barriers, please contact us at <span class="font-bold underline">support@jdsglobalsolutions.com</span>.
             </p>
         </section>
 
         <footer class="mt-16 pt-8 border-t text-center space-y-4">
             <p class="text-xs text-slate-400">© 2026 JDS Global Solutions. All rights reserved.</p>
-            <div class="flex justify-center space-x-6">
-                <a href="index.html" class="text-blue-600 font-bold hover:text-blue-800 transition-colors uppercase text-xs tracking-widest">← Return to Evaluation</a>
+            <nav class="flex justify-center space-x-6" aria-label="Footer Navigation">
+                <a href="index.html" class="text-blue-600 font-bold hover:text-blue-800 transition-colors uppercase text-xs tracking-widest">← Back to Evaluation</a>
                 <a href="privacy-policy.html" class="text-slate-500 font-medium hover:underline text-xs tracking-widest uppercase">Privacy Policy</a>
-            </div>
+            </nav>
         </footer>
-    </div>
+    </main>
 </body>
 </html>
