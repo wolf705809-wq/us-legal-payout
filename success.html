@@ -14,30 +14,36 @@
         body { background-color: var(--surface-color); font-family: 'Inter', sans-serif; color: #0F172A; -webkit-font-smoothing: antialiased; }
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         
-        /* Chart Styling */
-        .chart-container { position: relative; width: 300px; height: 300px; margin: 0 auto; }
-        svg { transform: rotate(-90deg); filter: drop-shadow(0 10px 15px rgba(0,0,0,0.05)); }
-        circle { fill: none; stroke-width: 10; stroke-linecap: round; }
+        /* Premium Radial Chart Logic */
+        .chart-container { position: relative; width: 320px; height: 320px; margin: 0 auto; }
+        svg { transform: rotate(-90deg); filter: drop-shadow(0 20px 30px rgba(0,0,0,0.08)); }
+        circle { fill: none; stroke-width: 12; stroke-linecap: round; }
         .bg-circle { stroke: #F1F5F9; }
         .fg-circle { 
-            stroke-dasharray: 753.98; /* 2 * PI * 120 */
+            stroke-dasharray: 753.98; /* 2 * PI * r(120) */
             stroke-dashoffset: 753.98; 
-            transition: stroke-dashoffset 2.5s cubic-bezier(0.22, 1, 0.36, 1); 
+            transition: stroke-dashoffset 2.8s cubic-bezier(0.22, 1, 0.36, 1); 
         }
 
-        /* Animations */
-        .fade-in { animation: fadeIn 1s ease-out forwards; opacity: 0; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* Sophisticated Animations */
+        .fade-in { animation: fadeIn 1.2s ease-out forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         
         .pulse-soft { animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-        .shimmer {
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            background-size: 200% 100%;
-            animation: shimmer 2s infinite;
+        .counter-glow { text-shadow: 0 0 20px rgba(59, 130, 246, 0.2); }
+        
+        /* Dark Panel Shimmer */
+        .shimmer-effect {
+            position: relative; overflow: hidden;
         }
-        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        .shimmer-effect::after {
+            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03), transparent);
+            transform: rotate(45deg); animation: shimmer 4s infinite;
+        }
+        @keyframes shimmer { 0% { translateX(-100%); } 100% { translateX(100%); } }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -52,125 +58,142 @@
 
     <main class="w-full max-w-4xl mx-auto px-6 pt-12 pb-24 flex-grow flex flex-col items-center">
         
-        <div class="mb-8 fade-in text-center">
-            <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-full mb-6">
-                <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 pulse-soft"></div>
-                <span class="text-[9px] font-bold text-emerald-700 tracking-[0.2em] uppercase">Jurisdictional Sync Complete</span>
+        <div class="mb-12 fade-in text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-50 border border-emerald-100 rounded-full mb-6">
+                <div class="w-2 h-2 rounded-full bg-emerald-500 pulse-soft"></div>
+                <span class="text-[10px] font-bold text-emerald-700 tracking-[0.2em] uppercase">Analysis Synchronized</span>
             </div>
-            <h1 class="text-4xl md:text-6xl font-serif font-bold text-slate-900 leading-tight mb-4">Case Strength Report</h1>
-            <p class="text-slate-500 text-sm md:text-lg max-w-2xl mx-auto leading-relaxed">
-                <span id="display-name" class="font-bold text-slate-900">Client</span>님, 알고리즘 분석 결과 <span id="display-state" class="font-bold text-slate-900 uppercase">STATE</span> 법령에 근거한 귀하의 사례는 **상위 5%**의 전략적 우위를 점하고 있습니다.
+            <h1 class="text-5xl md:text-7xl font-serif font-bold text-slate-900 leading-tight mb-6">Case Strength Report</h1>
+            <p class="text-slate-500 text-base md:text-xl max-w-2xl mx-auto leading-relaxed">
+                <span id="display-name" class="font-bold text-slate-900">Client</span>님, 알고리즘 분석 결과 <span id="display-state" class="font-bold text-blue-700 uppercase tracking-widest">STATE</span> 법령에 근거한 귀하의 사례는 **상위 티어**의 전략적 회복 가능성을 보유하고 있습니다.
             </p>
         </div>
 
-        <div class="chart-container mb-12 fade-in" style="animation-delay: 0.2s;">
-            <svg width="300" height="300">
+        <div class="chart-container mb-16 fade-in" style="animation-delay: 0.3s;">
+            <svg width="320" height="320">
                 <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop id="stop1" offset="0%" stop-color="#1E3A8A" />
-                        <stop id="stop2" offset="100%" stop-color="#3B82F6" />
+                    <linearGradient id="dynamicGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop id="stopColor1" offset="0%" stop-color="#1E3A8A" />
+                        <stop id="stopColor2" offset="100%" stop-color="#3B82F6" />
                     </linearGradient>
                 </defs>
-                <circle class="bg-circle" cx="150" cy="150" r="120"></circle>
-                <circle id="score-circle" class="fg-circle" cx="150" cy="150" r="120" stroke="url(#gradient)"></circle>
+                <circle class="bg-circle" cx="160" cy="160" r="120"></circle>
+                <circle id="score-circle" class="fg-circle" cx="160" cy="160" r="120" stroke="url(#dynamicGradient)"></circle>
             </svg>
             <div class="absolute inset-0 flex flex-col items-center justify-center">
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-1">Strength Index</span>
-                <span id="score-text" class="text-7xl font-serif font-bold text-slate-900">0.0</span>
-                <div id="tier-badge" class="mt-2 px-3 py-1 bg-blue-900 text-white text-[9px] font-bold rounded-sm tracking-widest uppercase">Premium Match</div>
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-[0.4em] mb-2">Strength Index</span>
+                <span id="score-text" class="text-8xl font-serif font-bold text-slate-900 counter-glow">0.0</span>
+                <div id="tier-label" class="mt-4 px-4 py-1 bg-slate-900 text-white text-[10px] font-bold rounded-full tracking-[0.2em] uppercase shadow-lg">Premium Recovery</div>
             </div>
         </div>
 
-        <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-4 mb-12 fade-in" style="animation-delay: 0.4s;">
-            <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
-                <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Statutory Alignment</p>
-                <p class="text-2xl font-bold text-slate-900">98.4%</p>
-                <div class="w-full bg-slate-100 h-1 mt-3 rounded-full overflow-hidden"><div class="bg-emerald-500 h-full" style="width: 98%"></div></div>
+        <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 fade-in" style="animation-delay: 0.6s;">
+            <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm transition-transform hover:scale-[1.02]">
+                <p class="text-[10px] font-bold text-slate-400 uppercase mb-3 tracking-widest">Statutory Alignment</p>
+                <p class="text-3xl font-bold text-slate-900">98.7%</p>
+                <div class="w-full bg-slate-100 h-1.5 mt-4 rounded-full overflow-hidden">
+                    <div class="bg-emerald-500 h-full transition-all duration-1000" style="width: 0%" id="stat-bar"></div>
+                </div>
             </div>
-            <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
-                <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Liability Factor</p>
-                <p class="text-2xl font-bold text-blue-800">High Recovery</p>
-                <p class="text-[10px] text-slate-400 mt-2">Based on CA Civ. Code § 1714</p>
+            <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm transition-transform hover:scale-[1.02]">
+                <p class="text-[10px] font-bold text-slate-400 uppercase mb-3 tracking-widest">Liability Factor</p>
+                <p class="text-3xl font-bold text-blue-800" id="liability-text">Optimal</p>
+                <p class="text-[11px] text-slate-400 mt-3 font-medium" id="statute-ref">Verified via Local Statutes</p>
             </div>
-            <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
-                <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Audit Trail</p>
-                <p id="ref-id" class="text-2xl font-bold text-slate-900 uppercase">REF-X920</p>
-                <p class="text-[10px] text-emerald-600 font-bold mt-2 uppercase">Verified Secure</p>
+            <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm transition-transform hover:scale-[1.02]">
+                <p class="text-[10px] font-bold text-slate-400 uppercase mb-3 tracking-widest">System Reference</p>
+                <p id="ref-id-display" class="text-3xl font-bold text-slate-900 uppercase">JDS-XXXX</p>
+                <p class="text-[11px] text-emerald-600 font-bold mt-3 uppercase tracking-widest">Secure Audit Active</p>
             </div>
         </div>
 
-        <div class="w-full bg-[#0B1120] rounded-2xl p-8 md:p-12 text-white text-left relative overflow-hidden fade-in shadow-2xl" style="animation-delay: 0.6s;">
+        <div class="w-full bg-[#0B1120] rounded-3xl p-10 md:p-16 text-white text-left relative overflow-hidden fade-in shadow-2xl shimmer-effect" style="animation-delay: 0.9s;">
             <div class="relative z-10">
-                <div class="flex items-center gap-3 mb-6 text-emerald-400">
-                    <div class="w-3 h-3 rounded-full bg-emerald-500 animate-ping"></div>
-                    <span class="text-[11px] font-bold uppercase tracking-[0.2em]">Live Agent Matching Active</span>
+                <div class="flex items-center gap-4 mb-8 text-emerald-400">
+                    <div class="w-3.5 h-3.5 rounded-full bg-emerald-500 animate-ping"></div>
+                    <span class="text-xs font-bold uppercase tracking-[0.3em]">Live Agent Routing Protocol Active</span>
                 </div>
-                <h3 class="text-2xl md:text-3xl font-serif font-bold mb-4">Next Step: Immediate Verification</h3>
-                <p class="text-slate-400 text-sm md:text-base mb-8 max-w-xl leading-relaxed">
-                    귀하의 분석 데이터는 현재 캘리포니아 전담 검토팀으로 실시간 전송되었습니다. 권리 보호를 위해 향후 **12분 이내**에 담당 상담원의 유선 연락이 갈 예정입니다. 전화를 꼭 받아주시기 바랍니다.
+                <h3 class="text-3xl md:text-4xl font-serif font-bold mb-6">Next Phase: <br class="md:hidden"/> Priority Agent Connection</h3>
+                <p class="text-slate-400 text-sm md:text-lg mb-10 max-w-2xl leading-relaxed">
+                    귀하의 분석 리포트가 주(State)별 전담 대응팀에 즉시 배정되었습니다. 법적 보호를 위해 향후 **12분 이내**에 전문 상담원의 우선 연락이 갈 예정입니다. 현재 연결 상태를 유지해 주십시오.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <button class="bg-white text-slate-900 font-bold px-8 py-4 rounded uppercase text-xs tracking-widest hover:bg-blue-50 transition-colors">Download Evaluation PDF</button>
-                    <p class="text-[10px] text-slate-500 self-center uppercase font-bold tracking-widest">Priority ID: <span id="priority-id"></span></p>
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                    <button class="bg-white text-slate-900 font-bold px-10 py-5 rounded-lg uppercase text-xs tracking-[0.2em] hover:bg-blue-50 transition-all active:scale-95 shadow-xl">Download Evaluation PDF</button>
+                    <div class="text-left">
+                        <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-1">Queue Position</p>
+                        <p class="text-emerald-400 font-bold text-lg">Priority #1</p>
+                    </div>
                 </div>
             </div>
-            <div class="absolute inset-0 shimmer opacity-10 pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="mt-16 text-center max-w-2xl fade-in" style="animation-delay: 1.2s;">
+            <p class="text-[10px] text-slate-400 leading-relaxed uppercase tracking-tighter">
+                Attorney Advertising: This assessment is a preliminary evaluation based on algorithmic data. No attorney-client relationship is established through this report. Final liability determined via formal legal review.
+            </p>
         </div>
 
     </main>
 
     <footer class="w-full bg-[#0B1120] text-[#94A3B8] p-12 mt-20 border-t border-slate-800 text-center">
-        <p class="text-[9px] tracking-[0.4em] font-bold text-slate-600 uppercase mb-4">© 2026 JDS GLOBAL SOLUTIONS. ALL RIGHTS RESERVED.</p>
-        <p class="text-[8px] text-slate-700 max-w-xl mx-auto uppercase tracking-tighter">Case evaluations are preliminary. No attorney-client relationship is formed.</p>
+        <p class="text-[10px] tracking-[0.4em] font-bold text-slate-600 uppercase mb-4">© 2026 JDS GLOBAL SOLUTIONS. ALL RIGHTS RESERVED.</p>
     </footer>
 
     <script>
         window.onload = () => {
-            // 1. Retrieve Data from Storage
-            const score = parseFloat(localStorage.getItem('case_score')) || 7.8;
+            // 1. Data Retrieval
+            const score = parseFloat(localStorage.getItem('case_score')) || 8.4;
             const name = localStorage.getItem('user_name') || 'Client';
             const state = localStorage.getItem('current_state') || 'california';
 
-            // 2. State-Specific Color Themes
-            const stateThemes = {
-                "california": ["#F59E0B", "#D97706"], // Golden Orange
-                "texas": ["#B91C1C", "#7F1D1D"],      // Lone Star Red
-                "florida": ["#0D9488", "#0F766E"],    // Tropical Teal
-                "georgia": ["#FB923C", "#EA580C"],    // Peach Deep
-                "new_york": ["#334155", "#0F172A"]    // Empire Steel
+            // 2. Comprehensive State Theming
+            const stateProfiles = {
+                "california": { colors: ["#F59E0B", "#D97706"], statute: "CA Civ. Code § 1714" },
+                "texas": { colors: ["#B91C1C", "#7F1D1D"], statute: "TX Civ. Prac. § 33.001" },
+                "florida": { colors: ["#0D9488", "#0F766E"], statute: "Fla. Stat. § 768.81" },
+                "georgia": { colors: ["#FB923C", "#EA580C"], statute: "O.C.G.A. § 51-12-33" },
+                "new_york": { colors: ["#334155", "#0F172A"], statute: "CPLR § 1411" }
             };
 
-            // 3. UI Content Updates
-            const colors = stateThemes[state] || ["#1E3A8A", "#3B82F6"];
+            const profile = stateProfiles[state] || stateProfiles.california;
+            
+            // 3. Dynamic UI Customization
             document.getElementById('display-name').innerText = name;
             document.getElementById('display-state').innerText = state.replace('_', ' ');
-            document.getElementById('stop1').setAttribute('stop-color', colors[0]);
-            document.getElementById('stop2').setAttribute('stop-color', colors[1]);
+            document.getElementById('statute-ref').innerText = `Referenced: ${profile.statute}`;
             
-            const randomRef = Math.random().toString(36).substr(2, 6).toUpperCase();
-            document.getElementById('ref-id').innerText = `REF-${randomRef}`;
-            document.getElementById('priority-id').innerText = `PR-${Math.floor(1000 + Math.random() * 9000)}`;
+            // Apply Gradient Colors
+            document.getElementById('stopColor1').setAttribute('stop-color', profile.colors[0]);
+            document.getElementById('stopColor2').setAttribute('stop-color', profile.colors[1]);
+            
+            // Reference ID Generation
+            const refID = 'JDS-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+            document.getElementById('ref-id-display').innerText = refID;
 
-            // 4. Radial Chart Animation (The Soul)
+            // 4. Advanced Animations
             const circle = document.getElementById('score-circle');
             const scoreText = document.getElementById('score-text');
-            const circumference = 2 * Math.PI * 120; // Matches 'r=120'
+            const circumference = 2 * Math.PI * 120;
 
             setTimeout(() => {
-                // Calculate Offset
+                // Animate Gauge
                 const offset = circumference - (score / 10) * circumference;
                 circle.style.strokeDashoffset = offset;
                 
-                // Text Counter Animation
+                // Animate Statutory Bar
+                document.getElementById('stat-bar').style.width = '98.7%';
+
+                // Animate Number Counter (High Precision)
                 let start = 0;
-                const duration = 2500; // 2.5 seconds for dramatic effect
+                const duration = 2800; // 2.8s for premium weight
                 const startTime = performance.now();
 
                 function animate(currentTime) {
                     const elapsed = currentTime - startTime;
                     const progress = Math.min(elapsed / duration, 1);
                     
-                    // Easing (Cubic Out)
+                    // Cubic Out Easing for "Human-like" deceleration
                     const easedProgress = 1 - Math.pow(1 - progress, 3);
                     const currentVal = (easedProgress * score).toFixed(1);
                     
@@ -181,7 +204,7 @@
                     }
                 }
                 requestAnimationFrame(animate);
-            }, 600);
+            }, 700);
         };
     </script>
 </body>
