@@ -19,56 +19,77 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        :root { --premium-navy: #0B1120; --premium-blue: #1E3A8A; }
-        body { background-color: #FAFAFA; font-family: 'Inter', sans-serif; color: #0F172A; -webkit-font-smoothing: antialiased; }
+        :root { 
+            --premium-navy: #0B1120; 
+            --premium-blue: #1E3A8A; 
+            --accent-gold: #C5A059; /* 5번 포인트: 프리미엄 골드 추가 */
+            --success-green: #15803d;
+        }
+        body { background-color: #F8FAFC; font-family: 'Inter', sans-serif; color: #0F172A; -webkit-font-smoothing: antialiased; }
         .font-serif { font-family: 'Cormorant Garamond', serif; }
-        .glass-panel { background: #FFFFFF; border: 1px solid rgba(15, 23, 42, 0.08); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05); border-radius: 12px; }
-        .premium-btn { background-color: var(--premium-navy); color: white; transition: all 0.2s ease; cursor: pointer; }
-        .option-card { border: 1px solid #E2E8F0; transition: all 0.2s ease; cursor: pointer; border-radius: 8px; background: white; padding: 20px; font-weight: 600; }
-        .option-card:hover { border-color: var(--premium-blue); background-color: #F8FAFC; transform: translateY(-1px); }
-        .step-container { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .hidden { display: none !important; }
-        #ai-feedback-box { border-left: 4px solid var(--premium-blue); transition: all 0.3s ease; }
+        
+        /* 4번 포인트: 더 전문적이고 가치 중심적인 패널 디자인 */
+        .glass-panel { background: #FFFFFF; border: 1px solid rgba(15, 23, 42, 0.08); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08); border-radius: 16px; }
+        
+        /* 5번 포인트: 버튼에 골드 액센트 적용하여 '고가치' 암시 */
+        .premium-btn { 
+            background-color: var(--premium-navy); 
+            color: white; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .premium-btn:hover { 
+            background-color: #000; 
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .gold-text { color: var(--accent-gold); }
+        .progress-gold { background-color: var(--accent-gold); }
+        
+        .option-card { border: 1px solid #E2E8F0; transition: all 0.2s ease; cursor: pointer; border-radius: 12px; background: white; padding: 24px; font-weight: 600; }
+        .option-card:hover { border-color: var(--accent-gold); background-color: #F8FAFC; transform: scale(1.01); }
     </style>
-</head>
-<body class="flex flex-col min-h-screen">
-
-    <nav class="w-full bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
-        <div class="flex items-center gap-3">
-            <div class="w-2.5 h-2.5 rounded-full bg-blue-700"></div>
-           <span id="nav-state-name" class="text-xs font-bold tracking-widest uppercase">Case Evaluation Division</span>
-        <div class="border border-slate-200 text-[#94A3B8] text-[9px] px-2 py-1 uppercase font-bold tracking-tighter">Attorney Advertising</div>
-    </nav>
-
-    <main class="max-w-3xl mx-auto px-6 pt-12 md:pt-20 pb-24 text-center w-full flex-grow">
-        <div class="mb-10">
-            <p class="text-[10px] font-bold text-blue-700 tracking-[0.3em] uppercase mb-4">Jurisdictional Evaluation Protocol</p>
-           <h1 id="hero-title" class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4">Liability & Recovery Review</h1>
-        <div class="glass-panel p-6 md:p-8 mb-10 text-left">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-5 mb-5">
-                <div><p class="text-[9px] font-bold text-slate-400 uppercase">Active Jurisdiction</p><h2 id="hero-state-name" class="text-2xl font-serif font-bold">California</h2></div>
-                <div class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100 flex items-center gap-2">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Live Sync Active
+    
+    <main class="max-w-3xl mx-auto px-6 pt-12 md:pt-24 pb-24 text-center w-full flex-grow">
+        <div class="mb-12">
+            <p class="text-[11px] font-bold text-blue-700 tracking-[0.4em] uppercase mb-5">Statutory Evaluation Engine 2.0</p>
+            <h1 id="hero-title" class="text-4xl md:text-6xl font-serif font-bold text-slate-900 leading-tight mb-6">
+                Calculate Your <span class="gold-text">Case Value</span> & Recovery Potential
+            </h1>
+            <p class="text-slate-500 text-lg max-w-xl mx-auto font-medium">
+                Discover your potential settlement bracket based on current <span id="hero-state-name-inline" class="font-bold text-slate-700">California</span> legal statutes.
+            </p>
+        </div>
+    
+        <div class="glass-panel p-8 md:p-10 mb-12 text-left relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-1 h-full bg-blue-700"></div>
+            <div class="flex justify-between items-center border-b border-slate-100 pb-6 mb-6">
+                <div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Active Jurisdiction</p>
+                    <h2 id="hero-state-name" class="text-3xl font-serif font-bold text-slate-900">California</h2>
+                </div>
+                <div class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-4 py-2 rounded-full border border-emerald-100 flex items-center gap-2 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> 2026 STATUTORY SYNC
                 </div>
             </div>
-            <div class="grid grid-cols-2 gap-8">
-                <div><p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Primary Statute</p><p id="statute-info" class="text-xs md:text-sm font-medium">CA Civ. Code § 1714</p></div>
-                <div><p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Legal Framework</p><p id="stats-info" class="text-xs md:text-sm font-medium">Pure Comparative Negligence</p></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Governing Code</p>
+                    <p id="statute-info" class="text-sm md:text-base font-bold text-slate-800">CA Civ. Code § 1714</p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Recovery Standard</p>
+                    <p id="stats-info" class="text-sm md:text-base font-semibold text-slate-800">Pure Comparative Negligence</p>
+                </div>
             </div>
         </div>
-
-        <button onclick="openModal()" class="premium-btn text-white font-bold text-sm px-12 py-5 rounded shadow-xl uppercase tracking-widest w-full sm:w-auto active:scale-95 mb-16">
-            Initiate Case Audit
+    
+        <button onclick="openModal()" class="premium-btn text-white font-bold text-base px-16 py-6 rounded-lg shadow-2xl uppercase tracking-[0.2em] w-full sm:w-auto active:scale-95 mb-20">
+            Check My Settlement Value
         </button>
-
-        <section class="grid grid-cols-2 md:grid-cols-5 gap-3">
-            <div onclick="startAudit('california')" class="option-card p-4 text-center font-serif font-bold">CA</div>
-            <div onclick="startAudit('texas')" class="option-card p-4 text-center font-serif font-bold">TX</div>
-            <div onclick="startAudit('florida')" class="option-card p-4 text-center font-serif font-bold">FL</div>
-            <div onclick="startAudit('georgia')" class="option-card p-4 text-center font-serif font-bold">GA</div>
-            <div onclick="startAudit('new_york')" class="option-card p-4 text-center font-serif font-bold">NY</div>
-        </section>
     </main>
 
     <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
@@ -225,29 +246,36 @@
     }
 
     // 2. 주소나 버튼 클릭에 따라 화면 글자를 바꿔주는 '변신 함수'
+    // [수정본] 주소나 버튼 클릭에 따라 화면 글자를 바꿔주는 '변신 함수'
     function applyStateData(key) {
         if (!MASTER_DB[key]) return;
         
         currentState = key;
         const d = MASTER_DB[key];
         
-        // 브라우저 탭 제목 변경
+        // 1. 브라우저 탭 제목 변경
         document.title = `${d.name} High-Value Case Evaluation | JDS Global`;
         
-        // 상단바 이름 변경
+        // 2. 상단바 이름 변경
         const navName = document.getElementById('nav-state-name');
         if(navName) navName.innerText = `${d.name} Case Audit Division`;
         
-        // 메인 제목 변경
+        // 3. 메인 제목 변경 (4번 포인트: 골드 텍스트 포함)
         const heroTitle = document.getElementById('hero-title');
-        if(heroTitle) heroTitle.innerText = `${d.name} Liability & Recovery Review`;
+        if(heroTitle) {
+            heroTitle.innerHTML = `Calculate Your <span class="gold-text">Case Value</span> & Recovery Potential`;
+        }
         
-        // 주 정보 카드 변경
+        // 4. [추가] 설명 문구 안의 주 이름 바꾸기 (4번 포인트용)
+        const inlineState = document.getElementById('hero-state-name-inline');
+        if(inlineState) inlineState.innerText = d.name;
+        
+        // 5. 주 정보 카드 내용 변경
         document.getElementById('hero-state-name').innerText = d.name;
         document.getElementById('statute-info').innerText = d.statute;
         document.getElementById('stats-info').innerText = d.law_type;
 
-        // 폼 전송 데이터에 주 이름 저장
+        // 6. 나중에 서버로 보낼 데이터에도 주 이름 저장
         leadFormData.state = d.name;
     }
 
