@@ -305,18 +305,22 @@
             alert("Already represented cases require manual review. Please contact support.");
             closeModal();
         }
-        // 페이지가 처음 열릴 때 주소를 읽어서 화면을 바꿉니다.
+        // [추가된 로직] 페이지가 로드될 때 실행되는 함수
         window.addEventListener('DOMContentLoaded', () => {
-            // 주소창에서 /texas 같은 문구를 가져옵니다.
+            // 1. 주소창에서 '/' 뒤의 글자를 가져옵니다 (예: /texas -> texas)
             const path = window.location.pathname.replace('/', '').toLowerCase();
             
-            // 만약 그 문구가 우리 데이터베이스(MASTER_DB)에 있다면 실행!
+            // 2. 만약 그 글자가 MASTER_DB에 등록된 도시/주 이름이라면
             if (path && MASTER_DB[path]) {
                 const d = MASTER_DB[path];
                 currentState = path;
+                
+                // 3. 화면의 텍스트들을 해당 주 데이터로 교체합니다
                 document.getElementById('hero-state-name').innerText = d.name; 
                 document.getElementById('statute-info').innerText = d.statute; 
                 document.getElementById('stats-info').innerText = d.law_type;
+                
+                // 4. 브라우저 탭의 제목도 바꿉니다
                 document.title = `${d.name} High-Value Case Evaluation | JDS Global`;
             }
         });
