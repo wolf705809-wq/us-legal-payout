@@ -51,44 +51,9 @@
         
         .option-card { border: 1px solid #E2E8F0; transition: all 0.2s ease; cursor: pointer; border-radius: 12px; background: white; padding: 24px; font-weight: 600; }
         .option-card:hover { border-color: var(--accent-gold); background-color: #F8FAFC; transform: scale(1.01); }
-        /* 주 선택 칸 프리미엄 디자인 */
-.state-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    /* 주 선택 칸 프리미엄 디자인 */
+.state-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 2rem; }
 @media (min-width: 768px) { .state-grid { grid-template-columns: repeat(5, 1fr); } }
-
-.state-card {
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    border-radius: 12px;
-    padding: 16px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 90px;
-}
-
-.state-card:hover {
-    border-color: var(--accent-gold);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 20px -5px rgba(197, 160, 89, 0.15);
-}
-
-.state-card .abbr { font-size: 1.25rem; font-weight: 800; color: var(--premium-navy); }
-.state-card .full-name { font-size: 0.7rem; font-weight: 600; color: #94A3B8; text-transform: uppercase; letter-spacing: 1px; }
-.state-card .status-dot { width: 6px; height: 6px; background: #CBD5E1; border-radius: 50%; }
-.state-card:hover .status-dot { background: var(--accent-gold); box-shadow: 0 0 8px var(--accent-gold); }
-      
-      /* 주 선택 칸 프리미엄 디자인 */
-.state-grid { 
-    display: grid; 
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 12px; 
-}
-@media (min-width: 768px) { 
-    .state-grid { grid-template-columns: repeat(5, 1fr); } 
-}
 
 .state-card {
     background: #FFFFFF;
@@ -110,35 +75,11 @@
     box-shadow: 0 15px 30px -5px rgba(197, 160, 89, 0.2);
 }
 
-.state-card .abbr { 
-    font-size: 1.4rem; 
-    font-weight: 800; 
-    color: var(--premium-navy); 
-    line-height: 1;
-}
-
-.state-card .full-name { 
-    font-size: 0.65rem; 
-    font-weight: 700; 
-    color: #94A3B8; 
-    text-transform: uppercase; 
-    letter-spacing: 1.5px; 
-}
-
-.state-card .status-dot { 
-    width: 7px; 
-    height: 7px; 
-    background: #E2E8F0; 
-    border-radius: 50%; 
-    transition: all 0.3s ease;
-}
-
-/* 마우스를 올리면 점이 골드색으로 빛납니다 */
-.state-card:hover .status-dot { 
-    background: var(--accent-gold); 
-    box-shadow: 0 0 10px var(--accent-gold); 
-}
-      </style>
+.state-card .abbr { font-size: 1.4rem; font-weight: 800; color: var(--premium-navy); line-height: 1; }
+.state-card .full-name { font-size: 0.65rem; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 1.5px; }
+.state-card .status-dot { width: 7px; height: 7px; background: #E2E8F0; border-radius: 50%; transition: all 0.3s ease; }
+.state-card:hover .status-dot { background: var(--accent-gold); box-shadow: 0 0 10px var(--accent-gold); }
+    </style>
     
     <main class="max-w-3xl mx-auto px-6 pt-12 md:pt-24 pb-24 text-center w-full flex-grow">
         <div class="mb-12">
@@ -177,62 +118,43 @@
         <button onclick="openModal()" class="premium-btn text-white font-bold text-base px-16 py-6 rounded-lg shadow-2xl uppercase tracking-[0.2em] w-full sm:w-auto active:scale-95 mb-20">
             Check My Settlement Value
         </button>
-        
+        <div class="mt-20 border-t border-slate-100 pt-12">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4 text-left">
+                <div>
+                    <p class="text-[10px] font-bold text-blue-700 uppercase tracking-[0.3em] mb-2">Network Expansion</p>
+                    <h3 class="text-2xl font-serif font-bold text-slate-900">Select Target Jurisdiction</h3>
+                </div>
+                <p class="text-[11px] text-slate-400 font-medium italic">Optimized for 5 major liability frameworks.</p>
+            </div>
+
+            <div class="state-grid">
+                <div onclick="startAudit('california')" class="state-card group">
+                    <div class="flex justify-between items-start"><span class="abbr">CA</span><div class="status-dot"></div></div>
+                    <span class="full-name">California</span>
+                </div>
+                <div onclick="startAudit('texas')" class="state-card group">
+                    <div class="flex justify-between items-start"><span class="abbr">TX</span><div class="status-dot"></div></div>
+                    <span class="full-name">Texas</span>
+                </div>
+                <div onclick="startAudit('florida')" class="state-card group">
+                    <div class="flex justify-between items-start"><span class="abbr">FL</span><div class="status-dot"></div></div>
+                    <span class="full-name">Florida</span>
+                </div>
+                <div onclick="startAudit('georgia')" class="state-card group">
+                    <div class="flex justify-between items-start"><span class="abbr">GA</span><div class="status-dot"></div></div>
+                    <span class="full-name">Georgia</span>
+                </div>
+                <div onclick="startAudit('new_york')" class="state-card group">
+                    <div class="flex justify-between items-start"><span class="abbr">NY</span><div class="status-dot"></div></div>
+                    <span class="full-name">New York</span>
+                </div>
+            </div>
+        </div>
     </main>
 
     <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
         <div class="w-full max-w-xl bg-white shadow-2xl rounded-t-2xl md:rounded-xl flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden">
-            <div class="mt-20 border-t border-slate-100 pt-12">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4 text-left">
-                    <div>
-                        <p class="text-[10px] font-bold text-blue-700 uppercase tracking-[0.3em] mb-2">Network Expansion</p>
-                        <h3 class="text-2xl font-serif font-bold text-slate-900">Select Target Jurisdiction</h3>
-                    </div>
-                    <p class="text-[11px] text-slate-400 font-medium italic">Currently optimized for 5 major liability frameworks.</p>
-                </div>
             
-                <div class="state-grid">
-                    <div onclick="startAudit('california')" class="state-card group">
-                        <div class="flex justify-between items-start">
-                            <span class="abbr">CA</span>
-                            <div class="status-dot"></div>
-                        </div>
-                        <span class="full-name">California</span>
-                    </div>
-            
-                    <div onclick="startAudit('texas')" class="state-card group">
-                        <div class="flex justify-between items-start">
-                            <span class="abbr">TX</span>
-                            <div class="status-dot"></div>
-                        </div>
-                        <span class="full-name">Texas</span>
-                    </div>
-            
-                    <div onclick="startAudit('florida')" class="state-card group">
-                        <div class="flex justify-between items-start">
-                            <span class="abbr">FL</span>
-                            <div class="status-dot"></div>
-                        </div>
-                        <span class="full-name">Florida</span>
-                    </div>
-            
-                    <div onclick="startAudit('georgia')" class="state-card group">
-                        <div class="flex justify-between items-start">
-                            <span class="abbr">GA</span>
-                            <div class="status-dot"></div>
-                        </div>
-                        <span class="full-name">Georgia</span>
-                    </div>
-            
-                    <div onclick="startAudit('new_york')" class="state-card group">
-                        <div class="flex justify-between items-start">
-                            <span class="abbr">NY</span>
-                            <div class="status-dot"></div>
-                        </div>
-                        <span class="full-name">New York</span>
-                    </div>
-                </div>
-            </div>
             <div class="px-8 py-6 border-b border-slate-100 bg-white sticky top-0 z-10">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="font-serif font-bold text-xl">Case Intake Audit</h3>
