@@ -1,51 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.us-settlement-review.com/</loc>
-    <lastmod>2026-03-23T09:00:00+00:00</lastmod>
-    <changefreq>daily</changefreq>
+    <lastmod>2026-03-23</lastmod>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en-us" href="https://www.us-settlement-review.com/" />
-    <xhtml:link rel="alternate" hreflang="es-us" href="https://www.us-settlement-review.com/es/" />
-    <image:image>
-      <image:loc>https://www.us-settlement-review.com/images/hero-banner.jpg</image:loc>
-      <image:title>US Car Accident Settlement Calculator</image:title>
-    </image:image>
   </url>
 
   <url>
     <loc>https://www.us-settlement-review.com/ca-legal-review</loc>
-    <lastmod>2026-03-23T10:30:00+00:00</lastmod>
-    <changefreq>always</changefreq> <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://www.us-settlement-review.com/images/ca-legal-audit.jpg</image:loc>
-      <image:caption>California Liability &amp; Recovery Review</image:caption>
-    </image:image>
-  </url>
-
-  <url>
-    <loc>https://www.us-settlement-review.com/texas</loc>
-    <lastmod>2026-03-23T10:30:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-03-23</lastmod>
     <priority>0.9</priority>
   </url>
-
   <url>
-    <loc>https://www.us-settlement-review.com/florida</loc>
-    <lastmod>2026-03-23T10:30:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.us-settlement-review.com/tx-legal-review</loc>
+    <lastmod>2026-03-23</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.us-settlement-review.com/fl-legal-review</loc>
+    <lastmod>2026-03-23</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.us-settlement-review.com/ga-legal-review</loc>
+    <lastmod>2026-03-23</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.us-settlement-review.com/ny-legal-review</loc>
+    <lastmod>2026-03-23</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.us-settlement-review.com/il-legal-review</loc>
+    <lastmod>2026-03-23</lastmod>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://www.us-settlement-review.com/privacy</loc>
-    <priority>0.1</priority> </url>
-  <url>
-    <loc>https://www.us-settlement-review.com/terms</loc>
-    <priority>0.1</priority>
+    <lastmod>2026-03-23</lastmod>
+    <priority>0.5</priority>
   </url>
-
 </urlset>
