@@ -39,21 +39,18 @@
             <div class="w-2.5 h-2.5 rounded-full bg-blue-700"></div>
             <span class="text-xs font-bold tracking-widest uppercase text-slate-900">Case Evaluation Division</span>
         </div>
-        <div class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Attorney Advertising</div>
+        <div class="border border-slate-200 text-[#94A3B8] text-[9px] px-2 py-1 uppercase font-bold tracking-tighter">Attorney Advertising</div>
     </nav>
 
-    <main class="max-w-3xl mx-auto px-6 pt-12 md:pt-20 pb-24 text-center w-full">
+    <main class="max-w-3xl mx-auto px-6 pt-12 md:pt-20 pb-24 text-center w-full flex-grow">
         <div class="mb-10">
             <p class="text-[10px] font-bold text-blue-700 tracking-[0.3em] uppercase mb-4">Jurisdictional Evaluation Protocol</p>
             <h1 id="main-h1" class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-4">Liability & Recovery Review</h1>
         </div>
 
-        <div class="glass-panel p-6 md:p-8 mb-10 text-left fade-in">
+        <div class="glass-panel p-6 md:p-8 mb-10 text-left">
             <div class="flex justify-between items-center border-b border-slate-100 pb-5 mb-5">
-                <div>
-                    <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Active Jurisdiction</p>
-                    <h2 id="hero-state-name" class="text-2xl font-serif font-bold">California</h2>
-                </div>
+                <div><p class="text-[9px] font-bold text-slate-400 uppercase">Active Jurisdiction</p><h2 id="hero-state-name" class="text-2xl font-serif font-bold">California</h2></div>
                 <div class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100 flex items-center gap-2">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Live Sync Active
                 </div>
@@ -64,11 +61,9 @@
             </div>
         </div>
 
-        <div class="mb-16">
-            <button onclick="openModal()" class="premium-btn text-white font-bold text-sm px-12 py-5 rounded shadow-xl uppercase tracking-widest w-full sm:w-auto active:scale-95">
-                Initiate Intake Review
-            </button>
-        </div>
+        <button onclick="openModal()" class="premium-btn text-white font-bold text-sm px-12 py-5 rounded shadow-xl uppercase tracking-widest w-full sm:w-auto active:scale-95 mb-16">
+            Initiate Intake Review
+        </button>
 
         <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6">Change Jurisdiction</p>
         <section class="grid grid-cols-2 md:grid-cols-5 gap-3">
@@ -82,80 +77,96 @@
 
     <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
         <div class="w-full max-w-xl bg-white shadow-2xl rounded-t-2xl md:rounded-xl flex flex-col max-h-[92vh] border border-slate-200">
-            
             <div class="px-8 py-6 border-b border-slate-100">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="font-serif font-bold text-xl">Preliminary Intake</h3>
                     <button onclick="closeModal()" class="text-slate-400 hover:text-slate-800 p-2">✕</button>
                 </div>
-                <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
-                    <div id="strength-gauge" class="bg-blue-600 h-full transition-all duration-700" style="width: 15%"></div>
-                </div>
-                <div class="flex justify-between mt-2">
-                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Evaluation Strength</p>
-                    <p id="strength-pct" class="text-[9px] font-bold text-blue-600">15%</p>
-                </div>
+                <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden"><div id="strength-gauge" class="bg-blue-600 h-full transition-all duration-700" style="width: 15%"></div></div>
             </div>
 
             <div id="modalBody" class="p-8 overflow-y-auto flex-grow bg-white">
-                <div id="ai-feedback-box" class="mb-6 p-4 bg-blue-50 border-l-4 border-blue-600 rounded hidden">
-                    <p id="ai-feedback-text" class="text-xs font-medium text-blue-800 italic"></p>
-                </div>
-
                 <div id="step-1" class="step-container space-y-4">
-                    <h3 class="text-xl font-serif font-bold">Select incident nature.</h3>
+                    <h3 class="text-xl font-serif font-bold">Incident Classification</h3>
                     <button onclick="handleSelection('type', 'Auto', 2, 'Vehicle cases require rapid evidence securing.', 10)" class="option-card w-full p-5 text-left font-semibold">Motor Vehicle Collision</button>
                     <button onclick="handleSelection('type', 'Slip', 2, 'Premises liability depends on documentation.', 10)" class="option-card w-full p-5 text-left font-semibold">Slip & Fall Incident</button>
                 </div>
 
                 <div id="step-2" class="step-container hidden space-y-4">
-                    <h3 class="text-xl font-serif font-bold">Establish fault status.</h3>
-                    <button onclick="handleSelection('fault', 'none', 3, 'Zero liability status is ideal for recovery.', 25)" class="option-card w-full p-5 text-left font-semibold">Not at fault (0%)</button>
-                    <button onclick="handleSelection('fault', 'shared', 3, 'Comparative fault rules will apply.', 10)" class="option-card w-full p-5 text-left font-semibold">Liability Disputed</button>
+                    <h3 class="text-xl font-serif font-bold">Fault Distribution</h3>
+                    <button onclick="handleSelection('fault', 'none', 3, 'Zero liability maximizes recovery multipliers.', 25)" class="option-card w-full p-5 text-left font-semibold">0% Liability (Not at fault)</button>
+                    <button onclick="handleSelection('fault', 'shared', 3, 'Comparative fault rules will apply.', 10)" class="option-card w-full p-5 text-left font-semibold">Liability Disputed / Shared</button>
                 </div>
 
-                <div id="step-3" class="step-container hidden space-y-4">
-                    <h3 class="text-xl font-serif font-bold">Medical treatment details.</h3>
-                    <button onclick="handleSelection('med', 'er', 4, 'ER visits provide a solid medical trail.', 30)" class="option-card w-full p-5 text-left font-semibold">ER / Urgent Care Admission</button>
-                    <button onclick="handleSelection('med', 'later', 4, 'Delayed treatment requires causality links.', 10)" class="option-card w-full p-5 text-left font-semibold">Follow-up with Doctor Later</button>
-                </div>
-
-                <div id="step-4" class="step-container hidden space-y-4 text-left">
-                    <h3 class="text-xl font-serif font-bold text-center">Verification Details</h3>
+                <div id="step-3" class="step-container hidden space-y-4 text-left">
+                    <h3 class="text-xl font-serif font-bold mb-4">Identity Verification</h3>
                     <div class="grid grid-cols-2 gap-4">
-                        <input type="text" id="fName" placeholder="First Name" class="bg-slate-50 border border-slate-200 p-4 rounded-lg outline-none w-full">
-                        <input type="text" id="lName" placeholder="Last Name" class="bg-slate-50 border border-slate-200 p-4 rounded-lg outline-none w-full">
+                        <input type="text" id="fName" placeholder="First Name" required class="bg-slate-50 border border-slate-200 p-4 rounded outline-none focus:border-blue-500 w-full">
+                        <input type="text" id="lName" placeholder="Last Name" required class="bg-slate-50 border border-slate-200 p-4 rounded outline-none w-full focus:border-blue-500">
                     </div>
-                    <input type="email" id="email" placeholder="Email Address" class="w-full bg-slate-50 border border-slate-200 p-4 rounded-lg outline-none">
-                    <button onclick="nextStep(5)" class="premium-btn w-full text-white font-bold py-4 rounded-lg uppercase tracking-widest mt-4">Next Step</button>
+                    <input type="email" id="email" placeholder="Email Address" required class="w-full bg-slate-50 border border-slate-200 p-4 rounded outline-none focus:border-blue-500">
+                    <button onclick="nextStep(4)" class="premium-btn w-full text-white font-bold py-4 rounded uppercase tracking-widest mt-4">Next Step</button>
                 </div>
 
-                <form id="step-5" class="step-container hidden space-y-4" onsubmit="submitFinalLead(event)">
-                    <h3 class="text-xl font-serif font-bold text-center mb-6">Secure Your Result</h3>
-                    <div class="relative">
-                        <input type="tel" id="userPhone" placeholder="(555) 555-5555" required class="w-full bg-slate-50 border border-slate-200 px-4 py-5 rounded-xl text-2xl font-bold text-center outline-none tracking-widest focus:border-blue-500">
-                    </div>
+                <form id="step-4" class="step-container hidden space-y-4" onsubmit="submitFinalLead(event)">
+                    <h3 class="text-xl font-serif font-bold text-center">Final Security Step</h3>
+                    <input type="tel" id="userPhone" placeholder="(555) 555-5555" required class="w-full bg-slate-50 border border-slate-200 px-4 py-5 rounded-xl text-2xl font-bold text-center outline-none tracking-widest focus:border-blue-500">
                     
                     <div class="cf-turnstile" data-sitekey="0x4AAAAAACuTQ4GK1w5nO44e"></div>
 
                     <label class="flex items-start gap-3 mt-4 p-4 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer">
                         <input type="checkbox" id="tcpa" class="w-5 h-5 mt-1 accent-blue-700 shrink-0" required>
                         <span class="text-[10px] text-slate-600 leading-relaxed font-medium">
-                            By clicking, I provide express written consent to be contacted regarding my case. I agree to the <a href="#" class="underline">Terms</a>.
+                            By clicking "Finish & View Report", I provide my express written consent to be contacted by JDS Global Solutions and its partners at the number provided above. Consent is not a condition of purchase. I agree to the <a href="terms.html" class="underline font-bold text-blue-800">Terms</a> and <a href="privacy.html" class="underline font-bold text-blue-800">Privacy Policy</a>.
                         </span>
                     </label>
-                    <button type="submit" id="submit-btn" disabled class="premium-btn w-full text-white font-bold py-5 rounded-xl uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed">
+                    <button type="submit" id="submit-btn" disabled class="premium-btn w-full text-white font-bold py-5 rounded-xl uppercase tracking-[0.2em] shadow-xl opacity-50">
                         Finish & View Report
                     </button>
                 </form>
 
                 <div id="step-scan" class="hidden py-16 text-center">
                     <div class="animate-spin text-blue-600 mx-auto w-12 h-12 mb-8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg></div>
-                    <h3 class="font-serif font-bold text-xl mb-2">Syncing Data Streams...</h3>
+                    <h3 class="font-serif font-bold text-xl">Syncing Data Streams...</h3>
                 </div>
             </div>
         </div>
     </div>
+
+    <footer class="w-full bg-[#0B1120] text-[#94A3B8] p-12 md:p-20 mt-auto">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 pb-16 border-b border-slate-800 text-center md:text-left">
+                <div class="space-y-4">
+                    <p class="text-white text-[10px] font-bold uppercase tracking-[0.3em]">Direct Support</p>
+                    <p class="text-sm font-medium hover:text-white cursor-pointer">support@jdsglobalsolutions.com</p>
+                </div>
+                <div class="space-y-4">
+                    <p class="text-white text-[10px] font-bold uppercase tracking-[0.3em]">Corporate HQ</p>
+                    <p class="text-sm font-medium">1201 N Market St, Wilmington, DE 19801</p>
+                </div>
+                <div class="space-y-4">
+                    <p class="text-white text-[10px] font-bold uppercase tracking-[0.3em]">Verification Line</p>
+                    <p class="text-sm font-medium">+1 (888) 512-0941</p>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-x-12 gap-y-6 py-12 text-[9px] font-bold uppercase tracking-[0.2em]">
+                <a href="privacy.html" class="hover:text-white">Privacy Policy</a>
+                <a href="terms.html" class="hover:text-white">Terms of Service</a>
+                <a href="ccpa.html" class="hover:text-white">CCPA / Do Not Sell My Info</a>
+                <a href="disclaimer.html" class="hover:text-white">Legal Disclaimer</a>
+            </div>
+
+            <div class="max-w-3xl mx-auto text-center space-y-8">
+                <p class="text-[10px] leading-relaxed text-slate-500 font-medium">
+                    <strong class="text-slate-400">ATTORNEY ADVERTISING:</strong> JDS Global Solutions is a performance marketing firm. We are not a law firm or a substitute for legal counsel. Case evaluations are preliminary. Participation does not guarantee financial recovery.
+                </p>
+                <p class="text-[9px] tracking-[0.4em] font-bold text-slate-600 uppercase border-t border-slate-800/50 pt-8">
+                    © 2026 JDS GLOBAL SOLUTIONS. ALL RIGHTS RESERVED.
+                </p>
+            </div>
+        </div>
+    </footer>
 
     <script>
         const MASTER_DB = {
@@ -166,56 +177,35 @@
             "new_york": { name: "New York", statute: "CPLR § 1411", law_type: "Pure Comparative Negligence" }
         };
 
-        let currentScore = 15;
-        let currentState = 'california';
-        let leadData = {};
-
-        function startAudit(s) { 
-            currentState = s; 
-            const d = MASTER_DB[s]; 
-            document.getElementById('hero-state-name').innerText = d.name; 
-            document.getElementById('statute-info').innerText = d.statute;
-            document.getElementById('stats-info').innerText = d.law_type;
-            openModal(); 
-        }
-
         function openModal() { document.getElementById('leadModal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
         function closeModal() { document.getElementById('leadModal').classList.add('hidden'); document.body.style.overflow = ''; }
-
-        function handleSelection(key, value, next, feedback, scoreBonus) {
-            leadData[key] = value;
-            currentScore = Math.min(95, currentScore + scoreBonus);
-            document.getElementById('strength-gauge').style.width = `${currentScore}%`;
-            document.getElementById('strength-pct').innerText = `${currentScore}%`;
-            document.getElementById('ai-feedback-text').innerText = `Intake Insight: ${feedback}`;
-            document.getElementById('ai-feedback-box').classList.remove('hidden');
-            setTimeout(() => nextStep(next), 600);
-        }
-
         function nextStep(s) {
             document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
             document.getElementById(`step-${s}`).classList.remove('hidden');
+        }
+
+        function handleSelection(key, value, next, feedback, bonus) {
+            document.getElementById('strength-gauge').style.width = (bonus + 20) + '%';
+            setTimeout(() => nextStep(next), 600);
         }
 
         document.getElementById('tcpa').addEventListener('change', function() {
             const btn = document.getElementById('submit-btn');
             btn.disabled = !this.checked;
             btn.classList.toggle('opacity-50', !this.checked);
-            btn.classList.toggle('cursor-not-allowed', !this.checked);
         });
 
         async function submitFinalLead(e) {
             e.preventDefault();
-            document.getElementById('step-5').classList.add('hidden');
+            document.getElementById('step-4').classList.add('hidden');
             document.getElementById('step-scan').classList.remove('hidden');
             setTimeout(() => { window.location.href = 'success.html'; }, 2000);
         }
 
-        // 전화번호 마스킹
         document.getElementById('userPhone').oninput = (e) => {
-            let val = e.target.value.replace(/\D/g, '');
-            const x = val.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+            let v = e.target.value.replace(/\D/g, '');
+            let m = v.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+            e.target.value = !m[2] ? m[1] : '(' + m[1] + ') ' + m[2] + (m[3] ? '-' + m[3] : '');
         };
     </script>
 </body>
