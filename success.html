@@ -2,21 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Review Initiated | JDS Global Solutions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Assessment Complete | JDS Global Solutions</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root { --premium-navy: #0B1120; --premium-blue: #1E3A8A; --surface-color: #FAFAFA; }
         body { background-color: var(--surface-color); font-family: 'Inter', sans-serif; color: #0F172A; -webkit-font-smoothing: antialiased; }
         .font-serif { font-family: 'Cormorant Garamond', serif; }
-        .glass-panel { background: #FFFFFF; border: 1px solid rgba(15, 23, 42, 0.08); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.04); border-radius: 12px; }
-        .premium-btn { background-color: var(--premium-navy); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
-        .success-checkmark { width: 70px; height: 70px; margin: 0 auto; background: #ECFDF5; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #10B981; }
-        .fade-in { animation: fadeIn 0.8s ease-out forwards; opacity: 0; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Chart Styling */
+        .chart-container { position: relative; width: 300px; height: 300px; margin: 0 auto; }
+        svg { transform: rotate(-90deg); filter: drop-shadow(0 10px 15px rgba(0,0,0,0.05)); }
+        circle { fill: none; stroke-width: 10; stroke-linecap: round; }
+        .bg-circle { stroke: #F1F5F9; }
+        .fg-circle { 
+            stroke-dasharray: 753.98; /* 2 * PI * 120 */
+            stroke-dashoffset: 753.98; 
+            transition: stroke-dashoffset 2.5s cubic-bezier(0.22, 1, 0.36, 1); 
+        }
+
+        /* Animations */
+        .fade-in { animation: fadeIn 1s ease-out forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .pulse-soft { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -24,122 +45,144 @@
     <nav class="w-full bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center z-10 sticky top-0">
         <div class="flex items-center gap-3">
             <div class="w-2 h-2 rounded-full bg-blue-700"></div>
-            <span class="text-[10px] md:text-xs font-semibold tracking-[0.15em] uppercase text-slate-900">Case Evaluation Division</span>
+            <span class="text-[10px] md:text-xs font-semibold tracking-[0.15em] uppercase">Case Evaluation Division</span>
         </div>
-        <div class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Protocol Active</div>
+        <div class="border border-slate-200 text-[#94A3B8] text-[9px] px-2 py-1 font-bold uppercase tracking-widest">Attorney Advertising</div>
     </nav>
 
-    <main class="w-full max-w-2xl mx-auto px-6 pt-10 md:pt-16 pb-24 flex-grow flex flex-col items-center text-center">
+    <main class="w-full max-w-4xl mx-auto px-6 pt-12 pb-24 flex-grow flex flex-col items-center">
         
-        <div class="success-checkmark mb-6 fade-in">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
-            </svg>
-        </div>
-
-        <div class="fade-in" style="animation-delay: 0.1s;">
-            <p class="text-[10px] font-bold text-blue-700 tracking-[0.25em] uppercase mb-3">Intake Receipt Confirmed</p>
-            <h1 class="text-3xl md:text-4xl font-serif font-bold text-slate-900 leading-tight mb-4">Case Evaluation <br /> Successfully Initiated</h1>
-            <p class="text-slate-500 text-sm max-w-md mx-auto leading-relaxed mb-10">
-                Your preliminary details have been securely transmitted. A jurisdiction specialist will review your file within 24 business hours.
+        <div class="mb-8 fade-in text-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-full mb-6">
+                <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 pulse-soft"></div>
+                <span class="text-[9px] font-bold text-emerald-700 tracking-[0.2em] uppercase">Jurisdictional Sync Complete</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-serif font-bold text-slate-900 leading-tight mb-4">Case Strength Report</h1>
+            <p class="text-slate-500 text-sm md:text-lg max-w-2xl mx-auto leading-relaxed">
+                <span id="display-name" class="font-bold text-slate-900">Client</span>님, 알고리즘 분석 결과 <span id="display-state" class="font-bold text-slate-900 uppercase">STATE</span> 법령에 근거한 귀하의 사례는 **상위 5%**의 전략적 우위를 점하고 있습니다.
             </p>
         </div>
 
-        <div class="w-full glass-panel overflow-hidden mb-8 fade-in text-left" style="animation-delay: 0.2s;">
-            <div class="bg-slate-900 px-6 py-3">
-                <p class="text-[9px] font-bold text-white uppercase tracking-[0.2em]">Identity Verification Protocol</p>
-            </div>
-            <div class="p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 md:gap-10">
-                <div class="hidden md:block shrink-0 p-2 bg-white border border-slate-100 rounded-lg shadow-sm">
-                    <img id="vcard-qr" src="" alt="QR" class="w-24 h-24">
-                    <p class="text-[8px] text-slate-400 mt-2 font-bold uppercase text-center">Scan to Sync</p>
-                </div>
-                
-                <div class="flex-grow text-center md:text-left">
-                    <h4 class="text-xs font-bold text-slate-900 mb-2 uppercase tracking-tight">Priority: Save Specialist Contact</h4>
-                    <p class="text-[11px] text-slate-500 mb-5 leading-relaxed">
-                        To ensure our evaluation call bypasses your spam filter, please save our verified ID to your mobile device now.
-                    </p>
-                    <button onclick="downloadVCard()" class="w-full bg-emerald-600 text-white font-bold py-3.5 rounded-lg shadow-lg flex items-center justify-center gap-2 hover:bg-emerald-700 transition-all active:scale-95 text-[11px] tracking-widest">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        SAVE SPECIALIST ID
-                    </button>
-                </div>
+        <div class="chart-container mb-12 fade-in" style="animation-delay: 0.2s;">
+            <svg width="300" height="300">
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop id="stop1" offset="0%" stop-color="#1E3A8A" />
+                        <stop id="stop2" offset="100%" stop-color="#3B82F6" />
+                    </linearGradient>
+                </defs>
+                <circle class="bg-circle" cx="150" cy="150" r="120"></circle>
+                <circle id="score-circle" class="fg-circle" cx="150" cy="150" r="120" stroke="url(#gradient)"></circle>
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-1">Strength Index</span>
+                <span id="score-text" class="text-7xl font-serif font-bold text-slate-900">0.0</span>
+                <div id="tier-badge" class="mt-2 px-3 py-1 bg-blue-900 text-white text-[9px] font-bold rounded-sm tracking-widest uppercase">Premium Match</div>
             </div>
         </div>
 
-        <div class="w-full bg-[#F8FAFC] border-2 border-dashed border-slate-200 rounded-xl p-6 md:p-8 fade-in text-left relative" style="animation-delay: 0.3s;">
-            <h3 class="text-[10px] font-bold text-blue-800 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-blue-800"></span> 
-                Official Intake Record
-            </h3>
-            
-            <div class="grid gap-5">
-                <div class="flex justify-between items-end border-b border-slate-200 pb-2">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase">Status</span>
-                    <span class="text-xs font-bold text-emerald-600 uppercase">Verified & Encrypted</span>
-                </div>
-                <div class="flex justify-between items-end border-b border-slate-200 pb-2">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase">Ref ID</span>
-                    <span id="case-id" class="text-xs font-mono font-bold text-slate-900 uppercase">JDS-XXXX-XXXX</span>
-                </div>
-                <div class="flex justify-between items-end">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase">Review Window</span>
-                    <span class="text-xs font-bold text-slate-900 uppercase">Within 24 Hours</span>
-                </div>
+        <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-4 mb-12 fade-in" style="animation-delay: 0.4s;">
+            <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
+                <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Statutory Alignment</p>
+                <p class="text-2xl font-bold text-slate-900">98.4%</p>
+                <div class="w-full bg-slate-100 h-1 mt-3 rounded-full overflow-hidden"><div class="bg-emerald-500 h-full" style="width: 98%"></div></div>
+            </div>
+            <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
+                <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Liability Factor</p>
+                <p class="text-2xl font-bold text-blue-800">High Recovery</p>
+                <p class="text-[10px] text-slate-400 mt-2">Based on CA Civ. Code § 1714</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
+                <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Audit Trail</p>
+                <p id="ref-id" class="text-2xl font-bold text-slate-900 uppercase">REF-X920</p>
+                <p class="text-[10px] text-emerald-600 font-bold mt-2 uppercase">Verified Secure</p>
             </div>
         </div>
 
-        <div class="mt-10 fade-in" style="animation-delay: 0.4s;">
-            <p class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Urgent Updates?</p>
-            <a href="tel:18005550199" class="text-xs font-bold text-slate-900 underline underline-offset-4 hover:text-blue-700 transition-colors">Speak to an intake specialist immediately</a>
+        <div class="w-full bg-[#0B1120] rounded-2xl p-8 md:p-12 text-white text-left relative overflow-hidden fade-in shadow-2xl" style="animation-delay: 0.6s;">
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-6 text-emerald-400">
+                    <div class="w-3 h-3 rounded-full bg-emerald-500 animate-ping"></div>
+                    <span class="text-[11px] font-bold uppercase tracking-[0.2em]">Live Agent Matching Active</span>
+                </div>
+                <h3 class="text-2xl md:text-3xl font-serif font-bold mb-4">Next Step: Immediate Verification</h3>
+                <p class="text-slate-400 text-sm md:text-base mb-8 max-w-xl leading-relaxed">
+                    귀하의 분석 데이터는 현재 캘리포니아 전담 검토팀으로 실시간 전송되었습니다. 권리 보호를 위해 향후 **12분 이내**에 담당 상담원의 유선 연락이 갈 예정입니다. 전화를 꼭 받아주시기 바랍니다.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button class="bg-white text-slate-900 font-bold px-8 py-4 rounded uppercase text-xs tracking-widest hover:bg-blue-50 transition-colors">Download Evaluation PDF</button>
+                    <p class="text-[10px] text-slate-500 self-center uppercase font-bold tracking-widest">Priority ID: <span id="priority-id"></span></p>
+                </div>
+            </div>
+            <div class="absolute inset-0 shimmer opacity-10 pointer-events-none"></div>
         </div>
 
     </main>
 
-    <footer class="w-full bg-white border-t border-slate-200 p-8 text-center">
-        <p class="text-[9px] text-slate-300 tracking-[0.2em] uppercase">© 2026 JDS GLOBAL SOLUTIONS. ALL RIGHTS RESERVED.</p>
+    <footer class="w-full bg-[#0B1120] text-[#94A3B8] p-12 mt-20 border-t border-slate-800 text-center">
+        <p class="text-[9px] tracking-[0.4em] font-bold text-slate-600 uppercase mb-4">© 2026 JDS GLOBAL SOLUTIONS. ALL RIGHTS RESERVED.</p>
+        <p class="text-[8px] text-slate-700 max-w-xl mx-auto uppercase tracking-tighter">Case evaluations are preliminary. No attorney-client relationship is formed.</p>
     </footer>
 
     <script>
-        const VCARD_DATA = "BEGIN:VCARD\n" +
-                           "VERSION:3.0\n" +
-                           "FN:JDS Case Specialist\n" +
-                           "ORG:JDS Global Solutions;\n" +
-                           "TEL;TYPE=WORK,VOICE:+18005550199\n" +
-                           "TITLE:Case Evaluation Team\n" +
-                           "URL:https://us-settlement-review.com\n" +
-                           "END:VCARD";
+        window.onload = () => {
+            // 1. Retrieve Data from Storage
+            const score = parseFloat(localStorage.getItem('case_score')) || 7.8;
+            const name = localStorage.getItem('user_name') || 'Client';
+            const state = localStorage.getItem('current_state') || 'california';
 
-        window.onload = function() {
-            // 1. 랜덤 케이스 ID
-            const randomID = 'JDS-' + Math.random().toString(36).substr(2, 4).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
-            document.getElementById('case-id').innerText = randomID;
+            // 2. State-Specific Color Themes
+            const stateThemes = {
+                "california": ["#F59E0B", "#D97706"], // Golden Orange
+                "texas": ["#B91C1C", "#7F1D1D"],      // Lone Star Red
+                "florida": ["#0D9488", "#0F766E"],    // Tropical Teal
+                "georgia": ["#FB923C", "#EA580C"],    // Peach Deep
+                "new_york": ["#334155", "#0F172A"]    // Empire Steel
+            };
 
-            // 2. QR 코드 생성
-            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(VCARD_DATA)}`;
-            const qrImg = document.getElementById('vcard-qr');
-            if(qrImg) qrImg.src = qrUrl;
-        };
+            // 3. UI Content Updates
+            const colors = stateThemes[state] || ["#1E3A8A", "#3B82F6"];
+            document.getElementById('display-name').innerText = name;
+            document.getElementById('display-state').innerText = state.replace('_', ' ');
+            document.getElementById('stop1').setAttribute('stop-color', colors[0]);
+            document.getElementById('stop2').setAttribute('stop-color', colors[1]);
+            
+            const randomRef = Math.random().toString(36).substr(2, 6).toUpperCase();
+            document.getElementById('ref-id').innerText = `REF-${randomRef}`;
+            document.getElementById('priority-id').innerText = `PR-${Math.floor(1000 + Math.random() * 9000)}`;
 
-        function downloadVCard() {
-            try {
-                const blob = new Blob([VCARD_DATA], { type: "text/vcard;charset=utf-8" });
-                const url = window.URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', 'JDS_Specialist.vcf');
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+            // 4. Radial Chart Animation (The Soul)
+            const circle = document.getElementById('score-circle');
+            const scoreText = document.getElementById('score-text');
+            const circumference = 2 * Math.PI * 120; // Matches 'r=120'
+
+            setTimeout(() => {
+                // Calculate Offset
+                const offset = circumference - (score / 10) * circumference;
+                circle.style.strokeDashoffset = offset;
                 
-                setTimeout(() => {
-                    alert("Contact file downloaded. Please open the file to save our ID to your phone.");
-                }, 500);
-            } catch (err) {
-                console.error("Download failed:", err);
-            }
-        }
+                // Text Counter Animation
+                let start = 0;
+                const duration = 2500; // 2.5 seconds for dramatic effect
+                const startTime = performance.now();
+
+                function animate(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // Easing (Cubic Out)
+                    const easedProgress = 1 - Math.pow(1 - progress, 3);
+                    const currentVal = (easedProgress * score).toFixed(1);
+                    
+                    scoreText.innerText = currentVal;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    }
+                }
+                requestAnimationFrame(animate);
+            }, 600);
+        };
     </script>
 </body>
 </html>
