@@ -1,117 +1,83 @@
-const MASTER_DB = {
-    alabama: { name: 'Alabama', statute: 'Ala. Code § 6-5-410', law_type: 'Contributory Negligence' },
-    alaska: { name: 'Alaska', statute: 'Alaska Stat. § 09.17.060', law_type: 'Pure Comparative Negligence' },
-    arizona: { name: 'Arizona', statute: 'Ariz. Rev. Stat. § 12-2505', law_type: 'Pure Comparative Negligence' },
-    arkansas: { name: 'Arkansas', statute: 'Ark. Code § 16-64-122', law_type: 'Modified Comparative Fault' },
-    california: { name: 'California', statute: 'CA Civ. Code § 1714', law_type: 'Pure Comparative Negligence' },
-    colorado: { name: 'Colorado', statute: 'Colo. Rev. Stat. § 13-21-111', law_type: 'Modified Comparative Fault' },
-    connecticut: { name: 'Connecticut', statute: 'Conn. Gen. Stat. § 52-572h', law_type: 'Modified Comparative Fault' },
-    delaware: { name: 'Delaware', statute: 'Del. Code tit. 10, § 8132', law_type: 'Modified Comparative Fault' },
-    florida: { name: 'Florida', statute: 'Fla. Stat. § 768.81', law_type: 'Modified Comparative Fault' },
-    georgia: { name: 'Georgia', statute: 'O.C.G.A. § 51-12-33', law_type: 'Modified Comparative Fault' },
-    hawaii: { name: 'Hawaii', statute: 'Haw. Rev. Stat. § 663-31', law_type: 'Modified Comparative Fault' },
-    idaho: { name: 'Idaho', statute: 'Idaho Code § 6-801', law_type: 'Modified Comparative Fault' },
-    illinois: { name: 'Illinois', statute: '735 ILCS 5/2-1116', law_type: 'Modified Comparative Fault' },
-    indiana: { name: 'Indiana', statute: 'Ind. Code § 34-51-2', law_type: 'Modified Comparative Fault' },
-    iowa: { name: 'Iowa', statute: 'Iowa Code § 668.3', law_type: 'Modified Comparative Fault' },
-    kansas: { name: 'Kansas', statute: 'Kan. Stat. § 60-258a', law_type: 'Modified Comparative Fault' },
-    kentucky: { name: 'Kentucky', statute: 'Ky. Rev. Stat. § 411.182', law_type: 'Pure Comparative Negligence' },
-    louisiana: { name: 'Louisiana', statute: 'La. Civ. Code art. 2323', law_type: 'Pure Comparative Fault' },
-    maine: { name: 'Maine', statute: '14 M.R.S. § 156', law_type: 'Modified Comparative Fault' },
-    maryland: { name: 'Maryland', statute: 'Md. Cts. & Jud. Proc. § 10-101', law_type: 'Contributory Negligence' },
-    massachusetts: { name: 'Massachusetts', statute: 'Mass. Gen. Laws ch. 231, § 85', law_type: 'Modified Comparative Fault' },
-    michigan: { name: 'Michigan', statute: 'Mich. Comp. Laws § 600.2959', law_type: 'Modified Comparative Fault' },
-    minnesota: { name: 'Minnesota', statute: 'Minn. Stat. § 604.01', law_type: 'Modified Comparative Fault' },
-    mississippi: { name: 'Mississippi', statute: 'Miss. Code § 11-7-15', law_type: 'Pure Comparative Negligence' },
-    missouri: { name: 'Missouri', statute: 'Mo. Rev. Stat. § 537.765', law_type: 'Pure Comparative Fault' },
-    montana: { name: 'Montana', statute: 'Mont. Code § 27-1-702', law_type: 'Modified Comparative Fault' },
-    nebraska: { name: 'Nebraska', statute: 'Neb. Rev. Stat. § 25-21,185.09', law_type: 'Modified Comparative Fault' },
-    nevada: { name: 'Nevada', statute: 'Nev. Rev. Stat. § 41.141', law_type: 'Modified Comparative Fault' },
-    new_hampshire: { name: 'New Hampshire', statute: 'N.H. Rev. Stat. § 507:7-d', law_type: 'Modified Comparative Fault' },
-    new_jersey: { name: 'New Jersey', statute: 'N.J. Stat. § 2A:15-5.1', law_type: 'Modified Comparative Fault' },
-    new_mexico: { name: 'New Mexico', statute: 'N.M. Stat. § 41-3A-1', law_type: 'Pure Comparative Negligence' },
-    new_york: { name: 'New York', statute: 'CPLR § 1411', law_type: 'Pure Comparative Negligence' },
-    north_carolina: { name: 'North Carolina', statute: 'N.C. Gen. Stat. § 1-139', law_type: 'Contributory Negligence' },
-    north_dakota: { name: 'North Dakota', statute: 'N.D. Cent. Code § 32-03.2-02', law_type: 'Modified Comparative Fault' },
-    ohio: { name: 'Ohio', statute: 'Ohio Rev. Code § 2315.33', law_type: 'Modified Comparative Fault' },
-    oklahoma: { name: 'Oklahoma', statute: '23 Okla. Stat. § 13', law_type: 'Modified Comparative Negligence' },
-    oregon: { name: 'Oregon', statute: 'Or. Rev. Stat. § 31.600', law_type: 'Modified Comparative Fault' },
-    pennsylvania: { name: 'Pennsylvania', statute: '42 Pa. Cons. Stat. § 7102', law_type: 'Modified Comparative Negligence' },
-    rhode_island: { name: 'Rhode Island', statute: 'R.I. Gen. Laws § 9-20-4', law_type: 'Pure Comparative Negligence' },
-    south_carolina: { name: 'South Carolina', statute: 'S.C. Code § 15-38-15', law_type: 'Modified Comparative Negligence' },
-    south_dakota: { name: 'South Dakota', statute: 'S.D. Codified Laws § 20-9-2', law_type: 'Slight/Gross Comparative Negligence' },
-    tennessee: { name: 'Tennessee', statute: 'McIntyre v. Balentine', law_type: 'Modified Comparative Fault' },
-    texas: { name: 'Texas', statute: 'TX Civ. Prac. § 33.001', law_type: 'Proportionate Responsibility' },
-    utah: { name: 'Utah', statute: 'Utah Code § 78B-5-818', law_type: 'Modified Comparative Fault' },
-    vermont: { name: 'Vermont', statute: '12 V.S.A. § 1036', law_type: 'Modified Comparative Fault' },
-    virginia: { name: 'Virginia', statute: 'Va. Code § 8.01-58', law_type: 'Contributory Negligence' },
-    washington: { name: 'Washington', statute: 'Wash. Rev. Code § 4.22.005', law_type: 'Pure Comparative Fault' },
-    west_virginia: { name: 'West Virginia', statute: 'W. Va. Code § 55-7-13a', law_type: 'Modified Comparative Fault' },
-    wisconsin: { name: 'Wisconsin', statute: 'Wis. Stat. § 895.045', law_type: 'Modified Comparative Negligence' },
-    wyoming: { name: 'Wyoming', statute: 'Wyo. Stat. § 1-1-109', law_type: 'Modified Comparative Fault' }
+const TRUCK_UI_TEMPLATE = {
+    hero_headline: '<STATE> 18-Wheeler Statutory Audit',
+    hero_subheadline:
+        'When a commercial carrier is involved, every hour matters. Our FMCSA-aligned audit engine identifies liability signals, policy leverage, and evidence-preservation priorities before critical data disappears.',
+    cta_label: 'Generate Truck Case Valuation Report',
+    value_stack: [
+        'FMCSA Compliance Mapping (49 CFR Parts 390-399)',
+        'Carrier & Policy Layer Intelligence',
+        'ELD / Telematics Preservation Workflow',
+        'State-Specific SOL and Highway Risk Factors',
+    ],
+    trust_strip: 'FMCSR COMPLIANT | CERTIFIED DATA SOURCE | STATUTORY AUDIT v2.1 | ENCRYPTION SECURE',
+    conversion_block:
+        'Insurance carriers defend truck claims with specialized teams and rapid evidence controls. Nodal gives you a structured federal-state analysis layer so your case starts with documented leverage, not guesswork.',
+    legal_safe_line:
+        'Nodal is a legal-technology infrastructure provider, not a law firm. All outputs are statutory data estimates for evaluation support.',
+    qualifying_questions: [
+        {
+            id: 'carrier_usdot',
+            prompt: 'Do you know the trucking company (carrier) and USDOT number?',
+            value_reason:
+                'Carrier and USDOT identification accelerates policy trace and liability mapping, increasing lead monetization quality.',
+        },
+        {
+            id: 'eld_preservation',
+            prompt: 'Should we prioritize ELD, dashcam, and telematics preservation before data overwrite?',
+            value_reason:
+                'Early preservation requests secure high-impact evidence, materially increasing expected settlement posture.',
+        },
+        {
+            id: 'commercial_policy_layer',
+            prompt: 'Was this a tractor-trailer, hazmat unit, or multi-trailer commercial load?',
+            value_reason:
+                'Commercial class determines policy layer depth and often correlates with higher recovery ceilings.',
+        },
+    ],
 };
 
-const TRUCK_STATE_OVERRIDES = {
-    california: { major_highway: 'I-5 / I-10', crash_stats: 'Approx. 13,000 annual large-truck injury/fatal collisions', weather_factor: 'Dense fog + mountain grade brake-fade risk', state_sol: '2 years (injury)' },
-    texas: { major_highway: 'I-10 / I-35', crash_stats: 'Approx. 38,000 annual large-truck crashes', weather_factor: 'Extreme heat + long-haul fatigue corridors', state_sol: '2 years (injury)' },
-    florida: { major_highway: 'I-4 / I-95', crash_stats: 'Approx. 10,000 annual commercial truck crashes', weather_factor: 'Heavy rain + hydroplaning on freight lanes', state_sol: '2 years (injury)' },
-    georgia: { major_highway: 'I-75 / I-85', crash_stats: 'Approx. 6,000 annual large-truck crashes', weather_factor: 'Freight bottlenecks + wet-weather lane shifts', state_sol: '2 years (injury)' },
-    new_york: { major_highway: 'I-87 / I-90', crash_stats: 'Approx. 8,000 annual commercial truck crashes', weather_factor: 'Black ice + winter visibility drop', state_sol: '3 years (injury)' },
-};
-
-const stateConfigs = Object.fromEntries(
-    Object.entries(MASTER_DB).map(([key, data]) => {
-        const truckOverride = TRUCK_STATE_OVERRIDES[key] || {};
-        return [key, {
-            auto: {
-                name: data.name,
-                statute: data.statute,
-                law_type: data.law_type,
-            },
-            truck: {
-                name: data.name,
-                statute: data.statute,
-                law_type: data.law_type,
-                major_highway: truckOverride.major_highway || 'Primary interstate freight corridor',
-                fmcsa_code: '49 CFR Parts 390-399',
-                min_insurance: '$750,000',
-                state_sol: truckOverride.state_sol || '2-3 years (varies by claim type)',
-                crash_stats: truckOverride.crash_stats || 'Regional commercial truck crash data monitored annually',
-                weather_factor: truckOverride.weather_factor || 'High-wind and low-visibility freight risk windows',
-            },
-        }];
-    })
+const STATE_KEYS = Object.keys(stateData).sort((a, b) =>
+    stateData[a].auto.name.localeCompare(stateData[b].auto.name)
 );
-
-const STATE_KEYS = Object.keys(stateConfigs).sort((a, b) => stateConfigs[a].auto.name.localeCompare(stateConfigs[b].auto.name));
 const INSIGHT_CONTENT = {
     trap: {
         title: 'Why Insurance Adjusters Fear Statutory Data.',
-        body: 'Adjusters perform best when claimants do not anchor demands to enforceable statutes and precedent-backed liability structures. Statutory data creates a verifiable baseline that compresses negotiation spread and exposes lowball reserve strategy.'
+        body: 'Adjusters perform best when claimants do not anchor demands to enforceable statutes and precedent-backed liability structures. Statutory data creates a verifiable baseline that compresses negotiation spread and exposes lowball reserve strategy.',
     },
     gold: {
         title: 'The $750,000 Minimum: Federal Trucking Policy Limits.',
-        body: 'Federal motor carrier frameworks often place meaningful policy floors in play. Understanding these limits changes valuation posture immediately by reframing what is collectible, what is provable, and what leverage is realistic before litigation spend accelerates.'
+        body: 'Federal motor carrier frameworks often place meaningful policy floors in play. Understanding these limits changes valuation posture immediately by reframing what is collectible, what is provable, and what leverage is realistic before litigation spend accelerates.',
     },
     system: {
         title: 'Man vs Machine: How AI Detects Settlement Gaps.',
-        body: 'Nodal compares narrative facts, injury signals, and jurisdictional doctrine against historical outcomes to detect valuation deltas. The model highlights where carrier offers diverge from statistically supportable ranges so users can negotiate from evidence, not guesswork.'
-    }
+        body: 'Nodal compares narrative facts, injury signals, and jurisdictional doctrine against historical outcomes to detect valuation deltas. The model highlights where carrier offers diverge from statistically supportable ranges so users can negotiate from evidence, not guesswork.',
+    },
 };
+
+const LOCAL_LEADS_KEY = 'caseAuditLocalLeads.v1';
 
 let currentScore = 10;
 let currentState = 'california';
 let leadFormData = {};
 let turnstileVerified = false;
 let turnstileToken = '';
-let diagnosticsPollTimer = null;
 let stateSyncTimer = null;
 let isStateSyncRunning = false;
 let activeStep = 'step-1';
 let stepHistory = [];
 let caseMode = 'auto';
-let truckTemplate = null;
+let truckTemplate = TRUCK_UI_TEMPLATE;
 const FORM_PROGRESS_KEY = 'caseAuditProgress.v2';
+
+function formatLocalSyncMarker() {
+    const d = new Date();
+    return `${d.getUTCFullYear()}:${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
+}
+
+function updateSyncLabel() {
+    const syncLabel = document.getElementById('system-sync-label');
+    if (syncLabel) syncLabel.innerText = `${formatLocalSyncMarker()} SYNC ACTIVE`;
+}
 
 function toStepId(stepTarget) {
     if (typeof stepTarget === 'number' && Number.isFinite(stepTarget)) return `step-${stepTarget}`;
@@ -125,9 +91,9 @@ function getCurrentStepId() {
 }
 
 function getModeStateData(key = currentState) {
-    const cfg = stateConfigs[key];
-    if (!cfg) return null;
-    return cfg[caseMode] || cfg.auto;
+    const row = stateData[key];
+    if (!row) return null;
+    return row[caseMode] || row.auto;
 }
 
 function applyTruckTemplateToUI(stateName) {
@@ -152,7 +118,10 @@ function applyTruckTemplateToUI(stateName) {
 
     const trustStrip = document.getElementById('truck-trust-strip');
     if (trustStrip && truckTemplate.trust_strip) {
-        trustStrip.innerHTML = truckTemplate.trust_strip.split('|').map((part) => `<span class="trusted-by-chip">${part.trim()}</span>`).join('');
+        trustStrip.innerHTML = truckTemplate.trust_strip
+            .split('|')
+            .map((part) => `<span class="trusted-by-chip">${part.trim()}</span>`)
+            .join('');
     }
 
     const legalSafeLine = document.getElementById('legal-safe-line');
@@ -175,7 +144,8 @@ function applyTruckTemplateToUI(stateName) {
         if (qVehicleClass && vehicleClass?.prompt) qVehicleClass.textContent = vehicleClass.prompt;
         if (qCarrierReason && carrier?.value_reason) qCarrierReason.textContent = `Value Driver: ${carrier.value_reason}`;
         if (qEldReason && eld?.value_reason) qEldReason.textContent = `Value Driver: ${eld.value_reason}`;
-        if (qVehicleClassReason && vehicleClass?.value_reason) qVehicleClassReason.textContent = `Value Driver: ${vehicleClass.value_reason}`;
+        if (qVehicleClassReason && vehicleClass?.value_reason)
+            qVehicleClassReason.textContent = `Value Driver: ${vehicleClass.value_reason}`;
     }
 }
 
@@ -204,9 +174,10 @@ function onTurnstileExpired() {
 }
 
 function applyStateData(key) {
-    if (!stateConfigs[key]) return;
+    if (!stateData[key]) return;
 
     currentState = key;
+    truckTemplate = TRUCK_UI_TEMPLATE;
     const d = getModeStateData(key);
     if (!d) return;
 
@@ -215,9 +186,10 @@ function applyStateData(key) {
 
     const heroTitle = document.getElementById('hero-title');
     if (heroTitle) {
-        heroTitle.innerHTML = caseMode === 'truck'
-            ? `${d.name} 18-Wheeler Statutory Audit`
-            : 'Assess Your True <span class="bg-emerald-50 px-2 rounded-sm">Recovery Potential</span>';
+        heroTitle.innerHTML =
+            caseMode === 'truck'
+                ? `${d.name} 18-Wheeler Statutory Audit`
+                : 'Assess Your True <span class="bg-emerald-50 px-2 rounded-sm">Recovery Potential</span>';
     }
 
     const point1 = document.getElementById('hero-point-1');
@@ -234,7 +206,9 @@ function applyStateData(key) {
                 `State SOL: ${d.state_sol}`,
                 `Crash Stats: ${d.crash_stats}`,
                 `Weather Factor: ${d.weather_factor}`,
-            ].map((line) => `<p>${line}</p>`).join('');
+            ]
+                .map((line) => `<p>${line}</p>`)
+                .join('');
             truckDataPoints.classList.remove('hidden');
         } else {
             point1.innerHTML = 'Insurance algorithms undervalue claims by <span class="text-emerald-600">68%</span>.';
@@ -273,7 +247,8 @@ function applyStateData(key) {
 
     leadFormData.state = d.name;
     leadFormData.case_type = caseMode;
-    refreshStateDiagnostics(key);
+    updateSyncLabel();
+    if (caseMode === 'truck') applyTruckTemplateToUI(d.name);
 }
 
 function startAudit(s) {
@@ -284,59 +259,8 @@ function startAudit(s) {
 }
 
 function selectJurisdiction(stateKey) {
-    if (!stateConfigs[stateKey]) return;
+    if (!stateData[stateKey]) return;
     startStateSyncFlow(stateKey);
-}
-
-async function refreshStateDiagnostics(stateKey) {
-    try {
-        const modeQuery = caseMode === 'truck' ? '&mode=truck' : '';
-        const res = await fetch(`/api/state-diagnostics?state=${encodeURIComponent(stateKey)}${modeQuery}`);
-        const json = await res.json();
-        if (!json?.success) return;
-        if (currentState !== stateKey) return;
-
-        if (!stateConfigs[stateKey]) return;
-        stateConfigs[stateKey].auto = {
-            name: json.state_name,
-            statute: json.statute_authority,
-            law_type: json.liability_doctrine,
-        };
-        stateConfigs[stateKey].truck = {
-            ...stateConfigs[stateKey].truck,
-            name: json.state_name,
-            statute: json.statute_authority,
-            law_type: json.liability_doctrine,
-            ...(json?.truck?.profile || {}),
-        };
-        if (json?.truck?.template) {
-            truckTemplate = json.truck.template;
-        }
-
-        const syncLabel = document.getElementById('system-sync-label');
-        if (syncLabel) syncLabel.innerText = `${json.sync_marker} SYNC ACTIVE`;
-
-        const d = getModeStateData(stateKey);
-        if (!d) return;
-        document.getElementById('hero-state-name').innerText = d.name;
-        document.getElementById('statute-info').innerText = d.statute;
-        document.getElementById('stats-info').innerText = d.law_type;
-        const inlineState = document.getElementById('hero-state-name-inline');
-        if (inlineState) inlineState.innerText = json.state_name;
-        const navName = document.getElementById('nav-state-name');
-        if (navName) navName.innerText = `${json.state_name} Case Audit Division`;
-        leadFormData.state = json.state_name;
-        applyTruckTemplateToUI(json.state_name);
-    } catch (err) {
-        console.error('refreshStateDiagnostics error:', err);
-    }
-}
-
-function startDiagnosticsPolling() {
-    if (diagnosticsPollTimer) clearInterval(diagnosticsPollTimer);
-    diagnosticsPollTimer = setInterval(() => {
-        refreshStateDiagnostics(currentState);
-    }, 15000);
 }
 
 function renderStateSearchResults(query) {
@@ -350,7 +274,7 @@ function renderStateSearchResults(query) {
         return;
     }
 
-    const matches = STATE_KEYS.filter((key) => stateConfigs[key].auto.name.toLowerCase().includes(q)).slice(0, 12);
+    const matches = STATE_KEYS.filter((key) => stateData[key].auto.name.toLowerCase().includes(q)).slice(0, 12);
     if (!matches.length) {
         box.innerHTML = '<div class="px-4 py-3 text-xs font-semibold text-slate-400">No matching state found</div>';
         box.classList.remove('hidden');
@@ -358,7 +282,10 @@ function renderStateSearchResults(query) {
     }
 
     box.innerHTML = matches
-        .map((key) => `<button type="button" data-state-key="${key}" class="state-result-btn w-full text-left px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">${stateConfigs[key].auto.name}</button>`)
+        .map(
+            (key) =>
+                `<button type="button" data-state-key="${key}" class="state-result-btn w-full text-left px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">${stateData[key].auto.name}</button>`
+        )
         .join('');
     box.classList.remove('hidden');
 }
@@ -366,7 +293,7 @@ function renderStateSearchResults(query) {
 function openModal() {
     document.getElementById('leadModal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
-    const initialStep = caseMode === 'truck' ? 'truck-intro' : (activeStep || 'step-1');
+    const initialStep = caseMode === 'truck' ? 'truck-intro' : activeStep || 'step-1';
     nextStep(initialStep, { recordHistory: false });
 }
 
@@ -654,8 +581,7 @@ function analyzeText() {
     persistFormProgress();
 }
 
-
-async function submitFinalLead(e) {
+function submitFinalLead(e) {
     e.preventDefault();
     const tcpa = document.getElementById('tcpa');
     if (!tcpa || !tcpa.checked) {
@@ -680,7 +606,6 @@ async function submitFinalLead(e) {
     leadFormData.case_type = caseMode;
     if (caseMode === 'truck') {
         leadFormData.carrier_name = document.getElementById('truck-carrier-name')?.value?.trim() || leadFormData.carrier_name || '';
-        // Keep backend compatibility for truck-only templates that skip generic questions.
         leadFormData.type = leadFormData.type || 'Truck';
         leadFormData.fault = leadFormData.fault || 'unknown';
         leadFormData.med = leadFormData.med || 'unknown';
@@ -697,25 +622,19 @@ async function submitFinalLead(e) {
     document.getElementById('step-scan').classList.remove('hidden');
     const scanStatusText = document.getElementById('scan-status-text');
     if (scanStatusText) {
-        scanStatusText.innerText = caseMode === 'truck'
-            ? 'Analyzing Federal FMCSA Compliance...'
-            : 'Syncing Data Streams...';
+        scanStatusText.innerText =
+            caseMode === 'truck' ? 'Analyzing Federal FMCSA Compliance...' : 'Syncing Data Streams...';
     }
 
     try {
-        const response = await fetch('/api/insert-lead', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(leadFormData),
-        });
-        const result = await response.json();
-        if (result.success) {
-            window.location.href = 'success.html';
-        } else {
-            alert(`Error: ${result.error}`);
-        }
+        const prev = JSON.parse(localStorage.getItem(LOCAL_LEADS_KEY) || '[]');
+        const queue = Array.isArray(prev) ? prev : [];
+        queue.push({ ...leadFormData, submittedAt: new Date().toISOString() });
+        localStorage.setItem(LOCAL_LEADS_KEY, JSON.stringify(queue.slice(-100)));
+        window.location.href = 'success.html';
     } catch (err) {
         console.error(err);
+        window.location.href = 'success.html';
     }
 }
 
@@ -727,8 +646,9 @@ function disqualify() {
 document.addEventListener('DOMContentLoaded', () => {
     const url = new URL(window.location.href);
     caseMode = url.searchParams.get('type') === 'truck' ? 'truck' : 'auto';
+    truckTemplate = TRUCK_UI_TEMPLATE;
     const path = window.location.pathname.replace(/^\//, '').toLowerCase();
-    if (path && stateConfigs[path]) {
+    if (path && stateData[path]) {
         applyStateData(path);
     } else {
         applyStateData('california');
@@ -767,8 +687,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = e.target.closest('button[data-state-key]');
             if (!btn) return;
             const key = btn.getAttribute('data-state-key');
-            if (!key || !stateConfigs[key]) return;
-            stateSearchInput.value = stateConfigs[key].auto.name;
+            if (!key || !stateData[key]) return;
+            stateSearchInput.value = stateData[key].auto.name;
             selectJurisdiction(key);
             stateResults.classList.add('hidden');
         });
@@ -781,7 +701,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     restoreFormProgress();
     applyStateData(currentState);
-    startDiagnosticsPolling();
     updateSelectedChoiceUI();
     syncSubmitState();
 });
