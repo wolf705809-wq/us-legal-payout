@@ -1,24 +1,26 @@
+/* 1. 기존 외부 스타일 시트 유지 (절대 삭제 금지) */
 @import url("assets/css/main.css");
 @import url("assets/css/legal.css");
 @import url("assets/css/success-page.css");
 @import url("assets/css/contact-page.css");
 
+/* 2. 전역 변수 설정 */
 :root {
     --nodal-navy: #0B1120;
     --nodal-emerald: #10B981;
     --nodal-slate: #475569;
+    --nodal-gold: #D97706; /* 트럭 모드 전용 강조색 */
     --section-gap: clamp(40px, 8vh, 80px);
 }
 
+/* 3. 기본 레이아웃 및 폰트 */
 body {
     font-family: "Inter", sans-serif;
     color: var(--nodal-slate);
+    transition: background 0.4s ease, color 0.4s ease;
 }
 
-h1,
-h2,
-h3,
-.font-serif {
+h1, h2, h3, .font-serif {
     font-family: "Playfair Display", serif;
 }
 
@@ -28,6 +30,7 @@ main > .flex.flex-col.items-center {
     margin-bottom: var(--section-gap);
 }
 
+/* 4. 그리드 및 박스 디자인 (기존 유지) */
 .state-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -47,116 +50,74 @@ main > .flex.flex-col.items-center {
         0 24px 44px -32px rgba(11, 17, 32, 0.28);
 }
 
+/* 5. 애니메이션 및 버튼 효과 */
 .premium-btn {
     transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1), filter 0.25s ease;
 }
 
-.premium-btn:hover,
-.premium-btn:focus-visible {
-    box-shadow:
-        0 20px 36px -22px rgba(11, 17, 32, 0.6),
-        0 0 0 2px rgba(16, 185, 129, 0.25),
-        0 0 24px rgba(16, 185, 129, 0.35);
+.premium-btn:hover {
     transform: translateY(-1px);
 }
 
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible {
-    outline: 2px solid var(--nodal-emerald);
-    outline-offset: 2px;
-}
+.pulse-3s { animation-duration: 3s; }
+.pulse-2s { animation-duration: 2s; }
+.gauge-initial { width: 10%; }
 
-.pulse-3s {
-    animation-duration: 3s;
-}
+/* 6. 공지사항 및 기타 스타일 (기존 유지) */
+.terms-notice-box { border: 1px solid #E2E8F0; padding: 25px; margin-top: 50px; }
+.trusted-by-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; font-family: "JetBrains Mono", monospace; font-size: 10px; opacity: 0.4; color: #0B1120; margin-top: 40px; }
+.trusted-by-chip { border: 1px solid rgba(71, 85, 105, 0.3); background: rgba(255, 255, 255, 0.7); border-radius: 999px; padding: 6px 12px; }
 
-.pulse-2s {
-    animation-duration: 2s;
-}
+/* ============================================================
+   🚚 0.1% 전략: 프리미엄 트럭 모드 위장 (Truck Mode Overrides)
+   ============================================================ */
 
-.gauge-initial {
-    width: 10%;
-}
-
-.fade-delay-1 {
-    animation-delay: 0.1s;
-}
-
-.fade-delay-2 {
-    animation-delay: 0.2s;
-}
-
-.fade-delay-3 {
-    animation-delay: 0.3s;
-}
-
-.fade-delay-4 {
-    animation-delay: 0.4s;
-}
-
-.terms-notice-box {
-    border: 1px solid #E2E8F0;
-    padding: 25px;
-    margin-top: 50px;
-}
-
-.terms-notice-title {
-    margin-top: 0;
-    color: #B91C1C;
-}
-
-.terms-notice-list {
-    font-size: 13px;
-}
-
-.ccpa-subject-line {
-    font-size: 12px;
-    color: #94A3B8;
-}
-
-.trusted-by-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    opacity: 0.4;
-    color: #0B1120;
-}
-
-.trusted-by-chip {
-    border: 1px solid rgba(71, 85, 105, 0.3);
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 999px;
-    padding: 6px 12px;
-}
-
+/* 트럭 모드 배경: 깊이감 있는 다크 그라데이션 */
 body.truck-mode {
-    background: linear-gradient(180deg, #0B1120 0%, #121826 60%, #111827 100%);
-}
-
-body.truck-mode main,
-body.truck-mode .glass-panel {
-    color: #CBD5E1;
-}
-
-body.truck-mode .glass-panel {
-    background: #111827;
-    border-color: #1F2937;
-}
-
-body.truck-mode #hero-title,
-body.truck-mode #hero-state-name {
+    background: radial-gradient(circle at top, #111827 0%, #0B1120 100%) !important;
     color: #F8FAFC !important;
+}
+
+/* 트럭 모드 전용 유리 패널: 더 어둡고 단단한 느낌 */
+body.truck-mode .glass-panel {
+    background: rgba(17, 24, 39, 0.8) !important;
+    border-color: #1F2937 !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* 텍스트 색상 반전 및 강조 */
+body.truck-mode #hero-title,
+body.truck-mode #hero-state-name,
+body.truck-mode h1, body.truck-mode h2, body.truck-mode h3 {
+    color: #FFFFFF !important;
 }
 
 body.truck-mode #hero-point-1,
 body.truck-mode #hero-point-2,
 body.truck-mode #truck-data-points {
     color: #94A3B8 !important;
+}
+
+/* 트럭 모드 전용 버튼: 신뢰감을 주는 골드/앰버 그라데이션 */
+body.truck-mode .premium-btn,
+body.truck-mode #main-cta-btn {
+    background: linear-gradient(135deg, #B45309 0%, #78350F 100%) !important;
+    border: 1px solid #F59E0B !important;
+    color: #FFFFFF !important;
+}
+
+body.truck-mode .premium-btn:hover {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.4) !important;
+    filter: brightness(1.1);
+}
+
+/* 트럭 모드 하단 신뢰 배지 강조 */
+body.truck-mode .trusted-by-row {
+    opacity: 0.8;
+    color: #FBBF24;
+}
+
+body.truck-mode .trusted-by-chip {
+    background: rgba(30, 41, 59, 0.5);
+    border-color: #B45309;
 }
