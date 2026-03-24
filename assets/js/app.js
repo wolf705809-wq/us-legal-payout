@@ -52,6 +52,20 @@ const MASTER_DB = {
 };
 
 const STATE_KEYS = Object.keys(MASTER_DB).sort((a, b) => MASTER_DB[a].name.localeCompare(MASTER_DB[b].name));
+const INSIGHT_CONTENT = {
+    trap: {
+        title: 'Why Insurance Adjusters Fear Statutory Data.',
+        body: 'Adjusters perform best when claimants do not anchor demands to enforceable statutes and precedent-backed liability structures. Statutory data creates a verifiable baseline that compresses negotiation spread and exposes lowball reserve strategy.'
+    },
+    gold: {
+        title: 'The $750,000 Minimum: Federal Trucking Policy Limits.',
+        body: 'Federal motor carrier frameworks often place meaningful policy floors in play. Understanding these limits changes valuation posture immediately by reframing what is collectible, what is provable, and what leverage is realistic before litigation spend accelerates.'
+    },
+    system: {
+        title: 'Man vs Machine: How AI Detects Settlement Gaps.',
+        body: 'Nodal compares narrative facts, injury signals, and jurisdictional doctrine against historical outcomes to detect valuation deltas. The model highlights where carrier offers diverge from statistically supportable ranges so users can negotiate from evidence, not guesswork.'
+    }
+};
 
 let currentScore = 10;
 let currentState = 'california';
@@ -59,6 +73,10 @@ let leadFormData = {};
 let turnstileVerified = false;
 let turnstileToken = '';
 let diagnosticsPollTimer = null;
+let stateSyncTimer = null;
+let isStateSyncRunning = false;
+let activeStep = 1;
+const FORM_PROGRESS_KEY = 'caseAuditProgress.v2';
 
 function syncSubmitState() {
     const tcpa = document.getElementById('tcpa');
@@ -98,7 +116,7 @@ function applyStateData(key) {
     const heroTitle = document.getElementById('hero-title');
     if (heroTitle) {
         heroTitle.innerHTML =
-            'Calculate Your <span class="gold-text">Case Value</span> & Recovery Potential';
+            'Assess Your True <span class="bg-emerald-50 px-2 rounded-sm">Recovery Potential</span>';
     }
 
     const inlineState = document.getElementById('hero-state-name-inline');
@@ -120,8 +138,7 @@ function startAudit(s) {
 
 function selectJurisdiction(stateKey) {
     if (!MASTER_DB[stateKey]) return;
-    window.history.pushState({}, '', `/${stateKey}`);
-    applyStateData(stateKey);
+    startStateSyncFlow(stateKey);
 }
 
 async function refreshStateDiagnostics(stateKey) {
@@ -138,7 +155,7 @@ async function refreshStateDiagnostics(stateKey) {
         };
 
         const syncLabel = document.getElementById('system-sync-label');
-        if (syncLabel) syncLabel.innerText = `SYSTEM SYNC: ${json.sync_marker}`;
+        if (syncLabel) syncLabel.innerText = `${json.sync_marker} SYNC ACTIVE`;
 
         document.getElementById('hero-state-name').innerText = json.state_name;
         document.getElementById('statute-info').innerText = json.statute_authority;
@@ -187,6 +204,7 @@ function renderStateSearchResults(query) {
 function openModal() {
     document.getElementById('leadModal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+    nextStep(activeStep || 1);
 }
 
 function closeModal() {
@@ -194,19 +212,227 @@ function closeModal() {
     document.body.style.overflow = '';
 }
 
+function openAboutModal() {
+    const modal = document.getElementById('aboutModal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeAboutModal() {
+    const modal = document.getElementById('aboutModal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+function openInsightModal(kind) {
+    const modal = document.getElementById('insightModal');
+    const title = document.getElementById('insight-modal-title');
+    const body = document.getElementById('insight-modal-body');
+    const content = INSIGHT_CONTENT[kind];
+    if (!modal || !title || !body || !content) return;
+    title.innerText = content.title;
+    body.innerText = content.body;
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeInsightModal() {
+    const modal = document.getElementById('insightModal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+function updateSelectedChoiceUI() {
+    const buttons = document.querySelectorAll('[data-choice-key][data-choice-value]');
+    buttons.forEach((btn) => {
+        const key = btn.getAttribute('data-choice-key');
+        const val = btn.getAttribute('data-choice-value');
+        const selected = !!key && !!val && leadFormData[key] === val;
+        btn.classList.toggle('border-emerald-500', selected);
+        btn.classList.toggle('bg-emerald-50', selected);
+        btn.classList.toggle('text-emerald-800', selected);
+        btn.classList.toggle('ring-1', selected);
+        btn.classList.toggle('ring-emerald-200', selected);
+    });
+}
+
+function persistFormProgress() {
+    try {
+        const tcpa = document.getElementById('tcpa');
+        const payload = {
+            activeStep,
+            currentScore,
+            leadFormData,
+            inputs: {
+                narrative: document.getElementById('narrative-box')?.value || '',
+                fName: document.getElementById('fName')?.value || '',
+                lName: document.getElementById('lName')?.value || '',
+                email: document.getElementById('email')?.value || '',
+                userPhone: document.getElementById('userPhone')?.value || '',
+                tcpa: !!tcpa?.checked,
+            },
+        };
+        sessionStorage.setItem(FORM_PROGRESS_KEY, JSON.stringify(payload));
+    } catch {
+        // ignore storage errors
+    }
+}
+
+function restoreFormProgress() {
+    try {
+        const raw = sessionStorage.getItem(FORM_PROGRESS_KEY);
+        if (!raw) return;
+        const saved = JSON.parse(raw);
+        if (!saved || typeof saved !== 'object') return;
+
+        if (saved.leadFormData && typeof saved.leadFormData === 'object') {
+            leadFormData = { ...leadFormData, ...saved.leadFormData };
+        }
+        if (typeof saved.currentScore === 'number') {
+            currentScore = Math.max(0, Math.min(95, saved.currentScore));
+            const gauge = document.getElementById('strength-gauge');
+            if (gauge) gauge.style.width = `${currentScore}%`;
+        }
+        if (saved.inputs && typeof saved.inputs === 'object') {
+            const setValue = (id, value) => {
+                const el = document.getElementById(id);
+                if (el && typeof value === 'string') el.value = value;
+            };
+            setValue('narrative-box', saved.inputs.narrative);
+            setValue('fName', saved.inputs.fName);
+            setValue('lName', saved.inputs.lName);
+            setValue('email', saved.inputs.email);
+            setValue('userPhone', saved.inputs.userPhone);
+            const tcpa = document.getElementById('tcpa');
+            if (tcpa) tcpa.checked = !!saved.inputs.tcpa;
+        }
+        if (typeof saved.activeStep === 'number' && saved.activeStep >= 1 && saved.activeStep <= 8) {
+            activeStep = saved.activeStep;
+        }
+        analyzeText();
+        updateSelectedChoiceUI();
+    } catch {
+        // ignore parse errors
+    }
+}
+
+function resetFlowState() {
+    const stateOnly = leadFormData.state;
+    leadFormData = stateOnly ? { state: stateOnly } : {};
+    currentScore = 10;
+    activeStep = 1;
+    const gauge = document.getElementById('strength-gauge');
+    if (gauge) gauge.style.width = '10%';
+    const fbBox = document.getElementById('ai-feedback-box');
+    if (fbBox) fbBox.classList.add('hidden');
+    const ids = ['narrative-box', 'fName', 'lName', 'email', 'userPhone'];
+    ids.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+    const badges = document.getElementById('keyword-badges');
+    if (badges) badges.innerHTML = '';
+    updateSelectedChoiceUI();
+    sessionStorage.removeItem(FORM_PROGRESS_KEY);
+}
+
+function runStateSyncOverlay(stateKey) {
+    const d = MASTER_DB[stateKey];
+    const overlay = document.getElementById('stateSyncOverlay');
+    const panel = document.getElementById('stateSyncPanel');
+    const ticker = document.getElementById('stateSyncTicker');
+    const progress = document.getElementById('stateSyncProgress');
+    if (!overlay || !panel || !ticker || !progress || !d) return Promise.resolve();
+
+    const l1 = document.getElementById('sync-line-1');
+    const l2 = document.getElementById('sync-line-2');
+    const l3 = document.getElementById('sync-line-3');
+    const l4 = document.getElementById('sync-line-4');
+    const l5 = document.getElementById('sync-line-5');
+    if (l1) l1.innerText = d.statute;
+    if (l2) l2.innerText = d.law_type;
+    if (l3) l3.innerText = `${d.name} 2026 Statute Sync`;
+    if (l4) l4.innerText = 'Independent Data Layer Validation';
+    if (l5) l5.innerText = 'Jurisdiction Signal Verified';
+
+    if (stateSyncTimer) clearTimeout(stateSyncTimer);
+    panel.classList.remove('state-sync-exit');
+    ticker.classList.remove('state-sync-ticker');
+    progress.style.transition = 'none';
+    progress.style.width = '0%';
+    overlay.classList.remove('hidden');
+
+    void ticker.offsetWidth;
+    ticker.classList.add('state-sync-ticker');
+    requestAnimationFrame(() => {
+        progress.style.transition = 'width 0.5s ease-in-out';
+        progress.style.width = '100%';
+    });
+
+    return new Promise((resolve) => {
+        stateSyncTimer = setTimeout(() => {
+            panel.classList.add('state-sync-exit');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                panel.classList.remove('state-sync-exit');
+                resolve();
+            }, 220);
+        }, 500);
+    });
+}
+
+async function startStateSyncFlow(stateKey) {
+    if (isStateSyncRunning) return;
+    isStateSyncRunning = true;
+    try {
+        window.history.pushState({}, '', `/${stateKey}`);
+        applyStateData(stateKey);
+        resetFlowState();
+        await runStateSyncOverlay(stateKey);
+        openModal();
+        nextStep(1);
+    } finally {
+        isStateSyncRunning = false;
+    }
+}
+
 function handleSelect(key, val, next, feedback, bonus) {
     leadFormData[key] = val;
+    updateSelectedChoiceUI();
     currentScore = Math.min(95, currentScore + bonus);
     document.getElementById('strength-gauge').style.width = `${currentScore}%`;
     const fbBox = document.getElementById('ai-feedback-box');
     document.getElementById('ai-feedback-text').innerText = `AI INSIGHT: ${feedback}`;
     fbBox.classList.remove('hidden');
+    persistFormProgress();
     setTimeout(() => nextStep(next), 600);
 }
 
 function nextStep(s) {
     document.querySelectorAll('.step-container').forEach((el) => el.classList.add('hidden'));
     document.getElementById(`step-${s}`).classList.remove('hidden');
+    activeStep = s;
+    updateSelectedChoiceUI();
+    persistFormProgress();
+}
+
+function getCurrentStepNumber() {
+    const visible = document.querySelector('.step-container:not(.hidden)');
+    if (!visible || !visible.id) return 1;
+    const match = visible.id.match(/^step-(\d+)$/);
+    return match ? Number(match[1]) : 1;
+}
+
+function prevStep() {
+    const current = getCurrentStepNumber();
+    if (current <= 1) {
+        closeModal();
+        return;
+    }
+    nextStep(current - 1);
 }
 
 function analyzeText() {
@@ -223,6 +449,7 @@ function analyzeText() {
             badges.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase animate-pulse">✓ ${label}</span>`;
         }
     }
+    persistFormProgress();
 }
 
 
@@ -292,11 +519,22 @@ document.addEventListener('DOMContentLoaded', () => {
             let v = e.target.value.replace(/\D/g, '');
             const m = v.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
             e.target.value = !m[2] ? m[1] : `(${m[1]}) ${m[2]}${m[3] ? `-${m[3]}` : ''}`;
+            persistFormProgress();
         });
     }
 
     const tcpaEl = document.getElementById('tcpa');
-    if (tcpaEl) tcpaEl.addEventListener('change', syncSubmitState);
+    if (tcpaEl) {
+        tcpaEl.addEventListener('change', () => {
+            syncSubmitState();
+            persistFormProgress();
+        });
+    }
+
+    ['narrative-box', 'fName', 'lName', 'email'].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', persistFormProgress);
+    });
 
     const stateSearchInput = document.getElementById('state-search-input');
     const stateResults = document.getElementById('state-search-results');
@@ -320,6 +558,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    restoreFormProgress();
     startDiagnosticsPolling();
+    updateSelectedChoiceUI();
     syncSubmitState();
 });

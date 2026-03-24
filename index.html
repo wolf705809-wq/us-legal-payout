@@ -18,7 +18,7 @@
         s.parentNode.insertBefore(tf, s);
     })();
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body class="flex flex-col min-h-screen">
@@ -31,18 +31,25 @@
     </nav>
 
     <main class="max-w-3xl mx-auto px-6 pt-12 md:pt-24 pb-24 text-center w-full flex-grow">
-        <div class="mb-12">
-            <p class="text-[11px] font-bold text-slate-700 tracking-[0.3em] uppercase mb-5">STATUTORY EVALUATION ENGINE</p>
-            <h1 id="hero-title" class="text-4xl md:text-6xl font-serif font-bold text-slate-900 leading-tight mb-6">
-                Calculate Your <span class="gold-text">Case Value</span> & Recovery Potential
+        <div class="mb-12 relative">
+            <div class="absolute right-0 top-0 hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-200 bg-white text-[11px] font-mono font-semibold text-[#059669]">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#059669] animate-pulse" style="animation-duration: 2s;"></span>
+                <span id="system-sync-label">2026 SYNC ACTIVE</span>
+            </div>
+            <p class="text-[12px] font-semibold text-[#64748B] tracking-[0.25em] uppercase mb-6 text-center">STATUTORY AUDIT ENGINE</p>
+            <h1 id="hero-title" class="text-[52px] md:text-[60px] font-serif font-bold text-[#0F172A] leading-[1.08] tracking-[-0.02em] mb-4">
+                Assess Your True <span class="bg-emerald-50 px-2 rounded-sm">Recovery Potential</span>
             </h1>
-            <p class="text-slate-500 text-lg max-w-xl mx-auto font-medium">
-                Identify your recovery eligibility and case valuation under 2026 <span id="hero-state-name-inline" class="font-bold text-slate-700">California</span> liability frameworks.
+            <p class="text-[#334155] text-[18px] max-w-2xl mx-auto font-medium">
+                Insurance algorithms undervalue claims by <span class="text-emerald-600">68%</span>.
+            </p>
+            <p class="text-[#94A3B8] text-[14px] max-w-2xl mx-auto font-light mt-2">
+                Independent Data Infrastructure | No Law Firm Bias.
             </p>
         </div>
 
         <section class="mb-10 text-left">
-            <label for="state-search-input" class="block text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500 mb-3">Search Your State...</label>
+            <label for="state-search-input" class="block text-sm md:text-base font-semibold uppercase tracking-[0.2em] text-slate-700 mb-3">Search Your State...</label>
             <div class="relative">
                 <input
                     id="state-search-input"
@@ -55,7 +62,7 @@
             </div>
 
             <div class="mt-6">
-                <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500 mb-3">Major Jurisdictions</p>
+                <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500 mb-3">PRIMARY JURISDICTIONS</p>
                 <div class="grid grid-cols-5 gap-2">
                     <button type="button" onclick="selectJurisdiction('california')" class="major-jurisdiction-card">CA</button>
                     <button type="button" onclick="selectJurisdiction('texas')" class="major-jurisdiction-card">TX</button>
@@ -67,14 +74,14 @@
         </section>
 
         <div class="glass-panel p-8 md:p-10 mb-12 text-left relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-1 h-full bg-blue-700"></div>
             <div class="flex justify-between items-center border-b border-slate-100 pb-6 mb-6">
                 <div>
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Active Jurisdiction</p>
                     <h2 id="hero-state-name" class="text-3xl font-serif font-bold text-slate-900">California</h2>
                 </div>
-                <div class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-4 py-2 rounded-full border border-emerald-100 flex items-center gap-2 shadow-sm">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> <span id="system-sync-label">SYSTEM SYNC: 2026:03</span>
+                <div class="text-[11px] font-mono font-semibold text-[#059669] bg-white px-4 py-2 rounded-full border border-emerald-200 flex items-center gap-2 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-[#059669] animate-pulse" style="animation-duration: 2s;"></span>
+                    <span>2026 SYNC ACTIVE</span>
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -128,41 +135,47 @@
 
             <div id="modalBody" class="p-8 overflow-y-auto flex-grow bg-white">
                 <div id="step-1" class="step-container space-y-4">
+                    <button type="button" onclick="closeModal()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
                     <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 01: Classification</p>
                     <h3 class="text-xl font-serif font-bold">Nature of the incident?</h3>
-                    <button type="button" onclick="handleSelect('type', 'Auto', 2, 'Vehicle cases require immediate insurance verification.', 10)" class="option-card w-full text-left">Motor Vehicle Collision</button>
-                    <button type="button" onclick="handleSelect('type', 'Slip', 2, 'Premises liability depends on notice of hazard.', 10)" class="option-card w-full text-left">Premises Liability (Slip & Fall)</button>
+                    <button type="button" onclick="handleSelect('type', 'Auto', 2, 'Vehicle cases require immediate insurance verification.', 10)" data-choice-key="type" data-choice-value="Auto" class="option-card w-full text-left">Motor Vehicle Collision</button>
+                    <button type="button" onclick="handleSelect('type', 'Slip', 2, 'Premises liability depends on notice of hazard.', 10)" data-choice-key="type" data-choice-value="Slip" class="option-card w-full text-left">Premises Liability (Slip & Fall)</button>
                 </div>
 
                 <div id="step-2" class="step-container hidden space-y-4">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
                     <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 02: Liability</p>
                     <h3 class="text-xl font-serif font-bold">Establish fault distribution.</h3>
-                    <button type="button" onclick="handleSelect('fault', 'none', 3, 'Zero liability status significantly enhances recovery.', 25)" class="option-card w-full text-left">0% Liability (Not At Fault)</button>
-                    <button type="button" onclick="handleSelect('fault', 'shared', 3, 'Comparative negligence rules will apply.', 10)" class="option-card w-full text-left">Liability is Disputed / Shared</button>
+                    <button type="button" onclick="handleSelect('fault', 'none', 3, 'Zero liability status significantly enhances recovery.', 25)" data-choice-key="fault" data-choice-value="none" class="option-card w-full text-left">0% Liability (Not At Fault)</button>
+                    <button type="button" onclick="handleSelect('fault', 'shared', 3, 'Comparative negligence rules will apply.', 10)" data-choice-key="fault" data-choice-value="shared" class="option-card w-full text-left">Liability is Disputed / Shared</button>
                 </div>
 
                 <div id="step-3" class="step-container hidden space-y-4">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
                     <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 03: Damages</p>
                     <h3 class="text-xl font-serif font-bold">Detail medical intervention.</h3>
-                    <button type="button" onclick="handleSelect('med', 'er', 4, 'Emergency care visits establish essential causality.', 30)" class="option-card w-full text-left">ER / Hospital Admission</button>
-                    <button type="button" onclick="handleSelect('med', 'later', 4, 'Delayed treatment requires specific documentation.', 10)" class="option-card w-full text-left">Follow-up with Doctor Later</button>
+                    <button type="button" onclick="handleSelect('med', 'er', 4, 'Emergency care visits establish essential causality.', 30)" data-choice-key="med" data-choice-value="er" class="option-card w-full text-left">ER / Hospital Admission</button>
+                    <button type="button" onclick="handleSelect('med', 'later', 4, 'Delayed treatment requires specific documentation.', 10)" data-choice-key="med" data-choice-value="later" class="option-card w-full text-left">Follow-up with Doctor Later</button>
                 </div>
 
                 <div id="step-4" class="step-container hidden space-y-4">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
                     <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 04: Evidence</p>
                     <h3 class="text-xl font-serif font-bold">Was an official report filed?</h3>
-                    <button type="button" onclick="handleSelect('police', 'yes', 5, 'Official reports are considered primary evidence.', 15)" class="option-card w-full text-left">Yes, police report generated</button>
-                    <button type="button" onclick="handleSelect('police', 'no', 5, 'Secondary documentation will be required.', 0)" class="option-card w-full text-left">No / Status Unknown</button>
+                    <button type="button" onclick="handleSelect('police', 'yes', 5, 'Official reports are considered primary evidence.', 15)" data-choice-key="police" data-choice-value="yes" class="option-card w-full text-left">Yes, police report generated</button>
+                    <button type="button" onclick="handleSelect('police', 'no', 5, 'Secondary documentation will be required.', 0)" data-choice-key="police" data-choice-value="no" class="option-card w-full text-left">No / Status Unknown</button>
                 </div>
 
                 <div id="step-5" class="step-container hidden space-y-4">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
                     <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 05: Legal Status</p>
                     <h3 class="text-xl font-serif font-bold">Do you have an active attorney?</h3>
-                    <button type="button" onclick="handleSelect('atty', 'no', 6, 'You are eligible for priority counsel matching.', 10)" class="option-card w-full text-left">No Active Representation</button>
+                    <button type="button" onclick="handleSelect('atty', 'no', 6, 'You are eligible for priority counsel matching.', 10)" data-choice-key="atty" data-choice-value="no" class="option-card w-full text-left">No Active Representation</button>
                     <button type="button" onclick="disqualify()" class="option-card w-full text-left opacity-60">Already Retained Counsel</button>
                 </div>
 
                 <div id="step-6" class="step-container hidden space-y-4">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
                     <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 06: Analysis</p>
                     <h3 class="text-xl font-serif font-bold">Incident Narrative</h3>
                     <textarea id="narrative-box" rows="4" 
@@ -175,6 +188,7 @@
                 </div>
 
                 <div id="step-7" class="step-container hidden space-y-4">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
                     <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Section 07: Verification</p>
                     <h3 class="text-xl font-serif font-bold text-center">Identity Details</h3>
                     <div class="grid grid-cols-2 gap-4">
@@ -193,6 +207,7 @@
                 </div>
 
                 <form id="step-8" class="step-container hidden space-y-4" onsubmit="submitFinalLead(event)">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
                     <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest text-center">Section 08: Security</p>
                     <h3 class="text-xl font-serif font-bold text-center mb-6">Secure Your Assessment</h3>
                     <input type="tel" id="userPhone" placeholder="(555) 555-5555" required class="w-full bg-slate-50 border-2 border-slate-200 px-4 py-5 rounded-xl text-2xl font-bold text-center outline-none tracking-widest focus:border-blue-500">
@@ -215,6 +230,40 @@
             </div>
         </div>
     </div>
+
+    <section class="w-full bg-white pt-14 pb-10 border-t border-slate-200">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center">
+                <p class="text-[10px] font-bold uppercase tracking-[0.28em] text-slate-500">THE NODAL PROTOCOL</p>
+                <h3 class="mt-4 font-serif text-3xl md:text-4xl font-bold text-slate-900">Neutral Infrastructure for Legal Transparency.</h3>
+                <p class="mt-4 max-w-3xl mx-auto text-sm md:text-base text-slate-600 leading-relaxed italic">
+                    Nodal acts as a decentralized data layer, synchronizing federal trucking statutes with real-time incident data to mitigate insurance algorithm bias.
+                </p>
+            </div>
+
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button type="button" onclick="openInsightModal('trap')" class="text-left rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md hover:border-slate-300 transition">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Insights</p>
+                    <p class="font-serif text-xl font-bold text-slate-900 leading-snug">Why Insurance Adjusters Fear Statutory Data.</p>
+                </button>
+                <button type="button" onclick="openInsightModal('gold')" class="text-left rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md hover:border-slate-300 transition">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Intelligence</p>
+                    <p class="font-serif text-xl font-bold text-slate-900 leading-snug">The $750,000 Minimum: Federal Trucking Policy Limits.</p>
+                </button>
+                <button type="button" onclick="openInsightModal('system')" class="text-left rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md hover:border-slate-300 transition">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">System</p>
+                    <p class="font-serif text-xl font-bold text-slate-900 leading-snug">Man vs Machine: How AI Detects Settlement Gaps.</p>
+                </button>
+            </div>
+
+            <div class="mt-10 flex flex-wrap items-center justify-center gap-3 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
+                <span class="px-3 py-1.5 rounded-full border border-slate-200 bg-slate-50/80">Certified Data Source</span>
+                <span class="px-3 py-1.5 rounded-full border border-slate-200 bg-slate-50/80">FMCSR Compliant</span>
+                <span class="px-3 py-1.5 rounded-full border border-slate-200 bg-slate-50/80">Regulatory Trace Verified</span>
+                <span class="px-3 py-1.5 rounded-full border border-slate-200 bg-slate-50/80">Jurisdiction Sync Ready</span>
+            </div>
+        </div>
+    </section>
 
     <footer class="w-full bg-[#050810] text-[#94A3B8] p-12 md:p-20 mt-auto border-t border-slate-800">
         <div class="max-w-6xl mx-auto">
@@ -244,6 +293,67 @@
             </div>
         </div>
     </footer>
+
+    <div id="aboutModal" onclick="closeAboutModal()" class="hidden fixed inset-0 z-[120] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+        <div onclick="event.stopPropagation()" class="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl border border-slate-700 bg-[#050810] text-[#94A3B8] p-6 md:p-8 shadow-2xl">
+            <h3 class="font-serif text-2xl md:text-3xl font-bold text-white mb-2">Precision. Clarity. Nodal.</h3>
+            <p class="text-sm md:text-base text-slate-300 mb-6">Empowering your legal decisions with world-class data intelligence.</p>
+
+            <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-2">[Who We Are]</p>
+            <p class="text-sm leading-relaxed text-slate-300 mb-6">
+                Nodal is at the intersection of law and technology. We provide a state-of-the-art Case Audit Division designed to decode the complexities of personal injury settlements. Using proprietary legal-tech APIs, we analyze tens of thousands of real-world cases and judicial precedents to give you a transparent view of your claim's true value.
+            </p>
+
+            <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-2">[Key Pillars]</p>
+            <div class="space-y-3 text-sm leading-relaxed text-slate-300">
+                <p>* Algorithmic Precision: Our models are built on verified 2026 California settlement data, ensuring your valuation is grounded in current legal reality.</p>
+                <p>* Neutral Intelligence: We aren't a law firm. We are a data provider. Our goal is to provide an unbiased, objective baseline for every user.</p>
+                <p>* End-to-End Security: Your privacy is non-negotiable. Every data point is protected by 256-bit E2EE encryption, ensuring your information remains yours alone.</p>
+            </div>
+
+            <p class="mt-6 text-sm md:text-base font-semibold text-slate-200">Your data, your rights, your value.</p>
+
+            <button
+                type="button"
+                onclick="closeAboutModal()"
+                class="mt-8 w-full md:w-auto px-6 py-3 rounded-md border border-slate-500 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-200 hover:bg-slate-800/40 transition"
+            >
+                Close & Return to Calculator
+            </button>
+        </div>
+    </div>
+
+    <div id="insightModal" onclick="closeInsightModal()" class="hidden fixed inset-0 z-[125] flex items-center justify-center bg-black/65 backdrop-blur-sm p-4">
+        <div onclick="event.stopPropagation()" class="w-full max-w-2xl rounded-2xl border border-slate-200 bg-white text-slate-800 p-6 md:p-8 shadow-2xl">
+            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Insights & Intelligence</p>
+            <h4 id="insight-modal-title" class="font-serif text-2xl md:text-3xl font-bold text-slate-900 mb-4"></h4>
+            <p id="insight-modal-body" class="text-sm md:text-base text-slate-600 leading-relaxed"></p>
+            <button
+                type="button"
+                onclick="closeInsightModal()"
+                class="mt-8 px-5 py-2 rounded-md border border-slate-300 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-700 hover:bg-slate-100 transition"
+            >
+                Close
+            </button>
+        </div>
+    </div>
+
+    <div id="stateSyncOverlay" class="hidden fixed inset-0 z-[130] flex items-center justify-center bg-white/80 backdrop-blur-[10px]">
+        <div id="stateSyncPanel" class="w-full max-w-md px-6 text-center">
+            <div class="h-20 overflow-hidden">
+                <div id="stateSyncTicker" class="state-sync-ticker text-[12px] text-slate-600 font-mono leading-6">
+                    <p id="sync-line-1">CA Civ. Code § 1714</p>
+                    <p id="sync-line-2">Comparative Negligence Framework</p>
+                    <p id="sync-line-3">2026 Statute Sync</p>
+                    <p id="sync-line-4">Data Integrity Check</p>
+                    <p id="sync-line-5">Signal Verified</p>
+                </div>
+            </div>
+            <div class="mx-auto mt-5 h-px w-[150px] bg-slate-100 overflow-hidden">
+                <div id="stateSyncProgress" class="h-px w-0 bg-emerald-500"></div>
+            </div>
+        </div>
+    </div>
 
     <script src="assets/js/app.js"></script>
 </body>
