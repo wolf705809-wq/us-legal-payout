@@ -1,83 +1,118 @@
 <!DOCTYPE html>
-<html lang="en"> <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms of Service | JDS Global Solutions</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* 2. 키보드 사용자를 위한 포커스 가독성 강화 */
-        a:focus, button:focus {
-            outline: 3px solid #2563eb;
-            outline-offset: 2px;
-        }
-    </style>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service | Nodal Statutory Infrastructure</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+--slate-900: #0F172A; /* Heading Authority */
+--slate-600: #475569; /* Body Integrity */
+--emerald-600: #059669; /* Tactical Highlights */
+--slate-50: #F8FAFC; /* Institutional Watermark */
+--mint-line: #10B981;
+}
+
+body {
+margin: 0; padding: 0; background-color: #FFFFFF;
+font-family: 'Inter', sans-serif; color: var(--slate-600);
+letter-spacing: 0.05em; /* 0.1% Authority Spacing */
+overflow-x: hidden;
+}
+
+/* Institutional Watermark */
+body::before {
+content: "NODAL PROTOCOL NODAL PROTOCOL NODAL PROTOCOL";
+position: fixed; top: 50%; left: 50%;
+transform: translate(-50%, -50%) rotate(-45deg);
+font-size: 80px; font-weight: 900; color: var(--slate-50);
+z-index: -1; white-space: nowrap; pointer-events: none; opacity: 0.5;
+}
+
+.statutory-header-line { height: 1px; background: var(--mint-line); width: 100%; position: sticky; top: 0; z-index: 100; }
+.container { max-width: 850px; margin: 100px auto; padding: 0 40px; }
+.protocol-badge { font-family: 'JetBrains Mono'; font-size: 11px; color: var(--emerald-600); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 20px; display: block; }
+h1 { font-family: 'Playfair Display', serif; color: var(--slate-900); font-size: 48px; margin-bottom: 10px; line-height: 1.2; }
+.effective-date { font-size: 13px; color: #94A3B8; margin-bottom: 60px; }
+
+.statutory-alert { background: var(--slate-50); border-left: 3px solid var(--slate-900); padding: 30px; margin-bottom: 50px; }
+.statutory-alert strong { color: var(--slate-900); display: block; margin-bottom: 10px; font-size: 14px; text-transform: uppercase; }
+.highlight { color: var(--emerald-600); font-weight: 600; }
+
+h2 { font-family: 'Playfair Display', serif; color: var(--slate-900); font-size: 26px; margin-top: 60px; margin-bottom: 20px; border-bottom: 1px solid #F1F5F9; padding-bottom: 10px; }
+section { margin-bottom: 40px; }
+p, li { line-height: 1.8; margin-bottom: 16px; }
+
+.footer-nav { margin-top: 120px; padding-top: 40px; border-top: 1px solid #E2E8F0; text-align: center; }
+.btn-return { color: var(--slate-900); text-decoration: none; font-size: 14px; font-weight: 600; border-bottom: 2px solid var(--mint-line); padding-bottom: 4px; }
+</style>
 </head>
-<body class="bg-slate-50 text-slate-800 p-6 md:p-16 font-sans leading-relaxed">
-    
-    <main class="max-w-4xl mx-auto bg-white p-8 md:p-12 border border-slate-200 shadow-lg rounded-sm" role="main">
-        
-        <header class="mb-10 border-b pb-6">
-            <h1 class="text-4xl font-extrabold mb-2 text-slate-900 uppercase tracking-tight">Terms of Service</h1>
-            <p class="text-sm text-slate-500 font-medium tracking-wide">Last Updated: March 23, 2026</p>
-        </header>
+<body>
+<div class="statutory-header-line"></div>
+<div class="container">
+<span class="protocol-badge">Statutory Audit Protocol // v2026.03.24</span>
+<h1>Terms of Service</h1>
+<div class="effective-date">Effective Date: March 24, 2026 | Last Updated: March 24, 2026</div>
 
-        <section class="mb-10 bg-red-50 p-6 border-l-4 border-red-600" aria-labelledby="legal-notice-title">
-            <h2 id="legal-notice-title" class="text-xs font-black text-red-700 uppercase mb-2 tracking-widest">Important Legal Notice: Attorney Advertising</h2>
-            <p class="text-sm text-red-900 leading-snug">
-                This website is a group advertisement and a legal lead generation service. JDS Global Solutions is <strong>NOT a law firm</strong>, a lawyer referral service, or a government agency. We do not provide legal advice.
-            </p>
-        </section>
+<div class="statutory-alert">
+<strong>Mandatory Legal Identification</strong>
+<p>JDS Global Solutions (dba "Nodal") is an <span class="highlight">independent data infrastructure provider</span>. By accessing the Nodal Statutory Audit Engine, you acknowledge that Nodal is <strong>NOT A LAW FIRM</strong>, is not a lawyer referral service, and does not provide legal advice, strategy, or representation. Any use of this platform is subject to the following statutory terms.</p>
+</div>
 
-        <section class="mb-8" aria-labelledby="section-1">
-            <h2 id="section-1" class="text-xl font-bold mb-4 text-slate-900 border-b pb-1">1. No Legal Advice or Representation</h2>
-            <p class="text-sm text-slate-700 mb-4">
-                The "Settlement Calculator" and evaluation tools provided are for <strong>illustrative and informational purposes only</strong>. The estimates generated are not a guarantee of any specific legal outcome.
-            </p>
-        </section>
+<section>
+<h2>1. Infrastructure Access and Utilization</h2>
+<p>Nodal provides a proprietary data layer designed to synchronize real-time federal and state statutes with user-provided incident metadata. Your access to this infrastructure is granted solely for the purpose of personal incident evaluation. Any commercial redistribution, scraping, or automated extraction of our statutory datasets is strictly prohibited.</p>
+</section>
 
-        <section class="mb-8 bg-slate-50 p-6 rounded-md border border-slate-100" aria-labelledby="section-2">
-            <h2 id="section-2" class="text-xl font-bold mb-4 text-slate-900 border-b pb-1">2. TCPA Consent & Communications</h2>
-            <p class="text-sm text-slate-700 font-semibold mb-3">
-                By clicking "Submit", you provide your express written consent to the following:
-            </p>
-            <ul class="list-disc ml-5 text-sm text-slate-700 space-y-2 italic">
-                <li>Consent to be contacted by JDS Global Solutions and our partner law firms via telephone, SMS/MMS, or email.</li>
-                <li>Consent to receive communications via automated dialing systems (ADSP) even if you are on a "Do Not Call" registry.</li>
-            </ul>
-        </section>
+<section>
+<h2>2. No Attorney-Client Relationship</h2>
+<p>The transmission of data through Nodal, and any subsequent evaluation report generated, does <span class="highlight">NOT constitute an attorney-client relationship</span>. Nodal does not evaluate your case with legal "intent" but rather through algorithmic "calibration" against public statutes. For legal representation, you must execute a separate agreement with a licensed legal professional.</p>
+</section>
 
-        <section class="mb-8" aria-labelledby="section-3">
-            <h2 id="section-3" class="text-xl font-bold mb-4 text-slate-900 border-b pb-1">3. Limitation of Liability</h2>
-            <p class="text-sm text-slate-700 uppercase font-bold text-xs mb-2">Read Carefully:</p>
-            <p class="text-sm text-slate-700 italic">
-                IN NO EVENT SHALL JDS GLOBAL SOLUTIONS BE LIABLE FOR ANY INDIRECT, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING FROM YOUR USE OF OUR SERVICES.
-            </p>
-        </section>
+<section>
+<h2>3. Evaluation Accuracy and "68% Gap" Analysis</h2>
+<p>Our "Audit Engine" identifies discrepancies between traditional insurance algorithms and statutory maximums. While we strive for 100% calibration, Nodal does not guarantee that the "Recovery Potential" identified will be the final settlement amount. These figures are <span class="highlight">projections of statutory eligibility</span> and are provided for comparative analysis only.</p>
+</section>
 
-        <section class="mb-8 border-2 border-slate-900 p-6" aria-labelledby="section-4">
-            <h2 id="section-4" class="text-xl font-bold mb-4 text-slate-900 border-b pb-1">4. Dispute Resolution & Mandatory Arbitration</h2>
-            <p class="text-sm text-slate-700 mb-4 font-bold">
-                ANY DISPUTE SHALL BE RESOLVED THROUGH BINDING INDIVIDUAL ARBITRATION. YOU WAIVE YOUR RIGHT TO A JURY TRIAL.
-            </p>
-        </section>
+<section>
+<h2>4. Third-Party Matching Protocol</h2>
+<p>Nodal acts as a bridge between data-validated victims and independent third-party legal providers. Nodal does not endorse, recommend, or "vouch" for any specific attorney. We provide a neutral matching service based on the jurisdictional data synced during your session.</p>
+</section>
 
-        <section class="mb-8 bg-blue-50 p-6 border border-blue-100" aria-labelledby="section-5">
-            <h2 id="section-5" class="text-xl font-bold mb-4 text-blue-900">5. Accessibility Commitment (ADA)</h2>
-            <p class="text-sm text-blue-800 mb-4">
-                JDS Global Solutions is committed to ensuring digital accessibility for people with disabilities. We are continually improving the user experience for everyone and applying the relevant accessibility standards (WCAG 2.1 Level AA).
-            </p>
-            <p class="text-sm text-blue-800">
-                If you encounter any accessibility barriers, please contact us at <span class="font-bold underline">support@jdsglobalsolutions.com</span>.
-            </p>
-        </section>
+<section>
+<h2>5. Communication and TCPA Compliance</h2>
+<p>By initiating a Statutory Audit, you provide express written consent to be contacted by Nodal and its partners. You agree to receive communications via <span class="highlight">automated technology (ADSP)</span>, including pre-recorded voice and SMS/MMS messages, at the number provided. Consent is not a condition of purchase.</p>
+</section>
 
-        <footer class="mt-16 pt-8 border-t text-center space-y-4">
-            <p class="text-xs text-slate-400">© 2026 JDS Global Solutions. All rights reserved.</p>
-            <nav class="flex justify-center space-x-6" aria-label="Footer Navigation">
-                <a href="index.html" class="text-blue-600 font-bold hover:text-blue-800 transition-colors uppercase text-xs tracking-widest">← Back to Evaluation</a>
-                <a href="privacy.html" class="text-slate-500 font-medium hover:underline text-xs tracking-widest uppercase">Privacy Policy</a>
-            </nav>
-        </footer>
-    </main>
+<section>
+<h2>6. Limitation of Liability</h2>
+<p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, JDS GLOBAL SOLUTIONS SHALL NOT BE LIABLE FOR ANY DAMAGES RESULTING FROM YOUR RELIANCE ON THE STATUTORY AUDIT ENGINE. YOU USE THIS SERVICE AT YOUR OWN RISK. ALL EVALUATIONS ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND.</p>
+</section>
+
+<section>
+<h2>7. Binding Arbitration & Class Action Waiver</h2>
+<p>ANY DISPUTE ARISING FROM THESE TERMS SHALL BE RESOLVED THROUGH <span class="highlight">BINDING INDIVIDUAL ARBITRATION</span>. YOU HEREBY WAIVE YOUR CONSTITUTIONAL RIGHT TO A JURY TRIAL AND YOUR RIGHT TO PARTICIPATE IN ANY CLASS-ACTION LITIGATION AGAINST JDS GLOBAL SOLUTIONS.</p>
+</section>
+
+<section>
+<h2>8. Governing Law</h2>
+<p>These terms and the underlying Nodal Protocol are governed by the laws of the State of Delaware, without regard to conflict of law principles. Any legal proceedings not subject to arbitration shall be conducted in the courts of Wilmington, DE.</p>
+</section>
+
+<section style="border: 1px solid #E2E8F0; padding: 25px; margin-top: 50px;">
+    <h2 style="margin-top: 0; color: #B91C1C;">9. Mandatory Pre-Suit Notice & Cure Period</h2>
+    <p><strong>READ CAREFULLY:</strong> Before initiating any legal action, arbitration, or administrative claim (including ADA-related claims) against JDS Global Solutions, you <span class="highlight">MUST</span> provide us with a written <strong>"Notice of Dispute"</strong> at support@jdsglobalsolutions.com.</p>
+    <ul style="font-size: 13px;">
+    <li>You must allow Nodal <strong>sixty (60) days</strong> to resolve or "cure" the alleged issue (the "Cure Period").</li>
+    <li>Failure to provide this notice acts as a <strong>permanent waiver</strong> of your right to seek legal fees or statutory damages in any subsequent proceeding.</li>
+    <li>This provision is designed to prevent "drive-by" or "predatory" litigation by ensuring a good-faith resolution process.</li>
+    </ul>
+    </section>
+
+<div class="footer-nav">
+<a href="/" class="btn-return">Return to Statutory Audit Engine</a>
+</div>
+</div>
 </body>
 </html>
