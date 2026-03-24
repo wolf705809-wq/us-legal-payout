@@ -633,8 +633,13 @@ function handleTruckCarrierStep() {
 }
 
 function analyzeText() {
-    const text = document.getElementById('narrative-box').value.toLowerCase();
+    const narrativeEl = document.getElementById('narrative-box');
     const badges = document.getElementById('keyword-badges');
+    if (!narrativeEl || !badges) {
+        persistFormProgress();
+        return;
+    }
+    const text = narrativeEl.value.toLowerCase();
     const keywords = {
         'rear-ended': 'High Liability',
         hospital: 'Major Damages',
@@ -667,21 +672,28 @@ async function submitFinalLead(e) {
         return;
     }
 
-    leadFormData.fName = document.getElementById('fName').value;
-    leadFormData.lName = document.getElementById('lName').value;
-    leadFormData.email = document.getElementById('email').value;
-    leadFormData.phone = document.getElementById('userPhone').value;
-    leadFormData.narrative = document.getElementById('narrative-box').value;
+    leadFormData.fName = document.getElementById('fName')?.value || '';
+    leadFormData.lName = document.getElementById('lName')?.value || '';
+    leadFormData.email = document.getElementById('email')?.value || '';
+    leadFormData.phone = document.getElementById('userPhone')?.value || '';
+    leadFormData.narrative = document.getElementById('narrative-box')?.value || '';
     leadFormData.case_type = caseMode;
     if (caseMode === 'truck') {
         leadFormData.carrier_name = document.getElementById('truck-carrier-name')?.value?.trim() || leadFormData.carrier_name || '';
+        // Keep backend compatibility for truck-only templates that skip generic questions.
+        leadFormData.type = leadFormData.type || 'Truck';
+        leadFormData.fault = leadFormData.fault || 'unknown';
+        leadFormData.med = leadFormData.med || 'unknown';
+        leadFormData.police = leadFormData.police || 'unknown';
+        leadFormData.atty = leadFormData.atty || 'unknown';
     }
 
     leadFormData.tcpa_checked = true;
     leadFormData['cf-turnstile-response'] = turnstileToken;
     leadFormData.turnstileToken = turnstileToken;
 
-    document.getElementById('step-8').classList.add('hidden');
+    const step8 = document.getElementById('step-8');
+    if (step8) step8.classList.add('hidden');
     document.getElementById('step-scan').classList.remove('hidden');
     const scanStatusText = document.getElementById('scan-status-text');
     if (scanStatusText) {

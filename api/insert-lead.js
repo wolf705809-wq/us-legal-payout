@@ -84,7 +84,10 @@ export default async function handler(req, res) {
         const normalizedType = sanitizeStr(leadData.type, 80);
         const effectiveCaseType = normalizedCaseMode === 'truck' ? 'truck' : (normalizedType || 'auto');
 
-        const required = ['fName', 'lName', 'email', 'state', 'fault', 'med', 'police', 'atty'];
+        const required =
+            normalizedCaseMode === 'truck'
+                ? ['fName', 'lName', 'email', 'state']
+                : ['fName', 'lName', 'email', 'state', 'fault', 'med', 'police', 'atty'];
         for (const key of required) {
             if (!sanitizeStr(leadData[key], 500)) {
                 return res.status(400).json({ success: false, error: 'Missing required fields.' });
