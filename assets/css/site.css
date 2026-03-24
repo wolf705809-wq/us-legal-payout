@@ -24,7 +24,6 @@ body {
 }
 
 .premium-btn {
-    background-color: var(--premium-navy);
     color: white;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
@@ -32,10 +31,29 @@ body {
 }
 
 .premium-btn:hover {
-    background-color: #000;
     border-color: var(--accent-gold);
     transform: translateY(-2px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.major-jurisdiction-card {
+    border: 1px solid #E2E8F0;
+    background: #FFFFFF;
+    color: #0F172A;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.55rem 0.2rem;
+    transition: all 0.2s ease;
+}
+
+.major-jurisdiction-card:hover {
+    border-color: #10B981;
+    color: #047857;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(16, 185, 129, 0.12);
 }
 
 .gold-text {
