@@ -1,0 +1,137 @@
+@import url("assets/css/main.css");
+@import url("assets/css/legal.css");
+@import url("assets/css/success-page.css");
+@import url("assets/css/contact-page.css");
+
+:root {
+    --nodal-navy: #0B1120;
+    --nodal-emerald: #10B981;
+    --nodal-slate: #475569;
+    --section-gap: clamp(40px, 8vh, 80px);
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    color: var(--nodal-slate);
+}
+
+h1,
+h2,
+h3,
+.font-serif {
+    font-family: "Playfair Display", serif;
+}
+
+main > section,
+main > .glass-panel,
+main > .flex.flex-col.items-center {
+    margin-bottom: var(--section-gap);
+}
+
+.state-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+    .state-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+}
+
+.glass-panel,
+.state-card,
+.major-jurisdiction-card {
+    box-shadow:
+        0 1px 2px rgba(11, 17, 32, 0.05),
+        0 10px 24px rgba(11, 17, 32, 0.08),
+        0 24px 44px -32px rgba(11, 17, 32, 0.28);
+}
+
+.premium-btn {
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1), filter 0.25s ease;
+}
+
+.premium-btn:hover,
+.premium-btn:focus-visible {
+    box-shadow:
+        0 20px 36px -22px rgba(11, 17, 32, 0.6),
+        0 0 0 2px rgba(16, 185, 129, 0.25),
+        0 0 24px rgba(16, 185, 129, 0.35);
+    transform: translateY(-1px);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--nodal-emerald);
+    outline-offset: 2px;
+}
+
+.pulse-3s {
+    animation-duration: 3s;
+}
+
+.pulse-2s {
+    animation-duration: 2s;
+}
+
+.gauge-initial {
+    width: 10%;
+}
+
+.fade-delay-1 {
+    animation-delay: 0.1s;
+}
+
+.fade-delay-2 {
+    animation-delay: 0.2s;
+}
+
+.fade-delay-3 {
+    animation-delay: 0.3s;
+}
+
+.fade-delay-4 {
+    animation-delay: 0.4s;
+}
+
+.terms-notice-box {
+    border: 1px solid #E2E8F0;
+    padding: 25px;
+    margin-top: 50px;
+}
+
+.terms-notice-title {
+    margin-top: 0;
+    color: #B91C1C;
+}
+
+.terms-notice-list {
+    font-size: 13px;
+}
+
+.ccpa-subject-line {
+    font-size: 12px;
+    color: #94A3B8;
+}
+
+.trusted-by-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.4;
+    color: #0B1120;
+}
+
+.trusted-by-chip {
+    border: 1px solid rgba(71, 85, 105, 0.3);
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 999px;
+    padding: 6px 12px;
+}
