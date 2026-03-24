@@ -1,0 +1,91 @@
+/* NODAL MAIN INDEX SKELETON v2.0
+Logic: Institutional Trust & Fluid Interaction
+*/
+
+:root {
+    --premium-navy: #0B1120;
+    --premium-blue: #1E3A8A;
+    --emerald-primary: #10B981; /* 2026 SYNC 상징색 */
+    --accent-gold: #C5A059;     /* 포인트 골드 */
+    --slate-bg: #F8FAFC;
+    --section-gap: clamp(40px, 8vh, 80px); /* 화면 크기에 따른 황금 공백 조절 */
+    }
+    
+    body {
+    background-color: var(--slate-bg);
+    font-family: 'Inter', sans-serif;
+    color: #0F172A;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    }
+    
+    /* 섹션 간의 어정쩡한 공백을 황금 비율로 강제 고정 */
+    section {
+    padding: var(--section-gap) 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
+    
+    /* 타이포그래피: PC는 웅장하게, 모바일은 치밀하게 */
+    h1 {
+    font-family: 'Source Serif 4', serif;
+    font-size: clamp(32px, 5vw, 64px);
+    line-height: 1.1;
+    text-align: center;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+    }
+    
+    /* 68% 에메랄드 하이라이트 */
+    .statutory-highlight {
+    background-color: #ECFDF5;
+    color: var(--emerald-primary);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 800;
+    }
+    
+    /* 주(State) 그리드: 모바일 2열 / PC 5열 자동 전환 */
+    .state-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+    margin-top: 32px;
+    }
+    
+    @media (min-width: 768px) {
+    .state-grid { grid-template-columns: repeat(5, 1fr); }
+    }
+    
+    /* 메인 리포트 생성 버튼: 묵직한 클릭감 */
+    .premium-btn {
+    background-color: var(--premium-navy);
+    color: white;
+    width: 100%;
+    max-width: 500px;
+    padding: 22px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 20px 30px -10px rgba(11, 17, 32, 0.4);
+    cursor: pointer;
+    }
+    
+    .premium-btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--emerald-primary);
+    box-shadow: 0 25px 40px -10px rgba(16, 185, 129, 0.25);
+    }
+    
+    /* 모바일 가독성 튜닝 */
+    @media (max-width: 640px) {
+    h1 { text-align: left; padding: 0 20px; }
+    .premium-btn { width: calc(100% - 40px); margin: 0 20px; font-size: 16px; }
+    }
