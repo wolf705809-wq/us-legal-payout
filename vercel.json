@@ -1,7 +1,12 @@
 {
+  "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/((?!api/|.*\\..*).*)",
+      "source": "/truck/:path*",
+      "destination": "/truck/:path*/index.html"
+    },
+    {
+      "source": "/((?!api/|truck/|assets/|.*\\..*).*)",
       "destination": "/index.html"
     }
   ]
