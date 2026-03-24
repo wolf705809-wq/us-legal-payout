@@ -1,0 +1,124 @@
+:root {
+    --premium-navy: #0B1120;
+    --premium-blue: #1E3A8A;
+    --accent-gold: #C5A059;
+    --success-green: #15803d;
+}
+
+body {
+    background-color: #F8FAFC;
+    font-family: 'Inter', sans-serif;
+    color: #0F172A;
+    -webkit-font-smoothing: antialiased;
+}
+
+.font-serif {
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.glass-panel {
+    background: #FFFFFF;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+}
+
+.premium-btn {
+    background-color: var(--premium-navy);
+    color: white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.premium-btn:hover {
+    background-color: #000;
+    border-color: var(--accent-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.gold-text {
+    color: var(--accent-gold);
+}
+
+.progress-gold {
+    background-color: var(--accent-gold);
+}
+
+.option-card {
+    border: 1px solid #E2E8F0;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border-radius: 12px;
+    background: white;
+    padding: 24px;
+    font-weight: 600;
+}
+
+.option-card:hover {
+    border-color: var(--accent-gold);
+    background-color: #F8FAFC;
+    transform: scale(1.01);
+}
+
+.state-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 2rem;
+}
+
+@media (min-width: 768px) {
+    .state-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+.state-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 18px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100px;
+}
+
+.state-card:hover {
+    border-color: var(--accent-gold);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px -5px rgba(197, 160, 89, 0.2);
+}
+
+.state-card .abbr {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--premium-navy);
+    line-height: 1;
+}
+
+.state-card .full-name {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #94A3B8;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.state-card .status-dot {
+    width: 7px;
+    height: 7px;
+    background: #E2E8F0;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.state-card:hover .status-dot {
+    background: var(--accent-gold);
+    box-shadow: 0 0 10px var(--accent-gold);
+}
