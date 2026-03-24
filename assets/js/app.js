@@ -108,7 +108,7 @@ function applyStateData(key) {
     currentState = key;
     const d = MASTER_DB[key];
 
-    document.title = `${d.name} High-Value Case Evaluation | JDS Global`;
+    document.title = `${d.name} High-Value Case Evaluation | Nodal`;
 
     const navName = document.getElementById('nav-state-name');
     if (navName) navName.innerText = `${d.name} Case Audit Division`;
