@@ -135,3 +135,28 @@ textarea:focus-visible {
     border-radius: 999px;
     padding: 6px 12px;
 }
+
+body.truck-mode {
+    background: linear-gradient(180deg, #0B1120 0%, #121826 60%, #111827 100%);
+}
+
+body.truck-mode main,
+body.truck-mode .glass-panel {
+    color: #CBD5E1;
+}
+
+body.truck-mode .glass-panel {
+    background: #111827;
+    border-color: #1F2937;
+}
+
+body.truck-mode #hero-title,
+body.truck-mode #hero-state-name {
+    color: #F8FAFC !important;
+}
+
+body.truck-mode #hero-point-1,
+body.truck-mode #hero-point-2,
+body.truck-mode #truck-data-points {
+    color: #94A3B8 !important;
+}

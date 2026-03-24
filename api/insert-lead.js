@@ -79,11 +79,19 @@ export default async function handler(req, res) {
             return res.status(400).json({ success: false, error: 'Please enter a valid 10-digit US phone number.' });
         }
 
-        const required = ['fName', 'lName', 'email', 'state', 'type', 'fault', 'med', 'police', 'atty'];
+        const uiCaseMode = sanitizeStr(leadData.case_type, 20).toLowerCase();
+        const normalizedCaseMode = uiCaseMode === 'truck' ? 'truck' : 'auto';
+        const normalizedType = sanitizeStr(leadData.type, 80);
+        const effectiveCaseType = normalizedCaseMode === 'truck' ? 'truck' : (normalizedType || 'auto');
+
+        const required = ['fName', 'lName', 'email', 'state', 'fault', 'med', 'police', 'atty'];
         for (const key of required) {
             if (!sanitizeStr(leadData[key], 500)) {
                 return res.status(400).json({ success: false, error: 'Missing required fields.' });
             }
+        }
+        if (!normalizedType && normalizedCaseMode !== 'truck') {
+            return res.status(400).json({ success: false, error: 'Missing required fields.' });
         }
 
         const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
@@ -141,18 +149,33 @@ export default async function handler(req, res) {
         }
         finalScore = Math.max(0, Math.min(10, finalScore));
 
+        const truckingCarrierName = sanitizeStr(leadData.carrier_name, 200);
+        const eldPreservation = sanitizeStr(leadData.eldPreservation, 40).toLowerCase();
+        let narrativeOut = sanitizeStr(leadData.narrative, 8000);
+        if (normalizedCaseMode === 'truck') {
+            detectedTags.push('Truck Mode');
+            if (truckingCarrierName) {
+                detectedTags.push('Carrier Provided');
+                narrativeOut = `${narrativeOut}\n\n[Truck Carrier]: ${truckingCarrierName}`.trim();
+            }
+            if (eldPreservation === 'yes' || eldPreservation === 'no') {
+                detectedTags.push(`ELD Preservation: ${eldPreservation.toUpperCase()}`);
+                narrativeOut = `${narrativeOut}\n[ELD Preservation]: ${eldPreservation}`.trim();
+            }
+        }
+
         const row = {
             first_name: sanitizeStr(leadData.fName, 120),
             last_name: sanitizeStr(leadData.lName, 120),
             email: sanitizeStr(leadData.email, 255),
             phone: phoneDigits,
             state: sanitizeStr(leadData.state, 120),
-            case_type: sanitizeStr(leadData.type, 80),
+            case_type: sanitizeStr(effectiveCaseType, 80),
             fault_status: sanitizeStr(leadData.fault, 80),
             medical_status: sanitizeStr(leadData.med, 80),
             police_report: sanitizeStr(leadData.police, 80),
             has_attorney: sanitizeStr(leadData.atty, 80),
-            narrative: sanitizeStr(leadData.narrative, 8000),
+            narrative: narrativeOut,
             user_ip: sanitizeStr(ip, 45) || null,
             carrier_name: sanitizeStr(carrierName, 120),
             line_type: sanitizeStr(lineType, 40),

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Data-driven statutory case evaluation for injury claims across U.S. jurisdictions.">
     <title>High-Value Case Evaluation | Nodal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -37,12 +38,13 @@
                 <span class="block">Assess Your True</span>
                 <span class="bg-emerald-50 px-2 rounded-sm inline-block mt-1">Recovery Potential</span>
             </h1>
-            <p class="text-[#334155] text-[16px] md:text-[18px] max-w-2xl mx-auto font-medium leading-relaxed">
+            <p id="hero-point-1" class="text-[#334155] text-[16px] md:text-[18px] max-w-2xl mx-auto font-medium leading-relaxed">
                 Insurance algorithms undervalue claims by <span class="text-emerald-600">68%</span>.
             </p>
-            <p class="text-[#94A3B8] text-[13px] md:text-[14px] max-w-2xl mx-auto font-light mt-2 leading-relaxed">
+            <p id="hero-point-2" class="text-[#94A3B8] text-[13px] md:text-[14px] max-w-2xl mx-auto font-light mt-2 leading-relaxed">
                 Independent Data Infrastructure | No Law Firm Bias.
             </p>
+            <div id="truck-data-points" class="hidden mt-4 text-left max-w-2xl mx-auto text-[12px] md:text-[13px] text-slate-600 space-y-2"></div>
         </div>
 
         <section class="mb-7 md:mb-10 text-left">
@@ -95,14 +97,14 @@
 
         <div class="flex flex-col items-center mb-12 md:mb-20">
 
-            <button type="button" onclick="openModal()" 
+            <button id="main-cta-btn" type="button" onclick="openModal()" 
     class="group flex items-center justify-center gap-3 bg-gradient-to-br from-[#1E3A8A] to-[#172554] text-white font-bold text-[14px] md:text-base px-8 md:px-16 py-4 md:py-6 rounded-lg shadow-2xl uppercase tracking-[0.12em] md:tracking-[0.2em] w-full md:w-auto active:scale-95 transition-all border-transparent border-2 hover:border-amber-400 hover:drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]">
 
                 <svg class="w-5 h-5 text-blue-100/80" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path>
                 </svg>
 
-                <span>GENERATE CASE VALUATION REPORT</span>
+                <span id="main-cta-label">GENERATE CASE VALUATION REPORT</span>
             </button>
 
             <div class="mt-4 flex items-center gap-2 text-[#94A3B8] opacity-80">
@@ -137,6 +139,42 @@
                     <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Nature of the incident?</h3>
                     <button type="button" onclick="handleSelect('type', 'Auto', 2, 'Vehicle cases require immediate insurance verification.', 10)" data-choice-key="type" data-choice-value="Auto" class="option-card w-full text-left">Motor Vehicle Collision</button>
                     <button type="button" onclick="handleSelect('type', 'Slip', 2, 'Premises liability depends on notice of hazard.', 10)" data-choice-key="type" data-choice-value="Slip" class="option-card w-full text-left">Premises Liability (Slip & Fall)</button>
+                    <button type="button" onclick="handleSelect('type', 'Truck', 'truck-niche', 'Commercial trucking incidents require carrier and vehicle-class verification.', 14)" data-choice-key="type" data-choice-value="Truck" class="option-card w-full text-left">Commercial Truck Accident</button>
+                </div>
+
+                <div id="step-truck-intro" class="step-container hidden space-y-4">
+                    <button type="button" onclick="closeModal()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Truck Mode: Confirmed</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">18-Wheeler / Commercial Truck case profile confirmed.</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">This flow prioritizes FMCSA compliance, carrier liability, and time-sensitive evidence preservation.</p>
+                    <button type="button" onclick="nextStep('truck-carrier')" class="premium-btn w-full text-left">Continue to Carrier Verification</button>
+                </div>
+
+                <div id="step-truck-carrier" class="step-container hidden space-y-4">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Truck Mode: Carrier Data</p>
+                    <h3 id="truck-q-carrier" class="text-[22px] md:text-xl font-serif font-bold leading-tight">Do you know the trucking company (carrier) name?</h3>
+                    <p id="truck-q-carrier-reason" class="text-[11px] text-slate-500 leading-relaxed">Value Driver: Carrier identification improves policy trace speed and lead quality scoring.</p>
+                    <input type="text" id="truck-carrier-name" placeholder="e.g. Swift Transportation" class="w-full bg-slate-50 border border-slate-200 p-4 rounded outline-none focus:border-blue-500">
+                    <button type="button" onclick="handleTruckCarrierStep()" class="premium-btn w-full text-left">Save Carrier Info</button>
+                </div>
+
+                <div id="step-truck-evidence" class="step-container hidden space-y-4">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Truck Mode: Evidence Preservation</p>
+                    <h3 id="truck-q-eld" class="text-[22px] md:text-xl font-serif font-bold leading-tight">Should we initiate an evidence preservation request for ELD and telematics data?</h3>
+                    <p id="truck-q-eld-reason" class="text-[11px] text-slate-500 leading-relaxed">Value Driver: Preserving ELD/dashcam timelines prevents data loss and increases settlement leverage.</p>
+                    <button type="button" onclick="handleSelect('eldPreservation', 'yes', 2, 'Immediate preservation demand recommended to protect federal log and telematics evidence.', 20)" data-choice-key="eldPreservation" data-choice-value="yes" class="option-card w-full text-left">Yes, initiate ELD evidence preservation</button>
+                    <button type="button" onclick="handleSelect('eldPreservation', 'no', 2, 'Proceeding without preservation request; carrier disclosure timeline risk flagged.', 8)" data-choice-key="eldPreservation" data-choice-value="no" class="option-card w-full text-left">No, proceed without immediate preservation</button>
+                </div>
+
+                <div id="step-truck-niche" class="step-container hidden space-y-4">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Truck Niche: Vehicle Class</p>
+                    <h3 id="truck-q-vehicle-class" class="text-[22px] md:text-xl font-serif font-bold leading-tight">Was the vehicle a 18-wheeler or commercial semi-truck?</h3>
+                    <p id="truck-q-vehicle-class-reason" class="text-[11px] text-slate-500 leading-relaxed">Value Driver: Vehicle class determines commercial policy layers and likely recovery ceiling.</p>
+                    <button type="button" onclick="handleSelect('truckClass', 'semi_18wheeler', 'truck-carrier', 'FMCSR-level carrier profile detected. Policy floor analysis is prioritized.', 18)" data-choice-key="truckClass" data-choice-value="semi_18wheeler" class="option-card w-full text-left">Yes, Semi / 18-Wheeler</button>
+                    <button type="button" onclick="handleSelect('truckClass', 'delivery_van', 'truck-carrier', 'Final-mile commercial profile detected. Route-operator liability weighting applied.', 10)" data-choice-key="truckClass" data-choice-value="delivery_van" class="option-card w-full text-left">No, Delivery Van (Amazon/FedEx)</button>
                 </div>
 
                 <div id="step-2" class="step-container hidden space-y-4">
@@ -222,7 +260,7 @@
 
                 <div id="step-scan" class="hidden py-16 text-center">
                     <div class="animate-spin text-blue-600 mx-auto w-12 h-12 mb-8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg></div>
-                    <h3 class="font-serif font-bold text-xl mb-2">Syncing Data Streams...</h3>
+                    <h3 id="scan-status-text" class="font-serif font-bold text-xl mb-2">Syncing Data Streams...</h3>
                 </div>
             </div>
         </div>
@@ -232,8 +270,8 @@
         <div class="max-w-6xl mx-auto px-6">
             <div class="text-center">
                 <p class="text-[10px] font-bold uppercase tracking-[0.28em] text-slate-500">THE NODAL PROTOCOL</p>
-                <h3 class="mt-4 font-serif text-3xl md:text-4xl font-bold text-slate-900">Neutral Infrastructure for Legal Transparency.</h3>
-                <p class="mt-4 max-w-3xl mx-auto text-sm md:text-base text-slate-600 leading-relaxed italic">
+                <h3 id="truck-conversion-headline" class="mt-4 font-serif text-3xl md:text-4xl font-bold text-slate-900">Neutral Infrastructure for Legal Transparency.</h3>
+                <p id="truck-conversion-copy" class="mt-4 max-w-3xl mx-auto text-sm md:text-base text-slate-600 leading-relaxed italic">
                     Nodal acts as a decentralized data layer, synchronizing federal trucking statutes with real-time incident data to mitigate insurance algorithm bias.
                 </p>
             </div>
@@ -253,7 +291,7 @@
                 </button>
             </div>
 
-            <div class="mt-10 trusted-by-row">
+            <div id="truck-trust-strip" class="mt-10 trusted-by-row">
                 <span class="trusted-by-chip">FMCSR COMPLIANT</span>
                 <span class="trusted-by-chip">CERTIFIED DATA SOURCE</span>
                 <span class="trusted-by-chip">STATUTORY AUDIT v2.1</span>
@@ -285,7 +323,7 @@
                 <a href="disclaimer.html">Evaluation Constraints & Disclosures</a>
             </div>
             <div class="max-w-3xl mx-auto text-center space-y-4 md:space-y-6">
-                <p class="text-[11px] md:text-[10px] text-slate-500 leading-relaxed"><strong>ATTORNEY ADVERTISING:</strong> Nodal is a legal technology and data infrastructure provider. Nodal is not a law firm and does not provide legal advice. No attorney-client relationship is formed by the use of this evaluation engine. All valuations are estimates based on statutory frameworks and do not guarantee financial recovery.</p>
+                <p id="legal-safe-line" class="text-[11px] md:text-[10px] text-slate-500 leading-relaxed"><strong>ATTORNEY ADVERTISING:</strong> Nodal is a legal technology and data infrastructure provider. Nodal is not a law firm and does not provide legal advice. No attorney-client relationship is formed by the use of this evaluation engine. All valuations are estimates based on statutory frameworks and do not guarantee financial recovery.</p>
                 <p class="text-[9px] tracking-[0.4em] font-bold text-slate-600">⊙ 2026 NODAL. ALL RIGHTS RESERVED</p>
             </div>
         </div>

@@ -34,6 +34,7 @@ export default async function handler(req, res) {
     }
 
     try {
+        const mode = String(req.query.mode || '').toLowerCase();
         const { data: profile, error: profileError } = await supabase
             .from('state_profiles')
             .select('state_key, state_name, statute_authority, liability_doctrine, sync_marker, updated_at')
@@ -67,6 +68,25 @@ export default async function handler(req, res) {
                 : '0.0';
         const latestIngest = leadCount > 0 ? leadsData[0].created_at : null;
 
+        let truckProfile = null;
+        let truckTemplate = null;
+        if (mode === 'truck') {
+            const { data: truckData } = await supabase
+                .from('truck_state_profiles')
+                .select('state_key, major_highway, fmcsa_code, min_insurance, state_sol, crash_stats, weather_factor')
+                .eq('state_key', stateKey)
+                .eq('is_active', true)
+                .maybeSingle();
+            truckProfile = truckData || null;
+
+            const { data: templateData } = await supabase
+                .from('truck_content_templates')
+                .select('template_key, hero_headline, hero_subheadline, cta_label, value_stack, trust_strip, conversion_block, legal_safe_line, qualifying_questions')
+                .eq('template_key', 'truck_v1')
+                .maybeSingle();
+            truckTemplate = templateData || null;
+        }
+
         return res.status(200).json({
             success: true,
             state_key: stateKey,
@@ -79,6 +99,10 @@ export default async function handler(req, res) {
                 lead_count: leadCount,
                 avg_ai_score: Number(avgScore),
                 latest_ingest_at: latestIngest,
+            },
+            truck: {
+                profile: truckProfile,
+                template: truckTemplate,
             },
         });
     } catch (err) {

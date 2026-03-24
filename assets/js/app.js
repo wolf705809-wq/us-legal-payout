@@ -51,7 +51,39 @@ const MASTER_DB = {
     wyoming: { name: 'Wyoming', statute: 'Wyo. Stat. § 1-1-109', law_type: 'Modified Comparative Fault' }
 };
 
-const STATE_KEYS = Object.keys(MASTER_DB).sort((a, b) => MASTER_DB[a].name.localeCompare(MASTER_DB[b].name));
+const TRUCK_STATE_OVERRIDES = {
+    california: { major_highway: 'I-5 / I-10', crash_stats: 'Approx. 13,000 annual large-truck injury/fatal collisions', weather_factor: 'Dense fog + mountain grade brake-fade risk', state_sol: '2 years (injury)' },
+    texas: { major_highway: 'I-10 / I-35', crash_stats: 'Approx. 38,000 annual large-truck crashes', weather_factor: 'Extreme heat + long-haul fatigue corridors', state_sol: '2 years (injury)' },
+    florida: { major_highway: 'I-4 / I-95', crash_stats: 'Approx. 10,000 annual commercial truck crashes', weather_factor: 'Heavy rain + hydroplaning on freight lanes', state_sol: '2 years (injury)' },
+    georgia: { major_highway: 'I-75 / I-85', crash_stats: 'Approx. 6,000 annual large-truck crashes', weather_factor: 'Freight bottlenecks + wet-weather lane shifts', state_sol: '2 years (injury)' },
+    new_york: { major_highway: 'I-87 / I-90', crash_stats: 'Approx. 8,000 annual commercial truck crashes', weather_factor: 'Black ice + winter visibility drop', state_sol: '3 years (injury)' },
+};
+
+const stateConfigs = Object.fromEntries(
+    Object.entries(MASTER_DB).map(([key, data]) => {
+        const truckOverride = TRUCK_STATE_OVERRIDES[key] || {};
+        return [key, {
+            auto: {
+                name: data.name,
+                statute: data.statute,
+                law_type: data.law_type,
+            },
+            truck: {
+                name: data.name,
+                statute: data.statute,
+                law_type: data.law_type,
+                major_highway: truckOverride.major_highway || 'Primary interstate freight corridor',
+                fmcsa_code: '49 CFR Parts 390-399',
+                min_insurance: '$750,000',
+                state_sol: truckOverride.state_sol || '2-3 years (varies by claim type)',
+                crash_stats: truckOverride.crash_stats || 'Regional commercial truck crash data monitored annually',
+                weather_factor: truckOverride.weather_factor || 'High-wind and low-visibility freight risk windows',
+            },
+        }];
+    })
+);
+
+const STATE_KEYS = Object.keys(stateConfigs).sort((a, b) => stateConfigs[a].auto.name.localeCompare(stateConfigs[b].auto.name));
 const INSIGHT_CONTENT = {
     trap: {
         title: 'Why Insurance Adjusters Fear Statutory Data.',
@@ -75,8 +107,77 @@ let turnstileToken = '';
 let diagnosticsPollTimer = null;
 let stateSyncTimer = null;
 let isStateSyncRunning = false;
-let activeStep = 1;
+let activeStep = 'step-1';
+let stepHistory = [];
+let caseMode = 'auto';
+let truckTemplate = null;
 const FORM_PROGRESS_KEY = 'caseAuditProgress.v2';
+
+function toStepId(stepTarget) {
+    if (typeof stepTarget === 'number' && Number.isFinite(stepTarget)) return `step-${stepTarget}`;
+    if (typeof stepTarget === 'string') return stepTarget.startsWith('step-') ? stepTarget : `step-${stepTarget}`;
+    return 'step-1';
+}
+
+function getCurrentStepId() {
+    const visible = document.querySelector('.step-container:not(.hidden)');
+    return visible?.id || 'step-1';
+}
+
+function getModeStateData(key = currentState) {
+    const cfg = stateConfigs[key];
+    if (!cfg) return null;
+    return cfg[caseMode] || cfg.auto;
+}
+
+function applyTruckTemplateToUI(stateName) {
+    if (caseMode !== 'truck' || !truckTemplate) return;
+    const headline = (truckTemplate.hero_headline || '').replace('<STATE>', stateName || '');
+    const heroTitle = document.getElementById('hero-title');
+    if (heroTitle && headline) heroTitle.textContent = headline;
+
+    const heroPoint1 = document.getElementById('hero-point-1');
+    if (heroPoint1 && truckTemplate.hero_subheadline) heroPoint1.textContent = truckTemplate.hero_subheadline;
+
+    const ctaLabel = document.getElementById('main-cta-label');
+    if (ctaLabel && truckTemplate.cta_label) ctaLabel.textContent = truckTemplate.cta_label;
+
+    const conversionHeadline = document.getElementById('truck-conversion-headline');
+    if (conversionHeadline && Array.isArray(truckTemplate.value_stack) && truckTemplate.value_stack.length) {
+        conversionHeadline.textContent = truckTemplate.value_stack[0];
+    }
+
+    const conversionCopy = document.getElementById('truck-conversion-copy');
+    if (conversionCopy && truckTemplate.conversion_block) conversionCopy.textContent = truckTemplate.conversion_block;
+
+    const trustStrip = document.getElementById('truck-trust-strip');
+    if (trustStrip && truckTemplate.trust_strip) {
+        trustStrip.innerHTML = truckTemplate.trust_strip.split('|').map((part) => `<span class="trusted-by-chip">${part.trim()}</span>`).join('');
+    }
+
+    const legalSafeLine = document.getElementById('legal-safe-line');
+    if (legalSafeLine && truckTemplate.legal_safe_line) {
+        legalSafeLine.textContent = truckTemplate.legal_safe_line;
+    }
+
+    if (Array.isArray(truckTemplate.qualifying_questions)) {
+        const carrier = truckTemplate.qualifying_questions.find((q) => q.id === 'carrier_usdot');
+        const eld = truckTemplate.qualifying_questions.find((q) => q.id === 'eld_preservation');
+        const vehicleClass = truckTemplate.qualifying_questions.find((q) => q.id === 'commercial_policy_layer');
+        const qCarrier = document.getElementById('truck-q-carrier');
+        const qEld = document.getElementById('truck-q-eld');
+        const qVehicleClass = document.getElementById('truck-q-vehicle-class');
+        const qCarrierReason = document.getElementById('truck-q-carrier-reason');
+        const qEldReason = document.getElementById('truck-q-eld-reason');
+        const qVehicleClassReason = document.getElementById('truck-q-vehicle-class-reason');
+        if (qCarrier && carrier?.prompt) qCarrier.textContent = carrier.prompt;
+        if (qEld && eld?.prompt) qEld.textContent = eld.prompt;
+        if (qVehicleClass && vehicleClass?.prompt) qVehicleClass.textContent = vehicleClass.prompt;
+        if (qCarrierReason && carrier?.value_reason) qCarrierReason.textContent = `Value Driver: ${carrier.value_reason}`;
+        if (qEldReason && eld?.value_reason) qEldReason.textContent = `Value Driver: ${eld.value_reason}`;
+        if (qVehicleClassReason && vehicleClass?.value_reason) qVehicleClassReason.textContent = `Value Driver: ${vehicleClass.value_reason}`;
+    }
+}
 
 function syncSubmitState() {
     const tcpa = document.getElementById('tcpa');
@@ -103,22 +204,66 @@ function onTurnstileExpired() {
 }
 
 function applyStateData(key) {
-    if (!MASTER_DB[key]) return;
+    if (!stateConfigs[key]) return;
 
     currentState = key;
-    const d = MASTER_DB[key];
-
-    document.title = `${d.name} High-Value Case Evaluation | Nodal`;
+    const d = getModeStateData(key);
+    if (!d) return;
 
     const navName = document.getElementById('nav-state-name');
     if (navName) navName.innerText = `${d.name} Case Audit Division`;
 
     const heroTitle = document.getElementById('hero-title');
     if (heroTitle) {
-        heroTitle.innerHTML =
-            'Assess Your True <span class="bg-emerald-50 px-2 rounded-sm">Recovery Potential</span>';
+        heroTitle.innerHTML = caseMode === 'truck'
+            ? `${d.name} 18-Wheeler Statutory Audit`
+            : 'Assess Your True <span class="bg-emerald-50 px-2 rounded-sm">Recovery Potential</span>';
     }
 
+    const point1 = document.getElementById('hero-point-1');
+    const point2 = document.getElementById('hero-point-2');
+    const truckDataPoints = document.getElementById('truck-data-points');
+    if (point1 && point2 && truckDataPoints) {
+        if (caseMode === 'truck') {
+            point1.innerHTML = `Commercial carriers on <strong>${d.major_highway}</strong> are governed by <strong>${d.fmcsa_code}</strong>.`;
+            point2.innerHTML = `Minimum insurance baseline <strong>${d.min_insurance}</strong> | Statute of limitations: <strong>${d.state_sol}</strong>.`;
+            truckDataPoints.innerHTML = [
+                `Major Highway: ${d.major_highway}`,
+                `FMCSA Code: ${d.fmcsa_code}`,
+                `Min Insurance: ${d.min_insurance}`,
+                `State SOL: ${d.state_sol}`,
+                `Crash Stats: ${d.crash_stats}`,
+                `Weather Factor: ${d.weather_factor}`,
+            ].map((line) => `<p>${line}</p>`).join('');
+            truckDataPoints.classList.remove('hidden');
+        } else {
+            point1.innerHTML = 'Insurance algorithms undervalue claims by <span class="text-emerald-600">68%</span>.';
+            point2.innerHTML = 'Independent Data Infrastructure | No Law Firm Bias.';
+            truckDataPoints.classList.add('hidden');
+            truckDataPoints.innerHTML = '';
+        }
+    }
+
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (caseMode === 'truck') {
+        document.title = `${d.name} Truck Accident Evaluation | FMCSA Compliance | Nodal`;
+        if (metaDescription) {
+            metaDescription.setAttribute(
+                'content',
+                `${d.name} 18-wheeler statutory audit with FMCSA Parts 390-399 review, carrier liability analysis, and evidence preservation workflow.`
+            );
+        }
+    } else {
+        document.title = `${d.name} High-Value Case Evaluation | Nodal`;
+        if (metaDescription) {
+            metaDescription.setAttribute(
+                'content',
+                'Data-driven statutory case evaluation for injury claims across U.S. jurisdictions.'
+            );
+        }
+    }
+
+    document.body.classList.toggle('truck-mode', caseMode === 'truck');
     const inlineState = document.getElementById('hero-state-name-inline');
     if (inlineState) inlineState.innerText = d.name;
 
@@ -127,44 +272,61 @@ function applyStateData(key) {
     document.getElementById('stats-info').innerText = d.law_type;
 
     leadFormData.state = d.name;
+    leadFormData.case_type = caseMode;
     refreshStateDiagnostics(key);
 }
 
 function startAudit(s) {
-    window.history.pushState({}, '', `/${s}`);
+    const modeQuery = caseMode === 'truck' ? '?type=truck' : '';
+    window.history.pushState({}, '', `/${s}${modeQuery}`);
     applyStateData(s);
     openModal();
 }
 
 function selectJurisdiction(stateKey) {
-    if (!MASTER_DB[stateKey]) return;
+    if (!stateConfigs[stateKey]) return;
     startStateSyncFlow(stateKey);
 }
 
 async function refreshStateDiagnostics(stateKey) {
     try {
-        const res = await fetch(`/api/state-diagnostics?state=${encodeURIComponent(stateKey)}`);
+        const modeQuery = caseMode === 'truck' ? '&mode=truck' : '';
+        const res = await fetch(`/api/state-diagnostics?state=${encodeURIComponent(stateKey)}${modeQuery}`);
         const json = await res.json();
         if (!json?.success) return;
         if (currentState !== stateKey) return;
 
-        MASTER_DB[stateKey] = {
+        if (!stateConfigs[stateKey]) return;
+        stateConfigs[stateKey].auto = {
             name: json.state_name,
             statute: json.statute_authority,
             law_type: json.liability_doctrine,
         };
+        stateConfigs[stateKey].truck = {
+            ...stateConfigs[stateKey].truck,
+            name: json.state_name,
+            statute: json.statute_authority,
+            law_type: json.liability_doctrine,
+            ...(json?.truck?.profile || {}),
+        };
+        if (json?.truck?.template) {
+            truckTemplate = json.truck.template;
+        }
 
         const syncLabel = document.getElementById('system-sync-label');
         if (syncLabel) syncLabel.innerText = `${json.sync_marker} SYNC ACTIVE`;
 
-        document.getElementById('hero-state-name').innerText = json.state_name;
-        document.getElementById('statute-info').innerText = json.statute_authority;
-        document.getElementById('stats-info').innerText = json.liability_doctrine;
+        const d = getModeStateData(stateKey);
+        if (!d) return;
+        document.getElementById('hero-state-name').innerText = d.name;
+        document.getElementById('statute-info').innerText = d.statute;
+        document.getElementById('stats-info').innerText = d.law_type;
         const inlineState = document.getElementById('hero-state-name-inline');
         if (inlineState) inlineState.innerText = json.state_name;
         const navName = document.getElementById('nav-state-name');
         if (navName) navName.innerText = `${json.state_name} Case Audit Division`;
         leadFormData.state = json.state_name;
+        applyTruckTemplateToUI(json.state_name);
     } catch (err) {
         console.error('refreshStateDiagnostics error:', err);
     }
@@ -188,7 +350,7 @@ function renderStateSearchResults(query) {
         return;
     }
 
-    const matches = STATE_KEYS.filter((key) => MASTER_DB[key].name.toLowerCase().includes(q)).slice(0, 12);
+    const matches = STATE_KEYS.filter((key) => stateConfigs[key].auto.name.toLowerCase().includes(q)).slice(0, 12);
     if (!matches.length) {
         box.innerHTML = '<div class="px-4 py-3 text-xs font-semibold text-slate-400">No matching state found</div>';
         box.classList.remove('hidden');
@@ -196,7 +358,7 @@ function renderStateSearchResults(query) {
     }
 
     box.innerHTML = matches
-        .map((key) => `<button type="button" data-state-key="${key}" class="state-result-btn w-full text-left px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">${MASTER_DB[key].name}</button>`)
+        .map((key) => `<button type="button" data-state-key="${key}" class="state-result-btn w-full text-left px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">${stateConfigs[key].auto.name}</button>`)
         .join('');
     box.classList.remove('hidden');
 }
@@ -204,7 +366,8 @@ function renderStateSearchResults(query) {
 function openModal() {
     document.getElementById('leadModal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
-    nextStep(activeStep || 1);
+    const initialStep = caseMode === 'truck' ? 'truck-intro' : (activeStep || 'step-1');
+    nextStep(initialStep, { recordHistory: false });
 }
 
 function closeModal() {
@@ -264,6 +427,8 @@ function persistFormProgress() {
         const tcpa = document.getElementById('tcpa');
         const payload = {
             activeStep,
+            stepHistory,
+            caseMode,
             currentScore,
             leadFormData,
             inputs: {
@@ -272,6 +437,7 @@ function persistFormProgress() {
                 lName: document.getElementById('lName')?.value || '',
                 email: document.getElementById('email')?.value || '',
                 userPhone: document.getElementById('userPhone')?.value || '',
+                truckCarrierName: document.getElementById('truck-carrier-name')?.value || '',
                 tcpa: !!tcpa?.checked,
             },
         };
@@ -306,11 +472,20 @@ function restoreFormProgress() {
             setValue('lName', saved.inputs.lName);
             setValue('email', saved.inputs.email);
             setValue('userPhone', saved.inputs.userPhone);
+            setValue('truck-carrier-name', saved.inputs.truckCarrierName);
             const tcpa = document.getElementById('tcpa');
             if (tcpa) tcpa.checked = !!saved.inputs.tcpa;
         }
-        if (typeof saved.activeStep === 'number' && saved.activeStep >= 1 && saved.activeStep <= 8) {
-            activeStep = saved.activeStep;
+        if (typeof saved.caseMode === 'string' && (saved.caseMode === 'auto' || saved.caseMode === 'truck')) {
+            caseMode = saved.caseMode;
+        }
+        if (typeof saved.activeStep === 'number') {
+            activeStep = toStepId(saved.activeStep);
+        } else if (typeof saved.activeStep === 'string') {
+            activeStep = toStepId(saved.activeStep);
+        }
+        if (Array.isArray(saved.stepHistory)) {
+            stepHistory = saved.stepHistory.map((s) => toStepId(s)).filter((id) => !!document.getElementById(id));
         }
         analyzeText();
         updateSelectedChoiceUI();
@@ -321,14 +496,15 @@ function restoreFormProgress() {
 
 function resetFlowState() {
     const stateOnly = leadFormData.state;
-    leadFormData = stateOnly ? { state: stateOnly } : {};
+    leadFormData = stateOnly ? { state: stateOnly, case_type: caseMode } : { case_type: caseMode };
     currentScore = 10;
-    activeStep = 1;
+    activeStep = 'step-1';
+    stepHistory = [];
     const gauge = document.getElementById('strength-gauge');
     if (gauge) gauge.style.width = '10%';
     const fbBox = document.getElementById('ai-feedback-box');
     if (fbBox) fbBox.classList.add('hidden');
-    const ids = ['narrative-box', 'fName', 'lName', 'email', 'userPhone'];
+    const ids = ['narrative-box', 'fName', 'lName', 'email', 'userPhone', 'truck-carrier-name'];
     ids.forEach((id) => {
         const el = document.getElementById(id);
         if (el) el.value = '';
@@ -340,7 +516,7 @@ function resetFlowState() {
 }
 
 function runStateSyncOverlay(stateKey) {
-    const d = MASTER_DB[stateKey];
+    const d = getModeStateData(stateKey);
     const overlay = document.getElementById('stateSyncOverlay');
     const panel = document.getElementById('stateSyncPanel');
     const ticker = document.getElementById('stateSyncTicker');
@@ -388,12 +564,12 @@ async function startStateSyncFlow(stateKey) {
     if (isStateSyncRunning) return;
     isStateSyncRunning = true;
     try {
-        window.history.pushState({}, '', `/${stateKey}`);
+        const modeQuery = caseMode === 'truck' ? '?type=truck' : '';
+        window.history.pushState({}, '', `/${stateKey}${modeQuery}`);
         applyStateData(stateKey);
         resetFlowState();
         await runStateSyncOverlay(stateKey);
         openModal();
-        nextStep(1);
     } finally {
         isStateSyncRunning = false;
     }
@@ -408,31 +584,52 @@ function handleSelect(key, val, next, feedback, bonus) {
     document.getElementById('ai-feedback-text').innerText = `AI INSIGHT: ${feedback}`;
     fbBox.classList.remove('hidden');
     persistFormProgress();
-    setTimeout(() => nextStep(next), 600);
+    setTimeout(() => nextStep(next, { recordHistory: true }), 600);
 }
 
-function nextStep(s) {
+function nextStep(s, options = {}) {
+    const { recordHistory = true } = options;
+    const targetStepId = toStepId(s);
+    const targetStepEl = document.getElementById(targetStepId);
+    if (!targetStepEl) return;
+    const currentStepId = getCurrentStepId();
+    if (recordHistory && currentStepId && currentStepId !== targetStepId) {
+        stepHistory.push(currentStepId);
+    }
     document.querySelectorAll('.step-container').forEach((el) => el.classList.add('hidden'));
-    document.getElementById(`step-${s}`).classList.remove('hidden');
-    activeStep = s;
+    targetStepEl.classList.remove('hidden');
+    activeStep = targetStepId;
     updateSelectedChoiceUI();
     persistFormProgress();
 }
 
-function getCurrentStepNumber() {
-    const visible = document.querySelector('.step-container:not(.hidden)');
-    if (!visible || !visible.id) return 1;
-    const match = visible.id.match(/^step-(\d+)$/);
-    return match ? Number(match[1]) : 1;
-}
-
 function prevStep() {
-    const current = getCurrentStepNumber();
-    if (current <= 1) {
+    if (!stepHistory.length) {
         closeModal();
         return;
     }
-    nextStep(current - 1);
+    const previousStepId = stepHistory.pop();
+    nextStep(previousStepId, { recordHistory: false });
+}
+
+function handleTruckCarrierStep() {
+    const carrierInput = document.getElementById('truck-carrier-name');
+    leadFormData.carrier_name = carrierInput?.value?.trim() || '';
+    const feedback = leadFormData.carrier_name
+        ? 'Carrier entity captured. Federal safety history and policy layers can now be profiled.'
+        : 'Carrier name pending. Investigation can proceed with route and unit identifiers.';
+    const bonus = leadFormData.carrier_name ? 12 : 6;
+    currentScore = Math.min(95, currentScore + bonus);
+    const gauge = document.getElementById('strength-gauge');
+    if (gauge) gauge.style.width = `${currentScore}%`;
+    const fbBox = document.getElementById('ai-feedback-box');
+    const fbText = document.getElementById('ai-feedback-text');
+    if (fbBox && fbText) {
+        fbText.innerText = `AI INSIGHT: ${feedback}`;
+        fbBox.classList.remove('hidden');
+    }
+    persistFormProgress();
+    setTimeout(() => nextStep('truck-evidence', { recordHistory: true }), 450);
 }
 
 function analyzeText() {
@@ -457,11 +654,11 @@ async function submitFinalLead(e) {
     e.preventDefault();
     const tcpa = document.getElementById('tcpa');
     if (!tcpa || !tcpa.checked) {
-        alert('FCC 규정에 따라 1:1 매칭 동의가 반드시 필요합니다.');
+        alert('Express written consent is required before submitting your case.');
         return;
     }
     if (!turnstileVerified) {
-        alert('보안 확인을 완료해 주세요.');
+        alert('Please complete the security verification.');
         return;
     }
 
@@ -475,6 +672,10 @@ async function submitFinalLead(e) {
     leadFormData.email = document.getElementById('email').value;
     leadFormData.phone = document.getElementById('userPhone').value;
     leadFormData.narrative = document.getElementById('narrative-box').value;
+    leadFormData.case_type = caseMode;
+    if (caseMode === 'truck') {
+        leadFormData.carrier_name = document.getElementById('truck-carrier-name')?.value?.trim() || leadFormData.carrier_name || '';
+    }
 
     leadFormData.tcpa_checked = true;
     leadFormData['cf-turnstile-response'] = turnstileToken;
@@ -482,6 +683,12 @@ async function submitFinalLead(e) {
 
     document.getElementById('step-8').classList.add('hidden');
     document.getElementById('step-scan').classList.remove('hidden');
+    const scanStatusText = document.getElementById('scan-status-text');
+    if (scanStatusText) {
+        scanStatusText.innerText = caseMode === 'truck'
+            ? 'Analyzing Federal FMCSA Compliance...'
+            : 'Syncing Data Streams...';
+    }
 
     try {
         const response = await fetch('/api/insert-lead', {
@@ -506,8 +713,10 @@ function disqualify() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const url = new URL(window.location.href);
+    caseMode = url.searchParams.get('type') === 'truck' ? 'truck' : 'auto';
     const path = window.location.pathname.replace(/^\//, '').toLowerCase();
-    if (path && MASTER_DB[path]) {
+    if (path && stateConfigs[path]) {
         applyStateData(path);
     } else {
         applyStateData('california');
@@ -531,7 +740,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    ['narrative-box', 'fName', 'lName', 'email'].forEach((id) => {
+    ['narrative-box', 'fName', 'lName', 'email', 'truck-carrier-name'].forEach((id) => {
         const el = document.getElementById(id);
         if (el) el.addEventListener('input', persistFormProgress);
     });
@@ -546,8 +755,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = e.target.closest('button[data-state-key]');
             if (!btn) return;
             const key = btn.getAttribute('data-state-key');
-            if (!key || !MASTER_DB[key]) return;
-            stateSearchInput.value = MASTER_DB[key].name;
+            if (!key || !stateConfigs[key]) return;
+            stateSearchInput.value = stateConfigs[key].auto.name;
             selectJurisdiction(key);
             stateResults.classList.add('hidden');
         });
@@ -559,6 +768,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     restoreFormProgress();
+    applyStateData(currentState);
     startDiagnosticsPolling();
     updateSelectedChoiceUI();
     syncSubmitState();
