@@ -3,6 +3,9 @@
     --premium-blue: #1E3A8A;
     --accent-gold: #C5A059;
     --success-green: #15803d;
+    --emerald-primary: #10B981;
+    --slate-bg: #F8FAFC;
+    --section-gap: clamp(32px, 6vh, 60px);
 }
 
 body {
@@ -10,6 +13,15 @@ body {
     font-family: 'Inter', sans-serif;
     color: #0F172A;
     -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+    font-family: 'Source Serif 4', serif;
+    font-size: clamp(28px, 8vw, 42px);
+    line-height: 1.15;
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 0 10px;
 }
 
 .font-serif {
@@ -24,11 +36,20 @@ body {
 }
 
 .premium-btn {
+    background-color: var(--premium-navy);
     color: white;
+    width: 100%;
+    padding: 20px;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    box-shadow: 0 15px 30px -10px rgba(11, 17, 32, 0.4);
+    border: none;
     transition: all 0.24s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-    border: 1px solid transparent;
     border-radius: 12px;
+    min-height: 52px;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .premium-btn:hover {
@@ -46,7 +67,8 @@ body {
     font-weight: 800;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    padding: 0.48rem 0.2rem;
+    padding: 0.56rem 0.28rem;
+    min-height: 40px;
     transition: all 0.2s ease;
 }
 
@@ -63,6 +85,13 @@ body {
 
 .progress-gold {
     background-color: var(--accent-gold);
+}
+
+.infra-card {
+    padding: 24px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
 }
 
 .option-card {
@@ -83,6 +112,13 @@ body {
 }
 
 @media (max-width: 640px) {
+    h1 {
+        font-size: clamp(26px, 8.2vw, 36px);
+        line-height: 1.12;
+        margin-bottom: 16px;
+        padding: 0 6px;
+    }
+
     .option-card {
         padding: 16px;
         font-size: 0.94rem;
@@ -99,13 +135,34 @@ body {
         padding-bottom: 0.85rem;
         font-size: 0.95rem;
     }
+
+    .premium-btn {
+        padding: 18px;
+        font-size: 15px;
+        letter-spacing: 0.08em;
+    }
+
+    .state-card {
+        padding: 14px 12px;
+        height: 92px;
+    }
+
+    .state-card .abbr {
+        font-size: 1.2rem;
+    }
+
+    .state-card .full-name {
+        font-size: 0.6rem;
+        letter-spacing: 1px;
+    }
 }
 
 .state-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-top: 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+    margin-top: 24px;
 }
 
 @media (min-width: 768px) {
@@ -126,6 +183,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     height: 100px;
+    min-height: 92px;
 }
 
 .state-card:hover {
@@ -190,4 +248,54 @@ body {
 
 .state-sync-exit {
     animation: state-sync-exit 0.22s ease-in-out forwards;
+}
+
+footer p {
+    font-size: 13px;
+    line-height: 1.6;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+    .state-grid {
+        gap: 8px;
+        margin-top: 20px;
+    }
+
+    .major-jurisdiction-card {
+        font-size: 0.65rem;
+        min-height: 36px;
+        padding: 0.5rem 0.2rem;
+    }
+
+    .premium-btn {
+        min-height: 50px;
+        border-radius: 11px;
+    }
+
+    footer p {
+        font-size: 12px;
+        line-height: 1.55;
+        max-width: 94%;
+    }
+}
+
+@media (max-width: 380px) {
+    h1 {
+        font-size: 25px;
+    }
+
+    .state-grid {
+        gap: 7px;
+    }
+
+    .state-card {
+        padding: 12px 10px;
+        height: 88px;
+    }
+
+    .state-card .abbr {
+        font-size: 1.05rem;
+    }
 }

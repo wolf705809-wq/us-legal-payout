@@ -1,6 +1,4 @@
-/* NODAL STATUTORY PROTOCOL v2.0
-Logic: Institutional Integrity & Watermark Defense
-*/
+/* NODAL PROTOCOL - MOBILE OPTIMIZED v2.1 */
 
 :root {
     --slate-900: #0F172A;
@@ -23,9 +21,9 @@ Logic: Institutional Integrity & Watermark Defense
     content: "NODAL PROTOCOL";
     position: fixed; top: 50%; left: 50%;
     transform: translate(-50%, -50%) rotate(-45deg);
-    font-size: clamp(60px, 10vw, 120px);
+    font-size: 15vw;
     font-weight: 900;
-    color: rgba(15, 23, 42, 0.03);
+    color: rgba(15, 23, 42, 0.02);
     z-index: -1;
     pointer-events: none;
     white-space: nowrap;
@@ -43,23 +41,24 @@ Logic: Institutional Integrity & Watermark Defense
     /* 본문 컨테이너: 가독성을 위해 가로폭 제한 */
     .container {
     max-width: 850px;
-    margin: clamp(40px, 10vh, 100px) auto;
-    padding: 0 24px;
+    margin: 0 auto;
+    padding: 40px 20px;
     }
     
     h1 {
     font-family: 'Playfair Display', serif;
     color: var(--slate-900);
-    font-size: clamp(32px, 5vw, 48px);
-    margin-bottom: 40px;
+    font-size: clamp(26px, 7vw, 36px);
+    margin-bottom: 30px;
     line-height: 1.2;
     }
     
     /* 중요 고지 박스: 차가운 감성 */
     .statutory-alert {
     background: #F8FAFC;
-    border-left: 3px solid var(--slate-900);
-    padding: clamp(20px, 4vw, 32px);
+    border-left: 4px solid var(--slate-900);
+    padding: 20px;
+    font-size: 14px;
     margin-bottom: 40px;
     }
     
@@ -69,7 +68,43 @@ Logic: Institutional Integrity & Watermark Defense
     line-height: 1.8;
     margin-bottom: 16px;
     }
+
+    li {
+    font-size: 15px;
+    margin-bottom: 14px;
+    color: var(--slate-600);
+    }
     
     @media (max-width: 640px) {
-    .container { margin: 40px auto; }
+    .container {
+    margin: 28px auto;
+    padding: 30px 16px;
+    }
+
+    h1 {
+    font-size: clamp(24px, 7.2vw, 32px);
+    line-height: 1.22;
+    margin-bottom: 22px;
+    }
+
+    p, li {
+    font-size: 14px;
+    line-height: 1.75;
+    margin-bottom: 12px;
+    }
+
+    .statutory-alert {
+    padding: 16px;
+    margin-bottom: 24px;
+    }
+    }
+
+    @media (max-width: 380px) {
+    body::before {
+    font-size: 18vw;
+    }
+
+    .container {
+    padding: 24px 14px;
+    }
     }
