@@ -13,6 +13,7 @@ body {
     font-family: 'Inter', sans-serif;
     color: #0F172A;
     -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.015em;
 }
 
 h1 {
@@ -22,6 +23,7 @@ h1 {
     text-align: center;
     margin-bottom: 20px;
     padding: 0 10px;
+    letter-spacing: -0.015em;
 }
 
 .font-serif {
@@ -30,8 +32,12 @@ h1 {
 
 .glass-panel {
     background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    box-shadow: 0 18px 40px -24px rgba(15, 23, 42, 0.22);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    outline: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.05),
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 20px 25px -5px rgba(0, 0, 0, 0.05);
     border-radius: 14px;
 }
 
@@ -45,7 +51,7 @@ h1 {
     text-transform: uppercase;
     box-shadow: 0 15px 30px -10px rgba(11, 17, 32, 0.4);
     border: none;
-    transition: all 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
     border-radius: 12px;
     min-height: 52px;
@@ -56,6 +62,11 @@ h1 {
     border-color: var(--accent-gold);
     transform: translateY(-1px);
     box-shadow: 0 14px 24px -14px rgba(15, 23, 42, 0.35);
+}
+
+.premium-btn:active {
+    transform: translateY(0) scale(0.98);
+    filter: brightness(0.95);
 }
 
 .major-jurisdiction-card {
@@ -69,7 +80,8 @@ h1 {
     text-transform: uppercase;
     padding: 0.56rem 0.28rem;
     min-height: 40px;
-    transition: all 0.2s ease;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-tap-highlight-color: transparent;
 }
 
 .major-jurisdiction-card:hover {
@@ -96,19 +108,32 @@ h1 {
 
 .option-card {
     border: 1px solid #E2E8F0;
-    transition: all 0.2s ease;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
     border-radius: 10px;
     background: white;
     padding: 18px 20px;
     font-weight: 600;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.05),
+        0 10px 15px -3px rgba(0, 0, 0, 0.08),
+        0 20px 25px -5px rgba(0, 0, 0, 0.04);
 }
 
 .option-card:hover {
     border-color: var(--accent-gold);
     background-color: #FAFCFF;
     transform: translateY(-1px);
-    box-shadow: 0 10px 22px -16px rgba(15, 23, 42, 0.28);
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.06),
+        0 12px 18px -4px rgba(15, 23, 42, 0.12),
+        0 22px 28px -6px rgba(0, 0, 0, 0.06);
+}
+
+.option-card:active {
+    transform: translateY(0) scale(0.98);
+    filter: brightness(0.95);
 }
 
 @media (max-width: 640px) {
@@ -120,7 +145,7 @@ h1 {
     }
 
     .option-card {
-        padding: 16px;
+        padding: 20px 18px;
         font-size: 0.94rem;
         line-height: 1.45;
     }
@@ -171,12 +196,24 @@ h1 {
     }
 }
 
+@keyframes state-card-shimmer {
+    0% {
+        transform: translateX(-120%) skewX(-10deg);
+    }
+    100% {
+        transform: translateX(220%) skewX(-10deg);
+    }
+}
+
 .state-card {
+    position: relative;
+    overflow: hidden;
     background: #FFFFFF;
-    border: 1px solid #E2E8F0;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    outline: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 12px;
     padding: 18px;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
     text-align: left;
     display: flex;
@@ -184,12 +221,50 @@ h1 {
     justify-content: space-between;
     height: 100px;
     min-height: 92px;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.05),
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 20px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+.state-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(
+        100deg,
+        transparent 0%,
+        rgba(197, 160, 89, 0.07) 45%,
+        rgba(255, 255, 255, 0.12) 50%,
+        rgba(197, 160, 89, 0.07) 55%,
+        transparent 100%
+    );
+    pointer-events: none;
+    opacity: 0;
+}
+
+.state-card > * {
+    position: relative;
+    z-index: 1;
 }
 
 .state-card:hover {
     border-color: var(--accent-gold);
     transform: translateY(-5px);
-    box-shadow: 0 15px 30px -5px rgba(197, 160, 89, 0.2);
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.06),
+        0 12px 20px -4px rgba(197, 160, 89, 0.15),
+        0 24px 32px -6px rgba(0, 0, 0, 0.08);
+}
+
+.state-card:hover::after {
+    opacity: 1;
+    animation: state-card-shimmer 5.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
 .state-card .abbr {
@@ -212,7 +287,7 @@ h1 {
     height: 7px;
     background: #E2E8F0;
     border-radius: 50%;
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .state-card:hover .status-dot {

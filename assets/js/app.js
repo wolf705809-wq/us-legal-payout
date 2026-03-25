@@ -180,6 +180,25 @@ function buildTruckRiskSignalHtml(truckRow) {
     return `<span class="block font-semibold text-slate-800 leading-snug">${law}</span><span class="block mt-2 pt-2 border-t border-slate-200/80"><span class="text-[10px] font-bold uppercase tracking-widest ${accent}">Live risk synthesis</span><span class="block text-[12px] md:text-sm text-slate-600 mt-1"><span class="font-semibold text-slate-800">Settlement complexity:</span> ${cx}</span><span class="block text-[12px] md:text-sm text-slate-600 mt-1 leading-relaxed"><span class="font-semibold text-slate-800">Carrier tactic signal:</span> ${ct}</span></span>`;
 }
 
+function animateContentSwap({ el, update, addScanLine = false }) {
+    if (!el) return;
+    el.classList.remove('content-shimmer');
+    el.classList.remove('scan-line-flash');
+    el.classList.add('opacity-0');
+
+    requestAnimationFrame(() => {
+        update();
+        requestAnimationFrame(() => {
+            el.classList.remove('opacity-0');
+            el.classList.add('content-shimmer');
+            if (addScanLine) {
+                el.classList.add('scan-line-flash');
+                window.setTimeout(() => el.classList.remove('scan-line-flash'), 320);
+            }
+        });
+    });
+}
+
 function _syncGlobalUI(d, mode) {
     const navName = document.getElementById('nav-state-name');
     if (navName) navName.innerText = `${d.name} Case Audit Division`;
@@ -302,8 +321,13 @@ function applyAutoPageShell(d) {
         point2.innerHTML = 'Neutral Legal-Tech Infrastructure | 2026 Statutory Database Sync';
     }
     if (truckDataPoints) {
-        truckDataPoints.classList.add('hidden');
-        truckDataPoints.innerHTML = '';
+        animateContentSwap({
+            el: truckDataPoints,
+            update: () => {
+                truckDataPoints.classList.add('hidden');
+                truckDataPoints.innerHTML = '';
+            },
+        });
     }
 
     const ctaLabel = document.getElementById('main-cta-label');
@@ -326,17 +350,22 @@ function applyTruckPageShell(d) {
         const minInsurance = resolveTruckRowField(d, 'min_insurance');
         point1.innerHTML = `Commercial carriers on <strong>${d.major_highway}</strong> are governed by <strong>${fmcsaCode}</strong>.`;
         point2.innerHTML = `Minimum insurance baseline <strong>${minInsurance}</strong> | Statute of limitations: <strong>${d.state_sol}</strong>.`;
-        truckDataPoints.innerHTML = [
-            `Major Highway: ${d.major_highway}`,
-            `FMCSA Code: ${fmcsaCode}`,
-            `Min Insurance: ${minInsurance}`,
-            `State SOL: ${d.state_sol}`,
-            `Crash Stats: ${d.crash_stats}`,
-            `Weather Factor: ${d.weather_factor}`,
-        ]
-            .map((line) => `<p>${line}</p>`)
-            .join('');
-        truckDataPoints.classList.remove('hidden');
+        animateContentSwap({
+            el: truckDataPoints,
+            update: () => {
+                truckDataPoints.innerHTML = [
+                    `Major Highway: ${d.major_highway}`,
+                    `FMCSA Code: ${fmcsaCode}`,
+                    `Min Insurance: ${minInsurance}`,
+                    `State SOL: ${d.state_sol}`,
+                    `Crash Stats: ${d.crash_stats}`,
+                    `Weather Factor: ${d.weather_factor}`,
+                ]
+                    .map((line) => `<p>${line}</p>`)
+                    .join('');
+                truckDataPoints.classList.remove('hidden');
+            },
+        });
     }
 
     _syncGlobalUI(d, 'truck');
@@ -371,11 +400,22 @@ function applyStateData(key) {
     if (statsEl) {
         if (caseMode === 'truck' && row?.truck) {
             const t = row.truck;
-            statsEl.innerHTML = buildTruckRiskSignalHtml(t);
+            animateContentSwap({
+                el: statsEl,
+                addScanLine: true,
+                update: () => {
+                    statsEl.innerHTML = buildTruckRiskSignalHtml(t);
+                },
+            });
             leadFormData.settlement_complexity = t.settlement_complexity || '';
             leadFormData.carrier_tactic = t.carrier_tactic || '';
         } else {
-            statsEl.textContent = d.law_type;
+            animateContentSwap({
+                el: statsEl,
+                update: () => {
+                    statsEl.textContent = d.law_type;
+                },
+            });
             delete leadFormData.settlement_complexity;
             delete leadFormData.carrier_tactic;
         }
@@ -683,8 +723,9 @@ function runStateSyncOverlay(stateKey) {
 
     void ticker.offsetWidth;
     ticker.classList.add('state-sync-ticker');
+    const SYNC_MS = 150;
     requestAnimationFrame(() => {
-        progress.style.transition = 'width 0.5s ease-in-out';
+        progress.style.transition = `width ${SYNC_MS}ms ${'cubic-bezier(0.16, 1, 0.3, 1)'}`;
         progress.style.width = '100%';
     });
 
@@ -695,8 +736,8 @@ function runStateSyncOverlay(stateKey) {
                 overlay.classList.add('hidden');
                 panel.classList.remove('state-sync-exit');
                 resolve();
-            }, 220);
-        }, 500);
+            }, 160);
+        }, SYNC_MS);
     });
 }
 
@@ -937,8 +978,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const stateSearchInput = document.getElementById('state-search-input');
     const stateResults = document.getElementById('state-search-results');
     if (stateSearchInput && stateResults) {
-        stateSearchInput.addEventListener('focus', (e) => renderStateSearchResults(e.target.value));
-        stateSearchInput.addEventListener('input', (e) => renderStateSearchResults(e.target.value));
+        let rafToken = 0;
+        const scheduleRender = (value) => {
+            if (rafToken) cancelAnimationFrame(rafToken);
+            rafToken = requestAnimationFrame(() => {
+                rafToken = 0;
+                renderStateSearchResults(value);
+            });
+        };
+        stateSearchInput.addEventListener('focus', (e) => scheduleRender(e.target.value));
+        stateSearchInput.addEventListener('input', (e) => scheduleRender(e.target.value));
 
         stateResults.addEventListener('click', (e) => {
             const btn = e.target.closest('button[data-state-key]');
