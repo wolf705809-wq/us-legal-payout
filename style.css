@@ -316,7 +316,7 @@ body.truck-mode.is-scrolling .glass-panel {
     letter-spacing: -0.03em;
     font-size: clamp(1.25rem, 3.2vw, 1.6rem);
     line-height: 1.12;
-    color: #0F172A !important;
+    color: #000000 !important;
 }
 
 #leadModal .step-container p,
@@ -324,53 +324,117 @@ body.truck-mode.is-scrolling .glass-panel {
     font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 }
 
-/* Comfort Mint — unified system note + AI insight */
-#value-driver-tip,
-#ai-feedback-box {
-    background: rgba(16, 185, 129, 0.04);
-    border: 1px solid rgba(16, 185, 129, 0.12) !important;
-    border-radius: 12px;
-    padding: 10px 12px;
+/* Legal ledger — data feed strips (no mint fill; status-bar density) */
+#leadModal #ai-feedback-box.audit-feed-strip,
+#leadModal #value-driver-tip.audit-system-strip {
+    background: #ffffff !important;
+    border: none !important;
+    border-top: 1px solid #e5e7eb !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    border-radius: 0;
+    padding: 6px 0;
+    margin-left: 0;
+    margin-right: 0;
     will-change: opacity;
     transform: translateZ(0);
 }
 
-#value-driver-tip {
-    color: rgba(15, 23, 42, 0.88);
+#leadModal #value-driver-tip.audit-system-strip {
+    color: rgba(15, 23, 42, 0.88) !important;
 }
 
-#ai-feedback-text {
+#leadModal .audit-feed-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+#leadModal .audit-led-pulse {
+    width: 6px;
+    height: 6px;
+    margin-top: 0.35em;
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: #10b981;
+    box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.35), 0 0 8px rgba(16, 185, 129, 0.65);
+    animation: audit-led-blink 1.15s ease-in-out infinite;
+    will-change: opacity;
+    transform: translateZ(0);
+}
+
+@keyframes audit-led-blink {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.28;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #leadModal .audit-led-pulse {
+        animation: none;
+        opacity: 1;
+    }
+}
+
+#leadModal #ai-feedback-text.audit-feed-text {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: #0f172a !important;
+    text-transform: uppercase;
+    line-height: 1.35;
+}
+
+#leadModal #value-driver-tip .system-note-label {
     font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     font-weight: 800;
-    letter-spacing: 0.08em;
-    color: #0F172A !important;
-    text-transform: uppercase;
-}
-
-#value-driver-tip .system-note-label {
-    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-weight: 900;
-    letter-spacing: 0.10em;
-    color: #0F172A !important;
+    letter-spacing: 0.1em;
+    color: #0f172a !important;
     margin-right: 6px;
 }
 
-/* CALIFORNIA STATUTORY SYNC — same Comfort Mint fill */
-#leadModal .audit-banner--comfort-mint {
-    background: rgba(16, 185, 129, 0.04) !important;
-    border: 1px solid rgba(16, 185, 129, 0.12) !important;
+/* Sole mint accent: slim sync pill */
+#leadModal .audit-sync-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    max-width: 100%;
+    padding: 6px 12px;
+    border-radius: 9999px;
+    background: rgba(16, 185, 129, 0.08) !important;
+    border: 1px solid rgba(16, 185, 129, 0.22) !important;
+    box-shadow: none;
 }
 
-#leadModal .audit-banner--comfort-mint .audit-sync-headline {
+#leadModal .audit-sync-pill__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: #10b981;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+#leadModal .audit-sync-pill__label {
     font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     font-weight: 800;
-    letter-spacing: 0.18em;
-    color: #0F172A !important;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    color: #0f172a !important;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-#leadModal .audit-banner--comfort-mint .audit-sync-sub {
-    font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-    color: #334155 !important;
+#leadModal .audit-question-hero {
+    padding: 1.25rem 0 0.75rem;
+    margin-top: 0.75rem;
 }
 
 /* Interactive nodes: faint emerald glow on hover */
@@ -385,27 +449,28 @@ body.truck-mode.is-scrolling .glass-panel {
     border-color: rgba(16, 185, 129, 0.35) !important;
 }
 
-/* Luxury Navy & Gold — primary CTAs (questionnaire + hero) */
-#leadModal .premium-btn:not(.bg-slate-950):not(.bg-slate-900),
+/* Luxury Navy + gilded edge + white label (questionnaire + hero) */
+#leadModal .premium-btn.audit-primary-cta:not(.bg-slate-950):not(.bg-slate-900),
 body:not(.truck-pseo-page) #main-cta-btn {
-    background: #0F172A !important;
-    border: 2px solid #D4AF37 !important;
-    color: #FBBF24 !important;
+    background: #0f172a !important;
+    border: 1px solid #d4af37 !important;
+    color: #ffffff !important;
     font-weight: 800 !important;
-    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.35);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.28);
 }
 
-#leadModal .premium-btn:not(.bg-slate-950):not(.bg-slate-900):hover,
+#leadModal .premium-btn.audit-primary-cta:not(.bg-slate-950):not(.bg-slate-900):hover,
 body:not(.truck-pseo-page) #main-cta-btn:hover {
-    filter: brightness(1.06);
+    filter: brightness(1.05);
     box-shadow:
-        0 6px 22px rgba(15, 23, 42, 0.45),
-        0 0 24px rgba(212, 175, 55, 0.22);
+        0 6px 24px rgba(15, 23, 42, 0.4),
+        0 0 0 1px rgba(212, 175, 55, 0.45),
+        0 0 28px rgba(212, 175, 55, 0.28);
 }
 
-#leadModal .premium-btn:not(.bg-slate-950):not(.bg-slate-900) *,
+#leadModal .premium-btn.audit-primary-cta:not(.bg-slate-950):not(.bg-slate-900) *,
 body:not(.truck-pseo-page) #main-cta-btn * {
-    color: #FBBF24 !important;
+    color: #ffffff !important;
 }
 
 #leadModal #submit-btn:disabled {
@@ -516,16 +581,29 @@ body:not(.truck-pseo-page) #main-cta-btn * {
     color: #FDF2E9 !important;
 }
 
-/* Federal audit: keep system labels readable on navy */
-#leadModal #lead-modal-card.is-federal-audit .audit-section-label,
-#leadModal #lead-modal-card.is-federal-audit #ai-feedback-text,
-#leadModal #lead-modal-card.is-federal-audit .system-note-label,
-#leadModal #lead-modal-card.is-federal-audit .audit-banner--comfort-mint .audit-sync-headline {
-    color: #FBBF24 !important;
+/* Federal audit: ledger strips + labels on navy card */
+#leadModal #lead-modal-card.is-federal-audit #ai-feedback-box.audit-feed-strip,
+#leadModal #lead-modal-card.is-federal-audit #value-driver-tip.audit-system-strip {
+    background: rgba(11, 17, 32, 0.92) !important;
+    border-top-color: rgba(212, 175, 55, 0.22) !important;
+    border-bottom-color: rgba(212, 175, 55, 0.22) !important;
 }
 
-#leadModal #lead-modal-card.is-federal-audit .audit-banner--comfort-mint .audit-sync-sub {
-    color: rgba(253, 242, 233, 0.88) !important;
+#leadModal #lead-modal-card.is-federal-audit #value-driver-tip.audit-system-strip {
+    color: rgba(253, 242, 233, 0.92) !important;
+}
+
+#leadModal #lead-modal-card.is-federal-audit .audit-section-label,
+#leadModal #lead-modal-card.is-federal-audit #ai-feedback-text,
+#leadModal #lead-modal-card.is-federal-audit #ai-feedback-text.audit-feed-text,
+#leadModal #lead-modal-card.is-federal-audit .system-note-label,
+#leadModal #lead-modal-card.is-federal-audit .audit-sync-pill__label {
+    color: #fbbf24 !important;
+}
+
+#leadModal #lead-modal-card.is-federal-audit .premium-btn.audit-primary-cta,
+#leadModal #lead-modal-card.is-federal-audit .premium-btn.audit-primary-cta * {
+    color: #ffffff !important;
 }
 
 /* Preserve intentional white text on primary dark actions */

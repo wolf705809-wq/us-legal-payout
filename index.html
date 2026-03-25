@@ -184,6 +184,32 @@
     100% { transform: translateY(240%); opacity: 0; }
 }
 
+/* Light-gray audit scan (once when modal is shown) */
+@keyframes ledger-scanline-once {
+    0% { transform: translateY(-100%); opacity: 0; }
+    12% { opacity: 1; }
+    100% { transform: translateY(120%); opacity: 0; }
+}
+
+#leadModal.flex #lead-modal-card.ledger-modal-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 44px;
+    pointer-events: none;
+    z-index: 30;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(203, 213, 225, 0.35) 48%,
+        rgba(203, 213, 225, 0.12) 50%,
+        transparent 100%
+    );
+    animation: ledger-scanline-once 1.05s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 .federal-audit-scan-once::after {
     content: "";
     position: absolute;
@@ -217,17 +243,13 @@
     border-color: rgba(212, 175, 55, 0.35) !important;
 }
 
-#lead-modal-card.is-federal-audit .audit-banner--comfort-mint {
-    background: rgba(16, 185, 129, 0.04) !important;
-    border: 1px solid rgba(16, 185, 129, 0.12) !important;
+#lead-modal-card.is-federal-audit .audit-sync-pill {
+    background: rgba(16, 185, 129, 0.1) !important;
+    border: 1px solid rgba(16, 185, 129, 0.28) !important;
 }
 
-#lead-modal-card.is-federal-audit .audit-banner--comfort-mint .audit-sync-headline {
+#lead-modal-card.is-federal-audit .audit-sync-pill__label {
     color: #FBBF24 !important;
-}
-
-#lead-modal-card.is-federal-audit .audit-banner--comfort-mint .audit-sync-sub {
-    color: rgba(253, 242, 233, 0.9) !important;
 }
 
 #lead-modal-card.is-federal-audit .text-slate-500,
@@ -249,22 +271,25 @@
     </main>
 
     <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 text-slate-900">
-        <div id="lead-modal-card" class="w-full max-w-xl bg-white shadow-2xl rounded-t-2xl md:rounded-xl flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden text-slate-900">
-            <div class="px-5 md:px-8 py-5 md:py-6 border-b border-slate-100 bg-white sticky top-0 z-10">
-                <div class="flex justify-between items-center mb-4">
+        <div id="lead-modal-card" class="ledger-modal-card relative w-full max-w-[min(100%,26rem)] md:max-w-[28rem] mx-auto bg-white shadow-2xl rounded-t-2xl md:rounded-xl flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden text-slate-900">
+            <div class="px-5 md:px-8 py-4 md:py-5 border-b border-slate-100 bg-white sticky top-0 z-10">
+                <div class="flex justify-between items-center mb-3">
                     <h3 id="lead-modal-title" class="font-serif font-bold text-xl">Case Intake Audit</h3>
                     <button type="button" onclick="closeModal()" class="text-slate-400 hover:text-slate-800 p-2" aria-label="Close">✕</button>
                 </div>
-                <div id="ai-feedback-box" class="mb-4 hidden">
-                    <p id="ai-feedback-text"></p>
+                <div id="ai-feedback-box" class="audit-feed-strip mb-2 hidden">
+                    <div class="audit-feed-row">
+                        <span class="audit-led-pulse" aria-hidden="true"></span>
+                        <p id="ai-feedback-text" class="audit-feed-text m-0"></p>
+                    </div>
                 </div>
-                <p id="value-driver-tip" class="mb-4 text-[11px] font-semibold hidden"></p>
+                <p id="value-driver-tip" class="audit-system-strip mb-3 text-[11px] font-semibold hidden"></p>
                 <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
                     <div id="strength-gauge" class="bg-blue-600 h-full transition-all duration-700 gauge-initial"></div>
                 </div>
             </div>
 
-            <div id="modalBody" class="audit-flow-shell p-5 md:p-8 overflow-y-auto flex-grow bg-white text-slate-900">
+            <div id="modalBody" class="audit-flow-shell px-5 md:px-10 py-8 md:py-12 overflow-y-auto flex-grow bg-white text-slate-900">
                 <div id="step-1" class="step-container space-y-4">
                     <button type="button" onclick="closeModal()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
                     <p class="audit-section-label text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 01: Classification</p>
@@ -274,16 +299,19 @@
                     <button type="button" onclick="handleSelect('classification', 'Other', 2, 'General incident pathway selected. The audit will focus on statutory floor + damages verification.', 0)" data-choice-key="classification" data-choice-value="Other" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">Other Incident Type</button>
                 </div>
 
-                <div id="step-2" class="step-container hidden space-y-4">
+                <div id="step-2" class="step-container hidden space-y-5">
                     <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
                     <p class="audit-section-label text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 02: Jurisdiction</p>
-                    <div class="audit-banner audit-banner--comfort-mint rounded-xl px-4 py-3">
-                        <p class="audit-sync-headline text-[10px] font-extrabold tracking-[0.18em] uppercase">CALIFORNIA STATUTORY SYNC ACTIVE</p>
-                        <p class="audit-sync-sub mt-1 text-[12px] font-semibold">Confirm jurisdiction: <span id="audit-jurisdiction-label" class="font-bold">California</span></p>
+                    <div class="audit-sync-pill">
+                        <span class="audit-sync-pill__dot" aria-hidden="true"></span>
+                        <span class="audit-sync-pill__label">CALIFORNIA STATUTORY SYNC ACTIVE</span>
                     </div>
-                    <h3 class="audit-question-title text-[22px] md:text-xl font-serif font-bold leading-tight">Confirm Jurisdiction</h3>
-                    <p class="text-[12px] text-slate-600 leading-relaxed">This audit executes against the active jurisdiction’s statutory floor and comparative framework.</p>
-                    <button type="button" onclick="nextStep(3)" class="premium-btn w-full py-4 rounded uppercase tracking-widest bg-gradient-to-br from-[#1E3A8A] to-[#172554] hover:from-[#172554] hover:to-[#0F172A]">Confirm & Execute Audit</button>
+                    <div class="audit-question-hero">
+                        <h3 class="audit-question-title text-[22px] md:text-xl font-serif font-bold leading-tight">Confirm Jurisdiction</h3>
+                        <p class="text-[12px] text-slate-600 leading-relaxed mt-4">This audit executes against the active jurisdiction’s statutory floor and comparative framework.</p>
+                        <p class="text-[11px] text-slate-500 font-mono mt-3 tracking-tight">Jurisdiction: <span id="audit-jurisdiction-label" class="font-semibold text-slate-800">California</span></p>
+                    </div>
+                    <button type="button" onclick="nextStep(3)" class="premium-btn audit-primary-cta w-full py-4 rounded uppercase tracking-widest">Confirm &amp; Execute Audit</button>
                 </div>
 
                 <div id="step-3" class="step-container hidden space-y-4">
@@ -306,7 +334,7 @@
                             <input type="text" id="truck-carrier-name" placeholder="Carrier / Motor Carrier Name (optional)" class="w-full bg-white border-2 border-slate-200 px-4 py-3.5 rounded-xl text-[15px] font-semibold text-slate-950 placeholder:text-slate-400 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition">
                             <input type="text" id="carrier-usdot" placeholder="USDOT Number (optional)" inputmode="numeric" oninput="this.value = this.value.replace(/[^\d]/g, '')" class="w-full bg-white border-2 border-slate-200 px-4 py-3.5 rounded-xl text-[15px] font-semibold text-slate-950 placeholder:text-slate-400 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition">
                         </div>
-                        <button type="button" onclick="nextStep(5)" class="premium-btn w-full py-4 rounded uppercase tracking-widest bg-gradient-to-br from-[#1E3A8A] to-[#172554] hover:from-[#172554] hover:to-[#0F172A]">Continue Audit</button>
+                        <button type="button" onclick="nextStep(5)" class="premium-btn audit-primary-cta w-full py-4 rounded uppercase tracking-widest">Continue Audit</button>
                     </div>
                 </div>
 
@@ -343,7 +371,7 @@
                         placeholder="Example: The impact pushed my vehicle forward. I experienced neck/back pain, missed work, and required follow-up care..."
                         class="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl outline-none focus:border-blue-500"></textarea>
                     <div id="keyword-badges" class="flex flex-wrap gap-2"></div>
-                    <button type="button" onclick="nextStep(9)" class="premium-btn w-full py-4 rounded uppercase tracking-widest bg-gradient-to-br from-[#1E3A8A] to-[#172554] hover:from-[#172554] hover:to-[#0F172A]">Execute Audit</button>
+                    <button type="button" onclick="nextStep(9)" class="premium-btn audit-primary-cta w-full py-4 rounded uppercase tracking-widest">Execute Audit</button>
                 </div>
 
                 <form id="step-9" class="step-container hidden space-y-4" onsubmit="submitFinalLead(event)">
@@ -375,7 +403,7 @@
                             I provide express written consent to be contacted regarding my case. I agree to the <a href="/terms.html" class="underline font-bold">Terms</a> and <a href="/privacy.html" class="underline font-bold">Privacy Policy</a>.
                         </span>
                     </label>
-                    <button type="submit" id="submit-btn" disabled class="premium-btn w-full py-5 rounded-xl uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed bg-gradient-to-br from-[#1E3A8A] to-[#172554] hover:from-[#172554] hover:to-[#0F172A]">Finish & View Report</button>
+                    <button type="submit" id="submit-btn" disabled class="premium-btn audit-primary-cta w-full py-5 rounded-xl uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed">Finish &amp; View Report</button>
                 </form>
 
                 <div id="step-disqualify" class="step-container hidden space-y-4">
