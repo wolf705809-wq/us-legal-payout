@@ -1031,6 +1031,9 @@ function closeModal() {
 
     // Reset questionnaire state for next open (prevents stale-step bugs)
     resetFlowState();
+    // [추가] 트럭 모드 기억 삭제 및 테마 복구
+    isTruckMode = false; 
+    document.body.classList.remove('truck-mode');
 }
 
 function openAboutModal() {
