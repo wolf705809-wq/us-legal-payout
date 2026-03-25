@@ -68,7 +68,7 @@
         type="text"
         autocomplete="off"
         placeholder="Search Jurisdiction for Statutory Audit Compliance..."
-        class="w-full rounded-md border border-slate-200 bg-[#fcfdfe] px-4 py-3.5 text-[1.0rem] font-semibold text-[#1e293b] shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+        class="w-full rounded-md border border-slate-200 bg-[#fcfdfe] px-4 py-3.5 text-[1.0rem] font-semibold text-[#1e293b] shadow-sm outline-none transition placeholder:text-slate-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
     />
     <!-- 검색 결과가 나타날 컨테이너 -->
     <div id="state-search-results" class="hidden absolute z-40 mt-2 w-full rounded-md border border-slate-200 bg-white shadow-xl max-h-64 overflow-y-auto text-left">
@@ -77,9 +77,9 @@
 
             <div class="mt-6 md:mt-7">
                 <div class="grid grid-cols-2 gap-4 sm:grid-cols-5 sm:gap-3">
-                    <button type="button" onclick="selectJurisdiction('california')" class="nodal-jurisdiction-chip border-2 border-emerald-500 bg-emerald-50/30">
-                        <span class="nodal-terminal-code text-emerald-700">CA</span>
-                        <span class="nodal-terminal-sync text-emerald-500">v2026.SYNCED</span>
+                    <button type="button" onclick="selectJurisdiction('california')" class="nodal-jurisdiction-chip border-2 border-orange-500 bg-orange-50/30">
+                        <span class="nodal-terminal-code text-orange-700">CA</span>
+                        <span class="nodal-terminal-sync text-orange-500">v2026.SYNCED</span>
                     </button>
                     <button type="button" onclick="selectJurisdiction('texas')" class="nodal-jurisdiction-chip">
                         <span class="nodal-terminal-code">TX</span>
@@ -110,12 +110,12 @@
                 <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
                     <div class="flex items-center gap-3">
                         <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Active Jurisdiction</span>
-                        <span class="flex items-center gap-1.5 px-2 py-0.5 bg-emerald-50 text-emerald-600 rounded-full text-[9px] font-bold border border-emerald-100 uppercase">
-                            <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span> FMCSA Live
+                        <span class="flex items-center gap-1.5 px-2 py-0.5 bg-orange-50 text-orange-600 rounded-full text-[9px] font-bold border border-orange-100 uppercase">
+                            <span class="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></span> FMCSA Live
                         </span>
                     </div>
                     <div class="px-4 py-1.5 bg-white border border-slate-200 rounded-full text-[10px] font-mono font-bold text-slate-700 tracking-widest uppercase flex items-center gap-2">
-                        <span class="w-3 h-1 bg-emerald-400"></span> 2026:03 SYNC ACTIVE
+                        <span class="w-3 h-1 bg-orange-400"></span> 2026:03 SYNC ACTIVE
                     </div>
                 </div>
 
@@ -125,7 +125,7 @@
                     <div>
                         <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Statutory Authority</p>
                         <div class="inline-flex items-center gap-3 bg-[#1e293b] text-slate-200 font-mono text-sm px-5 py-3 rounded-lg shadow-lg">
-                            <span class="text-emerald-400">$</span> {{ statute_code }}
+                            <span class="text-orange-400">$</span> {{ statute_code }}
                         </div>
                     </div>
                     <div class="md:text-right">
@@ -138,16 +138,16 @@
 
         <!-- [4] 최종 실행 버튼 섹션 -->
         <div class="flex flex-col items-center w-full mb-20 gap-4 mt-10">
-            <p class="text-[11px] font-black tracking-[0.3em] text-emerald-600/90 uppercase animate-pulse">
+            <p class="text-[11px] font-black tracking-[0.3em] text-orange-600/90 uppercase animate-pulse">
                 System Ready for Deep Statutory Audit
             </p>
 
             <button id="main-cta-btn" type="button" onclick="executeStatutoryAudit()"
-                class="group relative flex h-[72px] md:h-24 items-center justify-center gap-4 bg-[#050810] text-white font-black text-[15px] md:text-[20px] px-10 md:px-24 rounded-[2rem] shadow-[0_20px_60px_rgba(0,0,0,0.4)] uppercase tracking-[0.1em] w-[94%] max-w-[500px] mx-auto active:scale-[0.96] transition-all duration-500 border border-slate-800 hover:border-emerald-500/50 overflow-hidden touch-manipulation">
+                class="group relative flex h-[72px] md:h-24 items-center justify-center gap-4 bg-[#050810] text-white font-black text-[15px] md:text-[20px] px-10 md:px-24 rounded-[2rem] shadow-[0_20px_60px_rgba(0,0,0,0.4)] uppercase tracking-[0.1em] w-[94%] max-w-[500px] mx-auto active:scale-[0.96] transition-all duration-500 border border-slate-800 hover:border-orange-500/50 overflow-hidden touch-manipulation">
                 
-                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-emerald-500/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite] transition-all"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-orange-500/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite] transition-all"></div>
                 
-                <svg class="w-7 h-7 md:w-9 md:h-9 shrink-0 text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-7 h-7 md:w-9 md:h-9 shrink-0 text-orange-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                 </svg>
 
@@ -160,8 +160,8 @@
 
             <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-50 rounded-full border border-slate-100 shadow-sm">
                 <span class="relative flex h-2 w-2">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                    <span class="relative inline-flex h-2 w-2 rounded-full bg-orange-500"></span>
                 </span>
                 <span class="text-[9px] font-bold text-slate-400 tracking-[0.15em] uppercase">AES-256 Military Grade Encryption Secure</span>
             </div>
@@ -180,9 +180,9 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
-            <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:border-emerald-500/30 transition-all group">
+            <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:border-orange-500/30 transition-all group">
                 <h3 class="text-sm font-bold text-white mb-4 leading-snug">
-                    <span class="text-emerald-400 font-black tracking-widest uppercase text-[10px] block mb-2">FORENSIC AUDIT</span>
+                    <span class="text-orange-400 font-black tracking-widest uppercase text-[10px] block mb-2">FORENSIC AUDIT</span>
                     Decoding the Asymmetry of Insurance Algorithms.
                 </h3>
                 <p class="text-[13px] text-slate-400 leading-relaxed font-medium">
@@ -190,9 +190,9 @@
                 </p>
             </div>
 
-            <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:border-emerald-500/30 transition-all group">
+            <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:border-orange-500/30 transition-all group">
                 <h3 class="text-sm font-bold text-white mb-4 leading-snug">
-                    <span class="text-emerald-400 font-black tracking-widest uppercase text-[10px] block mb-2">STATUTORY FLOOR</span>
+                    <span class="text-orange-400 font-black tracking-widest uppercase text-[10px] block mb-2">STATUTORY FLOOR</span>
                     Federal Liability Constraints & Policy Leverage.
                 </h3>
                 <p class="text-[13px] text-slate-400 leading-relaxed font-medium">
@@ -200,9 +200,9 @@
                 </p>
             </div>
 
-            <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:border-emerald-500/30 transition-all group">
+            <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:border-orange-500/30 transition-all group">
                 <h3 class="text-sm font-bold text-white mb-4 leading-snug">
-                    <span class="text-emerald-400 font-black tracking-widest uppercase text-[10px] block mb-2">AUTONOMOUS LOGIC</span>
+                    <span class="text-orange-400 font-black tracking-widest uppercase text-[10px] block mb-2">AUTONOMOUS LOGIC</span>
                     Real-time Discrepancy Detection vs Manual Adjusting.
                 </h3>
                 <p class="text-[13px] text-slate-400 leading-relaxed font-medium">
