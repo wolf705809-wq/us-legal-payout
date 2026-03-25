@@ -1,22 +1,13 @@
 {
+  "version": 2,
   "cleanUrls": true,
-  "rewrites": [
-    { "source": "/truck/(.*)", "destination": "/truck/$1/index.html" },
-    { "source": "/((?!truck|assets|scripts).*)", "destination": "/index.html" }
-  ]
-}
-
-{
-  "builds": [
-    {
-      "src": "generate_truck_system.py",
-      "use": "@vercel/python"
-    },
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
-    }
-  ],
+  "trailingSlash": false,
   "installCommand": "pip install -r requirements.txt",
-  "buildCommand": "python3 generate_truck_system.py"
+  "buildCommand": "python3 generate_truck_system.py",
+  "rewrites": [
+    {
+      "source": "/((?!truck|assets|scripts|style).*)",
+      "destination": "/index.html"
+    }
+  ]
 }
