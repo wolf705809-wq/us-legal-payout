@@ -186,6 +186,250 @@ function escapeHtml(s) {
         .replace(/"/g, '&quot;');
 }
 
+function parseFirstInt(text) {
+    const m = String(text || '').match(/([\d,]+)/);
+    if (!m) return 0;
+    const n = Number(m[1].replace(/,/g, ''));
+    return Number.isFinite(n) ? n : 0;
+}
+
+function parseMoney(text) {
+    return parseFirstInt(String(text || '').replace(/\$/g, ''));
+}
+
+function extractWeatherTags(text) {
+    const t = String(text || '').toLowerCase();
+    const tags = [];
+    if (t.includes('heat')) tags.push('Heat');
+    if (t.includes('fatigue')) tags.push('Fatigue');
+    if (t.includes('wind')) tags.push('High Winds');
+    if (tags.length) return tags;
+
+    const raw = String(text || '')
+        .replace(/[.]/g, '')
+        .split(/[,;:]/)
+        .map((s) => s.trim())
+        .filter(Boolean);
+    return raw
+        .slice(0, 3)
+        .map((s) => s.replace(/\b(and|or|the|a)\b/gi, '').trim())
+        .filter(Boolean);
+}
+
+function buildDeterministicSparklinePoints({ ratio, width = 96, height = 22, pad = 2, points = 10 }) {
+    const r = Number.isFinite(ratio) ? Math.max(0, Math.min(1.25, ratio)) : 0;
+    const pts = [];
+    for (let i = 0; i < points; i++) {
+        const x = pad + (i * (width - pad * 2)) / (points - 1);
+        const wave = Math.sin((i / (points - 1)) * Math.PI * 2) * 0.35 + Math.cos((i / (points - 1)) * Math.PI * 3) * 0.18;
+        const yNorm = 0.55 - wave * (0.7 * r + 0.25);
+        const y = pad + yNorm * (height - pad * 2);
+        pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+    }
+    return pts.join(' ');
+}
+
+function buildTruckAuditNodeCardHtml({ title, tooltip = 'View Case Law', bodyHtml, spanClass = '' }) {
+    return `
+        <div class="group relative rounded-xl border border-[#1E2D48] bg-[#0F1E35]/85 p-4 md:p-5 shadow-[0_0_0_1px_rgba(10,25,47,0.6)_inset] transition-all duration-300 hover:border-[#64FFDA]/70 hover:shadow-[0_0_0_1px_rgba(100,255,218,0.22)_inset,0_0_22px_rgba(100,255,218,0.10)] ${spanClass}">
+            <div class="pointer-events-none absolute -top-2 right-3 opacity-0 translate-y-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-y-0">
+                <div class="rounded-md border border-[#1E2D48] bg-[#0A192F]/90 px-2 py-1 text-[10px] font-semibold tracking-[0.08em] text-[#E6F1FF]/80 backdrop-blur">
+                    ${escapeHtml(tooltip)}
+                </div>
+            </div>
+            <div class="flex items-start justify-between gap-3">
+                <div class="text-[11px] md:text-[12px] font-semibold uppercase tracking-[0.06em] text-[#E6F1FF]/55">
+                    ${escapeHtml(title)}
+                </div>
+            </div>
+            <div class="mt-3">
+                ${bodyHtml}
+            </div>
+        </div>
+    `;
+}
+
+function buildTruckAuditGridHtml({ d, fmcsaCode, minInsurance }) {
+    const solYears = parseFirstInt(d.state_sol);
+    const crashes = parseFirstInt(d.crash_stats);
+    const nationalAvg = 42000; // baseline reference for relative bar (US truck crashes/year ~ 42k)
+    const crashRatio = nationalAvg > 0 ? Math.max(0, Math.min(1.25, crashes / nationalAvg)) : 0;
+    const crashPct = Math.round(Math.min(100, crashRatio * 100));
+
+    const insuranceDollars = parseMoney(minInsurance);
+    const weatherTags = extractWeatherTags(d.weather_factor);
+    const sparkPoints = buildDeterministicSparklinePoints({ ratio: crashRatio });
+
+    return `
+        <div id="nodal-truck-audit-grid" class="nodal-scan-once mt-5 rounded-2xl border border-[#1E2D48]/80 bg-[#0A192F]/35 p-4 md:p-5">
+            <div class="flex items-center justify-between gap-4 mb-4">
+                <div class="text-[10px] font-bold uppercase tracking-[0.22em] text-[#E6F1FF]/55">Data Audit · Truck Mode</div>
+                <div class="text-[10px] font-mono tracking-[0.12em] text-[#64FFDA]/80">LIVE COMPUTE</div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+                ${buildTruckAuditNodeCardHtml({
+                    title: 'Insurance Baseline',
+                    spanClass: 'lg:col-span-2',
+                    bodyHtml: `
+                        <div class="flex items-start justify-between gap-3">
+                            <div>
+                                <div class="inline-flex items-center gap-2">
+                                    <div class="font-mono text-[22px] md:text-[24px] font-bold tracking-[-0.02em] text-[#64FFDA]">
+                                        <span data-counter data-counter-to="${insuranceDollars}" data-counter-format="money">$0</span>
+                                    </div>
+                                    <span class="inline-flex items-center rounded-md border border-[#1E2D48] bg-[#0A192F]/40 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.14em] text-[#FFAB40]">MINIMUM BASELINE</span>
+                                </div>
+                                <div class="mt-2 text-[11px] font-mono text-[#E6F1FF]/65">
+                                    Source: <span class="text-[#E6F1FF]/80">49 CFR Part 387</span>
+                                </div>
+                            </div>
+                        </div>
+                    `,
+                })}
+
+                ${buildTruckAuditNodeCardHtml({
+                    title: 'Statute of Limitations',
+                    bodyHtml: `
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="font-mono text-[22px] md:text-[24px] font-bold text-[#64FFDA]">
+                                <span data-counter data-counter-to="${solYears}" data-counter-format="years">0</span>
+                            </div>
+                            <div class="inline-flex items-center gap-2">
+                                <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#E6F1FF]/55">Verified</span>
+                                <span class="relative inline-flex h-2 w-2">
+                                    <span class="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-40 animate-ping"></span>
+                                    <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-[11px] text-[#E6F1FF]/65">Jurisdiction window: <span class="font-mono text-[#E6F1FF]/85">${escapeHtml(
+                            d.state_sol
+                        )}</span></div>
+                    `,
+                })}
+
+                ${buildTruckAuditNodeCardHtml({
+                    title: 'FMCSA Compliance',
+                    tooltip: 'View Case Law',
+                    bodyHtml: `
+                        <a href="https://www.ecfr.gov/current/title-49/subtitle-B/chapter-III/subchapter-B" target="_blank" rel="noopener noreferrer"
+                           class="inline-flex items-center gap-2 rounded-lg border border-[#1E2D48] bg-[#0A192F]/35 px-3 py-2 transition hover:border-[#64FFDA]/70 hover:bg-[#0A192F]/55">
+                            <span class="font-mono text-[13px] md:text-[14px] font-semibold text-[#64FFDA]">${escapeHtml(
+                                fmcsaCode
+                            )}</span>
+                            <svg class="h-3.5 w-3.5 text-[#E6F1FF]/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                                <path d="M14 3h7v7"></path>
+                                <path d="M10 14L21 3"></path>
+                                <path d="M21 14v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h6"></path>
+                            </svg>
+                        </a>
+                        <div class="mt-2 text-[11px] text-[#E6F1FF]/60">Federal rule-set mapped to carrier obligations.</div>
+                    `,
+                })}
+
+                ${buildTruckAuditNodeCardHtml({
+                    title: 'Crash Telemetry',
+                    spanClass: 'sm:col-span-2 lg:col-span-2',
+                    bodyHtml: `
+                        <div class="flex items-end justify-between gap-3">
+                            <div>
+                                <div class="font-mono text-[20px] md:text-[22px] font-bold text-[#64FFDA]">
+                                    <span data-counter data-counter-to="${crashes}" data-counter-format="int">0</span>
+                                </div>
+                                <div class="mt-1 text-[11px] text-[#E6F1FF]/60">Annual crashes (state telemetry rollups)</div>
+                            </div>
+                            <svg class="h-[22px] w-[96px]" viewBox="0 0 96 22" aria-hidden="true">
+                                <polyline points="${sparkPoints}" fill="none" stroke="rgba(100,255,218,0.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></polyline>
+                                <polyline points="2,20 94,20" fill="none" stroke="rgba(30,45,72,0.9)" stroke-width="1"></polyline>
+                            </svg>
+                        </div>
+                        <div class="mt-3">
+                            <div class="flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.14em] text-[#E6F1FF]/55">
+                                <span>Relative to national avg</span>
+                                <span class="font-mono text-[#E6F1FF]/70">${crashPct}%</span>
+                            </div>
+                            <div class="mt-2 h-2 rounded-full border border-[#1E2D48] bg-[#0A192F]/35 overflow-hidden">
+                                <div class="h-full bg-[#64FFDA]/70" style="width:${Math.min(100, crashPct)}%"></div>
+                            </div>
+                        </div>
+                    `,
+                })}
+
+                ${buildTruckAuditNodeCardHtml({
+                    title: 'Weather Factor',
+                    bodyHtml: `
+                        <div class="flex flex-wrap gap-2">
+                            ${weatherTags
+                                .map(
+                                    (tag) => `
+                                <span class="rounded-full border border-[#1E2D48] bg-[#0A192F]/30 px-3 py-1 text-[10px] font-semibold tracking-[0.06em] text-[#E6F1FF]/80">
+                                    ${escapeHtml(tag)}
+                                </span>
+                            `
+                                )
+                                .join('')}
+                        </div>
+                        <div class="mt-3 text-[11px] text-[#E6F1FF]/60 leading-relaxed">${escapeHtml(d.weather_factor)}</div>
+                    `,
+                })}
+            </div>
+        </div>
+    `;
+}
+
+function initCountersWhenInView({ rootEl, threshold = 0.35 }) {
+    if (!rootEl) return;
+    const counters = Array.from(rootEl.querySelectorAll('[data-counter]'));
+    if (!counters.length) return;
+
+    const animateCounter = (el) => {
+        const to = Number(el.getAttribute('data-counter-to') || '0');
+        const fmt = String(el.getAttribute('data-counter-format') || 'int');
+        const duration = 820;
+        const start = performance.now();
+        const from = 0;
+        const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+        const render = (v) => {
+            if (fmt === 'money') {
+                el.textContent = `$${Math.round(v).toLocaleString('en-US')}`;
+                return;
+            }
+            if (fmt === 'years') {
+                const years = Math.max(0, Math.round(v));
+                el.textContent = `${years} ${years === 1 ? 'Year' : 'Years'}`;
+                return;
+            }
+            el.textContent = Math.round(v).toLocaleString('en-US');
+        };
+        const tick = (now) => {
+            const t = Math.min(1, (now - start) / duration);
+            const v = from + (to - from) * easeOut(t);
+            render(v);
+            if (t < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+    };
+
+    const fired = new WeakSet();
+    const io = new IntersectionObserver(
+        (entries) => {
+            for (const entry of entries) {
+                if (!entry.isIntersecting) continue;
+                for (const el of counters) {
+                    if (fired.has(el)) continue;
+                    fired.add(el);
+                    animateCounter(el);
+                }
+                io.disconnect();
+                break;
+            }
+        },
+        { threshold }
+    );
+    io.observe(rootEl);
+}
+
 /** Plain-text risk line (matches scripts/build-truck-pages.mjs buildRiskSummary). */
 function buildTruckRiskSummaryText(t) {
     if (!t) return '';
@@ -215,7 +459,46 @@ function buildTruckRiskSignalHtml(truckRow) {
     const cx = escapeHtml(truckRow.settlement_complexity || '—');
     const ct = escapeHtml(truckRow.carrier_tactic || '—');
     const accent = document.body.classList.contains('truck-mode') ? 'text-amber-700' : 'text-emerald-700';
-    return `<span class="block font-semibold text-slate-800 leading-snug">${law}</span><span class="block mt-2 pt-2 border-t border-slate-200/80"><span class="text-[10px] font-bold uppercase tracking-widest ${accent}">Live risk synthesis</span><span class="block text-[12px] md:text-sm text-slate-600 mt-1"><span class="font-semibold text-slate-800">Settlement complexity:</span> ${cx}</span><span class="block text-[12px] md:text-sm text-slate-600 mt-1 leading-relaxed"><span class="font-semibold text-slate-800">Carrier tactic signal:</span> ${ct}</span></span>`;
+
+    const cxNorm = String(truckRow.settlement_complexity || '').toLowerCase();
+    const led = cxNorm.includes('critical') ? 3 : cxNorm.includes('high') ? 3 : cxNorm.includes('moderate') ? 2 : 1;
+    const weightPct = led === 3 ? 78 : led === 2 ? 52 : 28;
+
+    return `
+        <div class="font-mono">
+            <div class="text-slate-900 font-semibold leading-snug">${law}</div>
+            <div class="mt-2">
+                <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">
+                    <span>Algorithmic weight</span>
+                    <span class="text-slate-700">${weightPct}%</span>
+                </div>
+                <div class="mt-2 h-2 rounded-full border border-slate-200 bg-slate-50 overflow-hidden">
+                    <div class="h-full bg-emerald-500/70" style="width:${weightPct}%"></div>
+                </div>
+            </div>
+
+            <div class="nodal-synthesis mt-3 pt-3 border-t border-slate-200/80 relative overflow-hidden">
+                <div class="text-[10px] font-bold uppercase tracking-widest ${accent}">Live risk synthesis</div>
+
+                <div class="mt-2 flex items-center justify-between gap-3">
+                    <div class="text-[12px] md:text-sm text-slate-600">
+                        <span class="font-semibold text-slate-900">Settlement complexity:</span>
+                        <span class="font-semibold text-slate-900">${cx}</span>
+                    </div>
+                    <div class="inline-flex items-center gap-1.5" aria-label="Complexity indicator">
+                        <span class="nodal-led-step ${led >= 1 ? 'is-on' : ''}" title="Low"></span>
+                        <span class="nodal-led-step ${led >= 2 ? 'is-on' : ''}" title="Mid"></span>
+                        <span class="nodal-led-step ${led >= 3 ? 'is-on' : ''}" title="High"></span>
+                    </div>
+                </div>
+
+                <div class="mt-2 text-[12px] md:text-sm text-slate-600 leading-relaxed">
+                    <span class="font-semibold text-slate-900">Carrier tactic signal:</span>
+                    <span class="text-slate-800">${ct}</span>
+                </div>
+            </div>
+        </div>
+    `;
 }
 
 function animateContentSwap({ el, update, addScanLine = false }) {
@@ -402,21 +685,19 @@ function applyTruckPageShell(d) {
         const minInsurance = resolveTruckRowField(d, 'min_insurance');
         point1.innerHTML = `Commercial carriers on <strong>${d.major_highway}</strong> are governed by <strong>${fmcsaCode}</strong>.`;
         point2.innerHTML = `Minimum insurance baseline <strong>${minInsurance}</strong> | Statute of limitations: <strong>${d.state_sol}</strong>.`;
+
         animateContentSwap({
             el: truckDataPoints,
             update: () => {
-                truckDataPoints.innerHTML = [
-                    `Major Highway: ${d.major_highway}`,
-                    `FMCSA Code: ${fmcsaCode}`,
-                    `Min Insurance: ${minInsurance}`,
-                    `State SOL: ${d.state_sol}`,
-                    `Crash Stats: ${d.crash_stats}`,
-                    `Weather Factor: ${d.weather_factor}`,
-                ]
-                    .map((line) => `<p>${line}</p>`)
-                    .join('');
+                truckDataPoints.innerHTML = buildTruckAuditGridHtml({ d, fmcsaCode, minInsurance });
                 truckDataPoints.classList.remove('hidden');
             },
+        });
+
+        // Count-up animation: triggers once when grid enters viewport
+        window.requestAnimationFrame(() => {
+            const grid = document.getElementById('nodal-truck-audit-grid');
+            initCountersWhenInView({ rootEl: grid, threshold: 0.35 });
         });
     }
 
@@ -433,6 +714,12 @@ function applyStateData(key) {
 
     const d = getPayloadForMode(key, caseMode);
     if (!d) return;
+
+    // Update jurisdiction chips (visual active state)
+    document.querySelectorAll('[data-jurisdiction-chip][data-state-key]').forEach((btn) => {
+        const btnKey = btn.getAttribute('data-state-key');
+        btn.classList.toggle('is-active', btnKey === key);
+    });
 
     if (caseMode === 'truck') {
         applyTruckPageShell(d);
@@ -487,6 +774,35 @@ function applyStateData(key) {
                 ? !!(row.truck.settlement_complexity && row.truck.carrier_tactic)
                 : null,
         status: 'OK',
+    });
+}
+
+function bindCopyButtons() {
+    document.addEventListener('click', async (e) => {
+        const btn = e.target.closest('button[data-copy-target]');
+        if (!btn) return;
+        const id = btn.getAttribute('data-copy-target') || '';
+        const target = id ? document.getElementById(id) : null;
+        const text = target ? (target.textContent || '').trim() : '';
+        if (!text) return;
+        try {
+            await navigator.clipboard.writeText(text);
+            btn.classList.add('text-emerald-300');
+            window.setTimeout(() => btn.classList.remove('text-emerald-300'), 520);
+        } catch {
+            // fallback
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+            } finally {
+                ta.remove();
+            }
+        }
     });
 }
 
@@ -1173,6 +1489,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             stateResults.classList.add('hidden');
         });
     }
+
+    bindCopyButtons();
 
     restoreFormProgress();
     caseMode = urlWantsTruck ? 'truck' : 'auto';
