@@ -1,96 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- 구글이 검색 결과에 보여줄 핵심 문구 -->
-    <meta name="description" content="{{ truck_risk_summary }}">
-    <title>{{ seo_title }}</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:wght@700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
-    
-    <!-- 경로 앞에 /를 붙여서 truck/ 폴더 안에서도 루트의 CSS를 찾게 함 -->
-    <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="/style_truck.css">
-</head>
-<body class="truck-pseo-page flex flex-col min-h-screen bg-slate-50 text-slate-700">
-
-    <!-- 1. 메인 사이트 h-11 규격 헤더 -->
-    <nav class="nodal-header-truck sticky top-0 z-50 flex items-center">
-        <div class="flex items-center justify-between w-full px-4 md:px-6 h-full">
-            <div class="flex items-center gap-2 flex-1 min-w-0">
-                <span class="nodal-pulse-orange flex-shrink-0" aria-hidden="true"></span>
-                <span class="truck-brand-label whitespace-nowrap truncate py-1">
-                    {{ state_name }} · TRUCK SPECIALIST AUDIT<span class="nodal-header-tm" style="font-size: 0.6em; vertical-align: super; margin-left: 2px; opacity: 0.7;">™</span>
-                </span>
-            </div>
-            <div class="flex items-center flex-shrink-0 ml-3">
-                <div class="header-divider hidden sm:block"></div>
-                <span class="truck-attorney-label block text-right leading-tight">
-                    ATTORNEY<br class="sm:hidden" /> ADVERTISING
-                </span>
-            </div>
-        </div>
-    </nav>
-
-    <main class="max-w-3xl mx-auto flex flex-col px-5 md:px-8 pt-10 md:pt-24 pb-20 text-center w-full flex-grow">
-        <!-- 2. 헤더 섹션 -->
-        <div class="mb-10 relative">
-            <p class="text-[11px] font-bold text-slate-500 tracking-[0.25em] uppercase mb-4">FEDERAL TRUCKING INCIDENT AUDIT</p>
-            <h1 id="hero-title" class="text-[32px] md:text-[52px] font-serif font-bold text-slate-900 leading-[1.1] tracking-tight mb-5">
-                Uncover Your Settlement Gap: <span class="text-orange-600">{{ state_name }}</span>
-            </h1>
-            <p class="text-slate-700 text-[16px] md:text-[18px] max-w-2xl mx-auto font-medium leading-relaxed">
-                Insurance algorithms devalue claims by design. Our infrastructure identifies statutory recovery floors for 18-wheeler incidents.
-            </p>
-        </div>
-
-        <!-- 3. 프리미엄 데이터 카드 (진짜배기 디자인) -->
-        <div id="active-jurisdiction-card" class="glass-panel nodal-monitor p-8 md:p-12 mb-12 text-left relative overflow-hidden shadow-2xl rounded-3xl">
-            <div class="flex justify-between items-center border-b border-white/10 pb-6 mb-8">
-                <div>
-                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-1">Active Jurisdiction</p>
-                    <h2 id="hero-state-name" class="text-3xl font-serif font-bold text-white leading-none">{{ state_name }}</h2>
+<div id="truck-audit-modal" class="nodal-modal-overlay hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-[#050810]/70 backdrop-blur-sm p-4">
+        <div class="nodal-modal-card w-full max-w-xl bg-white shadow-2xl rounded-t-3xl md:rounded-2xl flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden">
+            
+            
+            <div class="px-6 py-5 border-b border-slate-100 bg-white sticky top-0 z-10">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-serif font-bold text-xl text-slate-900">{{ state_name }} Audit Intake</h3>
+                    <button type="button" onclick="closeTruckModal()" class="text-slate-400 hover:text-slate-800 p-2" aria-label="Close modal">✕</button>
                 </div>
-                <div class="flex items-center gap-2.5 px-4 py-2 bg-white/5 rounded-full border border-white/10">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                        <span class="relative inline-flex h-2 w-2 rounded-full bg-orange-500"></span>
-                    </span>
-                    <span class="text-[10px] font-bold text-slate-300 tracking-[0.15em] uppercase">FMCSA Live Sync</span>
+                
+                <div id="gauge-container" class="flex flex-col gap-2">
+                    <div id="progress-text" class="text-[9px] font-bold text-slate-400 uppercase tracking-widest text-left">Audit Progress: Step 1/3</div>
+                    <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="bg-orange-500 h-full transition-all duration-300 w-1/3"></div>
+                    </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            
+            <div id="modal-body-content" class="p-6 md:p-8 overflow-y-auto flex-grow bg-white">
+                
+                
+                <div id="step-truck-1" class="modal-step flex flex-col gap-5">
+                    <h3 class="modal-q-title font-serif text-2xl font-bold leading-snug text-slate-900">1. Was the vehicle a 18-wheeler or commercial truck?</h3>
+                    <button type="button" onclick="handleTruckChoice('vehicle_class', 'semi', 'step-truck-2')" class="nodal-option-card">Yes, Semi / 18-Wheeler</button>
+                    <button type="button" onclick="handleTruckChoice('vehicle_class', 'van', 'step-truck-2')" class="nodal-option-card">No, Delivery Van (Amazon/FedEx)</button>
+                    <button type="button" onclick="closeTruckModal()" class="text-center text-xs font-semibold text-slate-400 mt-2">I am not sure.</button>
+                </div>
+
+                
+                <div id="step-truck-2" class="modal-step hidden flex flex-col gap-5">
+                    <button type="button" onclick="prevStep('step-truck-1')" class="text-[11px] font-bold text-slate-400 hover:text-slate-600 tracking-widest uppercase mb-2 text-left">‹ Back to Classification</button>
+                    <h3 class="modal-q-title font-serif text-2xl font-bold leading-snug text-slate-900">2. Incident Description</h3>
+                    <textarea id="truck-narrative" rows="5" placeholder="e.g., I was stopped at a light and got rear-ended by a large truck..." class="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl outline-none focus:border-orange-500 text-sm"></textarea>
+                    <button type="button" onclick="handleTruckChoice('narrative', 'saved', 'step-truck-3')" class="nodal-action-btn">Continue to Analysis</button>
+                </div>
+
+                
+                <div id="step-truck-3" class="modal-step hidden flex flex-col gap-5">
+                    <button type="button" onclick="prevStep('step-truck-2')" class="text-[11px] font-bold text-slate-400 hover:text-slate-600 tracking-widest uppercase mb-2 text-left">‹ Back to Narrative</button>
+                    <h3 class="modal-q-title font-serif text-2xl font-bold leading-snug text-slate-900">3. Identity Details</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" id="truckFName" placeholder="First Name" class="bg-slate-50 border border-slate-200 p-4 rounded-lg text-sm w-full">
+                        <input type="text" id="truckLName" placeholder="Last Name" class="bg-slate-50 border border-slate-200 p-4 rounded-lg text-sm w-full">
+                    </div>
+                    <input type="email" id="truckEmail" placeholder="Email Address" class="w-full bg-slate-50 border border-slate-200 p-4 rounded-lg text-sm">
+                    
+                    
+                    <button type="submit" class="nodal-action-btn-final bg-gradient-to-br from-orange-600 to-amber-600 text-white font-black text-center text-xs md:text-sm py-5 rounded-2xl shadow-xl uppercase tracking-widest">Execute Final Audit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="w-full bg-[#050810] text-[#94A3B8] p-8 md:p-20 mt-auto border-t border-slate-800">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 pb-10 md:pb-16 border-b border-slate-800 text-center md:text-left">
                 <div>
-                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-3">Statutory Authority</p>
-                    <p id="statute-info" class="text-[14px] font-mono text-amber-500 bg-black/30 border border-white/5 rounded-lg px-4 py-3 shadow-inner">
-                        {{ statute_code }}
-                    </p>
+                    <p class="text-[#94A3B8] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Registry Inquiries</p>
+                    <p class="text-sm text-[#94A3B8]">support@jdsglobalsolutions.com</p>
                 </div>
                 <div>
-                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-3">Risk Assessment</p>
-                    <p id="stats-info" class="text-[14px] font-medium text-slate-200 leading-relaxed italic">
-                        {{ truck_risk_summary }}
-                    </p>
+                    <p class="text-[#94A3B8] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Principal Office</p>
+                    <p class="text-sm text-[#94A3B8]">1201 N Market St, Wilmington, DE 19801</p>
+                </div>
+                <div>
+                    <p class="text-[#94A3B8] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Audit Verification</p>
+                    <p class="inline-flex items-center border border-slate-700/80 bg-black/20 px-3 py-1.5 rounded-md font-mono text-sm tracking-[0.18em] text-[#94A3B8]">+1 (888) 512-0941</p>
                 </div>
             </div>
+            <div class="flex flex-wrap justify-center gap-6 md:gap-10 py-8 md:py-12 text-[9px] font-bold uppercase tracking-[0.18em]">
+                <a href="/privacy.html">Data Governance & Privacy Protocol</a>
+                <a href="/terms.html">Statutory Terms of Service</a>
+                <a href="/ccpa.html">Data Sovereignty (CCPA Rights)</a>
+                <a href="/disclaimer.html">Evaluation Constraints & Disclosures</a>
+            </div>
+            <div class="max-w-3xl mx-auto text-center space-y-4 md:space-y-6">
+                <p id="legal-safe-line" class="text-[11px] md:text-[10px] text-slate-500 leading-relaxed strong-gold"><strong>ATTORNEY ADVERTISING:</strong> Nodal is a legal technology and data infrastructure provider. Nodal is not a law firm and does not provide legal advice. No attorney-client relationship is formed by the use of this evaluation engine. All valuations are estimates based on statutory frameworks and do not guarantee financial recovery.</p>
+                <p class="text-[9px] tracking-[0.4em] font-bold text-slate-600">⊙ 2026 NODAL. ALL RIGHTS RESERVED</p>
+            </div>
         </div>
-
-        <!-- 4. CTA 버튼 -->
-        <div class="flex flex-col items-center">
-            <button type="button" onclick="executeStatutoryAudit()" id="main-cta-btn"
-                class="group w-full max-w-[480px] bg-[#050810] text-white font-black text-[16px] md:text-[18px] py-6 rounded-2xl shadow-xl uppercase tracking-widest border border-slate-800 hover:border-orange-500/50 transition-all active:scale-[0.97]">
-                <span id="main-cta-label">START STATUTORY RECOVERY AUDIT</span>
-            </button>
-            <p class="mt-4 text-[10px] font-bold text-slate-400 tracking-widest uppercase">Verified Federal Data Source</p>
-        </div>
-    </main>
-
-    <script src="/assets/js/data.js"></script>
-    <script src="/assets/js/app.js"></script>
-    <script src="/assets/js/truck_template.js"></script>
-</body>
-</html>
+    </footer>
