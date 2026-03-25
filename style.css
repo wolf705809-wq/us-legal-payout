@@ -71,7 +71,100 @@ body {
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    position: relative;
+    isolation: isolate;
     transition: background 0.4s var(--nodal-ease-out), color 0.4s var(--nodal-ease-out);
+}
+
+/* ============================================================
+   0.1% Fintech Authority: Ghost Protocol Depth Layer
+   - Fixed watermark text (parallax 0.2x scroll)
+   - Global micro-grain overlay
+   - Faint Emerald corner mesh gradient
+   - Viewport reveal for main sections
+   ============================================================ */
+#nodal-depth-layer {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    background: radial-gradient(
+        at 0% 0%,
+        rgba(16, 185, 129, 0.03) 0px,
+        transparent 50%
+    );
+}
+
+#nodal-depth-ghost-wrap {
+    position: absolute;
+    top: -8vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#nodal-depth-ghost-text {
+    font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: clamp(10rem, 20vw, 30rem);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(30, 41, 59, 0.04);
+    text-stroke: 1px rgba(30, 41, 59, 0.04);
+    opacity: 0.95;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+}
+
+/* Micro-grain overlay (subtle hardware-like texture) */
+#nodal-depth-grain {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.02;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    mix-blend-mode: multiply;
+}
+
+/* Reveal system */
+.nodal-depth-reveal {
+    will-change: opacity, transform;
+    transform: none;
+    opacity: 1;
+}
+
+body.nodal-depth-reveal--active .nodal-depth-reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+        opacity 720ms var(--nodal-ease-out),
+        transform 720ms var(--nodal-ease-out);
+}
+
+body.nodal-depth-reveal--active .nodal-depth-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.nodal-depth-reveal--active .nodal-depth-reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
+/* Ensure content sits above the negative-z background layers */
+main#layout-wrapper {
+    position: relative;
+    z-index: 1;
 }
 
 /* Smooth content swap (GPU-accelerated) */
@@ -1348,4 +1441,55 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
     letter-spacing: 0.4em;
     text-transform: uppercase;
     color: rgba(148, 163, 184, 0.65);
+}
+
+/* ============================================================
+   Universal Status Beacon: GPU-accelerated breathing dots
+   - Replaces pulse/ping behaviors with 3D transform breathing
+   - Targets: header/footer emerald dots + truck amber/emerald dots
+   ============================================================ */
+@keyframes universal-breathing {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1) translateZ(0);
+    }
+    50% {
+        opacity: 0.35;
+        transform: scale(1.2) translateZ(0);
+    }
+}
+
+.nodal-status-dot,
+.nodal-pulse,
+.nodal-led--green,
+.nodal-cta-dot,
+.nodal-led-step,
+.nodal-footer-verified-dot {
+    animation: universal-breathing 3s ease-in-out infinite !important;
+    will-change: transform, opacity;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transform: translateZ(0);
+    position: relative;
+    z-index: 2;
+}
+
+.nodal-pulse::before,
+.nodal-pulse::after {
+    animation: universal-breathing 3s ease-in-out infinite !important;
+    will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nodal-status-dot,
+    .nodal-pulse,
+    .nodal-led--green,
+    .nodal-cta-dot,
+    .nodal-led-step,
+    .nodal-footer-verified-dot {
+        animation: none !important;
+    }
 }
