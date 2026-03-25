@@ -41,58 +41,63 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
 
 
 
+
 /* ============================================================
-   TRUCK SPECIALIST AUDIT - HEADER SYNC
+   FINAL FORCE SYNC: TRUCK HEADER
    ============================================================ */
 
-/* 1. 상단바 높이 및 배경 (메인 사이트 h-11 규격) */
-.nodal-header-truck {
-    height: 44px; /* 메인 사이트 h-11과 동일 */
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid #f1f5f9;
+/* 1. 애니메이션 정의 (메인 사이트와 동일한 3초 주기 브리딩) */
+@keyframes universal-breathing {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.15); }
 }
 
-/* 2. 주황색 불빛: 메인 사이트와 동일한 '숨쉬는' 애니메이션 */
+/* 2. 상단바 슬림 규격 (메인 h-11 동기화) */
+.nodal-header-truck {
+    height: 44px !important; /* 강제 높이 고정 */
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid #f1f5f9 !important;
+    z-index: 100;
+}
+
+/* 3. 주황색 불빛 (브리딩 효과 + 글로우) */
 .nodal-pulse-orange {
-    width: 10px;
-    height: 10px;
-    background-color: #F97316; /* 오렌지 메인 컬러 */
-    border-radius: 999px;
-    /* style.css에 정의된 universal-breathing 애니메이션 호출 */
+    width: 9px;
+    height: 9px;
+    background-color: #F97316 !important;
+    border-radius: 50%;
+    display: inline-block;
     animation: universal-breathing 3s ease-in-out infinite !important;
     box-shadow: 0 0 8px rgba(249, 115, 22, 0.6);
 }
 
-/* 3. 폰트 스타일 동기화 */
+/* 4. 텍스트 디테일 (Inter 폰트 & 굵기) */
 .truck-brand-label {
-    font-family: "Inter", sans-serif;
-    font-weight: 800;
-    font-size: 11px;
-    letter-spacing: -0.02em; /* 메인 사이트의 묵직한 자간 */
-    color: #1e293b;
-    text-transform: uppercase;
+    font-family: "Inter", sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 10px !important;
+    @media (min-width: 640px) { font-size: 11px !important; }
+    letter-spacing: -0.02em !important;
+    color: #1e293b !important;
 }
 
 .truck-attorney-label {
-    font-family: "Inter", sans-serif;
-    font-weight: 700;
-    font-size: 9px;
-    letter-spacing: 0.15em; /* 메인 사이트 광고 자간 */
-    color: #64748b;
+    font-family: "Inter", sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 8px !important;
+    @media (min-width: 640px) { font-size: 9px !important; }
+    letter-spacing: 0.12em !important;
+    color: #64748b !important;
     opacity: 0.8;
-    text-transform: uppercase;
-    text-align: right;
 }
 
-/* 세로 구분선 디테일 */
+/* 5. 세로 구분선 */
 .header-divider {
-    height: 16px;
+    height: 14px;
     width: 1px;
     background-color: #e2e8f0;
-    margin-left: 12px;
     margin-right: 12px;
 }
-
 
