@@ -101,3 +101,56 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
     margin-right: 12px;
 }
 
+
+/* ============================================================
+   BODY CARD REFINEMENT: FROM STOCK SITE TO LEGAL DOSSIER
+   ============================================================ */
+
+/* 1. 메인 카드: 테두리를 빼고 깊이감 있는 그림자로 변경 */
+body.truck-pseo-page #active-jurisdiction-card.glass-panel {
+    background: rgba(15, 23, 42, 0.85) !important; /* 투명도 살짝 조절 */
+    border: 1px solid rgba(255, 255, 255, 0.08) !important; /* 선을 거의 안 보이게 */
+    box-shadow: 
+        0 40px 100px -20px rgba(0, 0, 0, 0.7), 
+        0 0 0 1px rgba(255, 255, 255, 0.03) inset !important;
+    border-radius: 24px !important;
+}
+
+/* 2. 타이포그래피: 주식 숫자 느낌 빼고 '법률 서체' 적용 */
+body.truck-pseo-page h2#hero-state-name {
+    font-family: "Crimson Pro", serif !important; /* 메인 사이트의 그 서체 */
+    font-size: 42px !important;
+    letter-spacing: -0.03em !important;
+    font-weight: 600 !important;
+    color: #FFFFFF !important;
+}
+
+/* 3. 데이터 레이블: 작고 정교하게 (Technical Mono) */
+body.truck-pseo-page .text-slate-400 {
+    font-family: "Inter", sans-serif !important;
+    font-size: 9px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.2em !important;
+    color: rgba(148, 163, 184, 0.6) !important;
+    text-transform: uppercase;
+}
+
+/* 4. 주황색 강조 포인트: 네온 느낌 대신 '금속 광택' 느낌으로 */
+body.truck-pseo-page .text-amber-400 {
+    color: #F97316 !important; /* 헤더 점과 색상 통일 */
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+
+/* 5. 배경 미세 격자(Grid) 추가: 정밀한 분석 엔진 느낌 */
+body.truck-pseo-page::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    pointer-events: none;
+    z-index: 0;
+}
+
