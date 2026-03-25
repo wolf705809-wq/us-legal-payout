@@ -12,46 +12,17 @@ if not OUTPUT_ROOT.exists():
     os.makedirs(OUTPUT_ROOT)
 
 def get_dynamic_content(state_name, row):
-    """트럭 전용 문구로 구성하며, 모든 에러 요인(KeyError)을 제거한 버전"""
+    """문구를 템플릿에서 고정했으므로, 최소한의 SEO 데이터만 반환합니다."""
     
-    # 1. 트럭 전용 제목
-    h1_options = [
-        f"{state_name} 18-Wheeler Liability Infrastructure",
-        f"Commercial Carrier Compliance Audit: {state_name}",
-        f"{state_name} Federal Trucking Safety Verification",
-        f"Audit the $750k+ Statutory Floor in {state_name}"
-    ]
-    
-    # 2. 트럭 전용 인트로 (Don't fight unarmed 대신 들어갈 문구)
-    intro_options = [
-        f"Large carriers hide behind complex corporate layers. Our engine decodes FMCSA safety violations and {state_name} insurance floors that adjusters often omit.",
-        f"We analyze black-box data and commercial policy limits to identify the true recovery floor for {state_name} trucking incidents.",
-        f"Commercial insurers leverage technical complexity to suppress claims. This infrastructure verifies {state_name} statutory liability against federal safety standards."
-    ]
-    
-    # 3. 트럭 리스크 요약 (에러가 났던 부분! truck_risk_summary로 들어갈 문구)
     highway = row.get('major_highway', 'local interstate')
     stats = row.get('crash_stats', 'significant annual incidents')
     
-    narrative_options = [
-        f"With heavy congestion on {highway}, {state_name} records {stats} annually. This audit captures these risk vectors.",
-        f"Statutory audits for {state_name} focus on the {highway} corridor, where {stats} occur regularly.",
-        f"Our engine maps the {stats} near {highway} to establish a non-negotiable recovery floor."
-    ]
-    
-    # 4. 하단 시스템 라벨
-    label_options = [
-        "FEDERAL CARRIER COMPLIANCE UNIT | FMCSA DATA SYNC [v2026.03]",
-        "COMMERCIAL POLICY LAYER AUDIT | JURISDICTIONAL SECURE [v2026.03]",
-        "18-WHEELER STATUTORY MONITOR | STATE-SPECIFIC PROTOCOL [v2026.03]"
-    ]
+    # 템플릿에 들어갈 리스크 요약 한 줄만 생성
+    risk_summary = f"Analysis of the {highway} corridor confirms {stats} occurring annually. This audit maps these vectors against the statutory floor."
 
     return {
-        "dynamic_h1": random.choice(h1_options),
-        "dynamic_intro": random.choice(intro_options),
-        "dynamic_narrative": random.choice(narrative_options), # 이 줄이 빠져서 에러가 났던 겁니다!
-        "system_label": random.choice(label_options),
-        "seo_description": f"Authorized 18-wheeler accident audit for {state_name}. Analyze carrier policy layers and federal safety compliance."
+        "dynamic_narrative": risk_summary,
+        "seo_description": f"Authorized 18-wheeler accident audit for {state_name}. Analyze carrier policy layers and federal safety compliance on {highway}."
     }
 
 def render_template(template: str, values: dict) -> str:
