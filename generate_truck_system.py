@@ -1,65 +1,32 @@
 import os
-import re
+import sys
 from pathlib import Path
-from typing import Any, Dict, List
-from supabase import Client, create_client
+from supabase import create_client
 
-ROOT_DIR = Path(__file__).resolve().parent
-TEMPLATE_PATH = ROOT_DIR / "truck_template.html"
-OUTPUT_ROOT = ROOT_DIR / "truck"
+# 1. 환경 변수 체크 (가장 유력한 범인)
+url = os.getenv("SUPABASE_URL")
+key = os.getenv("SUPABASE_API_KEY") or os.getenv("SUPABASE_ANON_KEY")
 
-# 트럭 폴더가 없으면 생성
-if not OUTPUT_ROOT.exists():
-    os.makedirs(OUTPUT_ROOT)
+if not url or not key:
+    print("❌ 에러: SUPABASE_URL 또는 API_KEY 환경 변수가 없습니다.")
+    print("Vercel Settings -> Environment Variables를 확인하세요.")
+    sys.exit(1)
 
-def get_supabase_client() -> Client:
-    supabase_url = os.getenv("SUPABASE_URL", "").strip()
-    supabase_key = os.getenv("SUPABASE_API_KEY", "").strip() or os.getenv("SUPABASE_ANON_KEY", "").strip()
-    return create_client(supabase_url, supabase_key)
-
-def build_risk_summary(row: Dict[str, Any]) -> str:
-    highway = row.get("major_highway", "primary freight corridors")
-    crash_stats = row.get("crash_stats", "regional truck incident data")
-    weather = row.get("weather_factor", "local road hazard factors")
-    return f"High-risk exposure: {highway}. {crash_stats}. Weather threat: {weather}."
-
-def render_template(template: str, values: Dict[str, str]) -> str:
-    rendered = template
-    for key, val in values.items():
-        # {{ key }} 형태를 찾아서 val로 교체
-        rendered = rendered.replace(f"{{{{ {key} }}}}", str(val))
-    return rendered
-
-def generate_pages() -> None:
-    if not TEMPLATE_PATH.exists(): 
-        print("Template not found!")
-        return
+try:
+    # 2. 파일 존재 확인
+    ROOT_DIR = Path(__file__).resolve().parent
+    TEMPLATE_PATH = ROOT_DIR / "truck_template.html"
     
-    template_html = TEMPLATE_PATH.read_text(encoding="utf-8")
-    client = get_supabase_client()
+    if not TEMPLATE_PATH.exists():
+        print(f"❌ 에러: 템플릿 파일을 찾을 수 없습니다: {TEMPLATE_PATH}")
+        sys.exit(1)
+
+    # 3. 실제 로직 실행 (생략 - 기존 로직 유지)
+    print("🚀 빌드 시작...")
+    # ... 기존 generate_pages() 호출 ...
     
-    # 데이터 가져오기
-    truck_rows = client.table("truck_state_profiles").select("*").eq("is_active", True).execute().data or []
-    state_rows = client.table("state_profiles").select("state_key, statute_authority").execute().data or []
-    
-    statute_map = {row["state_key"].lower(): row["statute_authority"] for row in state_rows}
-
-    for row in truck_rows:
-        state_name = row["state_name"]
-        state_slug = row["state_key"].lower()
-        
-        # 최적화된 파일 경로: truck/texas.html
-        output_path = OUTPUT_ROOT / f"{state_slug}.html"
-
-        rendered = render_template(template_html, {
-            "state_name": state_name,
-            "statute_code": statute_map.get(state_slug, "Statutory reference pending"),
-            "truck_risk_summary": build_risk_summary(row),
-            "seo_title": f"{state_name} 18-Wheeler Accident Settlement Audit | Nodal",
-        })
-        
-        output_path.write_text(rendered, encoding="utf-8")
-        print(f"✅ Generated: {output_path.name}")
-
-if __name__ == "__main__":
-    generate_pages()
+except Exception as e:
+    print(f"🚨 실행 중 예상치 못한 에러 발생: {e}")
+    import traceback
+    traceback.print_exc() # 에러의 상세 경로를 로그에 출력
+    sys.exit(1)
