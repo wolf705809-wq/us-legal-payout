@@ -1,1 +1,43 @@
 
+/* Static truck PSEO: dark glass panel (overrides frosted white .glass-panel) */
+body.truck-pseo-page #active-jurisdiction-card.glass-panel {
+    background: rgba(15, 23, 42, 0.96) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(51, 65, 85, 0.85) !important;
+    box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 0.5) inset,
+        0 10px 24px rgba(11, 17, 32, 0.35),
+        0 24px 44px -32px rgba(11, 17, 32, 0.45);
+}
+
+@keyframes truck-pseo-panel-enter {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+body.truck-pseo-page .truck-pseo-panel-enter {
+    animation: truck-pseo-panel-enter 0.3s var(--nodal-ease-out) forwards;
+}
+
+
+/* Truck static PSEO: orange accent for jurisdiction chips + search dropdown */
+body.truck-pseo-page .major-jurisdiction-card:hover {
+    border-color: #EA580C;
+    color: #C2410C;
+    box-shadow: 0 10px 18px -14px rgba(234, 88, 12, 0.35);
+    filter: drop-shadow(0 0 12px rgba(234, 88, 12, 0.28));
+}
+
+body.truck-pseo-page #state-search-results .state-result-btn:hover {
+    background-color: rgba(255, 237, 213, 0.85);
+}
+
+
+
