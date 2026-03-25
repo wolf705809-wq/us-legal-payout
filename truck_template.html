@@ -55,37 +55,45 @@
             <div id="truck-data-points" class="hidden max-w-2xl mx-auto text-left space-y-1.5 text-[13px] text-slate-600 mt-4 transition-all duration-500"></div>
         </div>
 
-        <div id="active-jurisdiction-card" class="glass-panel order-2 md:order-3 mb-6 md:mb-10 min-h-[min(52vh,420px)] md:min-h-0 scroll-mt-24 text-left rounded-2xl border border-slate-700/80 bg-[#0F172A] p-5 md:p-8 shadow-xl shadow-slate-900/20 flex flex-col truck-pseo-panel-enter">
-            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 border-b border-slate-600/60 pb-4 mb-4 md:pb-5 md:mb-5">
-                <div class="min-w-0 flex-1">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Active Jurisdiction</p>
-                    <div class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2">
-                        <h2 id="hero-state-name" class="text-[28px] sm:text-[30px] md:text-[34px] font-serif font-bold text-white transition-all duration-500">{{ state_name }}</h2>
-                        <span class="inline-flex items-center gap-1.5 shrink-0" title="Live data synchronization active">
-                            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path>
-                            </svg>
-                            <span class="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-200">Live Data Sync</span>
-                        </span>
-                    </div>
-                </div>
-                <div class="w-fit shrink-0 text-[10px] font-mono font-semibold text-amber-400/95 bg-slate-800/80 px-3 py-2 rounded-full border border-amber-500/30 flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 nodal-status-dot"></span>
-                    <span class="text-slate-200">FMCSA LIVE</span>
-                </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 flex-1 content-start">
-                <div>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Statutory Authority</p>
-                    <p id="statute-info" class="font-mono bg-slate-800 text-amber-400 p-2 rounded text-[13px] md:text-sm leading-relaxed break-words transition-all duration-500">{{ statute_code }}</p>
-                </div>
-                <div>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Truck Risk Signal</p>
-                    <p id="stats-info" class="text-[15px] md:text-base font-medium text-slate-200 leading-relaxed transition-all duration-500">{{ truck_risk_summary }}</p>
-                </div>
+        <div id="active-jurisdiction-card" class="glass-panel nodal-monitor p-8 md:p-12 mb-10 text-left relative overflow-hidden truck-pseo-panel-enter">
+    <!-- 헤더 영역: 주 이름 + 상태 비컨 -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 border-b border-white/5 pb-8 mb-8">
+        <div>
+            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-2">Statutory Audit Jurisdiction</p>
+            <h2 id="hero-state-name" class="nodal-glitch-in leading-none">Texas</h2>
+        </div>
+        
+        <!-- 실시간 동기화 배지 (메인 사이트의 AES-256 배지 스타일 차용) -->
+        <div class="flex items-center gap-2.5 px-4 py-2 bg-white/5 rounded-full border border-white/10 shadow-sm">
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                <span class="relative inline-flex h-2 w-2 rounded-full bg-orange-500"></span>
+            </span>
+            <span class="text-[10px] font-bold text-slate-300 tracking-[0.15em] uppercase">FMCSA Live Data Synced</span>
+        </div>
+    </div>
+
+    <!-- 데이터 영역: 2열 그리드로 정돈 -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div class="space-y-6">
+            <div>
+                <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-3">Federal Statutory Code</p>
+                <p id="statute-info" class="text-[15px] font-mono text-amber-500/90 leading-relaxed bg-black/20 border border-white/5 rounded-lg px-4 py-3 shadow-inner">
+                    TX Civ. Prac. & Rem. Code § 33.001
+                </p>
             </div>
         </div>
-
+        
+        <div class="space-y-6">
+            <div>
+                <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-3">Liability Logic Protocol</p>
+                <p id="stats-info" class="text-[17px] font-semibold text-slate-100 tracking-tight leading-snug">
+                    Modified Comparative Fault (51% Bar)
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
         <section class="order-3 md:order-2 mb-6 md:mb-8 text-left">
             <label for="state-search-input" class="block text-[13px] md:text-sm font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] text-slate-600 mb-1.5">Search Your State...</label>
             <div class="relative">
