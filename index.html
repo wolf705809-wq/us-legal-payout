@@ -121,15 +121,16 @@
     </main>
 
     <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-        <div class="w-full max-w-xl bg-white shadow-2xl rounded-t-2xl md:rounded-xl flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden">
+        <div id="lead-modal-card" class="w-full max-w-xl bg-white shadow-2xl rounded-t-2xl md:rounded-xl flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden">
             <div class="px-5 md:px-8 py-5 md:py-6 border-b border-slate-100 bg-white sticky top-0 z-10">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-serif font-bold text-xl">Case Intake Audit</h3>
+                    <h3 id="lead-modal-title" class="font-serif font-bold text-xl">Case Intake Audit</h3>
                     <button type="button" onclick="closeModal()" class="text-slate-400 hover:text-slate-800 p-2" aria-label="Close">✕</button>
                 </div>
                 <div id="ai-feedback-box" class="mb-4 p-3 bg-blue-50 rounded hidden">
                     <p id="ai-feedback-text" class="text-[10px] font-bold text-blue-800 uppercase tracking-tight"></p>
                 </div>
+                <p id="value-driver-tip" class="mb-4 text-[11px] font-semibold text-blue-700 hidden"></p>
                 <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
                     <div id="strength-gauge" class="bg-blue-600 h-full transition-all duration-700 gauge-initial"></div>
                 </div>
@@ -217,7 +218,7 @@
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 06: Analysis</p>
                     <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Incident Narrative</h3>
                     <textarea id="narrative-box" rows="4" 
-    oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, ''); analyzeText()" 
+    oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s.,!?'\-]/g, ''); analyzeText()" 
     placeholder="e.g. I was stopped at a red light..." 
     class="w-full bg-slate-50 border border-slate-200 p-4 rounded outline-none focus:border-blue-500">
 </textarea>
@@ -231,11 +232,11 @@
                     <h3 class="text-[22px] md:text-xl font-serif font-bold text-center leading-tight">Identity Details</h3>
                     <div class="grid grid-cols-2 gap-4">
                         <input type="text" id="fName" placeholder="First Name" 
-                            oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')" 
+                            oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')" 
                             class="bg-slate-50 border p-4 rounded outline-none w-full">
                         
                         <input type="text" id="lName" placeholder="Last Name" 
-                            oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')" 
+                            oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')" 
                             class="bg-slate-50 border p-4 rounded outline-none w-full">
                     </div>
                     <input type="email" id="email" placeholder="Email Address" 
@@ -248,7 +249,8 @@
                     <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em] text-center">Section 08: Security</p>
                     <h3 class="text-[22px] md:text-xl font-serif font-bold text-center mb-6 leading-tight">Secure Your Assessment</h3>
-                    <input type="tel" id="userPhone" placeholder="(555) 555-5555" required class="w-full bg-slate-50 border-2 border-slate-200 px-4 py-5 rounded-xl text-2xl font-bold text-center outline-none tracking-widest focus:border-blue-500">
+                    <input type="tel" id="userPhone" inputmode="numeric" maxlength="14" placeholder="(555) 555-5555" required oninput="this.value = this.value.replace(/[^\d]/g, '')" class="w-full bg-slate-50 border-2 border-slate-200 px-4 py-5 rounded-xl text-2xl font-bold text-center outline-none tracking-widest focus:border-blue-500">
+                    <p class="text-[11px] text-slate-600 leading-relaxed text-center">Security Check: A verification specialist may call to validate this statutory audit within 5 minutes.</p>
 
                     <div class="cf-turnstile flex justify-center" data-sitekey="0x4AAAAAACuTQ4GK1w5nO44e" data-callback="onTurnstileVerified" data-expired-callback="onTurnstileExpired"></div>
 

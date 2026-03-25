@@ -65,6 +65,20 @@ let stepHistory = [];
 let caseMode = 'auto';
 let truckTemplate = TRUCK_UI_TEMPLATE;
 const FORM_PROGRESS_KEY = 'caseAuditProgress.v2';
+const STEP_TIPS = {
+    'step-1': 'Value Driver Tip: Accurate incident classification increases routing precision for premium cases.',
+    'step-truck-intro': 'Value Driver Tip: Federal motor-carrier rules immediately expand documentation leverage.',
+    'step-truck-niche': 'Value Driver Tip: Commercial vehicle class is a core predictor of policy-layer depth.',
+    'step-truck-carrier': 'Value Driver Tip: Carrier identity accelerates FMCSA profile pulls and valuation confidence.',
+    'step-truck-evidence': 'Value Driver Tip: ELD and telematics preservation prevents the most damaging evidence gaps.',
+    'step-2': 'Value Driver Tip: Low fault allocation materially increases expected settlement range.',
+    'step-3': 'Value Driver Tip: ER visits within 24hrs are the #1 predictor of 6-figure settlements.',
+    'step-4': 'Value Driver Tip: Official reports anchor liability timelines and reduce defense ambiguity.',
+    'step-5': 'Value Driver Tip: Unrepresented claims typically unlock faster counsel engagement workflows.',
+    'step-6': 'Value Driver Tip: Specific facts around impact and treatment improve model confidence scores.',
+    'step-7': 'Value Driver Tip: Complete identity data improves attorney match quality and response speed.',
+    'step-8': 'Value Driver Tip: Verified phone numbers correlate with higher-value conversion outcomes.',
+};
 
 const STATE_DATA_SCRIPT_SRC = '/assets/js/data.js';
 
