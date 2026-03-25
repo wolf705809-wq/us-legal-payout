@@ -52,6 +52,7 @@ const INSIGHT_CONTENT = {
 };
 
 const LOCAL_LEADS_KEY = 'caseAuditLocalLeads.v1';
+const AUDIT_RESULT_KEY = 'nodalAuditResult.v1';
 
 let currentScore = 10;
 let currentState = 'california';
@@ -1439,6 +1440,80 @@ function analyzeText() {
     persistFormProgress();
 }
 
+function calculateAuditScore(form) {
+    // Deterministic confidence + valuation band from the 9-step answers.
+    // Weighting logic is grounded in the selected statutory facts below.
+    const f = form && typeof form === 'object' ? form : {};
+
+    const accidentType = f.classification || '';
+    const medicalSeverity = f.medical_severity || '';
+    const fault = f.liability_zero_fault || '';
+    const timing = f.sol_window || '';
+    const represented = f.represented || '';
+
+    let raw = 0;
+
+    // Accident Type
+    if (accidentType === 'Commercial Truck Accident') raw += 40;
+    if (accidentType === 'Auto MVC (Motor Vehicle Collision)') raw += 20;
+
+    // Medical Severity
+    if (medicalSeverity === 'ER Visit / Surgery Recommended') raw += 30;
+    if (medicalSeverity === 'No ER / No Surgery Recommendation') raw += 5;
+
+    // Fault
+    if (fault === 'Yes (0% Fault)') raw += 25;
+    if (fault === 'No / Disputed / Unknown') raw -= 10;
+
+    // Timing
+    if (timing === 'Within 24 Months') raw += 10;
+    if (timing === 'Over 24 Months / Unsure') raw -= 20;
+
+    // Representation
+    if (represented === 'No') raw += 10;
+
+    // Normalize raw weight into a 0..100 confidence score.
+    // These min/max bounds are derived from the weighting table above.
+    const minRaw = -25; // 5 + (-10) + (-20)
+    const maxRaw = 115; // 40 + 30 + 25 + 10 + 10
+    const pct = ((raw - minRaw) / (maxRaw - minRaw)) * 100;
+    const confidenceScore = Math.max(0, Math.min(100, Math.round(pct)));
+
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const roundTo = (n, step) => Math.round(n / step) * step;
+
+    let rangeLow = 12000;
+    let rangeHigh = 35000;
+    let bandT = 0;
+
+    if (confidenceScore > 80) {
+        rangeLow = 85000;
+        rangeHigh = 165000;
+        bandT = (confidenceScore - 80) / 20; // 80..100 => 0..1
+    } else if (confidenceScore >= 50) {
+        rangeLow = 35000;
+        rangeHigh = 85000;
+        bandT = (confidenceScore - 50) / 30; // 50..80 => 0..1
+    } else {
+        rangeLow = 12000;
+        rangeHigh = 35000;
+        bandT = confidenceScore / 50; // 0..50 => 0..1
+    }
+
+    const finalSettlement = roundTo(lerp(rangeLow, rangeHigh, bandT), 1000);
+    const carrierOffer = roundTo(finalSettlement * 0.62, 1000); // typical insurance haircut
+    const theGap = finalSettlement - carrierOffer;
+
+    return {
+        confidenceScore,
+        settlementRangeLow: rangeLow,
+        settlementRangeHigh: rangeHigh,
+        finalSettlement,
+        carrierOffer,
+        theGap,
+    };
+}
+
 function submitFinalLead(e) {
     e.preventDefault();
     const tcpa = document.getElementById('tcpa');
@@ -1492,6 +1567,28 @@ function submitFinalLead(e) {
     }
 
     try {
+        // Compute deterministic statutory audit intelligence and pass it to `success.html`.
+        try {
+            const audit = calculateAuditScore(leadFormData);
+            const jurisdictionShort = String(currentState || 'CA').slice(0, 2).toUpperCase();
+
+            localStorage.setItem(
+                AUDIT_RESULT_KEY,
+                JSON.stringify({
+                    confidenceScore: audit.confidenceScore,
+                    settlementRangeLow: audit.settlementRangeLow,
+                    settlementRangeHigh: audit.settlementRangeHigh,
+                    finalSettlement: audit.finalSettlement,
+                    carrierOffer: audit.carrierOffer,
+                    theGap: audit.theGap,
+                    nodalJurisdiction: jurisdictionShort,
+                    generatedAt: new Date().toISOString(),
+                })
+            );
+        } catch {
+            // If scoring fails, keep existing flow; success.html will fall back to defaults.
+        }
+
         const prev = JSON.parse(localStorage.getItem(LOCAL_LEADS_KEY) || '[]');
         const queue = Array.isArray(prev) ? prev : [];
         queue.push({ ...leadFormData, submittedAt: new Date().toISOString() });

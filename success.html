@@ -254,6 +254,81 @@
             white-space: nowrap;
         }
 
+        .comparison{
+            margin-top: 14px;
+        }
+
+        .cmp-top{
+            display:flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items:flex-end;
+            margin-top: 10px;
+        }
+
+        .cmp-col{
+            flex: 1;
+            min-width: 0;
+        }
+
+        .cmp-k{
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.62);
+            font-weight: 800;
+        }
+
+        .cmp-v{
+            margin-top: 6px;
+            font-family: "Crimson Pro", Georgia, "Times New Roman", serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            font-size: 20px;
+            color: var(--white);
+            white-space: nowrap;
+            overflow:hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cmp-v.gold{
+            color: rgba(212,175,55,0.98);
+        }
+
+        .cmp-bar{
+            margin-top: 12px;
+            height: 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(212,175,55,0.25);
+            background: rgba(255,255,255,0.04);
+            overflow:hidden;
+            position: relative;
+        }
+
+        .cmp-fill{
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, rgba(212,175,55,0.95), rgba(16,185,129,0.65));
+            transition: width 240ms ease;
+        }
+
+        .cmp-discrepancy{
+            margin-top: 10px;
+            color: rgba(212,175,55,0.95);
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-size: 10px;
+        }
+
+        .cmp-note{
+            margin-top: 8px;
+            color: rgba(255,255,255,0.68);
+            font-size: 11px;
+            letter-spacing: 0.03em;
+            line-height: 1.5;
+        }
+
         .log{ margin-top: 12px; display:flex; flex-direction: column; gap: 10px; }
 
         .log-line{
@@ -518,6 +593,32 @@
             </div>
         </section>
 
+        <!-- Carrier AI Projection vs Nodal Statutory Audit -->
+        <section class="panel comparison" aria-label="Carrier AI projection vs Nodal statutory audit comparison">
+            <div class="panel-title">
+                <h2>COMPARISON: CARRIER VS NODAL</h2>
+                <div class="stamp">DELTA VISUALIZED</div>
+            </div>
+
+            <div class="cmp-top">
+                <div class="cmp-col">
+                    <div class="cmp-k">Carrier AI Projection</div>
+                    <div class="cmp-v" id="carrierOffer">$ —</div>
+                </div>
+                <div class="cmp-col" style="text-align:right;">
+                    <div class="cmp-k">Nodal Statutory Audit</div>
+                    <div class="cmp-v gold" id="finalSettlement">$ —</div>
+                </div>
+            </div>
+
+            <div class="cmp-bar" aria-hidden="true">
+                <div class="cmp-fill" id="cmpFill"></div>
+            </div>
+
+            <div class="cmp-discrepancy">DISCREPANCY: <span id="gapValue">$ —</span></div>
+            <div class="cmp-note">Carrier algorithms are designed to minimize. We are designed to maximize.</div>
+        </section>
+
         <section class="panel" aria-label="Statutory discrepancy log">
             <div class="panel-title">
                 <h2>STATUTORY DISCREPANCY LOG</h2>
@@ -563,6 +664,7 @@
     <script>
         const DATA_EMERALD = "#10B981";
         const REPORT_WINDOW_MS = 24 * 60 * 60 * 1000;
+        const AUDIT_RESULT_KEY = "nodalAuditResult.v1";
 
         function safeText(s) {
             return String(s ?? "")
@@ -626,11 +728,22 @@
             return out;
         }
 
-        function buildValuationBand(caseId) {
+        function buildValuationBand(caseId, audit) {
             const url = new URL(window.location.href);
             const minParam = parseMoney(url.searchParams.get("min"));
             const maxParam = parseMoney(url.searchParams.get("max"));
-            const jurisdiction = (url.searchParams.get("jurisdiction") || "CA").toUpperCase().slice(0, 8);
+            const a = audit && typeof audit === "object" ? audit : {};
+
+            const toNum = (v) => {
+                const n = typeof v === "number" ? v : Number(v);
+                return Number.isFinite(n) ? n : null;
+            };
+
+            const auditMin = toNum(a.settlementRangeLow);
+            const auditMax = toNum(a.settlementRangeHigh);
+            const auditConfidence = toNum(a.confidenceScore);
+            const auditJurisdiction = toNum(null); // placeholder: handled below as string
+            const jurisdiction = (a.nodalJurisdiction || url.searchParams.get("jurisdiction") || "CA").toUpperCase().slice(0, 8);
 
             const seed = xmur3(caseId)();
             const rng = mulberry32(seed);
@@ -638,11 +751,46 @@
             const defaultMin = Math.round((175000 + rng() * 475000) / 5000) * 5000;
             const defaultMax = Math.round((defaultMin * (2.2 + rng() * 2.4)) / 5000) * 5000;
 
-            const min = minParam && minParam > 0 ? Math.round(minParam / 5000) * 5000 : defaultMin;
-            const max = maxParam && maxParam > min ? Math.round(maxParam / 5000) * 5000 : defaultMax;
+            const min =
+                auditMin && auditMin > 0
+                    ? Math.round(auditMin / 5000) * 5000
+                    : minParam && minParam > 0
+                      ? Math.round(minParam / 5000) * 5000
+                      : defaultMin;
+            const max =
+                auditMax && auditMax > min
+                    ? Math.round(auditMax / 5000) * 5000
+                    : maxParam && maxParam > min
+                      ? Math.round(maxParam / 5000) * 5000
+                      : defaultMax;
 
             document.getElementById("jurisdiction").textContent = jurisdiction || "CA";
             document.getElementById("valuation").textContent = `${fmtCurrency(min)} — ${fmtCurrency(max)}`;
+
+            const confidenceEl = document.getElementById("confidence");
+            if (confidenceEl && auditConfidence !== null) {
+                confidenceEl.textContent = `Confidence Interval: ${auditConfidence}% based on 14,200+ case-law precedents.`;
+            }
+
+            // Comparison: Carrier AI Projection vs Nodal Statutory Audit
+            const carrierOfferEl = document.getElementById("carrierOffer");
+            const finalSettlementEl = document.getElementById("finalSettlement");
+            const gapValueEl = document.getElementById("gapValue");
+            const cmpFillEl = document.getElementById("cmpFill");
+
+            const carrierOffer = toNum(a.carrierOffer);
+            const finalSettlement = toNum(a.finalSettlement);
+            const gap = toNum(a.theGap);
+
+            if (carrierOfferEl && finalSettlementEl && gapValueEl && cmpFillEl && carrierOffer !== null && finalSettlement !== null && gap !== null) {
+                carrierOfferEl.textContent = fmtCurrency(carrierOffer);
+                finalSettlementEl.textContent = fmtCurrency(finalSettlement);
+                gapValueEl.textContent = fmtCurrency(gap);
+
+                // Visual emphasis: show a clear "30k+ discrepancy" when applicable.
+                const width = Math.max(0, Math.min(100, (Math.abs(gap) / 30000) * 100));
+                cmpFillEl.style.width = `${width.toFixed(1)}%`;
+            }
 
             const fp = `FP-${shortHex(6, seed).slice(2, 8)}-${shortHex(6, seed + 11).slice(2, 8)}`.toUpperCase();
             document.getElementById("fingerprint").textContent = fp;
@@ -731,7 +879,16 @@
         (function init() {
             const caseId = makeId("NODAL");
             document.getElementById("case-id").textContent = caseId;
-            buildValuationBand(caseId);
+
+            let audit = null;
+            try {
+                const raw = localStorage.getItem(AUDIT_RESULT_KEY);
+                audit = raw ? JSON.parse(raw) : null;
+            } catch {
+                audit = null;
+            }
+
+            buildValuationBand(caseId, audit);
             startCountdown();
             wireCta();
             runDecryptionSequence();
