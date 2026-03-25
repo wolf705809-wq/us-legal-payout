@@ -581,7 +581,17 @@ function openModal(options = {}) {
     } else {
         initialStep = activeStep || 'step-1';
     }
-    nextStep(initialStep, { recordHistory: false });
+    const normalizedStep = toStepId(initialStep);
+    const hasTargetStep = !!document.getElementById(normalizedStep);
+    if (!hasTargetStep) {
+        activeStep = 'step-1';
+    }
+
+    nextStep(hasTargetStep ? normalizedStep : 'step-1', { recordHistory: false });
+
+    const step1 = document.getElementById('step-1');
+    if (step1) step1.classList.remove('hidden');
+    console.log('Modal opened', activeStep);
 }
 
 function closeModal() {
