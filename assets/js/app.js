@@ -495,16 +495,29 @@ function syncSubmitState() {
     const submitBtn = document.getElementById('submit-btn');
     if (!submitBtn) return;
 
-    const canSubmit = !!tcpa && tcpa.checked && turnstileVerified;
+    const canSubmit = !!tcpa && tcpa.checked && turnstileVerified && !!turnstileToken;
     submitBtn.disabled = !canSubmit;
     submitBtn.classList.toggle('cursor-not-allowed', !canSubmit);
     submitBtn.classList.toggle('opacity-50', !canSubmit);
     submitBtn.classList.toggle('opacity-100', canSubmit);
+
+    // Visual polish: look "live" when validated
+    submitBtn.classList.toggle('bg-slate-950', canSubmit);
+    submitBtn.classList.toggle('text-white', canSubmit);
+    submitBtn.classList.toggle('animate-pulse', canSubmit);
+    submitBtn.classList.toggle('shadow-xl', canSubmit);
+    if (canSubmit) {
+        submitBtn.classList.remove('cursor-not-allowed');
+        submitBtn.classList.remove('opacity-50');
+        submitBtn.classList.add('opacity-100');
+    } else {
+        submitBtn.classList.remove('animate-pulse');
+    }
 }
 
 function onTurnstileVerified(token) {
     turnstileToken = token || '';
-    turnstileVerified = true;
+    turnstileVerified = !!turnstileToken;
     syncSubmitState();
 }
 
@@ -966,7 +979,7 @@ function submitFinalLead(e) {
         alert('Express written consent is required before submitting your case.');
         return;
     }
-    if (!turnstileVerified) {
+    if (!turnstileVerified || !turnstileToken) {
         alert('Please complete the security verification.');
         return;
     }
@@ -984,6 +997,9 @@ function submitFinalLead(e) {
     leadFormData.case_type = caseMode;
     if (caseMode === 'truck') {
         leadFormData.carrier_name = document.getElementById('truck-carrier-name')?.value?.trim() || leadFormData.carrier_name || '';
+        // Ensure key truck decisions persist in final payload
+        leadFormData.eldPreservation = leadFormData.eldPreservation || leadFormData.eld || '';
+        leadFormData.truckClass = leadFormData.truckClass || '';
         leadFormData.type = leadFormData.type || 'Truck';
         leadFormData.fault = leadFormData.fault || 'unknown';
         leadFormData.med = leadFormData.med || 'unknown';
@@ -1015,10 +1031,36 @@ function submitFinalLead(e) {
         const queue = Array.isArray(prev) ? prev : [];
         queue.push({ ...leadFormData, submittedAt: new Date().toISOString() });
         localStorage.setItem(LOCAL_LEADS_KEY, JSON.stringify(queue.slice(-100)));
-        window.location.href = '/success.html';
+        if (caseMode === 'truck') {
+            // 0.1% finish: in-modal scan → generated report → safe redirect
+            if (scanStatusText) scanStatusText.innerText = 'Final Scan & Analysis (FMCSA + policy layers)…';
+            window.setTimeout(() => {
+                const stepScanEl = document.getElementById('step-scan');
+                if (stepScanEl) {
+                    stepScanEl.innerHTML = [
+                        '<div class="text-center">',
+                        '  <div class="mx-auto w-12 h-12 mb-6 rounded-full border-2 border-slate-200 flex items-center justify-center text-slate-900 font-bold">✓</div>',
+                        '  <h3 class="font-serif font-bold text-xl text-slate-950 mb-2">REPORT GENERATED</h3>',
+                        '  <p class="text-sm text-slate-600 leading-relaxed mb-6">Your truck audit has been finalized. A verification specialist may contact you shortly to validate carrier/policy-layer details.</p>',
+                        '  <button type="button" id="truck-report-download" class="w-full py-5 rounded-2xl bg-slate-950 text-white font-bold uppercase tracking-[0.2em] text-[13px] shadow-xl hover:bg-slate-800 active:scale-[0.98] transition-all">Download Report</button>',
+                        '</div>',
+                    ].join('');
+                    const btn = document.getElementById('truck-report-download');
+                    if (btn) {
+                        btn.addEventListener('click', () => {
+                            window.location.href = '/success.html?mode=truck';
+                        });
+                    }
+                } else {
+                    window.location.href = '/success.html?mode=truck';
+                }
+            }, 3000);
+        } else {
+            window.location.href = '/success.html';
+        }
     } catch (err) {
         console.error(err);
-        window.location.href = '/success.html';
+        window.location.href = caseMode === 'truck' ? '/success.html?mode=truck' : '/success.html';
     }
 }
 
