@@ -1031,7 +1031,7 @@ function bindMainPageGlobals() {
     const w = window;
     w.selectJurisdiction = selectJurisdiction;
     w.startAudit = startAudit;
-    w.openModal = () => openModal();
+    w.openModal = openModal;
     w.closeModal = closeModal;
     w.openAboutModal = openAboutModal;
     w.closeAboutModal = closeAboutModal;
