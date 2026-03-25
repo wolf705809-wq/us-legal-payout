@@ -61,16 +61,19 @@
             <p class="text-[0.7rem] font-bold uppercase tracking-[0.1em] text-slate-900 mb-4">
                 AUTHORIZED STATE NODES
             </p>
-            <div class="relative">
-                <input
-                    id="state-search-input"
-                    type="text"
-                    autocomplete="off"
-                    placeholder="Search Jurisdiction for Statutory Audit Compliance..."
-                    class="w-full rounded-md border border-slate-200 bg-[#fcfdfe] px-4 py-3.5 text-[1.0rem] font-semibold text-[#1e293b] shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-                />
-                <div id="state-search-results" class="hidden absolute z-40 mt-2 w-full rounded-md border border-slate-200 bg-white shadow-xl max-h-64 overflow-y-auto"></div>
-            </div>
+            <!-- [검색창 부분] -->
+<div class="relative">
+    <input
+        id="state-search-input"
+        type="text"
+        autocomplete="off"
+        placeholder="Search Jurisdiction for Statutory Audit Compliance..."
+        class="w-full rounded-md border border-slate-200 bg-[#fcfdfe] px-4 py-3.5 text-[1.0rem] font-semibold text-[#1e293b] shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+    />
+    <!-- 검색 결과가 나타날 컨테이너 -->
+    <div id="state-search-results" class="hidden absolute z-40 mt-2 w-full rounded-md border border-slate-200 bg-white shadow-xl max-h-64 overflow-y-auto text-left">
+    </div>
+</div>
 
             <div class="mt-6 md:mt-7">
                 <div class="grid grid-cols-2 gap-4 sm:grid-cols-5 sm:gap-3">
