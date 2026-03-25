@@ -12,40 +12,39 @@ if not OUTPUT_ROOT.exists():
     os.makedirs(OUTPUT_ROOT)
 
 def get_dynamic_content(state_name, row):
-    """구글봇을 속이기 위한 문장 구조 다변화 로직"""
+    """메인 페이지와 완전히 차별화된 '트럭 전용' 전문 문구 조합"""
     
-    # 1. 타이틀 변형 (주마다 제목 스타일이 달라짐)
-    h1_templates = [
-        f"{state_name} 18-Wheeler Statutory Audit",
-        f"Uncover Your Settlement Gap in {state_name}",
-        f"{state_name} Commercial Truck Liability Report",
-        f"Statutory Recovery Floor: {state_name} Edition"
+    # 1. 트럭 전용 제목 (연방 규정 및 조사 강조)
+    h1_options = [
+        f"{state_name} 18-Wheeler Liability Infrastructure",
+        f"Commercial Carrier Compliance Audit: {state_name}",
+        f"{state_name} Federal Trucking Safety Verification",
+        f"Audit the $750k+ Statutory Floor in {state_name}"
     ]
     
-    # 2. 첫 문장 변형 (인트로 문구를 섞음)
-    intros = [
-        f"In {state_name}, insurance algorithms are calibrated to devalue claims.",
-        f"The trucking liability framework in {state_name} is complex by design.",
-        f"Recovering damages after a commercial wreck in {state_name} requires precise data.",
-        f"Every 18-wheeler incident in {state_name} falls under specific statutory floors."
+    # 2. 트럭 전용 설명 (FMCSA, 블랙박스, 보험 레이어 강조)
+    # 메인 페이지의 'Data Battle' 같은 표현을 지우고 더 기술적으로 접근합니다.
+    intro_options = [
+        f"Large carriers hide behind complex corporate layers. Our engine decodes FMCSA safety violations and {state_name} insurance floors that adjusters often omit.",
+        f"We analyze black-box data and commercial policy limits to identify the true recovery floor for {state_name} trucking incidents.",
+        f"Commercial insurers leverage technical complexity to suppress claims. This infrastructure verifies {state_name} statutory liability against federal safety standards."
     ]
     
-    # 3. 데이터 결합 문장 (JSON 데이터를 문장 속에 녹여냄)
-    highway = row.get('major_highway', 'local interstate')
-    stats = row.get('crash_stats', 'significant annual incidents')
-    
-    narratives = [
-        f"With heavy congestion on {highway}, {state_name} records {stats} annually.",
-        f"Statutory audits for {state_name} frequently focus on {highway} traffic data.",
-        f"Our engine analyzes the {stats} that occur near {highway} to establish your recovery floor.",
-        f"The {highway} corridor in {state_name} remains a primary zone for high-value litigation."
+    # 3. 트럭 전용 하단 라벨 (연방 규정 동기화 강조)
+    label_options = [
+        "FEDERAL CARRIER COMPLIANCE UNIT | FMCSA DATA SYNC [v2026.03]",
+        "COMMERCIAL POLICY LAYER AUDIT | JURISDICTIONAL SECURE [v2026.03]",
+        "18-WHEELER STATUTORY MONITOR | STATE-SPECIFIC PROTOCOL [v2026.03]"
     ]
 
+    highway = row.get('major_highway', 'local interstate')
+    stats = row.get('crash_stats', 'significant annual incidents')
+
     return {
-        "dynamic_h1": random.choice(h1_templates),
-        "dynamic_intro": random.choice(intros),
-        "dynamic_narrative": random.choice(narratives),
-        "seo_description": f"Authorized statutory audit for {state_name} truck accidents. Mapping {highway} data to identify recovery floors."
+        "dynamic_h1": random.choice(h1_options),
+        "dynamic_intro": random.choice(intro_options),
+        "system_label": random.choice(label_options),
+        "seo_description": f"Authorized 18-wheeler accident audit for {state_name}. Analyze carrier policy layers and federal safety compliance."
     }
 
 def render_template(template: str, values: dict) -> str:
