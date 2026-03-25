@@ -172,6 +172,30 @@ function escapeHtml(s) {
         .replace(/"/g, '&quot;');
 }
 
+/** Plain-text risk line (matches scripts/build-truck-pages.mjs buildRiskSummary). */
+function buildTruckRiskSummaryText(t) {
+    if (!t) return '';
+    const highway = t.major_highway || 'primary freight corridors';
+    const crash = t.crash_stats || 'regional truck incident data';
+    const weather = t.weather_factor || 'local road hazard factors';
+    return `High-risk freight exposure across ${highway}; ${crash}; weather threat profile: ${weather}.`;
+}
+
+function isTruckStaticPath() {
+    return /^\/truck\/[^/]+\/?$/i.test(window.location.pathname || '');
+}
+
+function runTruckSpaShimmer() {
+    const el = document.getElementById('truck-spa-shimmer');
+    if (!el) return;
+    el.classList.remove('opacity-0');
+    el.classList.add('opacity-100');
+    window.setTimeout(() => {
+        el.classList.remove('opacity-100');
+        el.classList.add('opacity-0');
+    }, 220);
+}
+
 function buildTruckRiskSignalHtml(truckRow) {
     const law = escapeHtml(truckRow.law_type || '—');
     const cx = escapeHtml(truckRow.settlement_complexity || '—');
@@ -201,16 +225,30 @@ function animateContentSwap({ el, update, addScanLine = false }) {
 
 function _syncGlobalUI(d, mode) {
     const navName = document.getElementById('nav-state-name');
-    if (navName) navName.innerText = `${d.name} Case Audit Division`;
+    const isTruckPseo = document.body.classList.contains('truck-pseo-page');
+    if (navName) {
+        if (isTruckPseo && mode === 'truck') {
+            navName.innerText = `${d.name} · Truck Specialist Audit`;
+        } else {
+            navName.innerText = `${d.name} Case Audit Division`;
+        }
+    }
 
     const metaDescription = document.querySelector('meta[name="description"]');
     if (mode === 'truck') {
-        document.title = `${d.name} Truck Accident Evaluation | FMCSA Compliance | Nodal`;
-        if (metaDescription) {
-            metaDescription.setAttribute(
-                'content',
-                `${d.name} 18-wheeler statutory audit with FMCSA Parts 390-399 review, carrier liability analysis, and evidence preservation workflow.`
-            );
+        if (isTruckPseo) {
+            document.title = `${d.name} Truck Specialist Audit | Nodal`;
+            if (metaDescription) {
+                metaDescription.setAttribute('content', buildTruckRiskSummaryText(d));
+            }
+        } else {
+            document.title = `${d.name} Truck Accident Evaluation | FMCSA Compliance | Nodal`;
+            if (metaDescription) {
+                metaDescription.setAttribute(
+                    'content',
+                    `${d.name} 18-wheeler statutory audit with FMCSA Parts 390-399 review, carrier liability analysis, and evidence preservation workflow.`
+                );
+            }
         }
         document.body.classList.add('truck-mode');
     } else {
@@ -471,6 +509,16 @@ function startAudit(s) {
 
 function selectJurisdiction(stateKey) {
     if (!getStateRows()[stateKey]) return;
+
+    if (isTruckStaticPath()) {
+        const cur = resolveStateKeyFromPathname(window.location.pathname);
+        if (cur === stateKey) return;
+        window.history.pushState({ truckPseo: true, stateKey }, '', `/truck/${stateKey}/`);
+        runTruckSpaShimmer();
+        applyStateData(stateKey);
+        return;
+    }
+
     startStateSyncFlow(stateKey);
 }
 
@@ -929,6 +977,13 @@ function bindMainPageGlobals() {
 }
 
 bindMainPageGlobals();
+
+window.addEventListener('popstate', () => {
+    if (!isTruckStaticPath()) return;
+    const k = resolveStateKeyFromPathname(window.location.pathname);
+    const rows = getStateRows();
+    if (k && rows[k]) applyStateData(k);
+});
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {

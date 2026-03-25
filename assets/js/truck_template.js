@@ -54,16 +54,6 @@
         box.classList.remove('hidden');
     }
 
-    window.selectJurisdiction = function selectJurisdiction(stateKey) {
-        const rows = getStateRows();
-        if (!rows[stateKey]) return;
-        const path = `/truck/${stateKey}/`;
-        const cur = (window.location.pathname || '/').replace(/\/$/, '') || '/';
-        const target = path.replace(/\/$/, '');
-        if (cur === target) return;
-        window.location.href = path;
-    };
-
     function showStep(stepNum) {
         document.querySelectorAll('.step-container').forEach((el) => el.classList.add('hidden'));
         const target = document.getElementById(`step-${stepNum}`);
