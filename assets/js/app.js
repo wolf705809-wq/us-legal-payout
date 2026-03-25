@@ -568,37 +568,53 @@ function renderStateSearchResults(query) {
 function openModal(options = {}) {
     const startFresh = options.startFresh === true;
     const modal = document.getElementById('leadModal');
-    if (!modal) return;
+    if (!modal) {
+        console.error('[Fatal Error] LeadModal element not found in DOM.');
+        return;
+    }
+
+    // Hard show modal
     modal.classList.remove('hidden');
+    // Tailwind positioning relies on flex on these pages
+    modal.classList.add('flex');
+    modal.classList.remove('hidden');
+
+    document.body.classList.add('overflow-hidden');
     document.body.style.overflow = 'hidden';
 
-    let initialStep;
-    if (startFresh) {
-        initialStep = caseMode === 'truck' ? 'truck-intro' : 'step-1';
-    } else if (caseMode === 'truck') {
-        const isTruckStep = typeof activeStep === 'string' && activeStep.includes('truck');
-        initialStep = isTruckStep ? activeStep : 'truck-intro';
-    } else {
-        initialStep = activeStep || 'step-1';
-    }
-    const normalizedStep = toStepId(initialStep);
-    const hasTargetStep = !!document.getElementById(normalizedStep);
-    if (!hasTargetStep) {
-        activeStep = 'step-1';
-    }
+    // Essential reset: always start from a known step state
+    activeStep = 'step-1';
+    stepHistory = [];
+    currentScore = 10;
 
-    nextStep(hasTargetStep ? normalizedStep : 'step-1', { recordHistory: false });
+    // Theme (minimal, stability-first)
+    const title = document.getElementById('lead-modal-title');
+    if (title) title.textContent = caseMode === 'truck' ? 'Truck Case Intake Audit' : 'Case Intake Audit';
 
-    const step1 = document.getElementById('step-1');
-    if (step1) step1.classList.remove('hidden');
-    console.log('Modal opened', activeStep);
+    // Choose initial step
+    let initialStep = 'step-1';
+    if (startFresh || caseMode === 'truck') initialStep = caseMode === 'truck' ? 'step-truck-intro' : 'step-1';
+    if (!document.getElementById(initialStep)) initialStep = 'step-1';
+
+    // Apply step visibility + state
+    nextStep(initialStep, { recordHistory: false });
+
+    updateSelectedChoiceUI();
+    syncSubmitState();
+
+    console.log('[DEBUG] openModal executed. leadModal: flex; step:', activeStep);
 }
 
 function closeModal() {
     const modal = document.getElementById('leadModal');
     if (!modal) return;
     modal.classList.add('hidden');
+    modal.classList.remove('flex');
     document.body.style.overflow = '';
+    document.body.classList.remove('overflow-hidden');
+
+    // Reset questionnaire state for next open (prevents stale-step bugs)
+    resetFlowState();
 }
 
 function openAboutModal() {
@@ -829,30 +845,63 @@ async function startStateSyncFlow(stateKey) {
 }
 
 function handleSelect(key, val, next, feedback, bonus) {
+    // Mode switch: when user explicitly selects Truck classification
+    if (key === 'type') {
+        if (val === 'Truck') {
+            caseMode = 'truck';
+            leadFormData.case_type = 'truck';
+            const title = document.getElementById('lead-modal-title');
+            if (title) title.textContent = 'Truck Case Intake Audit';
+            feedback = 'Federal-class incident detected. Statutory policy floor ($750k+) mapping activated.';
+        } else {
+            caseMode = 'auto';
+            leadFormData.case_type = 'auto';
+            const title = document.getElementById('lead-modal-title');
+            if (title) title.textContent = 'Case Intake Audit';
+        }
+    }
+
     leadFormData[key] = val;
     updateSelectedChoiceUI();
-    currentScore = Math.min(95, currentScore + bonus);
+
+    const b = Number(bonus || 0);
+    currentScore = Math.min(95, Math.max(10, currentScore + b));
     const gauge = document.getElementById('strength-gauge');
     if (gauge) gauge.style.width = `${currentScore}%`;
+
     const fbBox = document.getElementById('ai-feedback-box');
     const fbText = document.getElementById('ai-feedback-text');
     if (fbBox && fbText) {
         fbText.innerText = `AI INSIGHT: ${feedback}`;
         fbBox.classList.remove('hidden');
     }
+
     persistFormProgress();
-    setTimeout(() => nextStep(next, { recordHistory: true }), 600);
+
+    // Shararak-style premium transition (lightweight on steps)
+    setTimeout(() => {
+        const target = toStepId(next);
+        nextStep(next, { recordHistory: true });
+        const el = document.getElementById(target);
+        if (el) {
+            el.classList.remove('content-shimmer');
+            void el.offsetWidth;
+            el.classList.add('content-shimmer');
+            window.setTimeout(() => el.classList.remove('content-shimmer'), 450);
+        }
+    }, 180);
 }
 
 function nextStep(s, options = {}) {
     const { recordHistory = true } = options;
     const targetStepId = toStepId(s);
     const targetStepEl = document.getElementById(targetStepId);
-    if (!targetStepEl) return;
     const currentStepId = getCurrentStepId();
-    if (recordHistory && currentStepId && currentStepId !== targetStepId) {
-        stepHistory.push(currentStepId);
-    }
+
+    if (!targetStepEl) return;
+
+    if (recordHistory && currentStepId && currentStepId !== targetStepId) stepHistory.push(currentStepId);
+
     document.querySelectorAll('.step-container').forEach((el) => el.classList.add('hidden'));
     targetStepEl.classList.remove('hidden');
     activeStep = targetStepId;
@@ -861,11 +910,10 @@ function nextStep(s, options = {}) {
 }
 
 function prevStep() {
-    if (!stepHistory.length) {
-        closeModal();
-        return;
-    }
+    if (!stepHistory.length) return closeModal();
     const previousStepId = stepHistory.pop();
+    if (!previousStepId) return closeModal();
+    if (!document.getElementById(previousStepId)) return closeModal();
     nextStep(previousStepId, { recordHistory: false });
 }
 

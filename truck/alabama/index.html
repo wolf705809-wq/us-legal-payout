@@ -101,72 +101,153 @@
         </div>
     </main>
 
-    <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-slate-900/70 backdrop-blur-sm p-4">
-        <div class="w-full max-w-xl bg-slate-50 shadow-2xl rounded-t-2xl md:rounded-xl flex flex-col max-h-[92vh] border border-slate-300 overflow-hidden">
-            <div class="px-5 md:px-8 py-5 md:py-6 border-b border-slate-300 bg-slate-50 sticky top-0 z-10">
+    <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+        <div id="lead-modal-card" class="w-full max-w-xl bg-white shadow-2xl rounded-t-2xl md:rounded-xl flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden">
+            <div class="px-5 md:px-8 py-5 md:py-6 border-b border-slate-100 bg-white sticky top-0 z-10">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-serif font-bold text-xl text-slate-900">Truck Case Intake Audit</h3>
-                    <button type="button" onclick="closeModal()" class="text-slate-500 hover:text-slate-900 p-2" aria-label="Close">✕</button>
+                    <h3 id="lead-modal-title" class="font-serif font-bold text-xl">Case Intake Audit</h3>
+                    <button type="button" onclick="closeModal()" class="text-slate-400 hover:text-slate-800 p-2" aria-label="Close">✕</button>
                 </div>
-                <div id="ai-feedback-box" class="mb-4 p-3 bg-slate-200 rounded hidden">
-                    <p id="ai-feedback-text" class="text-[10px] font-bold text-slate-800 uppercase tracking-tight"></p>
+                <div id="ai-feedback-box" class="mb-4 p-3 bg-blue-50 rounded hidden">
+                    <p id="ai-feedback-text" class="text-[10px] font-bold text-blue-800 uppercase tracking-tight"></p>
                 </div>
-                <div class="w-full bg-slate-300 h-1.5 rounded-full overflow-hidden">
-                    <div id="strength-gauge" class="bg-amber-500 h-full transition-all duration-700" style="width: 10%"></div>
+                <p id="value-driver-tip" class="mb-4 text-[11px] font-semibold text-blue-700 hidden"></p>
+                <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                    <div id="strength-gauge" class="bg-blue-600 h-full transition-all duration-700 gauge-initial"></div>
                 </div>
             </div>
 
-            <div id="modalBody" class="p-5 md:p-8 overflow-y-auto flex-grow bg-slate-50">
+            <div id="modalBody" class="p-5 md:p-8 overflow-y-auto flex-grow bg-white">
                 <div id="step-1" class="step-container space-y-4">
-                    <button type="button" onclick="closeModal()" class="block text-[11px] font-medium text-slate-400 hover:text-slate-600 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.14em]">Section 01: FMCSR Compliance</p>
-                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight text-slate-900">Did the carrier or driver likely violate FMCSR operational safety requirements?</h3>
-                    <button type="button" onclick="handleSelect('fmcsa', 'yes', 2, 'Federal compliance violation signal detected.', 18)" class="option-card w-full text-left">Yes, strong FMCSR violation signal</button>
-                    <button type="button" onclick="handleSelect('fmcsa', 'unknown', 2, 'Additional compliance evidence required.', 8)" class="option-card w-full text-left">Not sure yet</button>
+                    <button type="button" onclick="closeModal()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 01: Classification</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Nature of the incident?</h3>
+                    <button type="button" onclick="handleSelect('type', 'Auto', 2, 'Vehicle cases require immediate insurance verification.', 10)" data-choice-key="type" data-choice-value="Auto" class="option-card w-full text-left">Motor Vehicle Collision</button>
+                    <button type="button" onclick="handleSelect('type', 'Slip', 2, 'Premises liability depends on notice of hazard.', 10)" data-choice-key="type" data-choice-value="Slip" class="option-card w-full text-left">Premises Liability (Slip & Fall)</button>
+                    <button type="button" onclick="handleSelect('type', 'Truck', 'truck-niche', 'Commercial trucking incidents require carrier and vehicle-class verification.', 14)" data-choice-key="type" data-choice-value="Truck" class="option-card w-full text-left">Commercial Truck Accident</button>
+                </div>
+
+                <div id="step-truck-intro" class="step-container hidden space-y-4">
+                    <button type="button" onclick="closeModal()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Truck Mode: Confirmed</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">18-Wheeler / Commercial Truck case profile confirmed.</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">This flow prioritizes FMCSA compliance, carrier liability, and time-sensitive evidence preservation.</p>
+                    <button type="button" onclick="nextStep('truck-carrier')" class="premium-btn w-full text-left">Continue to Carrier Verification</button>
+                </div>
+
+                <div id="step-truck-carrier" class="step-container hidden space-y-4">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Truck Mode: Carrier Data</p>
+                    <h3 id="truck-q-carrier" class="text-[22px] md:text-xl font-serif font-bold leading-tight">Do you know the trucking company (carrier) name?</h3>
+                    <p id="truck-q-carrier-reason" class="text-[11px] text-slate-500 leading-relaxed">Value Driver: Carrier identification improves policy trace speed and lead quality scoring.</p>
+                    <input type="text" id="truck-carrier-name" placeholder="e.g. Swift Transportation" class="w-full bg-slate-50 border border-slate-200 p-4 rounded outline-none focus:border-blue-500">
+                    <button type="button" onclick="handleTruckCarrierStep()" class="premium-btn w-full text-left">Save Carrier Info</button>
+                </div>
+
+                <div id="step-truck-evidence" class="step-container hidden space-y-4">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Truck Mode: Evidence Preservation</p>
+                    <h3 id="truck-q-eld" class="text-[22px] md:text-xl font-serif font-bold leading-tight">Should we initiate an evidence preservation request for ELD and telematics data?</h3>
+                    <p id="truck-q-eld-reason" class="text-[11px] text-slate-500 leading-relaxed">Value Driver: Preserving ELD/dashcam timelines prevents data loss and increases settlement leverage.</p>
+                    <button type="button" onclick="handleSelect('eldPreservation', 'yes', 2, 'Immediate preservation demand recommended to protect federal log and telematics evidence.', 20)" data-choice-key="eldPreservation" data-choice-value="yes" class="option-card w-full text-left">Yes, initiate ELD evidence preservation</button>
+                    <button type="button" onclick="handleSelect('eldPreservation', 'no', 2, 'Proceeding without preservation request; carrier disclosure timeline risk flagged.', 8)" data-choice-key="eldPreservation" data-choice-value="no" class="option-card w-full text-left">No, proceed without immediate preservation</button>
+                </div>
+
+                <div id="step-truck-niche" class="step-container hidden space-y-4">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Truck Niche: Vehicle Class</p>
+                    <h3 id="truck-q-vehicle-class" class="text-[22px] md:text-xl font-serif font-bold leading-tight">Was the vehicle a 18-wheeler or commercial semi-truck?</h3>
+                    <p id="truck-q-vehicle-class-reason" class="text-[11px] text-slate-500 leading-relaxed">Value Driver: Vehicle class determines commercial policy layers and likely recovery ceiling.</p>
+                    <button type="button" onclick="handleSelect('truckClass', 'semi_18wheeler', 'truck-carrier', 'FMCSR-level carrier profile detected. Policy floor analysis is prioritized.', 18)" data-choice-key="truckClass" data-choice-value="semi_18wheeler" class="option-card w-full text-left">Yes, Semi / 18-Wheeler</button>
+                    <button type="button" onclick="handleSelect('truckClass', 'delivery_van', 'truck-carrier', 'Final-mile commercial profile detected. Route-operator liability weighting applied.', 10)" data-choice-key="truckClass" data-choice-value="delivery_van" class="option-card w-full text-left">No, Delivery Van (Amazon/FedEx)</button>
                 </div>
 
                 <div id="step-2" class="step-container hidden space-y-4">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-400 hover:text-slate-600 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.14em]">Section 02: Carrier Identification</p>
-                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight text-slate-900">Do you know the carrier name and/or USDOT number?</h3>
-                    <input type="text" id="carrier-name" placeholder="Carrier name or USDOT number" class="w-full bg-white border border-slate-300 p-4 rounded outline-none focus:border-slate-500">
-                    <button type="button" onclick="nextStep(3)" class="premium-btn w-full py-4 rounded uppercase tracking-widest bg-gradient-to-br from-slate-700 to-slate-900 hover:from-slate-800 hover:to-black">Continue</button>
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 02: Liability</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Establish fault distribution.</h3>
+                    <button type="button" onclick="handleSelect('fault', 'none', 3, 'Zero liability status significantly enhances recovery.', 25)" data-choice-key="fault" data-choice-value="none" class="option-card w-full text-left">0% Liability (Not At Fault)</button>
+                    <button type="button" onclick="handleSelect('fault', 'shared', 3, 'Comparative negligence rules will apply.', 10)" data-choice-key="fault" data-choice-value="shared" class="option-card w-full text-left">Liability is Disputed / Shared</button>
                 </div>
 
                 <div id="step-3" class="step-container hidden space-y-4">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-400 hover:text-slate-600 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.14em]">Section 03: ELD Preservation</p>
-                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight text-slate-900">Should we initiate ELD / telematics evidence preservation immediately?</h3>
-                    <button type="button" onclick="handleSelect('eld', 'yes', 4, 'Immediate preservation increases evidentiary leverage.', 20)" class="option-card w-full text-left">Yes, preserve ELD data now</button>
-                    <button type="button" onclick="handleSelect('eld', 'no', 4, 'Proceeding without preservation request flagged.', 8)" class="option-card w-full text-left">No, proceed without immediate preservation</button>
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 03: Damages</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Detail medical intervention.</h3>
+                    <button type="button" onclick="handleSelect('med', 'er', 4, 'Emergency care visits establish essential causality.', 30)" data-choice-key="med" data-choice-value="er" class="option-card w-full text-left">ER / Hospital Admission</button>
+                    <button type="button" onclick="handleSelect('med', 'later', 4, 'Delayed treatment requires specific documentation.', 10)" data-choice-key="med" data-choice-value="later" class="option-card w-full text-left">Follow-up with Doctor Later</button>
                 </div>
 
                 <div id="step-4" class="step-container hidden space-y-4">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-400 hover:text-slate-600 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.14em]">Section 04: Contact Verification</p>
-                    <h3 class="text-[22px] md:text-xl font-serif font-bold text-center leading-tight text-slate-900">Identity Details</h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <input type="text" id="fName" placeholder="First Name" class="bg-white border p-4 rounded outline-none w-full">
-                        <input type="text" id="lName" placeholder="Last Name" class="bg-white border p-4 rounded outline-none w-full">
-                    </div>
-                    <input type="email" id="email" placeholder="Email Address" class="w-full bg-white border p-4 rounded outline-none">
-                    <button type="button" onclick="nextStep(5)" class="premium-btn w-full py-4 rounded uppercase tracking-widest mt-4 bg-gradient-to-br from-slate-700 to-slate-900 hover:from-slate-800 hover:to-black">Review Results</button>
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 04: Evidence</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Was an official report filed?</h3>
+                    <button type="button" onclick="handleSelect('police', 'yes', 5, 'Official reports are considered primary evidence.', 15)" data-choice-key="police" data-choice-value="yes" class="option-card w-full text-left">Yes, police report generated</button>
+                    <button type="button" onclick="handleSelect('police', 'no', 5, 'Secondary documentation will be required.', 0)" data-choice-key="police" data-choice-value="no" class="option-card w-full text-left">No / Status Unknown</button>
                 </div>
 
-                <form id="step-5" class="step-container hidden space-y-4" onsubmit="submitFinalLead(event)">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-400 hover:text-slate-600 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.14em] text-center">Section 05: Security</p>
-                    <h3 class="text-[22px] md:text-xl font-serif font-bold text-center mb-6 leading-tight text-slate-900">Secure Your Assessment</h3>
-                    <input type="tel" id="userPhone" placeholder="(555) 555-5555" required class="w-full bg-white border-2 border-slate-300 px-4 py-5 rounded-xl text-2xl font-bold text-center outline-none tracking-widest focus:border-slate-500">
+                <div id="step-5" class="step-container hidden space-y-4">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 05: Legal Status</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Do you have an active attorney?</h3>
+                    <button type="button" onclick="handleSelect('atty', 'no', 6, 'You are eligible for priority counsel matching.', 10)" data-choice-key="atty" data-choice-value="no" class="option-card w-full text-left">No Active Representation</button>
+                    <button type="button" onclick="disqualify()" class="option-card w-full text-left opacity-60">Already Retained Counsel</button>
+                </div>
+
+                <div id="step-6" class="step-container hidden space-y-4">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 06: Analysis</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Incident Narrative</h3>
+                    <textarea id="narrative-box" rows="4" 
+    oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s.,!?'\-]/g, ''); analyzeText()" 
+    placeholder="e.g. I was stopped at a red light..." 
+    class="w-full bg-slate-50 border border-slate-200 p-4 rounded outline-none focus:border-blue-500">
+</textarea>
+                    <div id="keyword-badges" class="flex flex-wrap gap-2"></div>
+                    <button type="button" onclick="nextStep(7)" class="premium-btn w-full py-4 rounded uppercase tracking-widest bg-gradient-to-br from-[#1E3A8A] to-[#172554] hover:from-[#172554] hover:to-[#0F172A]">Execute AI Audit</button>
+                </div>
+
+                <div id="step-7" class="step-container hidden space-y-4">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 07: Verification</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold text-center leading-tight">Identity Details</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" id="fName" placeholder="First Name" 
+                            oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')" 
+                            class="bg-slate-50 border p-4 rounded outline-none w-full">
+                        
+                        <input type="text" id="lName" placeholder="Last Name" 
+                            oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')" 
+                            class="bg-slate-50 border p-4 rounded outline-none w-full">
+                    </div>
+                    <input type="email" id="email" placeholder="Email Address" 
+                        oninput="this.value = this.value.replace(/[^a-zA-Z0-9@._-]/g, '')" 
+                        class="w-full bg-slate-50 border p-4 rounded outline-none">
+                    <button type="button" onclick="nextStep(8)" class="premium-btn w-full py-4 rounded uppercase tracking-widest mt-4 bg-gradient-to-br from-[#1E3A8A] to-[#172554] hover:from-[#172554] hover:to-[#0F172A]">Review Results</button>
+                </div>
+
+                <form id="step-8" class="step-container hidden space-y-4" onsubmit="submitFinalLead(event)">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em] text-center">Section 08: Security</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold text-center mb-6 leading-tight">Secure Your Assessment</h3>
+                    <input type="tel" id="userPhone" inputmode="numeric" maxlength="14" placeholder="(555) 555-5555" required oninput="this.value = this.value.replace(/[^\d]/g, '')" class="w-full bg-slate-50 border-2 border-slate-200 px-4 py-5 rounded-xl text-2xl font-bold text-center outline-none tracking-widest focus:border-blue-500">
+                    <p class="text-[11px] text-slate-600 leading-relaxed text-center">Security Check: A verification specialist may call to validate this statutory audit within 5 minutes.</p>
+
                     <div class="cf-turnstile flex justify-center" data-sitekey="0x4AAAAAACuTQ4GK1w5nO44e" data-callback="onTurnstileVerified" data-expired-callback="onTurnstileExpired"></div>
-                    <label class="flex items-start gap-3 mt-4 p-4 bg-white border border-slate-300 rounded-lg cursor-pointer">
-                        <input type="checkbox" id="tcpa" class="w-5 h-5 mt-1 accent-amber-500 shrink-0" required>
-                        <span class="text-[10px] text-slate-700 leading-relaxed font-medium">
+
+                    <label class="flex items-start gap-3 mt-4 p-4 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer">
+                        <input type="checkbox" id="tcpa" class="w-5 h-5 mt-1 accent-blue-700 shrink-0" required>
+                        <span class="text-[10px] text-slate-600 leading-relaxed font-medium">
                             I provide express written consent to be contacted regarding my case. I agree to the <a href="/terms.html" class="underline font-bold">Terms</a> and <a href="/privacy.html" class="underline font-bold">Privacy Policy</a>.
                         </span>
                     </label>
-                    <button type="submit" id="submit-btn" class="premium-btn w-full py-5 rounded-xl uppercase tracking-[0.2em] bg-gradient-to-br from-slate-700 to-slate-900 hover:from-slate-800 hover:to-black">Finish & View Report</button>
+                    <button type="submit" id="submit-btn" disabled class="premium-btn w-full py-5 rounded-xl uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed bg-gradient-to-br from-[#1E3A8A] to-[#172554] hover:from-[#172554] hover:to-[#0F172A]">Finish & View Report</button>
                 </form>
+
+                <div id="step-scan" class="hidden py-16 text-center">
+                    <div class="animate-spin text-blue-600 mx-auto w-12 h-12 mb-8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg></div>
+                    <h3 id="scan-status-text" class="font-serif font-bold text-xl mb-2">Syncing Data Streams...</h3>
+                </div>
             </div>
         </div>
     </div>
