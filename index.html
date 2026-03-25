@@ -120,8 +120,8 @@
         </div>
     </main>
 
-    <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-        <div id="lead-modal-card" class="w-full max-w-xl bg-white shadow-2xl rounded-t-2xl md:rounded-xl flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden">
+    <div id="leadModal" class="hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 text-slate-900">
+        <div id="lead-modal-card" class="w-full max-w-xl bg-white shadow-2xl rounded-t-2xl md:rounded-xl flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden text-slate-900">
             <div class="px-5 md:px-8 py-5 md:py-6 border-b border-slate-100 bg-white sticky top-0 z-10">
                 <div class="flex justify-between items-center mb-4">
                     <h3 id="lead-modal-title" class="font-serif font-bold text-xl">Case Intake Audit</h3>
@@ -136,40 +136,40 @@
                 </div>
             </div>
 
-            <div id="modalBody" class="p-5 md:p-8 overflow-y-auto flex-grow bg-white">
+            <div id="modalBody" class="p-5 md:p-8 overflow-y-auto flex-grow bg-white text-slate-900">
                 <div id="step-1" class="step-container space-y-4">
-                    <button type="button" onclick="closeModal()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <button type="button" onclick="closeModal()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 01: Classification</p>
                     <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Nature of the incident?</h3>
-                    <button type="button" onclick="handleSelect('type', 'Auto', 2, 'Vehicle cases require immediate insurance verification.', 10)" data-choice-key="type" data-choice-value="Auto" class="option-card w-full text-left">Motor Vehicle Collision</button>
-                    <button type="button" onclick="handleSelect('type', 'Slip', 2, 'Premises liability depends on notice of hazard.', 10)" data-choice-key="type" data-choice-value="Slip" class="option-card w-full text-left">Premises Liability (Slip & Fall)</button>
-                    <button type="button" onclick="handleSelect('type', 'Truck', 'truck-intro', 'Federal-class incident detected. FMCSA compliance + carrier policy-layer audit activated.', 14)" data-choice-key="type" data-choice-value="Truck" class="option-card w-full text-left">Commercial Truck Accident</button>
+                    <button type="button" onclick="handleSelect('type', 'Auto', 2, 'Vehicle cases require immediate insurance verification.', 10)" data-choice-key="type" data-choice-value="Auto" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">Motor Vehicle Collision</button>
+                    <button type="button" onclick="handleSelect('type', 'Slip', 2, 'Premises liability depends on notice of hazard.', 10)" data-choice-key="type" data-choice-value="Slip" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">Premises Liability (Slip & Fall)</button>
+                    <button type="button" onclick="handleSelect('type', 'Truck', 'truck-intro', 'Federal-class incident detected. FMCSA compliance + carrier policy-layer audit activated.', 14)" data-choice-key="type" data-choice-value="Truck" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">Commercial Truck Accident</button>
                 </div>
 
                 <div id="step-truck-intro" class="step-container hidden space-y-4">
-                    <button type="button" onclick="closeModal()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold text-amber-700 uppercase tracking-[0.14em]">Truck Mode: Federal Audit Path</p>
-                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">FMCSA compliance + carrier policy-layer audit initialized.</h3>
-                    <p class="text-sm text-slate-600 leading-relaxed">We’ll confirm the motor carrier identity, then trigger statutory ELD/logbook preservation guidance before moving into liability and damages scoring.</p>
-                    <button type="button" onclick="nextStep('truck-carrier')" class="premium-btn w-full text-left">Continue to Carrier Verification</button>
+                    <button type="button" onclick="closeModal()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Truck Mode: Federal Audit Path</p>
+                    <h3 class="font-serif font-bold text-[26px] text-slate-950 leading-tight mb-2">FMCSA compliance + carrier policy-layer audit initialized.</h3>
+                    <p class="text-sm text-slate-700 leading-relaxed mb-5">We’ll confirm the motor carrier identity, then initiate statutory ELD/logbook preservation before moving into liability and damages scoring.</p>
+                    <button type="button" onclick="nextStep('truck-carrier')" class="premium-btn w-full py-5 rounded-2xl bg-slate-950 text-white font-bold uppercase tracking-[0.2em] text-[13px] shadow-xl hover:bg-slate-800 active:scale-[0.98] transition-all">Continue to Carrier Verification</button>
                 </div>
 
                 <div id="step-truck-carrier" class="step-container hidden space-y-4">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold text-amber-700 uppercase tracking-[0.14em]">Truck Mode: Carrier Identification</p>
-                    <h3 id="truck-q-carrier" class="text-[22px] md:text-xl font-serif font-bold leading-tight">Carrier / Trucking Company Name (motor carrier)</h3>
-                    <p id="truck-q-carrier-reason" class="text-[11px] text-slate-500 leading-relaxed">Value Driver: Carrier identification accelerates policy-layer tracing, FMCSA safety history pulls, and preservation timing.</p>
-                    <input type="text" id="truck-carrier-name" placeholder="e.g. Swift Transportation / Knight / Werner" class="w-full bg-slate-50 border border-slate-200 p-4 rounded outline-none focus:border-amber-500">
-                    <button type="button" onclick="handleTruckCarrierStep()" class="premium-btn w-full text-left">Save Carrier Info</button>
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Truck Mode: Carrier Identification</p>
+                    <h3 id="truck-q-carrier" class="font-serif font-bold text-[26px] text-slate-950 leading-tight mb-2">Carrier / Trucking Company Name</h3>
+                    <p id="truck-q-carrier-reason" class="bg-amber-50 text-amber-900 border border-amber-200 p-4 rounded-xl text-[13px] font-medium mb-6">Value Driver: Carrier identification accelerates policy-layer tracing, FMCSA safety history pulls, and preservation timing.</p>
+                    <input type="text" id="truck-carrier-name" placeholder="e.g. Swift Transportation / Knight / Werner" class="w-full bg-white border-2 border-slate-200 p-5 rounded-2xl text-lg font-semibold text-slate-950 placeholder:text-slate-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition">
+                    <button type="button" onclick="handleTruckCarrierStep()" class="premium-btn w-full py-5 rounded-2xl bg-slate-950 text-white font-bold uppercase tracking-[0.2em] text-[13px] shadow-xl hover:bg-slate-800 active:scale-[0.98] transition-all">Save Carrier Info</button>
                 </div>
 
                 <div id="step-truck-evidence" class="step-container hidden space-y-4">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold text-amber-700 uppercase tracking-[0.14em]">Truck Mode: Statutory Evidence Preservation</p>
-                    <h3 id="truck-q-eld" class="text-[22px] md:text-xl font-serif font-bold leading-tight">Initiate statutory ELD / logbook evidence preservation?</h3>
-                    <p id="truck-q-eld-reason" class="text-[11px] text-slate-500 leading-relaxed">Value Driver: Early preservation prevents overwrite and strengthens carrier-liability posture before adjuster narratives harden.</p>
-                    <button type="button" onclick="handleSelect('eldPreservation', 'yes', 2, 'Immediate preservation demand recommended to protect federal log and telematics evidence.', 20)" data-choice-key="eldPreservation" data-choice-value="yes" class="option-card w-full text-left">Yes, initiate ELD evidence preservation</button>
-                    <button type="button" onclick="handleSelect('eldPreservation', 'no', 2, 'Proceeding without preservation request; carrier disclosure timeline risk flagged.', 8)" data-choice-key="eldPreservation" data-choice-value="no" class="option-card w-full text-left">No, proceed without immediate preservation</button>
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Truck Mode: Statutory Evidence Preservation</p>
+                    <h3 id="truck-q-eld" class="font-serif font-bold text-[26px] text-slate-950 leading-tight mb-2">Initiate ELD / logbook evidence preservation?</h3>
+                    <p id="truck-q-eld-reason" class="bg-amber-50 text-amber-900 border border-amber-200 p-4 rounded-xl text-[13px] font-medium mb-6">Value Driver: Early preservation prevents overwrite and strengthens carrier-liability posture before adjuster narratives harden.</p>
+                    <button type="button" onclick="handleSelect('eldPreservation', 'yes', 2, 'Immediate preservation demand recommended to protect federal log and telematics evidence.', 20)" data-choice-key="eldPreservation" data-choice-value="yes" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">Yes, initiate ELD evidence preservation</button>
+                    <button type="button" onclick="handleSelect('eldPreservation', 'no', 2, 'Proceeding without preservation request; carrier disclosure timeline risk flagged.', 8)" data-choice-key="eldPreservation" data-choice-value="no" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">No, proceed without immediate preservation</button>
                 </div>
 
                 <div id="step-truck-niche" class="step-container hidden space-y-4">
