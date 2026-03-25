@@ -278,9 +278,11 @@ body.is-scrolling .glass-panel {
     background: rgba(255, 255, 255, 0.92) !important;
 }
 
-/* 4. 그리드 및 박스 디자인 (기존 유지) */
+/* 4. 그리드 및 박스 디자인 (0.1% 민트 시스템 최적화) */
+
 .state-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
 }
 
 @media (min-width: 768px) {
@@ -289,83 +291,48 @@ body.is-scrolling .glass-panel {
     }
 }
 
-/* Glassmorphism + depth */
-.glass-panel,
-.state-card,
-.major-jurisdiction-card {
-    transition: box-shadow 0.4s var(--nodal-ease-out), border-color 0.4s var(--nodal-ease-out), transform 0.4s var(--nodal-ease-out);
-    box-shadow:
-        0 1px 2px rgba(11, 17, 32, 0.05),
-        0 10px 24px rgba(11, 17, 32, 0.08),
-        0 24px 44px -32px rgba(11, 17, 32, 0.28);
+/* [핵심] 9단계 질문지 옵션 카드 디자인 */
+.step-option-card, .option-card, .state-card, .major-jurisdiction-card {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(16, 185, 129, 0.12) !important; /* 은은한 민트 테두리 */
+    border-radius: 12px;
+    padding: 1.5rem 1.25rem;
+    transition: all 0.4s var(--nodal-ease-out);
+    cursor: pointer;
+    box-shadow: 
+        0 4px 6px -1px rgba(0, 0, 0, 0.05), 
+        0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
+/* 마우스 올렸을 때: 민트색 글로우 효과 */
+.step-option-card:hover, .option-card:hover, .state-card:hover, .major-jurisdiction-card:hover {
+    transform: translateY(-3px);
+    background: rgba(16, 185, 129, 0.04);
+    border-color: var(--nodal-emerald) !important;
+    box-shadow: 
+        0 0 0 4px rgba(16, 185, 129, 0.08),
+        0 12px 24px -8px rgba(16, 185, 129, 0.15) !important;
+}
 
+/* 선택되었을 때 (Active 상태) */
+.step-option-card.active, .option-card.active {
+    background: #ffffff !important;
+    border-color: var(--nodal-emerald) !important;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12) !important;
+}
+
+/* 질문지 컨테이너 (Glass Panel) */
 .glass-panel {
-    background: rgba(255, 255, 255, 0.78);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.55) !important;
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
     box-shadow:
-        0 0 0 1px rgba(226, 232, 240, 0.45) inset,
-        0 1px 2px rgba(11, 17, 32, 0.05),
-        0 10px 24px rgba(11, 17, 32, 0.08),
-        0 24px 44px -32px rgba(11, 17, 32, 0.28);
-}
-
-/* Modal surfaces (lead, insight, about) — frosted card */
-#leadModal > div.max-w-xl,
-#insightModal > div.max-w-2xl {
-    background: rgba(255, 255, 255, 0.86) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.55) !important;
-    box-shadow:
-        0 0 0 1px rgba(226, 232, 240, 0.4) inset,
-        0 25px 50px -12px rgba(15, 23, 42, 0.25);
-    transition: box-shadow 0.4s var(--nodal-ease-out), transform 0.4s var(--nodal-ease-out);
-}
-
-
-
-
-/* FORCE-FIX: Lead modal contrast (prevents white-on-white regressions) */
-#leadModal,
-#leadModal * {
-    color: #334155 !important; /* slate-700 */
-}
-
-#leadModal h3,
-#leadModal #lead-modal-title {
-    color: #0F172A !important; /* slate-950 */
-}
-
-/* Preserve intentional white text on primary dark actions */
-#leadModal button.bg-slate-950,
-#leadModal button.bg-slate-900,
-#leadModal .premium-btn.bg-slate-950,
-#leadModal .premium-btn.bg-slate-900 {
-    color: #ffffff !important;
-}
-
-/* Respect existing highlighted "Value Driver" cards */
-#leadModal .bg-amber-50,
-#leadModal .bg-amber-50 * {
-    color: #78350f !important; /* amber-900 */
-}
-
-
-
-
-#aboutModal > div.max-w-3xl {
-    background: rgba(5, 8, 16, 0.82) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(148, 163, 184, 0.28) !important;
-    box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.06) inset,
-        0 25px 50px -12px rgba(0, 0, 0, 0.45);
-    transition: box-shadow 0.4s var(--nodal-ease-out), transform 0.4s var(--nodal-ease-out);
+        0 0 0 1px rgba(226, 232, 240, 0.5) inset,
+        0 20px 40px -20px rgba(11, 17, 32, 0.15);
+    border-radius: 24px;
 }
 
 
