@@ -6,7 +6,11 @@
   "outputDirectory": ".",
   "rewrites": [
     {
-      "source": "/((?!truck|assets|scripts|style|.*\\.css|.*\\.js|.*\\.png|.*\\.jpg|.*\\.svg).*)",
+      "source": "/truck/(.*)",
+      "destination": "/truck/$1.html"
+    },
+    {
+      "source": "/((?!assets|scripts|style|truck).*)",
       "destination": "/index.html"
     }
   ]
