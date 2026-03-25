@@ -1803,3 +1803,29 @@ body.truck-mode .glass-panel {
         animation: none !important;
     }
 }
+/* -------------------------------------------
+   [PREMIUM FINAL POLISH] - 하이엔드 마감 처리
+   ------------------------------------------- */
+
+/* 1. 메인 버튼 글자색 '순백색' 강제 고정 */
+#main-cta-btn, 
+.premium-btn, 
+button[onclick*="executeAudit"], 
+button[onclick*="startStateSyncFlow"] {
+    color: #FFFFFF !important;            /* 무조건 흰색 */
+    font-weight: 800 !important;           /* 아주 두껍게 */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2); /* 가독성 위한 미세 그림자 */
+    opacity: 1 !important;                 /* 투명도 제거 */
+}
+
+/* 2. 상단 데이터 피드 간격 벌리기 */
+.ai-insight-container {
+    margin-bottom: 24px !important;        /* 인사이트와 노트 사이를 시원하게 벌림 */
+    padding-bottom: 12px !important;
+    border-bottom: 1px solid rgba(0,0,0,0.05) !important; /* 구분선 추가 */
+}
+
+/* 3. 상단 박스 텍스트 색상 (네이비로 권위 부여) */
+.ai-insight-container, .system-note-container {
+    color: #0F172A !important;             /* 짙은 네이비색 글자 */
+}
