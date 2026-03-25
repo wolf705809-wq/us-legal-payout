@@ -1,43 +1,47 @@
 import os
-import sys
-import traceback
+import json
 from pathlib import Path
-from supabase import create_client
+
+ROOT_DIR = Path(__file__).resolve().parent
+TEMPLATE_PATH = ROOT_DIR / "truck_template.html"
+DATA_PATH = ROOT_DIR / "truck_state_profiles.json" # 로컬 JSON 파일 경로
+OUTPUT_ROOT = ROOT_DIR / "truck"
+
+if not OUTPUT_ROOT.exists():
+    os.makedirs(OUTPUT_ROOT)
+
+def render_template(template: str, values: dict) -> str:
+    rendered = template
+    for key, val in values.items():
+        rendered = rendered.replace(f"{{{{ {key} }}}}", str(val))
+    return rendered
 
 def generate_pages():
-    try:
-        # 1. 환경 변수 확인
-        url = os.getenv("SUPABASE_URL")
-        key = os.getenv("SUPABASE_API_KEY") or os.getenv("SUPABASE_ANON_KEY")
-        
-        if not url or not key:
-            print("❌ 에러: SUPABASE 환경 변수를 찾을 수 없습니다!")
-            sys.exit(1)
+    # 1. 템플릿 읽기
+    template_html = TEMPLATE_PATH.read_text(encoding="utf-8")
+    
+    # 2. 로컬 JSON 데이터 읽기 (Supabase 대신!)
+    with open(DATA_PATH, 'r', encoding='utf-8') as f:
+        truck_data = json.load(f)
 
-        # 2. 템플릿 파일 확인
-        ROOT_DIR = Path(__file__).resolve().parent
-        TEMPLATE_PATH = ROOT_DIR / "truck_template.html"
+    # 3. 페이지 생성
+    for row in truck_data:
+        state_name = row["state_name"]
+        state_slug = row["state_key"].lower()
         
-        if not TEMPLATE_PATH.exists():
-            print(f"❌ 에러: 템플릿 파일이 없습니다: {TEMPLATE_PATH}")
-            # 현재 폴더에 뭐가 있는지 출력 (경로 확인용)
-            print(f"현재 폴더 파일 목록: {os.listdir(ROOT_DIR)}")
-            sys.exit(1)
-
-        # 3. Supabase 연결 테스트
-        print("🌐 Supabase 연결 시도 중...")
-        supabase = create_client(url, key)
+        # 리스크 요약 문구 생성
+        risk_summary = f"High-risk exposure: {row.get('major_highway')}. {row.get('crash_stats')}. Weather threat: {row.get('weather_factor')}."
         
-        # 여기에 기존 페이지 생성 로직을 넣으세요.
-        # 데이터가 비어있는지도 꼭 확인해야 합니다!
-        print("✅ 모든 조건 충족. 페이지 생성을 시작합니다.")
+        rendered = render_template(template_html, {
+            "state_name": state_name,
+            "statute_code": row.get("statute_authority", "Statutory reference pending"),
+            "truck_risk_summary": risk_summary,
+            "seo_title": f"{state_name} 18-Wheeler Accident Settlement Audit | Nodal",
+        })
         
-        # ... (기존 로직 수행) ...
-
-    except Exception as e:
-        print(f"🚨 치명적 에러 발생: {str(e)}")
-        traceback.print_exc() # 에러의 상세 위치와 원인을 로그에 출력
-        sys.exit(1)
+        output_path = OUTPUT_ROOT / f"{state_slug}.html"
+        output_path.write_text(rendered, encoding="utf-8")
+        print(f"✅ Generated: {output_path.name}")
 
 if __name__ == "__main__":
     generate_pages()
