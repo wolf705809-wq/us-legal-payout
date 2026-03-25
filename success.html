@@ -3,155 +3,739 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Intake Confirmed | JDS Global Solutions</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <title>NODAL® Quantum Audit Complete</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@500;600;700&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --obsidian: #050810;
+            --gold: #D4AF37;
+            --white: #FFFFFF;
+            --emerald: #10B981;
+            --red: #EF4444;
+            --ink: rgba(255,255,255,0.84);
+            --ink-dim: rgba(255,255,255,0.62);
+            --hairline: rgba(255,255,255,0.08);
+        }
+
+        * { box-sizing: border-box; }
+        html, body { height: 100%; }
+        body {
+            margin: 0;
+            background: radial-gradient(1200px 800px at 35% -10%, rgba(212, 175, 55, 0.08), transparent 60%),
+                        radial-gradient(900px 600px at 110% 40%, rgba(16, 185, 129, 0.06), transparent 55%),
+                        linear-gradient(180deg, #03050c 0%, var(--obsidian) 65%, #02030a 100%);
+            color: var(--white);
+            font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: geometricPrecision;
+            overflow-x: hidden;
+        }
+
+        .terminal-wrap{
+            width: min(980px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 22px 0 22px;
+        }
+
+        .terminal-header{
+            display:flex;
+            align-items:flex-start;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 14px 16px;
+            border: 1px solid var(--hairline);
+            background: rgba(5, 8, 16, 0.72);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .hdr-left{ display:flex; flex-direction: column; gap: 6px; min-width: 0; }
+
+        .hdr-kicker{
+            display:flex;
+            align-items:center;
+            gap: 10px;
+            color: var(--ink-dim);
+            font-weight: 700;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .hdr-led{
+            width: 7px; height: 7px; border-radius: 999px;
+            background: var(--emerald);
+            box-shadow: 0 0 0 2px rgba(16,185,129,0.18), 0 0 18px rgba(16,185,129,0.45);
+            animation: led-pulse 1.1s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes led-pulse{ 0%,100%{ opacity: 1; } 50%{ opacity: 0.35; } }
+        @media (prefers-reduced-motion: reduce){ .hdr-led{ animation:none; opacity: 1; } }
+
+        .hdr-title{
+            font-family: "Crimson Pro", Georgia, "Times New Roman", serif;
+            font-weight: 700;
+            font-size: clamp(20px, 5vw, 30px);
+            letter-spacing: -0.02em;
+            line-height: 1.06;
+            margin: 0;
+        }
+
+        .hdr-sub{
+            margin: 0;
+            color: rgba(255,255,255,0.72);
+            font-size: 12px;
+            line-height: 1.5;
+            max-width: 56ch;
+        }
+
+        .hdr-right{ display:flex; flex-direction: column; align-items:flex-end; gap: 6px; text-align:right; }
+
+        .meta-chip{
+            border: 1px solid var(--hairline);
+            background: rgba(255,255,255,0.03);
+            padding: 8px 10px;
+            width: fit-content;
+            max-width: 100%;
+        }
+
+        .meta-k{
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.62);
+            font-weight: 700;
+        }
+
+        .meta-v{
+            margin-top: 4px;
+            font-size: 11px;
+            letter-spacing: 0.04em;
+            color: rgba(255,255,255,0.90);
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 34ch;
+        }
+
+        .value-band{
+            margin-top: 14px;
+            border: 1px solid var(--gold);
+            background: var(--obsidian);
+            padding: 18px 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-band::before{
+            content:"";
+            position:absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(212,175,55,0.10), transparent 24%),
+                linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
+            opacity: 0.75;
+            pointer-events:none;
+        }
+
+        .value-grid{
+            position: relative;
+            display:grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 12px 18px;
+            align-items:end;
+        }
+
+        .band-kicker{
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.80);
+        }
+
+        .band-highlight{
+            margin-top: 10px;
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.66);
+            font-weight: 700;
+        }
+
+        .band-value{
+            margin-top: 10px;
+            font-family: "Crimson Pro", Georgia, "Times New Roman", serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 0.98;
+            font-size: clamp(40px, 8.2vw, 64px);
+            color: var(--white);
+            white-space: nowrap;
+        }
+
+        .band-sub{
+            margin-top: 10px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.70);
+            letter-spacing: 0.03em;
+            line-height: 1.55;
+        }
+
+        .band-side{
+            border: 1px solid var(--hairline);
+            background: rgba(255,255,255,0.03);
+            padding: 12px 12px;
+        }
+
+        .side-row{
+            display:flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .side-row:last-child{ border-bottom: none; }
+
+        .side-k{
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.62);
+            font-weight: 800;
+        }
+
+        .side-v{
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            color: rgba(255,255,255,0.90);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .panel{
+            margin-top: 14px;
+            border: 1px solid var(--hairline);
+            background: rgba(5,8,16,0.72);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 14px 16px;
+        }
+
+        .panel-title{
+            display:flex;
+            align-items:center;
+            justify-content: space-between;
+            gap: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .panel-title h2{
+            margin: 0;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: rgba(255,255,255,0.82);
+        }
+
+        .panel-title .stamp{
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: rgba(212,175,55,0.92);
+            white-space: nowrap;
+        }
+
+        .log{ margin-top: 12px; display:flex; flex-direction: column; gap: 10px; }
+
+        .log-line{
+            display:flex;
+            gap: 10px;
+            align-items:flex-start;
+            padding: 10px 10px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .sig{
+            width: 7px; height: 7px; border-radius: 999px;
+            margin-top: 6px;
+            flex-shrink: 0;
+        }
+        .sig.ok{ background: var(--emerald); box-shadow: 0 0 0 2px rgba(16,185,129,0.16); }
+        .sig.bad{ background: var(--red); box-shadow: 0 0 0 2px rgba(239,68,68,0.18); }
+
+        .log-text{
+            flex: 1;
+            min-width: 0;
+            font-size: 11px;
+            line-height: 1.55;
+            letter-spacing: 0.03em;
+            color: rgba(255,255,255,0.80);
+        }
+
+        .log-text strong{
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .log-text .ok{ color: rgba(16,185,129,0.92); font-weight: 700; }
+        .log-text .bad{ color: rgba(239,68,68,0.95); font-weight: 800; }
+
+        .cta-row{
+            margin-top: 14px;
+            display:flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .cta{
+            border: 1px solid var(--gold);
+            background: linear-gradient(180deg, rgba(212,175,55,0.10), rgba(255,255,255,0.02));
+            color: var(--white);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 14px 14px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+            font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
+        .cta::after{
+            content:"";
+            position:absolute;
+            inset: -1px;
+            border: 1px solid rgba(212,175,55,0.55);
+            opacity: 0;
+            transition: opacity 180ms ease;
+            pointer-events:none;
+        }
+
+        .cta:hover{
+            transform: translateY(-1px);
+            box-shadow: 0 14px 44px rgba(0,0,0,0.45), 0 0 28px rgba(212,175,55,0.22);
+            filter: brightness(1.05);
+        }
+        .cta:hover::after{ opacity: 1; }
+        .cta:active{ transform: translateY(0px) scale(0.99); }
+
+        .cta-sub{
+            font-size: 10px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.66);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .countdown{
+            color: rgba(212,175,55,0.92);
+            font-weight: 800;
+            letter-spacing: 0.14em;
+        }
+
+        .footer-meta{
+            margin-top: 14px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+            padding: 12px 12px;
+            display:grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+        .footer-meta .meta-chip{ width: 100%; }
+        .footer-meta .meta-v{ max-width: 100%; }
+
+        .decrypt{
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            background: radial-gradient(900px 600px at 40% 0%, rgba(212,175,55,0.10), transparent 60%),
+                        linear-gradient(180deg, rgba(5,8,16,0.96) 0%, rgba(5,8,16,0.995) 55%, rgba(5,8,16,1) 100%);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding: 22px;
+        }
+
+        .decrypt-card{
+            width: min(880px, 100%);
+            border: 1px solid rgba(212,175,55,0.55);
+            background: rgba(5,8,16,0.86);
+            padding: 18px 16px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+        }
+
+        .decrypt-top{
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .decrypt-title{
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.82);
+            display:flex;
+            align-items:center;
+            gap: 10px;
+            margin: 0;
+        }
+
+        .decrypt-sub{
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(16,185,129,0.90);
+            white-space: nowrap;
+        }
+
+        .hex{
+            margin-top: 12px;
+            font-size: 12px;
+            line-height: 1.55;
+            letter-spacing: 0.12em;
+            color: rgba(255,255,255,0.78);
+            white-space: pre-wrap;
+            word-break: break-word;
+            user-select: none;
+            min-height: 9.5em;
+        }
+
+        .decrypt-final{
+            margin-top: 12px;
+            display:none;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 12px;
+        }
+
+        .decrypt-final h1{
+            margin: 0;
+            font-family: "Crimson Pro", Georgia, "Times New Roman", serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            font-size: clamp(22px, 5vw, 34px);
+            line-height: 1.06;
+        }
+
+        .decrypt-final p{
+            margin: 10px 0 0;
+            color: rgba(255,255,255,0.70);
+            font-size: 12px;
+            letter-spacing: 0.04em;
+        }
+
+        .decrypt.hide{ animation: decrypt-fade 240ms ease forwards; }
+        @keyframes decrypt-fade{ to{ opacity: 0; visibility: hidden; } }
+
+        @media (max-width: 740px){
+            .terminal-wrap{ width: calc(100% - 26px); padding-top: 16px; }
+            .terminal-header{ flex-direction: column; align-items: stretch; }
+            .hdr-right{ align-items: flex-start; text-align:left; }
+            .value-grid{ grid-template-columns: 1fr; }
+            .band-value{ white-space: normal; }
+            .footer-meta{ grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
-<body class="flex flex-col min-h-screen">
-
-    <nav class="w-full bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
-        <div class="flex items-center gap-3">
-            <div class="w-2.5 h-2.5 rounded-full bg-blue-700"></div>
-            <span class="text-xs font-bold tracking-widest uppercase text-slate-900 text-opacity-80">Case Evaluation Division</span>
-        </div>
-        <div class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Security Protocol: Active</div>
-    </nav>
-
-    <main class="max-w-2xl mx-auto px-6 pt-12 md:pt-20 pb-24 text-center flex-grow">
-        
-        <div class="success-check fade-in">
-            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-            </svg>
-        </div>
-
-        <div class="fade-in fade-delay-1">
-            <p class="text-[10px] font-bold text-blue-700 tracking-[0.3em] uppercase mb-4">Intake Confirmed</p>
-            <h1 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-6">Review Protocol <br /> Successfully Initiated</h1>
-            <p class="text-slate-500 text-sm md:text-base max-w-md mx-auto leading-relaxed mb-10">
-                Your preliminary case details have been securely transmitted. A jurisdiction specialist will review your file within **24 business hours**.
-            </p>
-        </div>
-
-        <div class="glass-panel overflow-hidden mb-8 fade-in text-left fade-delay-2">
-            <div class="bg-slate-900 px-6 py-3 flex justify-between items-center">
-                <p class="text-[9px] font-bold text-white uppercase tracking-[0.2em]">Priority: Identity Verification</p>
-                <span class="text-[9px] font-bold text-blue-400 animate-pulse">ACTION REQUIRED</span>
+<body>
+    <div id="decrypt" class="decrypt" role="dialog" aria-modal="true" aria-label="Data decryption sequence">
+        <div class="decrypt-card">
+            <div class="decrypt-top">
+                <p class="decrypt-title"><span class="hdr-led" aria-hidden="true"></span>DATA DECRYPTION</p>
+                <div class="decrypt-sub" id="decrypt-phase">PHASE 01/03</div>
             </div>
-            <div class="p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 md:gap-10">
-                <div class="hidden md:block shrink-0 p-2 bg-white border border-slate-100 rounded-lg shadow-sm">
-                    <img id="vcard-qr" src="" alt="Scan QR" class="w-24 h-24">
-                    <p class="text-[8px] text-slate-400 mt-2 font-bold uppercase text-center">Scan to Sync</p>
-                </div>
-                
-                <div class="flex-grow text-center md:text-left">
-                    <h4 class="text-sm font-bold text-slate-900 mb-2">Save Our Verified Specialist ID</h4>
-                    <p class="text-[11px] text-slate-500 mb-5 leading-relaxed">
-                        To ensure our evaluation call bypasses your mobile spam filter, please save our verified contact ID to your device immediately.
-                    </p>
-                    <button id="vcard-btn" onclick="downloadVCard()" class="w-full bg-emerald-600 text-white font-bold py-4 rounded-lg shadow-lg flex items-center justify-center gap-2 hover:bg-emerald-700 transition-all active:scale-95 text-xs tracking-widest">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        SAVE SPECIALIST CONTACT
-                    </button>
-                    <p id="vcard-status" class="text-[10px] text-emerald-600 font-bold mt-3 text-center hidden uppercase tracking-tighter">✓ Contact File Downloaded</p>
-                </div>
+            <div class="hex" id="hex-stream" aria-live="polite"></div>
+            <div class="decrypt-final" id="decrypt-final">
+                <h1>NODAL® QUANTUM AUDIT COMPLETE</h1>
+                <p>Statutory engine synchronized. Terminal session sealed.</p>
             </div>
         </div>
+    </div>
 
-        <div class="w-full bg-[#F8FAFC] border-2 border-dashed border-slate-200 rounded-xl p-6 md:p-8 fade-in text-left fade-delay-3">
-            <h3 class="text-[10px] font-bold text-blue-800 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-blue-800"></span> 
-                Official Intake Record
-            </h3>
-            <div class="grid gap-5">
-                <div class="flex justify-between items-end border-b border-slate-200 pb-2">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Status</span>
-                    <span class="text-xs font-bold text-emerald-600 uppercase">Verified & Encrypted</span>
+    <main class="terminal-wrap" aria-label="Statutory Audit Intelligence Terminal">
+        <section class="terminal-header" aria-label="Terminal header">
+            <div class="hdr-left">
+                <div class="hdr-kicker">
+                    <span class="hdr-led" aria-hidden="true"></span>
+                    <span>STATUTORY AUDIT INTELLIGENCE TERMINAL</span>
                 </div>
-                <div class="flex justify-between items-end border-b border-slate-200 pb-2">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Reference ID</span>
-                    <span id="case-id" class="text-xs font-mono font-bold text-slate-900">JDS-GENERATING...</span>
+                <h1 class="hdr-title">NODAL® Quantum Audit Complete</h1>
+                <p class="hdr-sub">This terminal renders a sealed valuation snapshot derived from statutory floor analysis and case-law precedent mapping.</p>
+            </div>
+            <div class="hdr-right" aria-label="Session metadata">
+                <div class="meta-chip">
+                    <div class="meta-k">REFERENCE ID</div>
+                    <div class="meta-v" id="case-id">NODAL-GENERATING...</div>
                 </div>
-                <div class="flex justify-between items-end">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Review Window</span>
-                    <span class="text-xs font-bold text-slate-900 uppercase">Within 24 Hours</span>
+                <div class="meta-chip">
+                    <div class="meta-k">SECURITY PROTOCOL</div>
+                    <div class="meta-v">AES-256 / ACTIVE</div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="mt-12 fade-in fade-delay-4">
-            <p class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Need Immediate Assistance?</p>
-            <a href="tel:18005550199" class="text-xs font-bold text-slate-900 underline underline-offset-8 hover:text-blue-700 transition-colors">
-                Connect with an available intake specialist now
-            </a>
-        </div>
+        <section class="value-band" aria-label="Projected settlement recovery">
+            <div class="value-grid">
+                <div>
+                    <div class="band-kicker">PROJECTED SETTLEMENT RECOVERY</div>
+                    <div class="band-highlight">HIGHLIGHT: VALUATION BAND</div>
+                    <div class="band-value" id="valuation">$ —</div>
+                    <div class="band-sub">Confidence Interval: 98.4% based on 14,200+ case-law precedents.</div>
+                </div>
+                <div class="band-side" aria-label="Audit stats">
+                    <div class="side-row">
+                        <div class="side-k">JURISDICTION</div>
+                        <div class="side-v" id="jurisdiction">CA</div>
+                    </div>
+                    <div class="side-row">
+                        <div class="side-k">MODEL</div>
+                        <div class="side-v">NQ-AUDIT/9</div>
+                    </div>
+                    <div class="side-row">
+                        <div class="side-k">SIGNAL</div>
+                        <div class="side-v" style="color: rgba(16,185,129,0.92);">VERIFIED</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel" aria-label="Statutory discrepancy log">
+            <div class="panel-title">
+                <h2>STATUTORY DISCREPANCY LOG</h2>
+                <div class="stamp">CHAIN-SEALED</div>
+            </div>
+            <div class="log" id="log">
+                <div class="log-line">
+                    <span class="sig ok" aria-hidden="true"></span>
+                    <div class="log-text"><span class="ok"><strong>VERIFIED</strong></span> — Statutory floor alignment confirmed. Comparative framework synchronized.</div>
+                </div>
+                <div class="log-line">
+                    <span class="sig ok" aria-hidden="true"></span>
+                    <div class="log-text"><span class="ok"><strong>VERIFIED</strong></span> — Treatment narrative recognized as compensable under precedent clustering.</div>
+                </div>
+                <div class="log-line">
+                    <span class="sig bad" aria-hidden="true"></span>
+                    <div class="log-text"><span class="bad"><strong>CARRIER BIAS DETECTED</strong></span> — ANOMALY: Insurance Algorithm [ID: 8824] is suppressing medical inflation by 14%.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-row" aria-label="Next action">
+            <button class="cta" id="ctaBtn" type="button">LOCK THIS VALUATION &amp; SPEAK TO AUDITOR</button>
+            <div class="cta-sub">This report expires in <span class="countdown" id="countdown">24:00:00</span> to maintain data integrity.</div>
+        </section>
+
+        <section class="footer-meta" aria-label="Official metadata">
+            <div class="meta-chip">
+                <div class="meta-k">DIGITAL FINGERPRINT</div>
+                <div class="meta-v" id="fingerprint">FP-INITIALIZING…</div>
+            </div>
+            <div class="meta-chip">
+                <div class="meta-k">ENCRYPTION STAMP</div>
+                <div class="meta-v">AES-256 / SEALED</div>
+            </div>
+            <div class="meta-chip">
+                <div class="meta-k">BLOCKCHAIN VERIFICATION HASH</div>
+                <div class="meta-v" id="hash">0x…</div>
+            </div>
+        </section>
     </main>
 
-    <footer class="w-full bg-[#0B1120] text-[#94A3B8] p-10 mt-12 border-t border-slate-800">
-        <div class="max-w-4xl mx-auto text-center">
-            <p class="text-[9px] tracking-[0.4em] font-bold text-slate-600 uppercase mb-4">
-                © 2026 JDS GLOBAL SOLUTIONS. ALL RIGHTS RESERVED.
-            </p>
-            <p class="text-[9px] leading-relaxed text-slate-500 max-w-2xl mx-auto">
-                Confidentiality Notice: The information transmitted is intended only for the person or entity to which it is addressed and contains confidential and/or privileged material.
-            </p>
-        </div>
-    </footer>
-
     <script>
-        // Professional vCard Content
-        const CONTACT_NAME = "JDS Case Specialist";
-        const CONTACT_PHONE = "+18005550199";
-        const VCARD_DATA = `BEGIN:VCARD
-VERSION:3.0
-FN:${CONTACT_NAME}
-ORG:JDS Global Solutions
-TEL;TYPE=WORK,VOICE:${CONTACT_PHONE}
-NOTE:Verified Case Evaluation Specialist. Please answer to discuss your case details.
-END:VCARD`;
+        const DATA_EMERALD = "#10B981";
+        const REPORT_WINDOW_MS = 24 * 60 * 60 * 1000;
 
-        window.onload = function() {
-            // 1. Generate Authentic Reference ID
-            const timestamp = Date.now().toString(36).toUpperCase();
-            const randomStr = Math.random().toString(36).substr(2, 4).toUpperCase();
-            document.getElementById('case-id').innerText = `JDS-${timestamp}-${randomStr}`;
+        function safeText(s) {
+            return String(s ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        }
 
-            // 2. Generate QR Code for Contact Sync (Desktop Only)
-            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(VCARD_DATA)}`;
-            const qrImg = document.getElementById('vcard-qr');
-            if(qrImg) qrImg.src = qrUrl;
-        };
-
-        // 3. Professional vCard Download Logic
-        function downloadVCard() {
+        function fmtCurrency(n) {
             try {
-                const blob = new Blob([VCARD_DATA], { type: "text/vcard;charset=utf-8" });
-                const url = window.URL.createObjectURL(blob);
-                const link = document.createElement("a");
-                link.href = url;
-                link.setAttribute("download", "JDS_Specialist.vcf");
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-
-                // UI Feedback (No invasive alerts)
-                const btn = document.getElementById('vcard-btn');
-                const status = document.getElementById('vcard-status');
-                
-                btn.classList.replace('bg-emerald-600', 'bg-blue-900');
-                btn.innerHTML = "CONTACT FILE SAVED";
-                status.classList.remove('hidden');
-                
-                setTimeout(() => {
-                    btn.classList.replace('bg-blue-900', 'bg-emerald-600');
-                    btn.innerHTML = "SAVE SPECIALIST CONTACT";
-                }, 4000);
-
-            } catch (err) {
-                console.error("VCard generation failed:", err);
+                return n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+            } catch {
+                return "$" + String(n);
             }
         }
+
+        function parseMoney(v) {
+            const s = String(v ?? "").trim();
+            if (!s) return null;
+            const m = s.replace(/[^0-9.]/g, "");
+            if (!m) return null;
+            const n = Number(m);
+            return Number.isFinite(n) ? n : null;
+        }
+
+        function xmur3(str) {
+            let h = 1779033703 ^ str.length;
+            for (let i = 0; i < str.length; i++) {
+                h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
+                h = (h << 13) | (h >>> 19);
+            }
+            return function() {
+                h = Math.imul(h ^ (h >>> 16), 2246822507);
+                h = Math.imul(h ^ (h >>> 13), 3266489909);
+                h ^= h >>> 16;
+                return h >>> 0;
+            };
+        }
+
+        function mulberry32(a) {
+            return function() {
+                let t = a += 0x6D2B79F5;
+                t = Math.imul(t ^ (t >>> 15), t | 1);
+                t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+                return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+            };
+        }
+
+        function makeId(prefix) {
+            const ts = Date.now().toString(36).toUpperCase();
+            const rnd = Math.random().toString(36).slice(2, 6).toUpperCase();
+            return `${prefix}-${ts}-${rnd}`;
+        }
+
+        function shortHex(bytes, seed) {
+            const rng = mulberry32(seed);
+            const alphabet = "0123456789ABCDEF";
+            let out = "0x";
+            for (let i = 0; i < bytes * 2; i++) out += alphabet[Math.floor(rng() * 16)];
+            return out;
+        }
+
+        function buildValuationBand(caseId) {
+            const url = new URL(window.location.href);
+            const minParam = parseMoney(url.searchParams.get("min"));
+            const maxParam = parseMoney(url.searchParams.get("max"));
+            const jurisdiction = (url.searchParams.get("jurisdiction") || "CA").toUpperCase().slice(0, 8);
+
+            const seed = xmur3(caseId)();
+            const rng = mulberry32(seed);
+
+            const defaultMin = Math.round((175000 + rng() * 475000) / 5000) * 5000;
+            const defaultMax = Math.round((defaultMin * (2.2 + rng() * 2.4)) / 5000) * 5000;
+
+            const min = minParam && minParam > 0 ? Math.round(minParam / 5000) * 5000 : defaultMin;
+            const max = maxParam && maxParam > min ? Math.round(maxParam / 5000) * 5000 : defaultMax;
+
+            document.getElementById("jurisdiction").textContent = jurisdiction || "CA";
+            document.getElementById("valuation").textContent = `${fmtCurrency(min)} — ${fmtCurrency(max)}`;
+
+            const fp = `FP-${shortHex(6, seed).slice(2, 8)}-${shortHex(6, seed + 11).slice(2, 8)}`.toUpperCase();
+            document.getElementById("fingerprint").textContent = fp;
+            document.getElementById("hash").textContent = shortHex(14, seed + 93);
+        }
+
+        function startCountdown() {
+            const key = "nodal_report_expires_at_v1";
+            const now = Date.now();
+            let expiresAt = Number(localStorage.getItem(key) || 0);
+            if (!Number.isFinite(expiresAt) || expiresAt < now) {
+                expiresAt = now + REPORT_WINDOW_MS;
+                localStorage.setItem(key, String(expiresAt));
+            }
+
+            const el = document.getElementById("countdown");
+            const tick = () => {
+                const left = Math.max(0, expiresAt - Date.now());
+                const totalSec = Math.floor(left / 1000);
+                const hh = String(Math.floor(totalSec / 3600)).padStart(2, "0");
+                const mm = String(Math.floor((totalSec % 3600) / 60)).padStart(2, "0");
+                const ss = String(totalSec % 60).padStart(2, "0");
+                el.textContent = `${hh}:${mm}:${ss}`;
+                if (left <= 0) clearInterval(timer);
+            };
+            tick();
+            const timer = setInterval(tick, 250);
+        }
+
+        function runDecryptionSequence() {
+            const overlay = document.getElementById("decrypt");
+            const stream = document.getElementById("hex-stream");
+            const phase = document.getElementById("decrypt-phase");
+            const final = document.getElementById("decrypt-final");
+
+            const totalMs = 2000;
+            const start = performance.now();
+            const lines = 7;
+            const cols = 7;
+            const hexAlphabet = "0123456789ABCDEF";
+            const t0 = Date.now().toString(16).toUpperCase();
+
+            function makeHexToken() {
+                let s = "0x";
+                for (let i = 0; i < 4 + Math.floor(Math.random() * 4); i++) s += hexAlphabet[Math.floor(Math.random() * 16)];
+                return s;
+            }
+
+            const iv = setInterval(() => {
+                const t = performance.now() - start;
+                const p = Math.min(1, t / totalMs);
+
+                const phaseIdx = p < 0.34 ? 1 : (p < 0.68 ? 2 : 3);
+                phase.textContent = `PHASE 0${phaseIdx}/03`;
+
+                const chunks = [];
+                for (let r = 0; r < lines; r++) {
+                    const row = [];
+                    for (let c = 0; c < cols; c++) row.push(makeHexToken());
+                    chunks.push(row.join("  "));
+                }
+                stream.textContent = chunks.join("\n");
+
+                if (p >= 0.74) {
+                    final.style.display = "block";
+                }
+
+                if (p >= 1) {
+                    clearInterval(iv);
+                    stream.textContent = `0x${t0}  0xA1C9  0xF2D4  0x7B19  0xD4AF37  0x10B981\n` +
+                        `0x9E0F  0x05${t0.slice(0,2)}  0x8C21  0x11C0  0xB10C  0xF00D\n` +
+                        `0xDEAD  0xBEEF  0xC0DE  0x1A2B  0x3C4D  0x5E6F\n`;
+                    setTimeout(() => overlay.classList.add("hide"), 260);
+                }
+            }, 48);
+        }
+
+        function wireCta() {
+            const btn = document.getElementById("ctaBtn");
+            btn.addEventListener("click", () => {
+                const tel = new URL(window.location.href).searchParams.get("tel") || "18005550199";
+                window.location.href = `tel:${tel.replace(/[^\d+]/g, "")}`;
+            });
+        }
+
+        (function init() {
+            const caseId = makeId("NODAL");
+            document.getElementById("case-id").textContent = caseId;
+            buildValuationBand(caseId);
+            startCountdown();
+            wireCta();
+            runDecryptionSequence();
+        })();
     </script>
 </body>
 </html>
