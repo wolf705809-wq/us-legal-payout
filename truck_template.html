@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{{ seo_title }}</title>
-<meta name="description" content="{{ seo_description }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ seo_title }}</title>
+    <meta name="description" content="{{ seo_description }}">
     
     
 <script src="https://cdn.tailwindcss.com"></script>
@@ -39,15 +38,11 @@
         <!-- [1] 히어로 섹션 (메인 페이지 규격) -->
         <div class="mb-6 md:mb-14 relative">
             <p class="nodal-hero-eyebrow text-center mb-[3.25rem] md:mb-[3.5rem]">STATUTORY PAYOUT PROTOCOL</p>
-            <h1 id="hero-title" class="nodal-hero-title text-[1.8rem] sm:text-[1.8rem] md:text-[3rem] font-semibold text-slate-900 leading-[1.08] tracking-[-0.02em] mb-5 md:mb-6">
-                <span class="block">Your Settlement is a Data Battle.</span>
-                <span class="nodal-hero-highlight inline-block mt-1.5">Don't Fight Unarmed.</span>
+           <h1 id="hero-title" class="nodal-hero-title text-[1.8rem] sm:text-[1.8rem] md:text-[3rem] font-semibold text-white leading-[1.08] tracking-[-0.02em] mb-5 md:mb-6">
+                {{ dynamic_h1 }}
             </h1>
-            <p id="hero-point-1" class="nodal-hero-body max-w-2xl mx-auto font-normal leading-relaxed text-center">
-                Carrier algorithms minimize recovery by design. We decode the <strong>Statutory Discrepancies</strong> they expect you to overlook.
-            </p>
-            <p id="hero-point-2" class="nodal-hero-system max-w-2xl mx-auto mt-3 leading-relaxed text-center uppercase">
-                AUTONOMOUS STATUTORY INFRASTRUCTURE | REAL-TIME CASE-LAW SYNC [v2026.03]
+            <p id="hero-point-1" class="nodal-hero-body max-w-2xl mx-auto font-normal leading-relaxed text-center text-slate-400">
+                {{ dynamic_intro }}
             </p>
         </div>
 
