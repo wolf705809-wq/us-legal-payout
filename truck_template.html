@@ -2,26 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- 구글이 검색 결과에 보여줄 핵심 문구 -->
-    <meta name="description" content="{{ truck_risk_summary }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ seo_title }}</title>
+    <meta name="description" content="{{ seo_description }}">
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:wght@700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
     
-    <!-- 경로 앞에 /를 붙여서 truck/ 폴더 안에서도 루트의 CSS를 찾게 함 -->
+<script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/style_truck.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body class="truck-pseo-page flex flex-col min-h-screen bg-slate-50 text-slate-700">
+<body class="bg-[#050810] text-slate-200 min-h-screen flex flex-col font-sans">
 
-    <!-- 1. 메인 사이트 h-11 규격 헤더 -->
-    <nav class="nodal-header-truck sticky top-0 z-50 flex items-center">
-        <div class="flex items-center justify-between w-full px-4 md:px-6 h-full">
+    
+<nav class="nodal-header-truck sticky top-0 z-50 flex items-center h-11 bg-[#050810]/80 backdrop-blur-md border-b border-white/5 px-4 md:px-6">
+        <div class="flex items-center justify-between w-full h-full">
             <div class="flex items-center gap-2 flex-1 min-w-0">
-                <span class="nodal-pulse-orange flex-shrink-0" aria-hidden="true"></span>
+                <span class="nodal-pulse-orange" aria-hidden="true"></span>
                 <span class="truck-brand-label whitespace-nowrap truncate py-1">
                     {{ state_name }} · TRUCK SPECIALIST AUDIT<span class="nodal-header-tm" style="font-size: 0.6em; vertical-align: super; margin-left: 2px; opacity: 0.7;">™</span>
                 </span>
@@ -35,62 +33,211 @@
         </div>
     </nav>
 
-    <main class="max-w-3xl mx-auto flex flex-col px-5 md:px-8 pt-10 md:pt-24 pb-20 text-center w-full flex-grow">
-        <!-- 2. 헤더 섹션 -->
-        <div class="mb-10 relative">
-            <p class="text-[11px] font-bold text-slate-500 tracking-[0.25em] uppercase mb-4">FEDERAL TRUCKING INCIDENT AUDIT</p>
-            <h1 id="hero-title" class="text-[32px] md:text-[52px] font-serif font-bold text-slate-900 leading-[1.1] tracking-tight mb-5">
-                Uncover Your Settlement Gap: <span class="text-orange-600">{{ state_name }}</span>
-            </h1>
-            <p class="text-slate-700 text-[16px] md:text-[18px] max-w-2xl mx-auto font-medium leading-relaxed">
-                Insurance algorithms devalue claims by design. Our infrastructure identifies statutory recovery floors for 18-wheeler incidents.
+  <main id="layout-wrapper" class="max-w-3xl mx-auto px-5 md:px-8 pt-8 md:pt-24 pb-20 md:pb-28 text-center w-full flex-grow overflow-x-hidden">
+        
+        <!-- [1] 히어로 섹션 (메인 페이지 규격) -->
+        <div class="mb-6 md:mb-14 relative">
+    <!-- 상단 작은 문구 -->
+    <p class="nodal-hero-eyebrow text-center mb-[3.25rem] md:mb-[3.5rem] tracking-[0.4em]">FEDERAL TRUCKING AUDIT UNIT</p>
+    
+    <!-- 메인 제목 (파이썬이 주별로 다르게 생성) -->
+    <h1 id="hero-title" class="nodal-hero-title text-[1.8rem] sm:text-[1.8rem] md:text-[3rem] font-semibold text-white leading-[1.08] tracking-[-0.02em] mb-5 md:mb-6">
+        {{ dynamic_h1 }}
+    </h1>
+    
+    <!-- 메인 설명 (메인 페이지의 'Carrier algorithms...' 스타일을 트럭 버전으로 변형) -->
+    <p id="hero-point-1" class="nodal-hero-body max-w-2xl mx-auto font-normal leading-relaxed text-center text-slate-400">
+        {{ dynamic_intro }}
+    </p>
+    
+    <!-- 시스템 라벨 (메인 페이지와 비슷하지만 'TRUCK' 강조) -->
+    <p id="hero-point-2" class="nodal-hero-system max-w-2xl mx-auto mt-3 leading-relaxed text-center uppercase">
+        {{ system_label }}
+    </p>
+</div>
+
+        <!-- [2] 주 선택 노드 (검색 & 5개 칩) -->
+        <section class="mb-6 md:mb-10 text-left bg-[#f8fafc] rounded-2xl p-6 md:p-8 border border-slate-200/60 nodal-nodes-section">
+            <p class="text-[0.7rem] font-bold uppercase tracking-[0.1em] text-slate-900 mb-4">
+                AUTHORIZED STATE NODES
             </p>
-        </div>
+            <!-- [검색창 부분] -->
+<div class="relative">
+    <input
+        id="state-search-input"
+        type="text"
+        autocomplete="off"
+        placeholder="Search Jurisdiction for Statutory Audit Compliance..."
+        class="w-full rounded-md border border-slate-200 bg-[#fcfdfe] px-4 py-3.5 text-[1.0rem] font-semibold text-[#1e293b] shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+    />
+    <!-- 검색 결과가 나타날 컨테이너 -->
+    <div id="state-search-results" class="hidden absolute z-40 mt-2 w-full rounded-md border border-slate-200 bg-white shadow-xl max-h-64 overflow-y-auto text-left">
+    </div>
+</div>
 
-        <!-- 3. 프리미엄 데이터 카드 (진짜배기 디자인) -->
-        <div id="active-jurisdiction-card" class="glass-panel nodal-monitor p-8 md:p-12 mb-12 text-left relative overflow-hidden shadow-2xl rounded-3xl">
-            <div class="flex justify-between items-center border-b border-white/10 pb-6 mb-8">
-                <div>
-                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-1">Active Jurisdiction</p>
-                    <h2 id="hero-state-name" class="text-3xl font-serif font-bold text-white leading-none">{{ state_name }}</h2>
-                </div>
-                <div class="flex items-center gap-2.5 px-4 py-2 bg-white/5 rounded-full border border-white/10">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                        <span class="relative inline-flex h-2 w-2 rounded-full bg-orange-500"></span>
-                    </span>
-                    <span class="text-[10px] font-bold text-slate-300 tracking-[0.15em] uppercase">FMCSA Live Sync</span>
+            <div class="mt-6 md:mt-7">
+                <div class="grid grid-cols-2 gap-4 sm:grid-cols-5 sm:gap-3">
+                    <button type="button" onclick="selectJurisdiction('california')" class="nodal-jurisdiction-chip border-2 border-emerald-500 bg-emerald-50/30">
+                        <span class="nodal-terminal-code text-emerald-700">CA</span>
+                        <span class="nodal-terminal-sync text-emerald-500">v2026.SYNCED</span>
+                    </button>
+                    <button type="button" onclick="selectJurisdiction('texas')" class="nodal-jurisdiction-chip">
+                        <span class="nodal-terminal-code">TX</span>
+                        <span class="nodal-terminal-sync">v2026.SYNCED</span>
+                    </button>
+                    <button type="button" onclick="selectJurisdiction('florida')" class="nodal-jurisdiction-chip">
+                        <span class="nodal-terminal-code">FL</span>
+                        <span class="nodal-terminal-sync">v2026.SYNCED</span>
+                    </button>
+                    <button type="button" onclick="selectJurisdiction('georgia')" class="nodal-jurisdiction-chip">
+                        <span class="nodal-terminal-code">GA</span>
+                        <span class="nodal-terminal-sync">v2026.SYNCED</span>
+                    </button>
+                    <button type="button" onclick="selectJurisdiction('new_york')" class="nodal-jurisdiction-chip">
+                        <span class="nodal-terminal-code">NY</span>
+                        <span class="nodal-terminal-sync">v2026.SYNCED</span>
+                    </button>
                 </div>
             </div>
+        </section>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <div>
-                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-3">Statutory Authority</p>
-                    <p id="statute-info" class="text-[14px] font-mono text-amber-500 bg-black/30 border border-white/5 rounded-lg px-4 py-3 shadow-inner">
-                        {{ statute_code }}
-                    </p>
+        <!-- [3] 액티브 주 데이터 모니터 (이미지 속 줄무늬 디자인) -->
+        <div id="active-jurisdiction-card" class="relative p-6 md:p-10 mb-12 text-left rounded-3xl overflow-hidden border border-slate-100/80 shadow-sm" style="background-color: #f8fafc;">
+            <!-- 배경 미세 줄무늬 디테일 -->
+            <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#000 1px, transparent 1px); background-size: 100% 4px;"></div>
+            
+            <div class="relative z-10">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <div class="flex items-center gap-3">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Active Jurisdiction</span>
+                        <span class="flex items-center gap-1.5 px-2 py-0.5 bg-emerald-50 text-emerald-600 rounded-full text-[9px] font-bold border border-emerald-100 uppercase">
+                            <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span> FMCSA Live
+                        </span>
+                    </div>
+                    <div class="px-4 py-1.5 bg-white border border-slate-200 rounded-full text-[10px] font-mono font-bold text-slate-700 tracking-widest uppercase flex items-center gap-2">
+                        <span class="w-3 h-1 bg-emerald-400"></span> 2026:03 SYNC ACTIVE
+                    </div>
                 </div>
-                <div>
-                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-3">Risk Assessment</p>
-                    <p id="stats-info" class="text-[14px] font-medium text-slate-200 leading-relaxed italic">
-                        {{ truck_risk_summary }}
-                    </p>
+
+                <h2 id="hero-state-name" class="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-10 tracking-tight">{{ state_name }}</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-end border-t border-slate-200/60 pt-8">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Statutory Authority</p>
+                        <div class="inline-flex items-center gap-3 bg-[#1e293b] text-slate-200 font-mono text-sm px-5 py-3 rounded-lg shadow-lg">
+                            <span class="text-emerald-400">$</span> {{ statute_code }}
+                        </div>
+                    </div>
+                    <div class="md:text-right">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Liability Doctrine</p>
+                        <p class="text-lg font-serif font-semibold text-slate-800">{{ truck_risk_summary }}</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 4. CTA 버튼 -->
-        <div class="flex flex-col items-center">
-            <button type="button" onclick="executeStatutoryAudit()" id="main-cta-btn"
-                class="group w-full max-w-[480px] bg-[#050810] text-white font-black text-[16px] md:text-[18px] py-6 rounded-2xl shadow-xl uppercase tracking-widest border border-slate-800 hover:border-orange-500/50 transition-all active:scale-[0.97]">
-                <span id="main-cta-label">START STATUTORY RECOVERY AUDIT</span>
+        <!-- [4] 최종 실행 버튼 섹션 -->
+        <div class="flex flex-col items-center w-full mb-20 gap-4 mt-10">
+            <p class="text-[11px] font-black tracking-[0.3em] text-emerald-600/90 uppercase animate-pulse">
+                System Ready for Deep Statutory Audit
+            </p>
+
+            <button id="main-cta-btn" type="button" onclick="executeStatutoryAudit()"
+                class="group relative flex h-[72px] md:h-24 items-center justify-center gap-4 bg-[#050810] text-white font-black text-[15px] md:text-[20px] px-10 md:px-24 rounded-[2rem] shadow-[0_20px_60px_rgba(0,0,0,0.4)] uppercase tracking-[0.1em] w-[94%] max-w-[500px] mx-auto active:scale-[0.96] transition-all duration-500 border border-slate-800 hover:border-emerald-500/50 overflow-hidden touch-manipulation">
+                
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-emerald-500/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite] transition-all"></div>
+                
+                <svg class="w-7 h-7 md:w-9 md:h-9 shrink-0 text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+
+                <span id="main-cta-label" class="relative z-10 whitespace-nowrap tracking-widest font-black">
+                    EXECUTE STATUTORY CASE AUDIT
+                </span>
+
+                <span class="absolute bottom-2 right-4 text-[7px] text-slate-500 font-mono tracking-tighter opacity-50">NODE_AUTH: v2.1-SECURE</span>
             </button>
-            <p class="mt-4 text-[10px] font-bold text-slate-400 tracking-widest uppercase">Verified Federal Data Source</p>
+
+            <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-50 rounded-full border border-slate-100 shadow-sm">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                </span>
+                <span class="text-[9px] font-bold text-slate-400 tracking-[0.15em] uppercase">AES-256 Military Grade Encryption Secure</span>
+            </div>
         </div>
     </main>
 
-    <script src="/assets/js/data.js"></script>
-    <script src="/assets/js/app.js"></script>
-    <script src="/assets/js/truck_template.js"></script>
+    <section class="w-full bg-[#050810] pt-20 pb-24 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6">
+        
+        <div class="max-w-4xl mx-auto text-center mb-16">
+            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.4em] mb-4">THE NODAL® INFRASTRUCTURE: V2.1</p>
+            <h2 class="text-3xl md:text-5xl font-serif font-bold text-white leading-tight">
+                The Decentralized Standard for Settlement Integrity.
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:border-emerald-500/30 transition-all group">
+                <h3 class="text-sm font-bold text-white mb-4 leading-snug">
+                    <span class="text-emerald-400 font-black tracking-widest uppercase text-[10px] block mb-2">FORENSIC AUDIT</span>
+                    Decoding the Asymmetry of Insurance Algorithms.
+                </h3>
+                <p class="text-[13px] text-slate-400 leading-relaxed font-medium">
+                    We unmask the black-box algorithms used by major carriers to systematically devalue injury claims. Our system identifies the precise data-points where carrier software artificially suppresses the true valuation of your case.
+                </p>
+            </div>
+
+            <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:border-emerald-500/30 transition-all group">
+                <h3 class="text-sm font-bold text-white mb-4 leading-snug">
+                    <span class="text-emerald-400 font-black tracking-widest uppercase text-[10px] block mb-2">STATUTORY FLOOR</span>
+                    Federal Liability Constraints & Policy Leverage.
+                </h3>
+                <p class="text-[13px] text-slate-400 leading-relaxed font-medium">
+                    Utilizing multi-jurisdictional databases to establish a non-negotiable legal minimum for your recovery. We map federal regulations and state-specific statutory floors to ensure carriers cannot offer a settlement below the mandated threshold.
+                </p>
+            </div>
+
+            <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:border-emerald-500/30 transition-all group">
+                <h3 class="text-sm font-bold text-white mb-4 leading-snug">
+                    <span class="text-emerald-400 font-black tracking-widest uppercase text-[10px] block mb-2">AUTONOMOUS LOGIC</span>
+                    Real-time Discrepancy Detection vs Manual Adjusting.
+                </h3>
+                <p class="text-[13px] text-slate-400 leading-relaxed font-medium">
+                    Our neural logic engine detects 142+ settlement discrepancies that human adjusters frequently overlook or intentionally omit. Every audit is cross-referenced with 2026 case-law updates to eliminate manual bias.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+    
+<footer class="w-full bg-[#03050a] border-t border-white/5 p-12 mt-20">
+        <div class="max-w-6xl mx-auto text-center md:text-left">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 pb-10 md:pb-16 border-b border-white/5 mb-10 md:mb-16">
+                <div>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-4">Registry Inquiries</p>
+                    <p class="text-sm text-slate-400">support@jdsglobalsolutions.com</p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-4">Principal Office</p>
+                    <p class="text-sm text-slate-400">1201 N Market St, Wilmington, DE 19801</p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-4">Audit Verification</p>
+                    <p class="font-mono text-sm text-orange-500/80 tracking-[0.18em]">+1 (888) 512-0941</p>
+                </div>
+            </div>
+            <div class="max-w-3xl mx-auto text-center space-y-5 md:space-y-6 text-[10px] text-slate-600 leading-relaxed font-normal">
+                <p id="legal-safe-line" class="strong-gold"><strong>ATTORNEY ADVERTISING:</strong> Nodal is a legal technology and data infrastructure provider. Nodal is not a law firm and does not provide legal advice. No attorney-client relationship is formed by this audit.</p>
+                <p class="text-[9px] tracking-[0.4em] font-bold text-slate-700">© 2026 NODAL. ALL RIGHTS RESERVED</p>
+            </div>
+        </div>
+    </footer>
+
+    
+<script src="/assets/js/truck_template.js"></script>
 </body>
 </html>

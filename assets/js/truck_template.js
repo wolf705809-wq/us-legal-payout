@@ -1,103 +1,103 @@
-(function () {
-    let currentStep = 1;
-    let turnstileVerified = false;
-    let turnstileToken = '';
-    const leadFormData = { case_type: 'truck' };
+/**
+ * Nodal Truck Mode - Integrated Interaction & Search v1.2
+ */
 
-    function getStateRows() {
-        const sd = globalThis.stateData;
-        return sd && typeof sd === 'object' ? sd : {};
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("🚛 Truck template infrastructure active.");
 
-    // [0.1% 디테일] 주 선택 시 화면에 '데이터 플래시' 효과를 주는 함수
-    function triggerDataAuditEffect() {
-        const card = document.getElementById('active-jurisdiction-card');
-        if (!card) return;
-        
-        // 1. 기존의 '조잡한' 느낌을 지우는 정교한 스캔 라인 플래시
-        card.classList.remove('scan-line-flash');
-        void card.offsetWidth; // 리플로우 강제 실행 (애니메이션 재시작)
-        card.classList.add('scan-line-flash');
-        
-        // 2. 텍스트 글리치 효과 추가 (권위 있는 엔진의 느낌)
-        const stateName = document.getElementById('hero-state-name');
-        if (stateName) {
-            stateName.classList.remove('nodal-glitch-in');
-            void stateName.offsetWidth;
-            stateName.classList.add('nodal-glitch-in');
-        }
-    }
+    // --- [1] 검색 엔진 로직 추가 ---
+    const searchInput = document.getElementById('state-search-input');
+    const resultsContainer = document.getElementById('state-search-results');
+    let truckStates = [];
 
-    // [기존 함수 튜닝] 주 선택 로직에 시각적 피드백 통합
-    window.selectJurisdiction = function(key) {
-        const rows = getStateRows();
-        const data = rows[key];
-        if (!data) return;
+    // 1-1. 검색 대상 데이터(JSON) 가져오기
+    fetch('/truck_state_profiles.json')
+        .then(response => response.json())
+        .then(data => {
+            truckStates = data;
+        })
+        .catch(err => console.error("Data sync failed:", err));
 
-        // 1. 상단 내비게이션 주 이름 동기화
-        const navState = document.getElementById('nav-state-name');
-        if (navState) navState.innerText = `${data.auto.name} · TRUCK SPECIALIST AUDIT`;
-
-        // 2. 메인 카드 데이터 업데이트
-        document.getElementById('hero-state-name').innerText = data.auto.name;
-        document.getElementById('statute-info').innerText = data.truck?.statute || data.auto.statute;
-        document.getElementById('stats-info').innerText = data.truck?.doctrine || data.auto.doctrine;
-
-        // 3. 상위 0.00001%의 데이터 시뮬레이션 효과 실행
-        triggerDataAuditEffect();
-    };
-
-    // [Audit 실행 로직] 버튼 클릭 시 즉시 모달을 띄우지 않고 '분석 중'이라는 인상을 줌
-    window.executeStatutoryAudit = function() {
-        const btn = document.getElementById('main-cta-btn');
-        const originalLabel = document.getElementById('main-cta-label');
-        
-        if (btn && originalLabel) {
-            btn.disabled = true;
-            originalLabel.innerText = "Initializing Neural Audit...";
+    // 1-2. 검색창에 글자를 칠 때마다 실행
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
             
-            // 사용자로 하여금 "진짜 분석 중이구나"라고 느끼게 만드는 딜레이
-            setTimeout(() => {
-                openModal(); // 실제 모달 오픈
-                btn.disabled = false;
-                originalLabel.innerText = "EXECUTE STATUTORY CASE AUDIT";
-            }, 850);
-        }
-    };
+            if (term.length < 1) {
+                resultsContainer.innerHTML = '';
+                resultsContainer.classList.add('hidden');
+                return;
+            }
 
-    // [기존 로직 유지 및 최적화]
-    function renderStateSearchResults(query) {
-        const box = document.getElementById('state-search-results');
-        if (!box) return;
-        const q = (query || '').trim().toLowerCase();
-        if (!q) { box.classList.add('hidden'); return; }
+            // 검색어와 일치하는 주(State) 찾기
+            const matches = truckStates.filter(s => 
+                s.state_name.toLowerCase().includes(term) || 
+                s.state_key.toLowerCase().includes(term)
+            );
 
-        const sd = getStateRows();
-        const matches = Object.keys(sd).filter(k => sd[k]?.auto?.name?.toLowerCase().includes(q)).slice(0, 10);
-        
-        box.innerHTML = matches.map(key => `
-            <button type="button" data-state-key="${key}" class="state-result-btn w-full text-left px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-orange-50 transition-colors border-b border-slate-50">
-                ${sd[key].auto.name}
-            </button>
-        `).join('');
-        box.classList.remove('hidden');
+            // 결과 화면에 그리기
+            if (matches.length > 0) {
+                resultsContainer.innerHTML = matches.map(s => `
+                    <div class="px-5 py-4 hover:bg-slate-50 cursor-pointer border-b border-slate-50 last:border-none transition-colors flex justify-between items-center"
+                         onclick="selectJurisdiction('${s.state_key}')">
+                        <span class="font-bold text-slate-800">${s.state_name}</span>
+                        <span class="text-[9px] font-black text-emerald-500 bg-emerald-50 px-2 py-1 rounded">v2026.SYNCED</span>
+                    </div>
+                `).join('');
+                resultsContainer.classList.remove('hidden');
+            } else {
+                resultsContainer.innerHTML = '<div class="px-5 py-4 text-sm text-slate-400">No matching node found.</div>';
+                resultsContainer.classList.remove('hidden');
+            }
+        });
     }
 
-    // DOM 로드 시 초기화
-    document.addEventListener('DOMContentLoaded', () => {
-        // CTA 버튼 클릭 이벤트 바인딩 (HTML에서 onclick 대신 이걸 써도 됨)
-        const cta = document.getElementById('main-cta-btn');
-        if (cta) cta.setAttribute('onclick', 'executeStatutoryAudit()');
-
-        const input = document.getElementById('state-search-input');
-        if (input) {
-            input.addEventListener('input', e => renderStateSearchResults(e.target.value));
+    // 1-3. 검색창 바깥쪽 클릭하면 결과창 닫기
+    document.addEventListener('click', (e) => {
+        if (searchInput && !searchInput.contains(e.target) && !resultsContainer.contains(e.target)) {
+            resultsContainer.classList.add('hidden');
         }
     });
+});
 
-    // 전역 함수 노출
-    window.updateGauge = (delta) => {
-        const gauge = document.getElementById('strength-gauge');
-        if (!gauge) return;
-        const now = parseFloat(gauge.style.width) || 10;
-        gauge.style.width
+/**
+ * --- [2] 기존 기능 유지 ---
+ */
+
+// START STATUTORY RECOVERY AUDIT 버튼 클릭 시
+function executeStatutoryAudit() {
+    console.log("🚀 Audit started.");
+    const modal = document.getElementById('truck-audit-modal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        // 첫 번째 단계(step-truck-1)가 보이도록 설정
+        document.querySelectorAll('.modal-step').forEach(s => s.classList.add('hidden'));
+        document.getElementById('step-truck-1').classList.remove('hidden');
+    }
+}
+
+// 모달 닫기
+function closeTruckModal() {
+    const modal = document.getElementById('truck-audit-modal');
+    if (modal) modal.classList.add('hidden');
+}
+
+// 5개 주 카드 또는 검색 결과 클릭 시 이동
+function selectJurisdiction(stateKey) {
+    if (!stateKey) return;
+    const stateSlug = stateKey.toLowerCase().replace(/\s+/g, '_'); // 공백 처리
+    console.log(`✈️ Redirecting to ${stateSlug.toUpperCase()}...`);
+    window.location.href = `/truck/${stateSlug}`;
+}
+
+// 모달 내 선택 처리
+function handleTruckChoice(key, value, nextStepId) {
+    console.log(`✅ ${key}: ${value}`);
+    document.querySelectorAll('.modal-step').forEach(s => s.classList.add('hidden'));
+    document.getElementById(nextStepId).classList.remove('hidden');
+    
+    // 진행바 업데이트 (3단계 기준)
+    const stepNum = nextStepId.split('-').pop();
+    const progress = (stepNum / 3) * 100;
+    document.getElementById('progress-bar').style.width = `${progress}%`;
+}
