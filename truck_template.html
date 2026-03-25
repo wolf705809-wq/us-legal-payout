@@ -32,114 +32,98 @@
         </div>
     </nav>
 
-    <main class="flex-grow max-w-3xl mx-auto px-5 md:px-8 pt-10 md:pt-24 pb-20 text-center w-full">
+    <main class="flex-grow max-w-5xl mx-auto px-5 md:px-8 pt-10 md:pt-20 pb-20 text-center w-full">
         
-<div class="mb-10 relative">
-            <p class="text-[11px] font-semibold text-slate-500 tracking-[0.25em] uppercase mb-4">Federal Trucking Incident Audit</p>
-            <h1 id="hero-title" class="text-[32px] md:text-[52px] font-serif font-bold text-white leading-[1.1] tracking-tight mb-5">
-                Uncover Your Settlement Gap: <span class="text-orange-600">{{ state_name }}</span>
-            </h1>
-            <p class="text-slate-400 text-[16px] md:text-[18px] max-w-2xl mx-auto font-medium leading-relaxed">
-                Insurance algorithms devalue claims by design. Our infrastructure identifies statutory recovery floors for 18-wheeler incidents.
-            </p>
-        </div>
-
-        
-<div id="active-jurisdiction-card" class="glass-panel nodal-monitor p-8 md:p-12 mb-12 text-left relative overflow-hidden shadow-2xl rounded-3xl">
-             
-<div class="flex justify-between items-center border-b border-white/10 pb-6 mb-8">
-                <div>
-                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-1">Active Jurisdiction</p>
-                    <h2 id="hero-state-name" class="text-3xl font-serif font-bold text-white leading-none">{{ state_name }}</h2>
+        <!-- [1구역: 검색 & 노드 선택] - 반투명 유리 느낌 -->
+        <section class="mb-12">
+            <div class="bg-white/5 border border-white/10 backdrop-blur-md shadow-2xl rounded-3xl p-8 md:p-10 text-left">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.25em] mb-4">Authorized State Nodes</p>
+                
+                <!-- 검색창 -->
+                <div class="relative mb-8">
+                    <input type="text" id="state-search-input" placeholder="Search Jurisdiction for Statutory Audit Compliance..." 
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-sm font-medium text-slate-200 placeholder:text-slate-600 outline-none focus:border-emerald-500/50 transition-all">
                 </div>
-                <div class="flex items-center gap-2.5 px-4 py-2 bg-white/5 rounded-full border border-white/10">
-                    <span class="nodal-pulse-orange w-1.5 h-1.5 rounded-full"></span>
-                    <span class="text-[10px] font-bold text-slate-300 tracking-[0.15em] uppercase">FMCSA Live Sync</span>
-                </div>
-             </div>
 
-             <div class="grid grid-cols-1 md:grid-cols-2 gap-10 content-start">
-                <div>
-                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-3">Statutory Authority</p>
-                    <div id="statute-info" class="font-mono text-[14px] text-amber-500 bg-black/30 border border-white/5 rounded-lg px-4 py-3 shadow-inner break-words">
-                        {{ statute_code }}
+                <!-- 주 선택 카드 (어두운 배경에 맞춘 형광 포인트) -->
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    <button type="button" onclick="selectJurisdiction('CA')" class="border-2 border-emerald-500/50 bg-emerald-500/10 p-4 rounded-xl text-center transition-all group">
+                        <span class="block text-emerald-400 font-bold text-lg group-hover:scale-110 transition-transform">CA</span>
+                        <span class="block text-[8px] font-bold text-emerald-500/70 uppercase tracking-tighter">v2026.SYNCED</span>
+                    </button>
+                    <button type="button" onclick="selectJurisdiction('TX')" class="border border-white/5 bg-white/5 p-4 rounded-xl text-center hover:border-white/20 transition-all group">
+                        <span class="block text-slate-400 font-bold text-lg group-hover:text-slate-200">TX</span>
+                        <span class="block text-[8px] font-bold text-slate-600 uppercase tracking-tighter">v2026.SYNCED</span>
+                    </button>
+                    <button type="button" onclick="selectJurisdiction('FL')" class="border border-white/5 bg-white/5 p-4 rounded-xl text-center hover:border-white/20 transition-all group">
+                        <span class="block text-slate-400 font-bold text-lg group-hover:text-slate-200">FL</span>
+                        <span class="block text-[8px] font-bold text-slate-600 uppercase tracking-tighter">v2026.SYNCED</span>
+                    </button>
+                    <button type="button" onclick="selectJurisdiction('GA')" class="border border-white/5 bg-white/5 p-4 rounded-xl text-center hover:border-white/20 transition-all group">
+                        <span class="block text-slate-400 font-bold text-lg group-hover:text-slate-200">GA</span>
+                        <span class="block text-[8px] font-bold text-slate-600 uppercase tracking-tighter">v2026.SYNCED</span>
+                    </button>
+                    <button type="button" onclick="selectJurisdiction('NY')" class="border border-white/5 bg-white/5 p-4 rounded-xl text-center hover:border-white/20 transition-all group">
+                        <span class="block text-slate-400 font-bold text-lg group-hover:text-slate-200">NY</span>
+                        <span class="block text-[8px] font-bold text-slate-600 uppercase tracking-tighter">v2026.SYNCED</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- [2구역: 실시간 데이터 모니터] - 어두운 배경에 가로 줄무늬 포인트 -->
+        <section class="mb-16 relative">
+            <div class="absolute inset-0 opacity-[0.05] pointer-events-none" style="background-image: linear-gradient(#fff 1px, transparent 1px); background-size: 100% 4px;"></div>
+            <div class="relative py-12 px-8 border-y border-white/5 text-left">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <div class="flex items-center gap-3">
+                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.25em]">Active Jurisdiction</span>
+                        <span class="flex items-center gap-1.5 px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded text-[9px] font-bold border border-emerald-500/20 uppercase">
+                            <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span> FMCSA Live
+                        </span>
+                    </div>
+                    <div class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[9px] font-bold text-slate-400 tracking-widest uppercase">
+                        <span class="text-emerald-500">●●●</span> 2026:03 Sync Active
                     </div>
                 </div>
-                <div>
-                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-3">Risk Assessment</p>
-                    <p id="stats-info" class="text-[14px] font-medium text-slate-300 leading-relaxed italic">
-                        "{{ truck_risk_summary }}"
-                    </p>
+                <h2 id="hero-state-name" class="text-5xl md:text-7xl font-serif font-bold text-white mb-12 tracking-tight">{{ state_name }}</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
+                    <div>
+                        <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.25em] mb-3">Statutory Authority</p>
+                        <div class="inline-flex items-center gap-3 bg-black/50 text-emerald-500 font-mono text-base px-6 py-4 rounded-xl border border-white/10 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+                            <span class="opacity-50">$</span> {{ statute_code }}
+                        </div>
+                    </div>
+                    <div class="md:text-right">
+                        <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.25em] mb-3">Liability Doctrine</p>
+                        <p class="text-xl md:text-2xl font-serif font-semibold text-slate-200 italic">Pure Comparative Negligence</p>
+                    </div>
                 </div>
-             </div>
-        </div>
+            </div>
+        </section>
 
-        
-<div class="flex flex-col items-center mb-16">
-            <button type="button" onclick="executeStatutoryAudit()" id="main-cta-btn"
-                class="group w-full max-w-[480px] bg-[#050810] text-white font-black text-[16px] md:text-[18px] py-6 rounded-2xl shadow-xl uppercase tracking-widest border border-slate-800 hover:border-orange-500/50 hover:scale-[1.01] active:scale-[0.97] transition-all">
-                <span id="main-cta-label">START STATUTORY RECOVERY AUDIT</span>
+        <!-- [3구역: 실행 버튼] - 강렬한 블랙 & 에메랄드 광채 -->
+        <section class="max-w-xl mx-auto text-center">
+            <p class="text-[10px] font-bold text-emerald-500/80 uppercase tracking-[0.3em] mb-8">System Ready for Deep Statutory Audit</p>
+            <button type="button" onclick="executeStatutoryAudit()" 
+                class="group relative w-full bg-black hover:bg-[#0a0f1a] text-white py-8 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 transition-all hover:scale-[1.02] active:scale-95 overflow-hidden">
+                <div class="flex items-center justify-center gap-5">
+                    <!-- 방패 아이콘 -->
+                    <svg class="w-8 h-8 text-emerald-500 group-hover:drop-shadow-[0_0_8px_rgba(16,185,129,0.8)] transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04a11.357 11.357 0 00-1.026 5.413c0 5.921 4.676 10.712 10.5 11.114a11.09 11.09 0 0010.5-11.114c0-1.876-.453-3.646-1.258-5.204z"></path>
+                    </svg>
+                    <span class="text-2xl md:text-3xl font-bold tracking-[0.05em] uppercase">Execute Statutory Case Audit</span>
+                </div>
+                <span class="block text-[9px] text-slate-600 mt-2 opacity-60 tracking-[0.3em] font-mono">NODE_AUTH: V2.1-SECURE</span>
             </button>
-            <p class="mt-4 text-[10px] font-bold text-slate-600 tracking-widest uppercase">Verified Federal Data Source</p>
-        </div>
-
-        
-<div id="state-infrastructure" class="mb-20 text-left border-t border-white/5 pt-16">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-10">
-                <div>
-                    <p class="text-[10px] font-semibold tracking-[0.2em] uppercase text-slate-600 mb-1">State Audit Registry</p>
-                    <h3 class="font-serif text-3xl font-semibold text-white tracking-tight">Search Statutory Data Flows.</h3>
-                </div>
-                <div class="shrink-0">
-                    <button type="button" onclick="showStateDropdown()" class="text-sm font-semibold text-orange-500 hover:text-orange-400">View All 50 States →</button>
-                </div>
+            <div class="mt-10 inline-flex items-center gap-2.5 px-5 py-2 bg-white/5 rounded-full border border-white/5">
+                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-[0_0_8px_#10b981]"></span>
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">AES-256 Military Grade Encryption Secure</span>
             </div>
-
-            
-<div id="state-search-container" class="relative mb-6">
-                <input
-                    id="state-search-input"
-                    type="text"
-                    autocomplete="off"
-                    placeholder="Search California, Texas…"
-                    class="w-full rounded-lg border border-slate-800 bg-[#070b14] px-4 py-3 text-sm font-semibold text-slate-100 placeholder:text-slate-700 outline-none focus:border-orange-500/50"
-                />
-                <div id="state-search-results" class="hidden absolute z-40 mt-1.5 w-full rounded-lg border border-orange-200/20 bg-[#090e19] shadow-2xl max-h-56 overflow-y-auto"></div>
-            </div>
-
-            
-<div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                <button type="button" onclick="selectJurisdiction('CA')" class="truck-infrastructure-card">CA</button>
-                <button type="button" onclick="selectJurisdiction('TX')" class="truck-infrastructure-card">TX</button>
-                <button type="button" onclick="selectJurisdiction('FL')" class="truck-infrastructure-card">FL</button>
-                <button type="button" onclick="selectJurisdiction('GA')" class="truck-infrastructure-card">GA</button>
-                <button type="button" onclick="selectJurisdiction('NY')" class="truck-infrastructure-card">NY</button>
-            </div>
-        </div>
-
-        
-<div class="text-center mb-16 border-t border-white/5 pt-16">
-            <p class="text-[11px] font-semibold text-slate-500 tracking-[0.3em] uppercase mb-4">The Nodal Protocol</p>
-            <h3 class="mt-4 font-serif text-3xl md:text-4xl font-bold text-white mb-8">The Decentralized Standard for Settlement Integrity.</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
-                <button type="button" class="text-left rounded-xl border border-white/10 bg-white/5 p-6 shadow-sm hover:shadow-md hover:border-orange-500/20 transition-all">
-                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-600 mb-3">Registry Inquiry</p>
-                    <p class="font-serif text-xl font-bold text-white leading-snug">Why Insurance Adjusters Fear Statutory Data.</p>
-                </button>
-                <button type="button" class="text-left rounded-xl border border-white/10 bg-white/5 p-6 shadow-sm hover:shadow-md hover:border-orange-500/20 transition-all">
-                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-600 mb-3">Forensic Intelligence</p>
-                    <p class="font-serif text-xl font-bold text-white leading-snug">The $750,000 Minimum: Federal Trucking Policy Limits.</p>
-                </button>
-                <button type="button" class="text-left rounded-xl border border-white/10 bg-white/5 p-6 shadow-sm hover:shadow-md hover:border-orange-500/20 transition-all">
-                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-600 mb-3">Neutral System</p>
-                    <p class="font-serif text-xl font-bold text-white leading-snug">Man vs Machine: How AI Detects Settlement Gaps.</p>
-                </button>
-            </div>
-        </div>
+        </section>
     </main>
-
     
-<footer class="w-full bg-[#03050a] border-t border-white/5 p-8 md:p-16 mt-auto">
+<footer class="w-full bg-[#03050a] border-t border-white/5 p-12 mt-20">
         <div class="max-w-6xl mx-auto text-center md:text-left">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 pb-10 md:pb-16 border-b border-white/5 mb-10 md:mb-16">
                 <div>
