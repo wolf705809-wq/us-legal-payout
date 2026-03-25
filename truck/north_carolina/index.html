@@ -140,6 +140,84 @@
         </div>
     </div>
 
+    <section class="w-full bg-white pt-12 md:pt-14 pb-10 border-t border-slate-200">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center">
+                <p class="text-[10px] font-bold uppercase tracking-[0.28em] text-slate-500">THE NODAL PROTOCOL</p>
+                <h3 id="truck-conversion-headline" class="mt-4 font-serif text-3xl md:text-4xl font-bold text-slate-900">Neutral Infrastructure for Legal Transparency.</h3>
+                <p id="truck-conversion-copy" class="mt-4 max-w-3xl mx-auto text-sm md:text-base text-slate-600 leading-relaxed italic">
+                    Nodal acts as a decentralized data layer, synchronizing federal trucking statutes with real-time incident data to mitigate insurance algorithm bias.
+                </p>
+            </div>
+
+            <div class="mt-10 md:mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button type="button" onclick="openInsightModal('trap')" class="text-left rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md hover:border-slate-300 transition">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Insights</p>
+                    <p class="font-serif text-xl font-bold text-slate-900 leading-snug">Why Insurance Adjusters Fear Statutory Data.</p>
+                </button>
+                <button type="button" onclick="openInsightModal('gold')" class="text-left rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md hover:border-slate-300 transition">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Intelligence</p>
+                    <p class="font-serif text-xl font-bold text-slate-900 leading-snug">The $750,000 Minimum: Federal Trucking Policy Limits.</p>
+                </button>
+                <button type="button" onclick="openInsightModal('system')" class="text-left rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md hover:border-slate-300 transition">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">System</p>
+                    <p class="font-serif text-xl font-bold text-slate-900 leading-snug">Man vs Machine: How AI Detects Settlement Gaps.</p>
+                </button>
+            </div>
+
+            <div id="truck-trust-strip" class="mt-10 trusted-by-row">
+                <span class="trusted-by-chip">FMCSR COMPLIANT</span>
+                <span class="trusted-by-chip">CERTIFIED DATA SOURCE</span>
+                <span class="trusted-by-chip">STATUTORY AUDIT v2.1</span>
+                <span class="trusted-by-chip">ENCRYPTION SECURE</span>
+            </div>
+        </div>
+    </section>
+
+    <footer class="w-full bg-[#050810] text-[#94A3B8] p-8 md:p-20 mt-auto border-t border-slate-800">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 pb-10 md:pb-16 border-b border-slate-800 text-center md:text-left">
+                <div>
+                    <p class="text-[#94A3B8] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Registry Inquiries</p>
+                    <p class="text-sm text-[#94A3B8]">support@jdsglobalsolutions.com</p>
+                </div>
+                <div>
+                    <p class="text-[#94A3B8] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Principal Office</p>
+                    <p class="text-sm text-[#94A3B8]">1201 N Market St, Wilmington, DE 19801</p>
+                </div>
+                <div>
+                    <p class="text-[#94A3B8] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Audit Verification</p>
+                    <p class="inline-flex items-center border border-slate-700/80 bg-black/20 px-3 py-1.5 rounded-md font-mono text-sm tracking-[0.18em] text-[#94A3B8]">+1 (888) 512-0941</p>
+                </div>
+            </div>
+            <div class="flex flex-wrap justify-center gap-6 md:gap-10 py-8 md:py-12 text-[9px] font-bold uppercase tracking-[0.18em]">
+                <a href="/privacy.html">Data Governance & Privacy Protocol</a>
+                <a href="/terms.html">Statutory Terms of Service</a>
+                <a href="/ccpa.html">Data Sovereignty (CCPA Rights)</a>
+                <a href="/disclaimer.html">Evaluation Constraints & Disclosures</a>
+            </div>
+            <div class="max-w-3xl mx-auto text-center space-y-4 md:space-y-6">
+                <p id="legal-safe-line" class="text-[11px] md:text-[10px] text-slate-500 leading-relaxed"><strong>ATTORNEY ADVERTISING:</strong> Nodal is a legal technology and data infrastructure provider. Nodal is not a law firm and does not provide legal advice. No attorney-client relationship is formed by the use of this evaluation engine. All valuations are estimates based on statutory frameworks and do not guarantee financial recovery.</p>
+                <p class="text-[9px] tracking-[0.4em] font-bold text-slate-600">⊙ 2026 NODAL. ALL RIGHTS RESERVED</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="insightModal" onclick="closeInsightModal()" class="hidden fixed inset-0 z-[125] flex items-center justify-center bg-black/65 backdrop-blur-sm p-4">
+        <div onclick="event.stopPropagation()" class="w-full max-w-2xl rounded-2xl border border-slate-200 bg-white text-slate-800 p-6 md:p-8 shadow-2xl">
+            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Insights & Intelligence</p>
+            <h4 id="insight-modal-title" class="font-serif text-2xl md:text-3xl font-bold text-slate-900 mb-4"></h4>
+            <p id="insight-modal-body" class="text-sm md:text-base text-slate-600 leading-relaxed"></p>
+            <button
+                type="button"
+                onclick="closeInsightModal()"
+                class="mt-8 px-5 py-2 rounded-md border border-slate-300 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-700 hover:bg-slate-100 transition"
+            >
+                Close
+            </button>
+        </div>
+    </div>
+
     <script src="/assets/js/truck_template.js"></script>
 </body>
 </html>

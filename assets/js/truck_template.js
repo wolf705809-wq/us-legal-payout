@@ -42,6 +42,43 @@
         box.classList.remove('hidden');
     }
 
+    const INSIGHT_CONTENT = {
+        trap: {
+            title: 'Why Insurance Adjusters Fear Statutory Data.',
+            body: 'Adjusters perform best when claimants do not anchor demands to enforceable statutes and precedent-backed liability structures. Statutory data creates a verifiable baseline that compresses negotiation spread and exposes lowball reserve strategy.',
+        },
+        gold: {
+            title: 'The $750,000 Minimum: Federal Trucking Policy Limits.',
+            body: 'Federal motor carrier frameworks often place meaningful policy floors in play. Understanding these limits changes valuation posture immediately by reframing what is collectible, what is provable, and what leverage is realistic before litigation spend accelerates.',
+        },
+        system: {
+            title: 'Man vs Machine: How AI Detects Settlement Gaps.',
+            body: 'Nodal compares narrative facts, injury signals, and jurisdictional doctrine against historical outcomes to detect valuation deltas. The model highlights where carrier offers diverge from statistically supportable ranges so users can negotiate from evidence, not guesswork.',
+        },
+    };
+
+    window.openInsightModal = function openInsightModal(kind) {
+        const modal = document.getElementById('insightModal');
+        const title = document.getElementById('insight-modal-title');
+        const body = document.getElementById('insight-modal-body');
+        const content = INSIGHT_CONTENT[kind];
+        if (!modal || !title || !body || !content) return;
+        title.innerText = content.title;
+        body.innerText = content.body;
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    };
+
+    window.closeInsightModal = function closeInsightModal() {
+        const modal = document.getElementById('insightModal');
+        if (!modal) return;
+        modal.classList.add('hidden');
+        const leadOpen = document.getElementById('leadModal');
+        if (!leadOpen || leadOpen.classList.contains('hidden')) {
+            document.body.style.overflow = '';
+        }
+    };
+
     window.openModal = function openModal() {
         const modal = document.getElementById('leadModal');
         if (!modal) return;
