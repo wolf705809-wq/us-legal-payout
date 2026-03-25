@@ -213,40 +213,32 @@
 </section>
     
 <footer class="w-full bg-[#03050a] border-t border-white/5 p-12 mt-20">
-        <div class="max-w-6xl mx-auto text-center md:text-left">
-            <div class="grid grid-cols-2 gap-4 sm:grid-cols-5 sm:gap-3">
-                    
-<button type="button" onclick="selectJurisdiction('california')" class="border border-slate-200/60 bg-[#fcfdfe] hover:border-orange-500 hover:bg-orange-50 p-4 rounded-xl text-center transition-all group">
-                        <span class="block text-slate-800 group-hover:text-orange-700 font-bold text-lg">CA</span>
-                        <span class="block text-[8px] font-bold text-slate-400 group-hover:text-orange-500 uppercase tracking-tighter">v2026.SYNCED</span>
-                    </button>
-                    
-<button type="button" onclick="selectJurisdiction('texas')" class="border border-slate-200/60 bg-[#fcfdfe] hover:border-orange-500 hover:bg-orange-50 p-4 rounded-xl text-center transition-all group">
-                        <span class="block text-slate-800 group-hover:text-orange-700 font-bold text-lg">TX</span>
-                        <span class="block text-[8px] font-bold text-slate-400 group-hover:text-orange-500 uppercase tracking-tighter">v2026.SYNCED</span>
-                    </button>
-                    
-<button type="button" onclick="selectJurisdiction('florida')" class="border border-slate-200/60 bg-[#fcfdfe] hover:border-orange-500 hover:bg-orange-50 p-4 rounded-xl text-center transition-all group">
-                        <span class="block text-slate-800 group-hover:text-orange-700 font-bold text-lg">FL</span>
-                        <span class="block text-[8px] font-bold text-slate-400 group-hover:text-orange-500 uppercase tracking-tighter">v2026.SYNCED</span>
-                    </button>
-                    
-<button type="button" onclick="selectJurisdiction('georgia')" class="border border-slate-200/60 bg-[#fcfdfe] hover:border-orange-500 hover:bg-orange-50 p-4 rounded-xl text-center transition-all group">
-                        <span class="block text-slate-800 group-hover:text-orange-700 font-bold text-lg">GA</span>
-                        <span class="block text-[8px] font-bold text-slate-400 group-hover:text-orange-500 uppercase tracking-tighter">v2026.SYNCED</span>
-                    </button>
-                    
-<button type="button" onclick="selectJurisdiction('new_york')" class="border border-slate-200/60 bg-[#fcfdfe] hover:border-orange-500 hover:bg-orange-50 p-4 rounded-xl text-center transition-all group">
-                        <span class="block text-slate-800 group-hover:text-orange-700 font-bold text-lg">NY</span>
-                        <span class="block text-[8px] font-bold text-slate-400 group-hover:text-orange-500 uppercase tracking-tighter">v2026.SYNCED</span>
-                    </button>
-                </div>
-            <div class="max-w-3xl mx-auto text-center space-y-5 md:space-y-6 text-[10px] text-slate-600 leading-relaxed font-normal">
-                <p id="legal-safe-line" class="strong-gold"><strong>ATTORNEY ADVERTISING:</strong> Nodal is a legal technology and data infrastructure provider. Nodal is not a law firm and does not provide legal advice. No attorney-client relationship is formed by this audit.</p>
-                <p class="text-[9px] tracking-[0.4em] font-bold text-slate-700">© 2026 NODAL. ALL RIGHTS RESERVED</p>
+    <div class="max-w-6xl mx-auto">
+        <!-- 상단 연락처 정보 (필요 없으시면 이 div만 지우세요) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 pb-10 md:pb-16 border-b border-white/5 mb-10 md:mb-16 text-center md:text-left">
+            <div>
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-4">Registry Inquiries</p>
+                <p class="text-sm text-slate-400">support@jdsglobalsolutions.com</p>
+            </div>
+            <div>
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-4">Principal Office</p>
+                <p class="text-sm text-slate-400">1201 N Market St, Wilmington, DE 19801</p>
+            </div>
+            <div>
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-4">Audit Verification</p>
+                <p class="font-mono text-sm text-orange-500/80 tracking-[0.18em]">+1 (888) 512-0941</p>
             </div>
         </div>
-    </footer>
+
+        <!-- 하단 법적 고지 및 저작권 -->
+        <div class="max-w-3xl mx-auto text-center space-y-5 md:space-y-6 text-[10px] text-slate-600 leading-relaxed font-normal">
+            <p id="legal-safe-line">
+                <strong class="text-slate-400">ATTORNEY ADVERTISING:</strong> Nodal is a legal technology and data infrastructure provider. Nodal is not a law firm and does not provide legal advice. No attorney-client relationship is formed by this audit.
+            </p>
+            <p class="text-[9px] tracking-[0.4em] font-bold text-slate-700">© 2026 NODAL. ALL RIGHTS RESERVED</p>
+        </div>
+    </div>
+</footer>
 
     
 <script src="/assets/js/truck_template.js"></script>
