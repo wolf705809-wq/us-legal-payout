@@ -1804,28 +1804,31 @@ body.truck-mode .glass-panel {
     }
 }
 /* -------------------------------------------
-   [PREMIUM FINAL POLISH] - 하이엔드 마감 처리
+   [ULTIMATE FIX] 모달 내 모든 버튼 글자색 강제 집행
    ------------------------------------------- */
 
-/* 1. 메인 버튼 글자색 '순백색' 강제 고정 */
-#main-cta-btn, 
-.premium-btn, 
-button[onclick*="executeAudit"], 
-button[onclick*="startStateSyncFlow"] {
-    color: #FFFFFF !important;            /* 무조건 흰색 */
-    font-weight: 800 !important;           /* 아주 두껍게 */
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2); /* 가독성 위한 미세 그림자 */
-    opacity: 1 !important;                 /* 투명도 제거 */
+/* 1. 모달 내 모든 버튼 및 특정 클래스 타격 */
+#leadModal button,
+#lead-modal-card button,
+.premium-btn,
+.audit-primary-cta,
+#submit-btn {
+    color: #FFFFFF !important;                   /* 순백색 */
+    -webkit-text-fill-color: #FFFFFF !important;  /* 아이폰/사파리 강제 적용 */
+    font-weight: 900 !important;                  /* 아주 굵게 */
+    text-transform: uppercase !important;         /* 대문자 */
+    opacity: 1 !important;                        /* 투명도 금지 */
 }
 
-/* 2. 상단 데이터 피드 간격 벌리기 */
-.ai-insight-container {
-    margin-bottom: 24px !important;        /* 인사이트와 노트 사이를 시원하게 벌림 */
-    padding-bottom: 12px !important;
-    border-bottom: 1px solid rgba(0,0,0,0.05) !important; /* 구분선 추가 */
+/* 2. 혹시나 글자가 span 같은 태그 안에 숨어있을 경우까지 싹다 타격 */
+#leadModal button *,
+.premium-btn * {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
 }
 
-/* 3. 상단 박스 텍스트 색상 (네이비로 권위 부여) */
-.ai-insight-container, .system-note-container {
-    color: #0F172A !important;             /* 짙은 네이비색 글자 */
+/* 3. 비활성화된 버튼(Step 9 제출 전)도 글자는 보이게 처리 */
+#submit-btn:disabled {
+    color: rgba(255, 255, 255, 0.5) !important;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.5) !important;
 }
