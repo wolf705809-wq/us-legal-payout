@@ -293,7 +293,6 @@ body.truck-mode.is-scrolling .glass-panel {
     background: rgba(15, 23, 42, 0.98) !important;
 }
 
-<<<<<<< HEAD
 /* ============================================================
    Premium Legal Infrastructure — Questionnaire Shell
    (readability + performance)
@@ -306,8 +305,9 @@ body.truck-mode.is-scrolling .glass-panel {
 
 #leadModal .audit-section-label {
     font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 0.18em;
+    color: #0F172A !important;
 }
 
 #leadModal .audit-question-title {
@@ -316,6 +316,7 @@ body.truck-mode.is-scrolling .glass-panel {
     letter-spacing: -0.03em;
     font-size: clamp(1.25rem, 3.2vw, 1.6rem);
     line-height: 1.12;
+    color: #0F172A !important;
 }
 
 #leadModal .step-container p,
@@ -323,23 +324,53 @@ body.truck-mode.is-scrolling .glass-panel {
     font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 }
 
-/* Premium Emerald system note */
-#value-driver-tip {
-    background: rgba(16, 185, 129, 0.03);
-    border: 1px solid rgba(16, 185, 129, 0.10);
-    color: rgba(15, 23, 42, 0.78);
+/* Comfort Mint — unified system note + AI insight */
+#value-driver-tip,
+#ai-feedback-box {
+    background: rgba(16, 185, 129, 0.04);
+    border: 1px solid rgba(16, 185, 129, 0.12) !important;
     border-radius: 12px;
     padding: 10px 12px;
     will-change: opacity;
     transform: translateZ(0);
 }
 
+#value-driver-tip {
+    color: rgba(15, 23, 42, 0.88);
+}
+
+#ai-feedback-text {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #0F172A !important;
+    text-transform: uppercase;
+}
+
 #value-driver-tip .system-note-label {
     font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     font-weight: 900;
     letter-spacing: 0.10em;
-    color: rgba(16, 185, 129, 0.95);
+    color: #0F172A !important;
     margin-right: 6px;
+}
+
+/* CALIFORNIA STATUTORY SYNC — same Comfort Mint fill */
+#leadModal .audit-banner--comfort-mint {
+    background: rgba(16, 185, 129, 0.04) !important;
+    border: 1px solid rgba(16, 185, 129, 0.12) !important;
+}
+
+#leadModal .audit-banner--comfort-mint .audit-sync-headline {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    color: #0F172A !important;
+}
+
+#leadModal .audit-banner--comfort-mint .audit-sync-sub {
+    font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    color: #334155 !important;
 }
 
 /* Interactive nodes: faint emerald glow on hover */
@@ -354,8 +385,34 @@ body.truck-mode.is-scrolling .glass-panel {
     border-color: rgba(16, 185, 129, 0.35) !important;
 }
 
-/* 4. 그리드 및 박스 디자인 (기존 유지) */
-=======
+/* Luxury Navy & Gold — primary CTAs (questionnaire + hero) */
+#leadModal .premium-btn:not(.bg-slate-950):not(.bg-slate-900),
+body:not(.truck-pseo-page) #main-cta-btn {
+    background: #0F172A !important;
+    border: 2px solid #D4AF37 !important;
+    color: #FBBF24 !important;
+    font-weight: 800 !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.35);
+}
+
+#leadModal .premium-btn:not(.bg-slate-950):not(.bg-slate-900):hover,
+body:not(.truck-pseo-page) #main-cta-btn:hover {
+    filter: brightness(1.06);
+    box-shadow:
+        0 6px 22px rgba(15, 23, 42, 0.45),
+        0 0 24px rgba(212, 175, 55, 0.22);
+}
+
+#leadModal .premium-btn:not(.bg-slate-950):not(.bg-slate-900) *,
+body:not(.truck-pseo-page) #main-cta-btn * {
+    color: #FBBF24 !important;
+}
+
+#leadModal #submit-btn:disabled {
+    opacity: 0.45 !important;
+    filter: none;
+}
+
 /* [GPU 가속] 상태 표시 점(Dot) 최적화 */
 .nodal-status-dot, .nodal-pulse, .nodal-cta-dot {
     will-change: opacity; /* GPU에 미리 할당 */
@@ -367,12 +424,11 @@ body.truck-mode.is-scrolling .glass-panel {
 #nodal-depth-ghost-text {
     transform: translateZ(0);
     /* 너무 큰 폰트의 부하를 줄이기 위해 텍스트 렌더링 최적화 */
-    text-rendering: optimizeSpeed; 
+    text-rendering: optimizeSpeed;
 }
 
 /* 4. 그리드 및 박스 디자인 (0.1% 민트 시스템 최적화) */
 
->>>>>>> b372817dd776eb7b3370e0f62e45187d62ee85c7
 .state-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
@@ -423,11 +479,11 @@ body.truck-mode.is-scrolling .glass-panel {
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.6) !important;
     box-shadow:
-<<<<<<< HEAD
         0 0 0 1px rgba(226, 232, 240, 0.45) inset,
         0 1px 2px rgba(11, 17, 32, 0.05),
         0 10px 24px rgba(11, 17, 32, 0.08),
         0 24px 44px -32px rgba(11, 17, 32, 0.28);
+    border-radius: 24px;
 }
 
 /* Modal surfaces (lead, insight, about) — frosted card */
@@ -442,9 +498,6 @@ body.truck-mode.is-scrolling .glass-panel {
         0 25px 50px -12px rgba(15, 23, 42, 0.25);
     transition: box-shadow 0.4s var(--nodal-ease-out), transform 0.4s var(--nodal-ease-out);
 }
-
-
-
 
 /* FORCE-FIX: Lead modal contrast (prevents white-on-white regressions) */
 #leadModal #lead-modal-card:not(.is-federal-audit),
@@ -463,15 +516,16 @@ body.truck-mode.is-scrolling .glass-panel {
     color: #FDF2E9 !important;
 }
 
-/* Main CTA in truck-mode: gold gradient + pure black text (exclude truck-pseo-page) */
-body.truck-mode:not(.truck-pseo-page) #main-cta-btn {
-    background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%) !important;
-    border: 1px solid rgba(212, 175, 55, 0.65) !important;
-    color: #000000 !important;
+/* Federal audit: keep system labels readable on navy */
+#leadModal #lead-modal-card.is-federal-audit .audit-section-label,
+#leadModal #lead-modal-card.is-federal-audit #ai-feedback-text,
+#leadModal #lead-modal-card.is-federal-audit .system-note-label,
+#leadModal #lead-modal-card.is-federal-audit .audit-banner--comfort-mint .audit-sync-headline {
+    color: #FBBF24 !important;
 }
 
-body.truck-mode:not(.truck-pseo-page) #main-cta-btn * {
-    color: #000000 !important;
+#leadModal #lead-modal-card.is-federal-audit .audit-banner--comfort-mint .audit-sync-sub {
+    color: rgba(253, 242, 233, 0.88) !important;
 }
 
 /* Preserve intentional white text on primary dark actions */
@@ -488,9 +542,6 @@ body.truck-mode:not(.truck-pseo-page) #main-cta-btn * {
     color: #78350f !important; /* amber-900 */
 }
 
-
-
-
 #aboutModal > div.max-w-3xl {
     background: rgba(5, 8, 16, 0.82) !important;
     backdrop-filter: blur(12px);
@@ -500,11 +551,6 @@ body.truck-mode:not(.truck-pseo-page) #main-cta-btn * {
         0 0 0 1px rgba(255, 255, 255, 0.06) inset,
         0 25px 50px -12px rgba(0, 0, 0, 0.45);
     transition: box-shadow 0.4s var(--nodal-ease-out), transform 0.4s var(--nodal-ease-out);
-=======
-        0 0 0 1px rgba(226, 232, 240, 0.5) inset,
-        0 20px 40px -20px rgba(11, 17, 32, 0.15);
-    border-radius: 24px;
->>>>>>> b372817dd776eb7b3370e0f62e45187d62ee85c7
 }
 
 
@@ -622,16 +668,27 @@ body.truck-mode .text-amber-400 {
     font-weight: 700;
 }
 
-/* [버튼] 대시보드 느낌의 골드 + 검정 글자 (최고 시인성) */
-body.truck-mode .premium-btn,
-body.truck-mode #main-cta-btn {
-    background: linear-gradient(135deg, #D4AF37 0%, #B45309 100%) !important;
-    border: 1px solid #F59E0B !important;
-    color: #000000 !important; /* 금색 버튼엔 검정 글자가 0.1% 정석입니다 */
-    font-weight: 900 !important;
-    box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        0 4px 12px rgba(0, 0, 0, 0.3) !important;
+/* [버튼] Luxury Navy + Gilded Gold + Text Gold (exclude truck PSEO) */
+body.truck-mode:not(.truck-pseo-page) .premium-btn:not(.bg-slate-950):not(.bg-slate-900),
+body.truck-mode:not(.truck-pseo-page) #main-cta-btn {
+    background: #0F172A !important;
+    border: 2px solid #D4AF37 !important;
+    color: #FBBF24 !important;
+    font-weight: 800 !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.35);
+}
+
+body.truck-mode:not(.truck-pseo-page) .premium-btn:not(.bg-slate-950):not(.bg-slate-900):hover,
+body.truck-mode:not(.truck-pseo-page) #main-cta-btn:hover {
+    filter: brightness(1.06);
+    box-shadow:
+        0 6px 22px rgba(15, 23, 42, 0.45),
+        0 0 24px rgba(212, 175, 55, 0.22);
+}
+
+body.truck-mode:not(.truck-pseo-page) .premium-btn:not(.bg-slate-950):not(.bg-slate-900) *,
+body.truck-mode:not(.truck-pseo-page) #main-cta-btn * {
+    color: #FBBF24 !important;
 }
 
 /* [성능] 트럭 모드 전용 유리 패널 최적화 */

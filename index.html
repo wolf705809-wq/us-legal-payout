@@ -217,13 +217,17 @@
     border-color: rgba(212, 175, 55, 0.35) !important;
 }
 
-#lead-modal-card.is-federal-audit .audit-banner {
-    border-color: rgba(212, 175, 55, 0.25) !important;
-    background: rgba(212, 175, 55, 0.08) !important;
+#lead-modal-card.is-federal-audit .audit-banner--comfort-mint {
+    background: rgba(16, 185, 129, 0.04) !important;
+    border: 1px solid rgba(16, 185, 129, 0.12) !important;
 }
 
-#lead-modal-card.is-federal-audit .audit-banner p {
-    color: rgba(212, 175, 55, 0.95) !important;
+#lead-modal-card.is-federal-audit .audit-banner--comfort-mint .audit-sync-headline {
+    color: #FBBF24 !important;
+}
+
+#lead-modal-card.is-federal-audit .audit-banner--comfort-mint .audit-sync-sub {
+    color: rgba(253, 242, 233, 0.9) !important;
 }
 
 #lead-modal-card.is-federal-audit .text-slate-500,
@@ -251,10 +255,10 @@
                     <h3 id="lead-modal-title" class="font-serif font-bold text-xl">Case Intake Audit</h3>
                     <button type="button" onclick="closeModal()" class="text-slate-400 hover:text-slate-800 p-2" aria-label="Close">✕</button>
                 </div>
-                <div id="ai-feedback-box" class="mb-4 p-3 bg-blue-50 rounded hidden">
-                    <p id="ai-feedback-text" class="text-[10px] font-bold text-blue-800 uppercase tracking-tight"></p>
+                <div id="ai-feedback-box" class="mb-4 hidden">
+                    <p id="ai-feedback-text"></p>
                 </div>
-                <p id="value-driver-tip" class="mb-4 text-[11px] font-semibold text-blue-700 hidden"></p>
+                <p id="value-driver-tip" class="mb-4 text-[11px] font-semibold hidden"></p>
                 <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
                     <div id="strength-gauge" class="bg-blue-600 h-full transition-all duration-700 gauge-initial"></div>
                 </div>
@@ -273,9 +277,9 @@
                 <div id="step-2" class="step-container hidden space-y-4">
                     <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
                     <p class="audit-section-label text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 02: Jurisdiction</p>
-                    <div class="audit-banner rounded-xl border border-emerald-200/60 bg-emerald-500/10 px-4 py-3">
-                        <p class="text-[10px] font-extrabold tracking-[0.18em] uppercase text-emerald-700">CALIFORNIA STATUTORY SYNC ACTIVE</p>
-                        <p class="mt-1 text-[12px] font-semibold text-slate-700">Confirm jurisdiction: <span id="audit-jurisdiction-label" class="font-bold text-slate-900">California</span></p>
+                    <div class="audit-banner audit-banner--comfort-mint rounded-xl px-4 py-3">
+                        <p class="audit-sync-headline text-[10px] font-extrabold tracking-[0.18em] uppercase">CALIFORNIA STATUTORY SYNC ACTIVE</p>
+                        <p class="audit-sync-sub mt-1 text-[12px] font-semibold">Confirm jurisdiction: <span id="audit-jurisdiction-label" class="font-bold">California</span></p>
                     </div>
                     <h3 class="audit-question-title text-[22px] md:text-xl font-serif font-bold leading-tight">Confirm Jurisdiction</h3>
                     <p class="text-[12px] text-slate-600 leading-relaxed">This audit executes against the active jurisdiction’s statutory floor and comparative framework.</p>
