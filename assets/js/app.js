@@ -2,7 +2,7 @@ const TRUCK_UI_TEMPLATE = {
     hero_headline: '<STATE> 18-Wheeler Statutory Audit',
     hero_subheadline:
         'When a commercial carrier is involved, every hour matters. Our FMCSA-aligned audit engine identifies liability signals, policy leverage, and evidence-preservation priorities before critical data disappears.',
-    cta_label: 'START DATA-DRIVEN CASE AUDIT',
+    cta_label: 'EXECUTE STATUTORY CASE AUDIT',
     value_stack: [
         'FMCSA Compliance Mapping (49 CFR Parts 390-399)',
         'Carrier & Policy Layer Intelligence',
@@ -666,7 +666,7 @@ function applyAutoPageShell(d) {
     }
 
     const ctaLabel = document.getElementById('main-cta-label');
-    if (ctaLabel) ctaLabel.textContent = 'START DATA-DRIVEN CASE AUDIT';
+    if (ctaLabel) ctaLabel.textContent = 'EXECUTE STATUTORY CASE AUDIT';
 
     _syncGlobalUI(d, 'auto');
 }

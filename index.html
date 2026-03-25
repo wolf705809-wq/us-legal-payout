@@ -23,41 +23,28 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body class="flex flex-col min-h-screen">
-    <nav class="nodal-header sticky top-0 z-50" aria-label="Nodal system header">
+    <nav class="nodal-header sticky top-0 z-50" aria-label="Landing navigation">
         <div class="nodal-header__inner">
-            <div class="nodal-header__left" aria-label="Brand and system status">
-                <div class="nodal-brand">
-                    <span class="nodal-brand__name">NODAL</span>
-                    <span class="nodal-pulse" aria-hidden="true"></span>
-                </div>
-                <div class="nodal-brand__sub">TRUCK ACCIDENT AUDIT ENGINE</div>
-
-                <div class="nodal-status" role="status" aria-live="polite">
-                    <span class="nodal-status__label">SYSTEM ACTIVE:</span>
-                    <span class="nodal-status__value">REAL-TIME ANALYSIS</span>
-                </div>
+            <div class="flex items-center gap-3 flex-nowrap">
+                <span class="nodal-pulse" aria-hidden="true"></span>
+                <span class="nodal-header-brand-label font-semibold uppercase tracking-[0.1em] text-[#1e293b] text-[0.65rem] sm:text-[0.75rem] whitespace-nowrap leading-none">
+                    CALIFORNIA STATUTORY SETTLEMENT STANDARD<span class="nodal-header-tm">™</span>
+                </span>
             </div>
-
-            <div class="nodal-header__right" aria-label="Mandatory legal notice">
-                <div class="nodal-legal">
-                    <span class="nodal-legal__line" aria-hidden="true"></span>
-                    <span class="nodal-legal__panel">
-                        <span class="nodal-legal__icon" aria-hidden="true">ⓘ</span>
-                        <span class="nodal-legal__text">ATTORNEY ADVERTISING</span>
-                    </span>
-                </div>
+            <div class="font-normal uppercase tracking-[0.1em] text-[0.7rem] leading-none text-[#475569] opacity-60">
+                ATTORNEY ADVERTISING
             </div>
         </div>
     </nav>
 
     <main class="max-w-3xl mx-auto px-5 md:px-8 pt-8 md:pt-24 pb-20 md:pb-28 text-center w-full flex-grow">
-        <div class="mb-10 md:mb-14 relative">
-            <p class="nodal-hero-eyebrow text-center mb-[2.25rem] md:mb-[2.5rem]">STATUTORY PAYOUT PROTOCOL</p>
-            <h1 id="hero-title" class="nodal-hero-title text-[34px] sm:text-[42px] md:text-[58px] font-semibold text-slate-900 leading-[1.08] tracking-[-0.02em] mb-5 md:mb-6">
+        <div class="mb-6 md:mb-14 relative">
+            <p class="nodal-hero-eyebrow text-center mb-[3.25rem] md:mb-[3.5rem]">STATUTORY PAYOUT PROTOCOL</p>
+            <h1 id="hero-title" class="nodal-hero-title text-[1.8rem] sm:text-[1.8rem] md:text-[3rem] font-semibold text-slate-900 leading-[1.08] tracking-[-0.02em] mb-5 md:mb-6">
                 <span class="block">Your Settlement is a Data Battle.</span>
                 <span class="nodal-hero-highlight inline-block mt-1.5">Don't Fight Unarmed.</span>
             </h1>
-            <p id="hero-point-1" class="nodal-hero-body text-[16px] md:text-[17px] max-w-2xl mx-auto font-normal leading-relaxed">
+            <p id="hero-point-1" class="nodal-hero-body max-w-2xl mx-auto font-normal leading-relaxed text-center">
                 Carrier algorithms minimize recovery by design. We decode the <strong>Statutory Discrepancies</strong> they expect you to overlook.
             </p>
             <p id="hero-point-2" class="nodal-hero-system max-w-2xl mx-auto mt-3 leading-relaxed text-center">
@@ -66,32 +53,48 @@
             <div id="truck-data-points" class="hidden mt-4 text-left max-w-2xl mx-auto text-[12px] md:text-[13px] text-slate-600 space-y-2"></div>
         </div>
 
-        <section class="mb-8 md:mb-10 text-left">
-            <label for="state-search-input" class="block text-[14px] md:text-[15px] font-semibold uppercase tracking-[0.14em] md:tracking-[0.18em] text-slate-700 mb-2.5 md:mb-3">Search Your State...</label>
+        <section class="mb-6 md:mb-10 text-left bg-[#f8fafc] rounded-2xl p-6 md:p-8 border border-slate-200/60">
+            <p class="text-[0.7rem] font-bold uppercase tracking-[0.1em] text-slate-900 mb-4">
+                AUTHORIZED STATE NODES
+            </p>
             <div class="relative">
                 <input
                     id="state-search-input"
                     type="text"
                     autocomplete="off"
-                    placeholder="Type a state name (e.g. California, Texas)"
-                    class="w-full rounded-xl border border-[#1E2D48] bg-[#0D1726]/85 px-4 py-3.5 text-[15px] md:text-sm font-semibold text-[#E6F1FF] shadow-sm outline-none transition placeholder:text-[#E6F1FF]/35 focus:border-[#64FFDA]/60 focus:ring-2 focus:ring-[#64FFDA]/10"
+                    placeholder="Search Jurisdiction for Statutory Audit Compliance..."
+                    class="w-full rounded-md border border-slate-200 bg-[#fcfdfe] px-4 py-3.5 text-[1.0rem] font-semibold text-[#1e293b] shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
                 />
-                <div id="state-search-results" class="hidden absolute z-40 mt-2 w-full rounded-xl border border-[#1E2D48] bg-[#0D1726]/95 shadow-xl max-h-64 overflow-y-auto"></div>
+                <div id="state-search-results" class="hidden absolute z-40 mt-2 w-full rounded-md border border-slate-200 bg-white shadow-xl max-h-64 overflow-y-auto"></div>
             </div>
 
-            <div class="mt-4 md:mt-6">
-                <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500 mb-3">PRIMARY JURISDICTIONS</p>
-                <div class="grid grid-cols-5 gap-2">
-                    <button type="button" data-jurisdiction-chip data-state-key="california" onclick="selectJurisdiction('california')" class="nodal-jurisdiction-chip">CA</button>
-                    <button type="button" data-jurisdiction-chip data-state-key="texas" onclick="selectJurisdiction('texas')" class="nodal-jurisdiction-chip">TX</button>
-                    <button type="button" data-jurisdiction-chip data-state-key="florida" onclick="selectJurisdiction('florida')" class="nodal-jurisdiction-chip">FL</button>
-                    <button type="button" data-jurisdiction-chip data-state-key="georgia" onclick="selectJurisdiction('georgia')" class="nodal-jurisdiction-chip">GA</button>
-                    <button type="button" data-jurisdiction-chip data-state-key="new_york" onclick="selectJurisdiction('new_york')" class="nodal-jurisdiction-chip">NY</button>
+            <div class="mt-6 md:mt-7">
+                <div class="grid grid-cols-2 gap-4 sm:grid-cols-5 sm:gap-3">
+                    <button type="button" data-jurisdiction-chip data-state-key="california" onclick="selectJurisdiction('california')" class="nodal-jurisdiction-chip">
+                        <span class="nodal-terminal-code">CA</span>
+                        <span class="nodal-terminal-sync">v2026.SYNCED</span>
+                    </button>
+                    <button type="button" data-jurisdiction-chip data-state-key="texas" onclick="selectJurisdiction('texas')" class="nodal-jurisdiction-chip">
+                        <span class="nodal-terminal-code">TX</span>
+                        <span class="nodal-terminal-sync">v2026.SYNCED</span>
+                    </button>
+                    <button type="button" data-jurisdiction-chip data-state-key="florida" onclick="selectJurisdiction('florida')" class="nodal-jurisdiction-chip">
+                        <span class="nodal-terminal-code">FL</span>
+                        <span class="nodal-terminal-sync">v2026.SYNCED</span>
+                    </button>
+                    <button type="button" data-jurisdiction-chip data-state-key="georgia" onclick="selectJurisdiction('georgia')" class="nodal-jurisdiction-chip">
+                        <span class="nodal-terminal-code">GA</span>
+                        <span class="nodal-terminal-sync">v2026.SYNCED</span>
+                    </button>
+                    <button type="button" data-jurisdiction-chip data-state-key="new_york" onclick="selectJurisdiction('new_york')" class="nodal-jurisdiction-chip">
+                        <span class="nodal-terminal-code">NY</span>
+                        <span class="nodal-terminal-sync">v2026.SYNCED</span>
+                    </button>
                 </div>
             </div>
         </section>
 
-        <div id="active-jurisdiction-card" class="glass-panel nodal-monitor bg-gradient-to-br from-white to-slate-50 p-6 md:p-10 mb-10 md:mb-12 text-left relative overflow-hidden border border-slate-100/80 shadow-sm">
+        <div id="active-jurisdiction-card" class="glass-panel nodal-monitor bg-gradient-to-br from-white to-slate-50 p-6 md:p-10 mb-6 md:mb-12 text-left relative overflow-hidden border border-slate-100/80 shadow-sm">
             <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-5 border-b border-slate-200/60 pb-5 md:pb-6 mb-6 md:mb-7">
                 <div>
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex flex-wrap items-center gap-2">
@@ -131,20 +134,18 @@
         <div class="flex flex-col items-center mb-14 md:mb-24 gap-1">
 
             <button id="main-cta-btn" type="button" onclick="openModal()"
-                class="group flex min-h-[52px] items-center justify-center gap-3 bg-gradient-to-br from-[#1E3A8A] to-[#172554] text-white font-bold text-[13px] sm:text-[14px] md:text-[15px] px-8 md:px-16 py-5 md:py-6 rounded-xl shadow-2xl uppercase tracking-[0.1em] md:tracking-[0.16em] w-full max-w-xl md:max-w-none md:w-auto active:scale-[0.98] transition-all border-2 border-transparent hover:border-amber-400 hover:drop-shadow-[0_0_8px_rgba(251,191,36,0.5)] touch-manipulation">
+                class="group flex h-[56px] md:h-auto items-center justify-center gap-3 bg-[#0B1120] text-white font-bold text-[13px] sm:text-[14px] md:text-[15px] px-8 md:px-16 py-0 md:py-6 rounded-xl shadow-2xl uppercase tracking-[0.1em] md:tracking-[0.16em] w-full max-w-xl md:max-w-none md:w-auto active:scale-[0.98] transition-all border-2 border-transparent hover:border-[#D4AF37] hover:shadow-[0_0_15px_rgba(212,175,55,0.2)] touch-manipulation">
 
-                <svg class="w-5 h-5 shrink-0 text-blue-100/80" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <svg class="w-5 h-5 shrink-0 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path>
                 </svg>
 
-                <span id="main-cta-label">START DATA-DRIVEN CASE AUDIT</span>
+                <span id="main-cta-label">EXECUTE STATUTORY CASE AUDIT</span>
             </button>
 
-            <div class="mt-5 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-2.5 text-slate-600 w-full max-w-md px-2">
-                <svg class="w-4 h-4 sm:w-3.5 sm:h-3.5 shrink-0 text-emerald-600" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
-                </svg>
-                <span class="text-center text-[11px] sm:text-[10px] font-bold uppercase tracking-[0.12em] sm:tracking-[0.1em] leading-snug">End-to-end 256-bit encryption active</span>
+            <div class="mt-5 flex items-center justify-center gap-2 px-2">
+                <span class="nodal-cta-dot" aria-hidden="true"></span>
+                <span class="nodal-cta-subtext">ENCRYPTED DATA NODE ACTIVE | AES-256 STANDARD</span>
             </div>
 
         </div>
@@ -301,36 +302,44 @@
         </div>
     </div>
 
-    <section class="w-full bg-white pt-14 md:pt-16 pb-12 md:pb-14 border-t border-slate-200">
+    <section class="w-full bg-[#f8fafc] pt-16 md:pt-20 pb-16 md:pb-20 border-t border-slate-200">
         <div class="max-w-6xl mx-auto px-5 md:px-8">
-            <div class="text-center">
-                <p class="text-[10px] font-bold uppercase tracking-[0.28em] text-slate-500">THE NODAL PROTOCOL</p>
-                <h3 id="truck-conversion-headline" class="mt-5 md:mt-6 font-serif text-3xl md:text-4xl font-bold text-slate-900">Neutral Infrastructure for Legal Transparency.</h3>
-                <p id="truck-conversion-copy" class="mt-5 max-w-3xl mx-auto text-sm md:text-base text-slate-600 leading-relaxed">
-                    Nodal acts as a decentralized data layer, synchronizing jurisdictional tort frameworks with real-time incident data to mitigate insurance algorithm bias on injury claims.
-                </p>
+            <div class="max-w-4xl mx-auto text-center">
+                <p class="nodal-infra-label">THE NODAL® INFRASTRUCTURE: v2.1</p>
+                <h2 class="nodal-infra-title mt-5 md:mt-6">The Decentralized Standard for Settlement Integrity.</h2>
             </div>
 
             <div class="mt-10 md:mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
-                <button type="button" onclick="openInsightModal('trap')" class="text-left rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md hover:border-slate-300 transition">
-                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Insights</p>
-                    <p class="font-serif text-xl font-bold text-slate-900 leading-snug">Why Insurance Adjusters Fear Statutory Data.</p>
-                </button>
-                <button type="button" onclick="openInsightModal('gold')" class="text-left rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md hover:border-slate-300 transition">
-                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Intelligence</p>
-                    <p class="font-serif text-xl font-bold text-slate-900 leading-snug">The $750,000 Floor: When Federal Rules Shape Injury Recovery.</p>
-                </button>
-                <button type="button" onclick="openInsightModal('system')" class="text-left rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md hover:border-slate-300 transition">
-                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">System</p>
-                    <p class="font-serif text-xl font-bold text-slate-900 leading-snug">Man vs Machine: How AI Detects Settlement Gaps.</p>
-                </button>
-            </div>
-
-            <div id="truck-trust-strip" class="mt-10 trusted-by-row">
-                <span class="trusted-by-chip">FMCSR COMPLIANT</span>
-                <span class="trusted-by-chip">CERTIFIED DATA SOURCE</span>
-                <span class="trusted-by-chip">STATUTORY AUDIT v2.1</span>
-                <span class="trusted-by-chip">ENCRYPTION SECURE</span>
+                <div class="nodal-infra-card">
+                    <h3 class="nodal-infra-card-heading">
+                        <span class="nodal-infra-card-tag">FORENSIC AUDIT</span>
+                        <span class="nodal-infra-card-pipe">|</span>
+                        Decoding the Asymmetry of Insurance Algorithms.
+                    </h3>
+                    <p class="nodal-infra-card-body">
+                        We unmask the black-box algorithms used by major carriers to systematically devalue injury claims. Our system identifies the precise data-points where carrier software artificially suppresses the true valuation of your case.
+                    </p>
+                </div>
+                <div class="nodal-infra-card">
+                    <h3 class="nodal-infra-card-heading">
+                        <span class="nodal-infra-card-tag">STATUTORY FLOOR</span>
+                        <span class="nodal-infra-card-pipe">|</span>
+                        Federal Liability Constraints & Policy Leverage.
+                    </h3>
+                    <p class="nodal-infra-card-body">
+                        Utilizing multi-jurisdictional databases to establish a non-negotiable legal minimum for your recovery. We map federal regulations and state-specific statutory floors to ensure carriers cannot offer a settlement below the mandated threshold.
+                    </p>
+                </div>
+                <div class="nodal-infra-card">
+                    <h3 class="nodal-infra-card-heading">
+                        <span class="nodal-infra-card-tag">AUTONOMOUS LOGIC</span>
+                        <span class="nodal-infra-card-pipe">|</span>
+                        Real-time Discrepancy Detection vs Manual Adjusting.
+                    </h3>
+                    <p class="nodal-infra-card-body">
+                        Our neural logic engine detects 142+ settlement discrepancies that human adjusters frequently overlook or intentionally omit. Every audit is cross-referenced with 2026 case-law updates to eliminate manual bias.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
@@ -339,27 +348,46 @@
         <div class="max-w-6xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 pb-10 md:pb-16 border-b border-slate-800 text-center md:text-left">
                 <div>
-                    <p class="text-[#94A3B8] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Registry Inquiries</p>
+                    <p class="nodal-footer-heading mb-4">INFRASTRUCTURE ACCESS &amp; REGISTRY</p>
                     <p class="text-sm text-[#94A3B8]">support@jdsglobalsolutions.com</p>
                 </div>
                 <div>
-                    <p class="text-[#94A3B8] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Principal Office</p>
+                    <p class="nodal-footer-heading mb-4">PHYSICAL OPERATIONS NEXUS</p>
                     <p class="text-sm text-[#94A3B8]">1201 N Market St, Wilmington, DE 19801</p>
                 </div>
                 <div>
-                    <p class="text-[#94A3B8] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Audit Verification</p>
-                    <p class="inline-flex items-center border border-slate-700/80 bg-black/20 px-3 py-1.5 rounded-md font-mono text-sm tracking-[0.18em] text-[#94A3B8]">+1 (888) 512-0941</p>
+                    <p class="nodal-footer-heading mb-4">24/7 STATUTORY AUTHENTICATION</p>
+                    <p class="nodal-footer-phone">
+                        <span class="nodal-footer-verified-dot" aria-hidden="true"></span>
+                        <span>+1 (888) 512-0941</span>
+                    </p>
                 </div>
             </div>
             <div class="flex flex-wrap justify-center gap-6 md:gap-10 py-8 md:py-12 text-[9px] font-bold uppercase tracking-[0.18em]">
-                <a href="/privacy.html">Data Governance & Privacy Protocol</a>
-                <a href="/terms.html">Statutory Terms of Service</a>
-                <a href="/ccpa.html">Data Sovereignty (CCPA Rights)</a>
-                <a href="/disclaimer.html">Evaluation Constraints & Disclosures</a>
+                <a href="/privacy.html" class="nodal-footer-link">
+                    DATA GOVERNANCE &amp; PRIVACY PROTOCOL
+                    <span class="nodal-footer-link-version">[v2.1]</span>
+                </a>
+                <a href="/terms.html" class="nodal-footer-link">
+                    STATUTORY TERMS OF SERVICE
+                    <span class="nodal-footer-link-version">[v2.1]</span>
+                </a>
+                <a href="/ccpa.html" class="nodal-footer-link">
+                    DATA SOVEREIGNTY (CCPA RIGHTS)
+                    <span class="nodal-footer-link-version">[v2.1]</span>
+                </a>
+                <a href="/disclaimer.html" class="nodal-footer-link">
+                    EVALUATION CONSTRAINTS &amp; DISCLOSURES
+                    <span class="nodal-footer-link-version">[v2.1]</span>
+                </a>
             </div>
             <div class="max-w-3xl mx-auto text-center space-y-4 md:space-y-6">
-                <p id="legal-safe-line" class="text-[11px] md:text-[10px] text-slate-500 leading-relaxed"><strong>ATTORNEY ADVERTISING:</strong> Nodal is a legal technology and data infrastructure provider. Nodal is not a law firm and does not provide legal advice. No attorney-client relationship is formed by the use of this evaluation engine. All valuations are estimates based on statutory frameworks and do not guarantee financial recovery.</p>
-                <p class="text-[9px] tracking-[0.4em] font-bold text-slate-600">⊙ 2026 NODAL. ALL RIGHTS RESERVED</p>
+                <p id="legal-safe-line" class="nodal-footer-disclaimer">
+                    <span class="nodal-footer-disclaimer-prefix">[NOTICE: STATUTORY DISCLOSURE]</span>
+                    Nodal is a legal technology and data infrastructure provider. Nodal is not a law firm and does not provide legal advice. No attorney-client relationship is formed by the use of this evaluation engine. All valuations are estimates based on statutory frameworks and do not guarantee financial recovery.
+                </p>
+                <div class="nodal-footer-copyright-break" aria-hidden="true"></div>
+                <p class="nodal-footer-copyright">⊙ 2026 NODAL. ALL RIGHTS RESERVED</p>
             </div>
         </div>
     </footer>
