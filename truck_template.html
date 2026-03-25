@@ -36,25 +36,25 @@
   <main id="layout-wrapper" class="max-w-3xl mx-auto px-5 md:px-8 pt-8 md:pt-24 pb-20 md:pb-28 text-center w-full flex-grow overflow-x-hidden">
         
         <!-- [1] 히어로 섹션 (메인 페이지 규격) -->
-        <div class="mb-6 md:mb-14 relative">
-    <!-- 상단 작은 문구 -->
+       <!-- [1] 히어로 섹션 (고정형 디자인) -->
+<div class="mb-6 md:mb-14 relative">
     <p class="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-orange-600 mb-4 text-center">FEDERAL TRUCKING AUDIT UNIT</p>
-    <!-- 메인 제목 (파이썬이 주별로 다르게 생성) -->
-    <h1 id="hero-title" class="nodal-hero-title text-[1.8rem] sm:text-[1.8rem] md:text-[3rem] font-semibold text-white leading-[1.08] tracking-[-0.02em] mb-5 md:mb-6">
-        {{ dynamic_h1 }}
+    
+    <!-- 메인 제목 고정 -->
+    <h1 id="hero-title" class="nodal-hero-title text-[1.8rem] sm:text-[1.8rem] md:text-[3.2rem] font-semibold text-white leading-[1.1] tracking-[-0.02em] mb-6">
+        {{ state_name }} 18-Wheeler <br class="hidden md:block"> Statutory Audit Protocol
     </h1>
     
-    <!-- 메인 설명 (메인 페이지의 'Carrier algorithms...' 스타일을 트럭 버전으로 변형) -->
-    <p id="hero-point-1" class="nodal-hero-body max-w-2xl mx-auto font-normal leading-relaxed text-center text-slate-400">
-        {{ dynamic_intro }}
+    <!-- 소제목 고정 -->
+    <p id="hero-point-1" class="nodal-hero-body max-w-2xl mx-auto font-normal leading-relaxed text-center text-slate-400 text-sm md:text-base">
+        Insurance algorithms are designed to minimize commercial recovery by design. Our infrastructure decodes the **statutory discrepancies** and safety violations specific to {{ state_name }}.
     </p>
     
-    <!-- 시스템 라벨 (메인 페이지와 비슷하지만 'TRUCK' 강조) -->
-    <p id="hero-point-2" class="nodal-hero-system max-w-2xl mx-auto mt-3 leading-relaxed text-center uppercase">
-        {{ system_label }}
+    <!-- 시스템 라벨 고정 -->
+    <p id="hero-point-2" class="nodal-hero-system max-w-2xl mx-auto mt-6 leading-relaxed text-center uppercase text-[10px] font-bold tracking-widest text-slate-500">
+        AUTONOMOUS TRUCKING INFRASTRUCTURE | REAL-TIME FMCSA SYNC [v2026.03]
     </p>
 </div>
-
         <!-- [2] 주 선택 노드 (검색 & 5개 칩) -->
         <section class="mb-6 md:mb-10 text-left bg-[#f8fafc] rounded-2xl p-6 md:p-8 border border-slate-200/60 nodal-nodes-section">
             <p class="text-[0.7rem] font-bold uppercase tracking-[0.1em] text-slate-900 mb-4">
