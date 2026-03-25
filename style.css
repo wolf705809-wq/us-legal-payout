@@ -30,9 +30,14 @@ body {
 
 /* Header + nodes width guards (prevents 1px-ish overscroll on mobile) */
 .nodal-header__inner {
-    max-width: 100vw;
+    max-width: 100%;
     width: 100%;
     overflow: hidden;
+}
+
+/* Layout wrapper safety: prevent any iOS side overflow */
+#layout-wrapper {
+    overflow-x: hidden;
 }
 
 .nodal-nodes-section {
@@ -44,6 +49,11 @@ body {
 #state-search-input {
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: clamp(0.85rem, 3.5vw, 1rem) !important;
+    line-height: 1.2;
 }
 
 /* Android/iOS parity for CTA micro-layout */
@@ -59,6 +69,8 @@ body {
     background-color: #ffffff;
     letter-spacing: -0.01em;
     line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
     transition: background 0.4s var(--nodal-ease-out), color 0.4s var(--nodal-ease-out);
 }
 
@@ -441,8 +453,8 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
 .nodal-header {
     background: rgba(255, 255, 255, 0.92);
     border-bottom: 1px solid rgba(226, 232, 240, 0.95);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
 .nodal-header__inner {
@@ -452,7 +464,7 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 14px;
+    gap: 1rem;
 }
 
 @media (min-width: 768px) {
@@ -465,12 +477,12 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
 @media (max-width: 640px) {
     .nodal-header__inner {
         width: 100% !important;
-        max-width: 100vw !important;
+        max-width: 100% !important;
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
-        padding-right: 1rem !important;
-        padding-left: 1rem !important;
+        padding-right: 1.25rem !important;
+        padding-left: 1.25rem !important;
         overflow: hidden;
     }
 
@@ -485,17 +497,22 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
     }
 
     .nodal-header-brand-label {
-        font-size: 0.6rem !important;
-        max-width: 70vw;
+        font-size: clamp(0.6rem, 2vw, 0.75rem) !important;
+        max-width: 65% !important;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        flex-shrink: 1;
+        min-width: 0;
     }
 
     .nodal-header-attorney {
-        font-size: 0.6rem !important;
+        font-size: clamp(0.55rem, 1.5vw, 0.7rem) !important;
         white-space: nowrap;
         flex: 0 0 auto;
+        flex-shrink: 0;
+        margin-right: 0 !important;
+        margin-left: 8px !important;
     }
 
     main {
@@ -503,14 +520,16 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
     }
 
     #state-search-input {
-        width: calc(100% - 2rem) !important;
+        width: 100% !important;
         max-width: 100%;
         box-sizing: border-box;
     }
 
     .nodal-nodes-section {
-        max-width: 100vw;
+        max-width: 100%;
         overflow-x: hidden;
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
     }
 }
 
@@ -805,13 +824,25 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
 
 @media (max-width: 640px) {
     .nodal-jurisdiction-chip {
-        padding: 1rem 0.5rem;
-        min-height: 64px;
+        height: 4rem;
+        min-height: 4rem;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        padding: 0.75rem 0.35rem;
+        gap: 0.1rem;
+    }
+
+    .nodal-terminal-code {
+        font-size: 0.95rem;
+    }
+
+    .nodal-terminal-sync {
+        font-size: 0.75rem;
     }
 
     .nodal-header {
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
     }
 }
 
@@ -851,6 +882,28 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
     border-radius: 999px;
     background: #10b981;
     box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12), 0 0 15px rgba(16, 185, 129, 0.18);
+    will-change: transform;
+    transform: translateZ(0);
+    animation: nodal-breathe 1.6s cubic-bezier(0.2, 0.9, 0.2, 1) infinite;
+}
+
+@keyframes nodal-breathe {
+    0% {
+        transform: translateZ(0) scale(1);
+    }
+    50% {
+        transform: translateZ(0) scale(1.12);
+    }
+    100% {
+        transform: translateZ(0) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nodal-cta-dot,
+    .nodal-led--green {
+        animation: none !important;
+    }
 }
 
 .nodal-cta-subtext {
@@ -983,6 +1036,9 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
     box-shadow:
         0 0 0 1px rgba(16, 185, 129, 0.22),
         0 0 10px rgba(16, 185, 129, 0.35);
+    will-change: transform;
+    transform: translateZ(0);
+    animation: nodal-breathe 1.6s cubic-bezier(0.2, 0.9, 0.2, 1) infinite;
 }
 
 /* Dynamic data stream icon (moving dots) */
@@ -1133,6 +1189,7 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
 
 .nodal-hero-title {
     font-family: "Crimson Pro", "Times New Roman", Times, serif;
+    font-size: clamp(1.5rem, 8vw, 3.5rem) !important;
     letter-spacing: -0.02em;
     line-height: 1.08;
 }
@@ -1186,6 +1243,20 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
+    flex-shrink: 1;
+    min-width: 0;
+    font-size: clamp(0.6rem, 2vw, 0.75rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nodal-header-attorney {
+    font-size: clamp(0.55rem, 1.5vw, 0.7rem);
+    flex-shrink: 0;
+    white-space: nowrap;
+    margin-right: 0;
+    margin-left: 8px;
 }
 
 /* ============================================================
