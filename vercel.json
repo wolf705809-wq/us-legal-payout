@@ -3,6 +3,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "buildCommand": "python3 generate_truck_system.py",
+  "outputDirectory": ".",
   "rewrites": [
     {
       "source": "/((?!truck|assets|scripts|style_truck).*)",
