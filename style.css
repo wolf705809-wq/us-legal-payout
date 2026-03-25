@@ -278,6 +278,66 @@ body.is-scrolling .glass-panel {
     background: rgba(255, 255, 255, 0.92) !important;
 }
 
+/* ============================================================
+   Premium Legal Infrastructure — Questionnaire Shell
+   (readability + performance)
+   ============================================================ */
+
+.audit-flow-shell {
+    contain: layout paint;
+    transform: translateZ(0);
+}
+
+#leadModal .audit-section-label {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+}
+
+#leadModal .audit-question-title {
+    font-family: "Crimson Pro", "Times New Roman", Times, serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    font-size: clamp(1.25rem, 3.2vw, 1.6rem);
+    line-height: 1.12;
+}
+
+#leadModal .step-container p,
+#leadModal .step-container .option-card {
+    font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+/* Premium Emerald system note */
+#value-driver-tip {
+    background: rgba(16, 185, 129, 0.03);
+    border: 1px solid rgba(16, 185, 129, 0.10);
+    color: rgba(15, 23, 42, 0.78);
+    border-radius: 12px;
+    padding: 10px 12px;
+    will-change: opacity;
+    transform: translateZ(0);
+}
+
+#value-driver-tip .system-note-label {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-weight: 900;
+    letter-spacing: 0.10em;
+    color: rgba(16, 185, 129, 0.95);
+    margin-right: 6px;
+}
+
+/* Interactive nodes: faint emerald glow on hover */
+#leadModal .option-card {
+    transition: box-shadow 180ms var(--nodal-ease-out), border-color 180ms var(--nodal-ease-out), background-color 180ms var(--nodal-ease-out);
+    will-change: opacity;
+    transform: translateZ(0);
+}
+
+#leadModal .option-card:hover {
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.08);
+    border-color: rgba(16, 185, 129, 0.35) !important;
+}
+
 /* 4. 그리드 및 박스 디자인 (기존 유지) */
 .state-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -330,14 +390,31 @@ body.is-scrolling .glass-panel {
 
 
 /* FORCE-FIX: Lead modal contrast (prevents white-on-white regressions) */
-#leadModal,
-#leadModal * {
+#leadModal #lead-modal-card:not(.is-federal-audit),
+#leadModal #lead-modal-card:not(.is-federal-audit) * {
     color: #334155 !important; /* slate-700 */
 }
 
-#leadModal h3,
-#leadModal #lead-modal-title {
+#leadModal #lead-modal-card:not(.is-federal-audit) h3,
+#leadModal #lead-modal-card:not(.is-federal-audit) #lead-modal-title {
     color: #0F172A !important; /* slate-950 */
+}
+
+/* Truck mode readability: cream primary text (NOT yellow) */
+#leadModal #lead-modal-card.is-federal-audit,
+#leadModal #lead-modal-card.is-federal-audit * {
+    color: #FDF2E9 !important;
+}
+
+/* Main CTA in truck-mode: gold gradient + pure black text (exclude truck-pseo-page) */
+body.truck-mode:not(.truck-pseo-page) #main-cta-btn {
+    background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%) !important;
+    border: 1px solid rgba(212, 175, 55, 0.65) !important;
+    color: #000000 !important;
+}
+
+body.truck-mode:not(.truck-pseo-page) #main-cta-btn * {
+    color: #000000 !important;
 }
 
 /* Preserve intentional white text on primary dark actions */

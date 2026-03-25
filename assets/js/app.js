@@ -600,7 +600,8 @@ function updateValueDriverTip(stepId) {
         tipEl.textContent = '';
         return;
     }
-    tipEl.textContent = tip;
+    const body = String(tip).replace(/^Value Driver Tip:\s*/i, '').trim();
+    tipEl.innerHTML = `<span class="system-note-label">SYSTEM NOTE:</span>${escapeHtml(body)}`;
     tipEl.classList.remove('hidden');
 }
 
