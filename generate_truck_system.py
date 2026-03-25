@@ -50,16 +50,9 @@ def generate_pages() -> None:
         state_name = str(row.get("state_name", "")).strip()
         state_slug = str(row.get("state_key", "")).strip().lower() or slugify(state_name)
         
-        output_dir = OUTPUT_ROOT / state_slug
-        os.makedirs(output_dir, exist_ok=True)
-
-        rendered = render_template(template_html, {
-            "state_name": state_name,
-            "statute_code": row.get("statute_code", "Statutory reference pending"),
-            "truck_risk_summary": build_risk_summary(row),
-            "seo_title": f"{state_name} Truck Specialist Audit | Nodal",
-        })
-        (output_dir / "index.html").write_text(rendered, encoding="utf-8")
+        # 폴더를 만들지 않고 truck/ 폴더 바로 아래에 '주이름.html'로 저장
+output_file = OUTPUT_ROOT / f"{state_slug}.html"
+output_file.write_text(rendered, encoding="utf-8")
     print(f"Generated {len(truck_data)} Truck Pages.")
 
 if __name__ == "__main__":
