@@ -269,25 +269,23 @@ function buildTruckAuditGridHtml({ d, fmcsaCode, minInsurance }) {
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                 ${buildTruckAuditNodeCardHtml({
-                    title: 'Insurance Baseline',
-                    spanClass: 'lg:col-span-2',
-                    bodyHtml: `
-                        <div class="flex items-start justify-between gap-3">
-                            <div>
-                                <div class="inline-flex items-center gap-2">
-                                    <div class="font-mono text-[22px] md:text-[24px] font-bold tracking-[-0.02em] text-[#64FFDA]">
-                                        <span data-counter data-counter-to="${insuranceDollars}" data-counter-format="money">$0</span>
-                                    </div>
-                                    <span class="inline-flex items-center rounded-md border border-[#1E2D48] bg-[#0A192F]/40 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.14em] text-[#FFAB40]">MINIMUM BASELINE</span>
-                                </div>
-                                <div class="mt-2 text-[11px] font-mono text-[#E6F1FF]/65">
-                                    Source: <span class="text-[#E6F1FF]/80">49 CFR Part 387</span>
-                                </div>
-                            </div>
-                        </div>
-                    `,
-                })}
-
+    title: 'Insurance Baseline',
+    spanClass: 'lg:col-span-2',
+    bodyHtml: `
+        <div class="flex flex-col">
+            <div class="flex items-center justify-between w-full">
+                <div class="font-mono text-[22px] md:text-[26px] font-black tracking-tighter text-[#64FFDA] flex items-center gap-1">
+                    <span class="text-[14px] opacity-70">$</span>
+                    <span data-counter data-counter-to="${insuranceDollars}" data-counter-format="money">0</span>
+                </div>
+                <span class="flex-shrink-0 rounded border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.5 text-[8px] font-black text-amber-500 tracking-wider">MIN. BASELINE</span>
+            </div>
+            <div class="mt-2 text-[9px] font-mono text-[#E6F1FF]/40 uppercase tracking-widest">
+                Reg: 49 CFR Part 387.7
+            </div>
+        </div>
+    `,
+})}
                 ${buildTruckAuditNodeCardHtml({
                     title: 'Statute of Limitations',
                     bodyHtml: `
