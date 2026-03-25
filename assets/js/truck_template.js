@@ -7,6 +7,63 @@
         case_type: 'truck',
     };
 
+    function getStateRows() {
+        const sd = globalThis.stateData;
+        return sd && typeof sd === 'object' ? sd : {};
+    }
+
+    let stateKeysCache = null;
+    function getStateKeys() {
+        if (stateKeysCache) return stateKeysCache;
+        const sd = getStateRows();
+        const keys = Object.keys(sd);
+        if (!keys.length) return [];
+        stateKeysCache = keys.sort((a, b) =>
+            (sd[a].auto.name || '').localeCompare(sd[b].auto.name || '')
+        );
+        return stateKeysCache;
+    }
+
+    function renderStateSearchResults(query) {
+        const box = document.getElementById('state-search-results');
+        if (!box) return;
+
+        const q = (query || '').trim().toLowerCase();
+        if (!q) {
+            box.classList.add('hidden');
+            box.innerHTML = '';
+            return;
+        }
+
+        const sd = getStateRows();
+        const keys = getStateKeys();
+        const matches = keys.filter((key) => sd[key]?.auto?.name?.toLowerCase().includes(q)).slice(0, 12);
+        if (!matches.length) {
+            box.innerHTML =
+                '<div class="px-4 py-3 text-xs font-semibold text-slate-400">No matching state found</div>';
+            box.classList.remove('hidden');
+            return;
+        }
+
+        box.innerHTML = matches
+            .map(
+                (key) =>
+                    `<button type="button" data-state-key="${key}" class="state-result-btn w-full text-left px-4 py-3 text-sm font-semibold text-slate-700">${sd[key].auto.name}</button>`
+            )
+            .join('');
+        box.classList.remove('hidden');
+    }
+
+    window.selectJurisdiction = function selectJurisdiction(stateKey) {
+        const rows = getStateRows();
+        if (!rows[stateKey]) return;
+        const path = `/truck/${stateKey}/`;
+        const cur = (window.location.pathname || '/').replace(/\/$/, '') || '/';
+        const target = path.replace(/\/$/, '');
+        if (cur === target) return;
+        window.location.href = path;
+    };
+
     function showStep(stepNum) {
         document.querySelectorAll('.step-container').forEach((el) => el.classList.add('hidden'));
         const target = document.getElementById(`step-${stepNum}`);
@@ -178,5 +235,35 @@
         const tcpa = document.getElementById('tcpa');
         if (tcpa) tcpa.addEventListener('change', syncSubmitState);
         syncSubmitState();
+
+        const stateSearchInput = document.getElementById('state-search-input');
+        const stateResults = document.getElementById('state-search-results');
+        const rows = getStateRows();
+        const hero = document.getElementById('hero-state-name');
+        if (stateSearchInput && hero?.textContent?.trim()) {
+            const name = hero.textContent.trim();
+            const key = Object.keys(rows).find((k) => rows[k]?.auto?.name === name);
+            if (key) stateSearchInput.value = name;
+        }
+
+        if (stateSearchInput && stateResults) {
+            stateSearchInput.addEventListener('focus', (e) => renderStateSearchResults(e.target.value));
+            stateSearchInput.addEventListener('input', (e) => renderStateSearchResults(e.target.value));
+
+            stateResults.addEventListener('click', (e) => {
+                const btn = e.target.closest('button[data-state-key]');
+                if (!btn) return;
+                const key = btn.getAttribute('data-state-key');
+                if (!key || !rows[key]) return;
+                stateSearchInput.value = rows[key].auto.name;
+                window.selectJurisdiction(key);
+                stateResults.classList.add('hidden');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (e.target === stateSearchInput || stateResults.contains(e.target)) return;
+                stateResults.classList.add('hidden');
+            });
+        }
     });
 })();

@@ -10,16 +10,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
 </head>
-<body class="flex flex-col min-h-screen bg-slate-50 text-slate-700">
-    <nav class="w-full bg-slate-50 border-b border-slate-300 px-4 md:px-6 py-3 md:py-4 flex justify-between items-center sticky top-0 z-50">
+<body class="truck-pseo-page flex flex-col min-h-screen bg-slate-50 text-slate-700">
+    <nav class="w-full bg-white border-b border-slate-200 px-4 md:px-6 py-3 md:py-4 flex justify-between items-center sticky top-0 z-50">
         <div class="flex items-center gap-3">
-            <div class="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse" style="animation-duration: 2s;"></div>
-            <span id="nav-state-name" class="text-[10px] md:text-xs font-bold tracking-[0.12em] md:tracking-widest uppercase text-slate-900">Truck Specialist Audit Division</span>
+            <div class="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse pulse-3s"></div>
+            <span id="nav-state-name" class="text-[10px] md:text-xs font-bold tracking-[0.12em] md:tracking-widest uppercase text-black">Truck Specialist Audit Division</span>
         </div>
-        <div class="text-slate-500 text-[10px] md:text-xs uppercase font-bold tracking-wide">Attorney Advertising</div>
+        <div class="text-[#64748B] text-[10px] md:text-xs uppercase font-bold tracking-wide">Attorney Advertising</div>
     </nav>
 
-    <main class="max-w-3xl mx-auto px-4 md:px-6 pt-8 md:pt-20 pb-16 md:pb-24 text-center w-full flex-grow">
+    <main class="max-w-3xl mx-auto px-4 md:px-6 pt-7 md:pt-24 pb-16 md:pb-24 text-center w-full flex-grow">
         <div class="mb-8 md:mb-12 relative">
             <p class="text-[12px] font-semibold text-slate-500 tracking-[0.25em] uppercase mb-4 md:mb-6 text-center">TRUCK ACCIDENT RECOVERY AUDIT</p>
             <h1 id="hero-title" class="text-[36px] sm:text-[44px] md:text-[60px] font-serif font-bold text-slate-900 leading-[1.1] tracking-[-0.02em] mb-4">
@@ -35,6 +35,31 @@
                 High-risk freight exposure across I-94 / I-39; ~9,400 annual truck-involved crashes; weather threat profile: Snow and frozen bridge decks.
             </p>
         </div>
+
+        <section class="mb-7 md:mb-10 text-left">
+            <label for="state-search-input" class="block text-[15px] md:text-base font-semibold uppercase tracking-[0.14em] md:tracking-[0.2em] text-slate-700 mb-3">Search Your State...</label>
+            <div class="relative">
+                <input
+                    id="state-search-input"
+                    type="text"
+                    autocomplete="off"
+                    placeholder="Type a state name (e.g. California, Texas)"
+                    class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3.5 text-[15px] md:text-sm font-semibold text-slate-800 shadow-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+                />
+                <div id="state-search-results" class="hidden absolute z-40 mt-2 w-full rounded-xl border border-orange-200/80 bg-white shadow-xl max-h-64 overflow-y-auto"></div>
+            </div>
+
+            <div class="mt-4 md:mt-6">
+                <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500 mb-3">PRIMARY JURISDICTIONS</p>
+                <div class="grid grid-cols-5 gap-2">
+                    <button type="button" onclick="selectJurisdiction('california')" class="major-jurisdiction-card">CA</button>
+                    <button type="button" onclick="selectJurisdiction('texas')" class="major-jurisdiction-card">TX</button>
+                    <button type="button" onclick="selectJurisdiction('florida')" class="major-jurisdiction-card">FL</button>
+                    <button type="button" onclick="selectJurisdiction('georgia')" class="major-jurisdiction-card">GA</button>
+                    <button type="button" onclick="selectJurisdiction('new_york')" class="major-jurisdiction-card">NY</button>
+                </div>
+            </div>
+        </section>
 
         <div class="bg-slate-100 border border-slate-300 rounded-2xl p-5 md:p-10 mb-8 md:mb-12 text-left relative overflow-hidden shadow-lg">
             <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b border-slate-300 pb-5 md:pb-6 mb-5 md:mb-6">
@@ -218,6 +243,7 @@
         </div>
     </div>
 
+    <script src="/assets/js/data.js"></script>
     <script src="/assets/js/truck_template.js"></script>
 </body>
 </html>
