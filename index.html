@@ -25,13 +25,13 @@
 <body class="flex flex-col min-h-screen overflow-x-hidden">
     <nav class="nodal-header sticky top-0 z-50" aria-label="Landing navigation">
         <div class="nodal-header__inner">
-            <div class="flex items-center gap-3 flex-nowrap">
+            <div class="nodal-header-left flex items-center gap-3 flex-nowrap">
                 <span class="nodal-pulse" aria-hidden="true"></span>
-                <span class="nodal-header-brand-label font-semibold uppercase tracking-[0.1em] text-[#1e293b] text-[0.65rem] sm:text-[0.75rem] whitespace-nowrap leading-none">
+                <span class="nodal-header-brand-label font-semibold uppercase tracking-[0.1em] text-[#1e293b] text-[0.6rem] sm:text-[0.75rem] whitespace-nowrap leading-none max-w-[70vw] overflow-hidden text-ellipsis">
                     CALIFORNIA STATUTORY SETTLEMENT STANDARD<span class="nodal-header-tm">™</span>
                 </span>
             </div>
-            <div class="font-normal uppercase tracking-[0.1em] text-[0.7rem] leading-none text-[#475569] opacity-60 mr-4 whitespace-nowrap shrink-0">
+            <div class="nodal-header-attorney font-normal uppercase tracking-[0.1em] text-[0.7rem] leading-none text-[#475569] opacity-60 mr-4 whitespace-nowrap shrink-0">
                 ATTORNEY ADVERTISING
             </div>
         </div>
@@ -459,10 +459,10 @@
             if (!input) return;
 
             var longPlaceholder = input.getAttribute('placeholder') || '';
-            var shortPlaceholder = 'Search Jurisdiction...';
+            var shortPlaceholder = 'Search Statutory Data...';
 
             function apply() {
-                if (window.innerWidth < 400) input.setAttribute('placeholder', shortPlaceholder);
+                if (window.innerWidth <= 640) input.setAttribute('placeholder', shortPlaceholder);
                 else input.setAttribute('placeholder', longPlaceholder);
             }
 

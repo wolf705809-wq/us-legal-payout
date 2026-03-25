@@ -464,12 +464,53 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
 
 @media (max-width: 640px) {
     .nodal-header__inner {
+        width: 100% !important;
         max-width: 100vw !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding-right: 1rem !important;
+        padding-left: 1rem !important;
         overflow: hidden;
     }
 
     .nodal-header {
         overflow: hidden;
+    }
+
+    .nodal-header-left {
+        min-width: 0;
+        flex: 1 1 auto;
+        overflow: hidden;
+    }
+
+    .nodal-header-brand-label {
+        font-size: 0.6rem !important;
+        max-width: 70vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .nodal-header-attorney {
+        font-size: 0.6rem !important;
+        white-space: nowrap;
+        flex: 0 0 auto;
+    }
+
+    main {
+        overflow-x: hidden !important;
+    }
+
+    #state-search-input {
+        width: calc(100% - 2rem) !important;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .nodal-nodes-section {
+        max-width: 100vw;
+        overflow-x: hidden;
     }
 }
 
