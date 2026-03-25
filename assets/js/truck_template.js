@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="px-5 py-4 hover:bg-slate-50 cursor-pointer border-b border-slate-50 last:border-none transition-colors flex justify-between items-center"
                          onclick="selectJurisdiction('${s.state_key}')">
                         <span class="font-bold text-slate-800">${s.state_name}</span>
-                        <span class="text-[9px] font-black text-emerald-500 bg-emerald-50 px-2 py-1 rounded">v2026.SYNCED</span>
                     </div>
                 `).join('');
                 resultsContainer.classList.remove('hidden');
