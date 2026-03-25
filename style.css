@@ -262,20 +262,49 @@ main > .flex.flex-col.items-center {
     contain: layout paint style;
 }
 
-/* Safari scroll perf: disable heavy blur while actively scrolling */
-body.is-scrolling .nodal-header,
-body.is-scrolling .glass-panel,
-body.is-scrolling #leadModal > div.max-w-xl,
-body.is-scrolling #insightModal > div.max-w-2xl,
-body.is-scrolling #aboutModal > div.max-w-3xl,
-body.is-scrolling .nodal-legal__panel,
-body.is-scrolling .nodal-copy-btn {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+/* ============================================================
+   🚀 0.1% PERFORMANCE DIET: 60fps & GPU OPTIMIZATION
+   ============================================================ */
+
+/* [핵심] 레이아웃 격리 및 렌더링 최적화 */
+main > section,
+main > .glass-panel,
+.step-container {
+    margin-bottom: var(--section-gap);
+    /* 0.1% 기술: 브라우저가 해당 구역만 독립적으로 계산하게 하여 전체 렉 방지 */
+    contain: layout paint; 
+    content-visibility: auto; /* 화면 밖 섹션은 렌더링을 멈춰 메모리 절약 */
+    contain-intrinsic-size: 0 500px; 
 }
 
-body.is-scrolling .glass-panel {
-    background: rgba(255, 255, 255, 0.92) !important;
+/* [Safari 전용] 스크롤 중 무거운 연산(Blur) 일시 정지 */
+body.is-scrolling .nodal-header,
+body.is-scrolling .glass-panel,
+body.is-scrolling .step-option-card,
+body.is-scrolling .modal-content {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    transition: none !important; /* 스크롤 중에는 애니메이션도 정지 */
+}
+
+/* 트럭 모드 스크롤 최적화 */
+body.truck-mode.is-scrolling .glass-panel {
+    background: rgba(15, 23, 42, 0.98) !important;
+}
+
+/* [GPU 가속] 상태 표시 점(Dot) 최적화 */
+.nodal-status-dot, .nodal-pulse, .nodal-cta-dot {
+    will-change: opacity; /* GPU에 미리 할당 */
+    transform: translateZ(0); /* 하드웨어 가속 강제 호출 */
+    backface-visibility: hidden;
+}
+
+/* [다이어트] 불필요한 레이어 3D 효과 제거 */
+#nodal-depth-ghost-text {
+    transform: translateZ(0);
+    /* 너무 큰 폰트의 부하를 줄이기 위해 텍스트 렌더링 최적화 */
+    text-rendering: optimizeSpeed; 
 }
 
 /* 4. 그리드 및 박스 디자인 (0.1% 민트 시스템 최적화) */
