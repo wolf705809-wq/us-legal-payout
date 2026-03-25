@@ -177,6 +177,70 @@
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
 }
+
+@keyframes modalScanLineOnce {
+    0% { transform: translateY(-120%); opacity: 0; }
+    15% { opacity: 1; }
+    100% { transform: translateY(240%); opacity: 0; }
+}
+
+.federal-audit-scan-once::after {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    background: linear-gradient(
+        to bottom,
+        rgba(212, 175, 55, 0) 0%,
+        rgba(212, 175, 55, 0.09) 45%,
+        rgba(212, 175, 55, 0.22) 50%,
+        rgba(212, 175, 55, 0.10) 55%,
+        rgba(212, 175, 55, 0) 100%
+    );
+    animation: modalScanLineOnce 520ms cubic-bezier(0.16, 1, 0.3, 1) 1;
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+/* Federal Audit theme overrides (modal only) */
+#lead-modal-card.is-federal-audit {
+    background-color: #0B1120;
+    border-color: rgba(212, 175, 55, 0.35);
+}
+
+#lead-modal-card.is-federal-audit .option-card {
+    border-color: rgba(212, 175, 55, 0.14) !important;
+    background-color: rgba(15, 23, 42, 0.65) !important;
+    color: rgba(226, 232, 240, 0.95) !important;
+}
+
+#lead-modal-card.is-federal-audit .option-card:hover {
+    border-color: rgba(212, 175, 55, 0.35) !important;
+}
+
+#lead-modal-card.is-federal-audit .audit-banner {
+    border-color: rgba(212, 175, 55, 0.25) !important;
+    background: rgba(212, 175, 55, 0.08) !important;
+}
+
+#lead-modal-card.is-federal-audit .audit-banner p {
+    color: rgba(212, 175, 55, 0.95) !important;
+}
+
+#lead-modal-card.is-federal-audit .text-slate-500,
+#lead-modal-card.is-federal-audit .text-slate-400,
+#lead-modal-card.is-federal-audit .text-slate-600,
+#lead-modal-card.is-federal-audit .text-slate-700 {
+    color: rgba(226, 232, 240, 0.78) !important;
+}
+
+#lead-modal-card.is-federal-audit .bg-slate-50 {
+    background-color: rgba(15, 23, 42, 0.65) !important;
+}
+
+#lead-modal-card.is-federal-audit .border-slate-200,
+#lead-modal-card.is-federal-audit .border-slate-100 {
+    border-color: rgba(212, 175, 55, 0.18) !important;
+}
 </style>
     </main>
 
@@ -201,114 +265,101 @@
                     <button type="button" onclick="closeModal()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 01: Classification</p>
                     <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Nature of the incident?</h3>
-                    <button type="button" onclick="handleSelect('type', 'Auto', 2, 'Vehicle cases require immediate insurance verification.', 10)" data-choice-key="type" data-choice-value="Auto" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">Motor Vehicle Collision</button>
-                    <button type="button" onclick="handleSelect('type', 'Slip', 2, 'Premises liability depends on notice of hazard.', 10)" data-choice-key="type" data-choice-value="Slip" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">Premises Liability (Slip & Fall)</button>
-                    <button type="button" onclick="handleSelect('type', 'Truck', 'truck-intro', 'Federal-class incident detected. FMCSA compliance + carrier policy-layer audit activated.', 14)" data-choice-key="type" data-choice-value="Truck" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">Commercial Truck Accident</button>
-                </div>
-
-                <div id="step-truck-intro" class="step-container hidden space-y-4">
-                    <button type="button" onclick="closeModal()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Truck Mode: Federal Audit Path</p>
-                    <h3 class="font-serif font-bold text-[26px] text-slate-950 leading-tight mb-2">FMCSA compliance + carrier policy-layer audit initialized.</h3>
-                    <p class="text-sm text-slate-700 leading-relaxed mb-5">We’ll confirm the motor carrier identity, then initiate statutory ELD/logbook preservation before moving into liability and damages scoring.</p>
-                    <button type="button" onclick="nextStep('truck-carrier')" class="premium-btn w-full py-5 rounded-2xl bg-slate-950 text-white font-bold uppercase tracking-[0.2em] text-[13px] shadow-xl hover:bg-slate-800 active:scale-[0.98] transition-all">Continue to Carrier Verification</button>
-                </div>
-
-                <div id="step-truck-carrier" class="step-container hidden space-y-4">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Truck Mode: Carrier Identification</p>
-                    <h3 id="truck-q-carrier" class="font-serif font-bold text-[26px] text-slate-950 leading-tight mb-2">Carrier / Trucking Company Name</h3>
-                    <p id="truck-q-carrier-reason" class="bg-amber-50 text-amber-900 border border-amber-200 p-4 rounded-xl text-[13px] font-medium mb-6">Value Driver: Carrier identification accelerates policy-layer tracing, FMCSA safety history pulls, and preservation timing.</p>
-                    <input type="text" id="truck-carrier-name" placeholder="e.g. Swift Transportation / Knight / Werner" class="w-full bg-white border-2 border-slate-200 p-5 rounded-2xl text-lg font-semibold text-slate-950 placeholder:text-slate-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition">
-                    <button type="button" onclick="handleTruckCarrierStep()" class="premium-btn w-full py-5 rounded-2xl bg-slate-950 text-white font-bold uppercase tracking-[0.2em] text-[13px] shadow-xl hover:bg-slate-800 active:scale-[0.98] transition-all">Save Carrier Info</button>
-                </div>
-
-                <div id="step-truck-evidence" class="step-container hidden space-y-4">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-3">Truck Mode: Statutory Evidence Preservation</p>
-                    <h3 id="truck-q-eld" class="font-serif font-bold text-[26px] text-slate-950 leading-tight mb-2">Initiate ELD / logbook evidence preservation?</h3>
-                    <p id="truck-q-eld-reason" class="bg-amber-50 text-amber-900 border border-amber-200 p-4 rounded-xl text-[13px] font-medium mb-6">Value Driver: Early preservation prevents overwrite and strengthens carrier-liability posture before adjuster narratives harden.</p>
-                    <button type="button" onclick="handleSelect('eldPreservation', 'yes', 2, 'Immediate preservation demand recommended to protect federal log and telematics evidence.', 20)" data-choice-key="eldPreservation" data-choice-value="yes" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">Yes, initiate ELD evidence preservation</button>
-                    <button type="button" onclick="handleSelect('eldPreservation', 'no', 2, 'Proceeding without preservation request; carrier disclosure timeline risk flagged.', 8)" data-choice-key="eldPreservation" data-choice-value="no" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">No, proceed without immediate preservation</button>
-                </div>
-
-                <div id="step-truck-niche" class="step-container hidden space-y-4">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
-                    <p class="inline-flex items-center bg-slate-100 text-slate-600 px-2 py-1 rounded text-[10px] font-bold">Truck Niche: Vehicle Class</p>
-                    <h3 id="truck-q-vehicle-class" class="font-serif font-bold text-2xl text-slate-950 leading-tight mb-2" style="color:#0F172A !important;">Vehicle classification (policy layer indicator)</h3>
-                    <p id="truck-q-vehicle-class-reason" class="bg-amber-50 text-amber-900 border border-amber-200 p-4 rounded-xl text-[13px] font-medium mb-6">Value Driver: Vehicle class determines carrier policy layers and expected recovery ceiling.</p>
-                    <button type="button" onclick="handleSelect('truckClass', 'semi_18wheeler', 'truck-carrier', 'FMCSA-level carrier profile detected. Policy floor analysis is prioritized.', 18)" data-choice-key="truckClass" data-choice-value="semi_18wheeler" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">Yes, Semi / 18-Wheeler</button>
-                    <button type="button" onclick="handleSelect('truckClass', 'delivery_van', 'truck-carrier', 'Final-mile commercial profile detected. Route-operator liability weighting applied.', 10)" data-choice-key="truckClass" data-choice-value="delivery_van" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">No, Delivery Van (Amazon/FedEx)</button>
+                    <button type="button" onclick="handleSelect('classification', 'Auto MVC', 2, 'Auto MVC pathway selected. Policy layer + liability audit will execute next.', 0)" data-choice-key="classification" data-choice-value="Auto MVC" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">Auto MVC (Motor Vehicle Collision)</button>
+                    <button type="button" onclick="handleSelect('classification', 'Commercial Truck Accident', 2, 'Federal-class incident detected. FMCSA rule-set + carrier policy layer audit activated.', 0)" data-choice-key="classification" data-choice-value="Commercial Truck Accident" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">Commercial Truck Accident</button>
+                    <button type="button" onclick="handleSelect('classification', 'Other', 2, 'General incident pathway selected. The audit will focus on statutory floor + damages verification.', 0)" data-choice-key="classification" data-choice-value="Other" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">Other Incident Type</button>
                 </div>
 
                 <div id="step-2" class="step-container hidden space-y-4">
                     <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 02: Liability</p>
-                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Establish fault distribution.</h3>
-                    <button type="button" onclick="handleSelect('fault', 'none', 3, 'Zero liability status significantly enhances recovery.', 25)" data-choice-key="fault" data-choice-value="none" class="option-card w-full text-left">0% Liability (Not At Fault)</button>
-                    <button type="button" onclick="handleSelect('fault', 'shared', 3, 'Comparative negligence rules will apply.', 10)" data-choice-key="fault" data-choice-value="shared" class="option-card w-full text-left">Liability is Disputed / Shared</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 02: Jurisdiction</p>
+                    <div class="audit-banner rounded-xl border border-emerald-200/60 bg-emerald-500/10 px-4 py-3">
+                        <p class="text-[10px] font-extrabold tracking-[0.18em] uppercase text-emerald-700">CALIFORNIA STATUTORY SYNC ACTIVE</p>
+                        <p class="mt-1 text-[12px] font-semibold text-slate-700">Confirm jurisdiction: <span id="audit-jurisdiction-label" class="font-bold text-slate-900">California</span></p>
+                    </div>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Confirm Jurisdiction</h3>
+                    <p class="text-[12px] text-slate-600 leading-relaxed">This audit executes against the active jurisdiction’s statutory floor and comparative framework.</p>
+                    <button type="button" onclick="nextStep(3)" class="premium-btn w-full py-4 rounded uppercase tracking-widest bg-gradient-to-br from-[#1E3A8A] to-[#172554] hover:from-[#172554] hover:to-[#0F172A]">Confirm & Execute Audit</button>
                 </div>
 
                 <div id="step-3" class="step-container hidden space-y-4">
                     <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 03: Damages</p>
-                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Detail medical intervention.</h3>
-                    <button type="button" onclick="handleSelect('med', 'er', 4, 'Emergency care visits establish essential causality.', 30)" data-choice-key="med" data-choice-value="er" class="option-card w-full text-left">ER / Hospital Admission</button>
-                    <button type="button" onclick="handleSelect('med', 'later', 4, 'Delayed treatment requires specific documentation.', 10)" data-choice-key="med" data-choice-value="later" class="option-card w-full text-left">Follow-up with Doctor Later</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 03: Medical Severity</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Was there an Emergency Room visit or surgery recommended?</h3>
+                    <button type="button" onclick="handleSelect('medical_severity', 'ER Visit / Surgery Recommended', 4, 'High-value medical indicator confirmed. Causality and damages confidence increases.', 0)" data-choice-key="medical_severity" data-choice-value="ER Visit / Surgery Recommended" class="option-card w-full text-left">Yes — ER visit and/or surgery recommended</button>
+                    <button type="button" onclick="handleSelect('medical_severity', 'No ER / No Surgery Recommendation', 4, 'Medical severity is still auditable. We will emphasize documentation and impact narrative.', 0)" data-choice-key="medical_severity" data-choice-value="No ER / No Surgery Recommendation" class="option-card w-full text-left">No — no ER visit and no surgery recommendation</button>
                 </div>
 
                 <div id="step-4" class="step-container hidden space-y-4">
                     <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 04: Evidence</p>
-                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Was an official report filed?</h3>
-                    <button type="button" onclick="handleSelect('police', 'yes', 5, 'Official reports are considered primary evidence.', 15)" data-choice-key="police" data-choice-value="yes" class="option-card w-full text-left">Yes, police report generated</button>
-                    <button type="button" onclick="handleSelect('police', 'no', 5, 'Secondary documentation will be required.', 0)" data-choice-key="police" data-choice-value="no" class="option-card w-full text-left">No / Status Unknown</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 04: Carrier Info</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Do you have the Carrier Name or USDOT Number?</h3>
+                    <p class="text-[12px] text-slate-600 leading-relaxed">Professional friction: carrier identity accelerates policy layer tracing and federal safety-history pulls.</p>
+                    <button type="button" onclick="handleSelect('carrier_identifier_available', 'Yes', 4, 'Carrier identifiers present. Capture details to harden the policy layer audit.', 0)" data-choice-key="carrier_identifier_available" data-choice-value="Yes" class="option-card w-full text-left">Yes — I can provide carrier name and/or USDOT</button>
+                    <button type="button" onclick="handleSelect('carrier_identifier_available', 'No', 5, 'Carrier identifiers not available. Audit will proceed; carrier discovery flagged.', 0)" data-choice-key="carrier_identifier_available" data-choice-value="No" class="option-card w-full text-left">No — proceed without carrier identifiers</button>
+                    <div id="carrier-details-panel" class="hidden rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
+                        <div class="grid grid-cols-1 gap-3">
+                            <input type="text" id="truck-carrier-name" placeholder="Carrier / Motor Carrier Name (optional)" class="w-full bg-white border-2 border-slate-200 px-4 py-3.5 rounded-xl text-[15px] font-semibold text-slate-950 placeholder:text-slate-400 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition">
+                            <input type="text" id="carrier-usdot" placeholder="USDOT Number (optional)" inputmode="numeric" oninput="this.value = this.value.replace(/[^\d]/g, '')" class="w-full bg-white border-2 border-slate-200 px-4 py-3.5 rounded-xl text-[15px] font-semibold text-slate-950 placeholder:text-slate-400 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition">
+                        </div>
+                        <button type="button" onclick="nextStep(5)" class="premium-btn w-full py-4 rounded uppercase tracking-widest bg-gradient-to-br from-[#1E3A8A] to-[#172554] hover:from-[#172554] hover:to-[#0F172A]">Continue Audit</button>
+                    </div>
                 </div>
 
                 <div id="step-5" class="step-container hidden space-y-4">
                     <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 05: Legal Status</p>
-                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Do you have an active attorney?</h3>
-                    <button type="button" onclick="handleSelect('atty', 'no', 6, 'You are eligible for priority counsel matching.', 10)" data-choice-key="atty" data-choice-value="no" class="option-card w-full text-left">No Active Representation</button>
-                    <button type="button" onclick="disqualify()" class="option-card w-full text-left opacity-60">Already Retained Counsel</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 05: Statute of Limitations</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Did the incident occur within the last 24 months?</h3>
+                    <button type="button" onclick="handleSelect('sol_window', 'Within 24 Months', 6, 'SOL window appears within the statutory audit band. Timing risk reduced.', 0)" data-choice-key="sol_window" data-choice-value="Within 24 Months" class="option-card w-full text-left">Yes — within the last 24 months</button>
+                    <button type="button" onclick="handleSelect('sol_window', 'Over 24 Months / Unsure', 6, 'SOL timing risk flagged. Audit can still proceed; counsel may need immediate review.', 0)" data-choice-key="sol_window" data-choice-value="Over 24 Months / Unsure" class="option-card w-full text-left">No / Unsure — over 24 months or uncertain</button>
                 </div>
 
                 <div id="step-6" class="step-container hidden space-y-4">
                     <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 06: Analysis</p>
-                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Incident Narrative</h3>
-                    <textarea id="narrative-box" rows="4" 
-    oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s.,!?'\-]/g, ''); analyzeText()" 
-    placeholder="e.g. I was stopped at a red light..." 
-    class="w-full bg-slate-50 border border-slate-200 p-4 rounded outline-none focus:border-blue-500">
-</textarea>
-                    <div id="keyword-badges" class="flex flex-wrap gap-2"></div>
-                    <button type="button" onclick="nextStep(7)" class="premium-btn w-full py-4 rounded uppercase tracking-widest bg-gradient-to-br from-[#1E3A8A] to-[#172554] hover:from-[#172554] hover:to-[#0F172A]">Execute AI Audit</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 06: Liability Audit</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Is your fault established at 0%?</h3>
+                    <button type="button" onclick="handleSelect('liability_zero_fault', 'Yes (0% Fault)', 7, '0% fault asserted. Liability posture strengthens materially under comparative analysis.', 0)" data-choice-key="liability_zero_fault" data-choice-value="Yes (0% Fault)" class="option-card w-full text-left">Yes — 0% fault (not at fault)</button>
+                    <button type="button" onclick="handleSelect('liability_zero_fault', 'No / Disputed / Unknown', 7, 'Fault allocation is disputed. Audit will apply comparative weighting and evidence prompts.', 0)" data-choice-key="liability_zero_fault" data-choice-value="No / Disputed / Unknown" class="option-card w-full text-left">No / disputed / not yet established</button>
                 </div>
 
                 <div id="step-7" class="step-container hidden space-y-4">
                     <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 07: Verification</p>
-                    <h3 class="text-[22px] md:text-xl font-serif font-bold text-center leading-tight">Identity Details</h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <input type="text" id="fName" placeholder="First Name" 
-                            oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')" 
-                            class="bg-slate-50 border p-4 rounded outline-none w-full">
-                        
-                        <input type="text" id="lName" placeholder="Last Name" 
-                            oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')" 
-                            class="bg-slate-50 border p-4 rounded outline-none w-full">
-                    </div>
-                    <input type="email" id="email" placeholder="Email Address" 
-                        oninput="this.value = this.value.replace(/[^a-zA-Z0-9@._-]/g, '')" 
-                        class="w-full bg-slate-50 border p-4 rounded outline-none">
-                    <button type="button" onclick="nextStep(8)" class="premium-btn w-full py-4 rounded uppercase tracking-widest mt-4 bg-gradient-to-br from-[#1E3A8A] to-[#172554] hover:from-[#172554] hover:to-[#0F172A]">Review Results</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 07: Representation Filter</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Are you currently represented by an attorney?</h3>
+                    <button type="button" onclick="handleSelect('represented', 'No', 8, 'Unrepresented status confirmed. Audit can proceed to narrative analysis.', 0)" data-choice-key="represented" data-choice-value="No" class="option-card w-full text-left">No — not currently represented</button>
+                    <button type="button" onclick="handleSelect('represented', 'Yes', 'disqualify', 'Representation detected. This audit route is restricted to unrepresented users.', 0)" data-choice-key="represented" data-choice-value="Yes" class="option-card w-full text-left">Yes — I have active representation</button>
                 </div>
 
-                <form id="step-8" class="step-container hidden space-y-4" onsubmit="submitFinalLead(event)">
+                <div id="step-8" class="step-container hidden space-y-4">
                     <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em] text-center">Section 08: Security</p>
-                    <h3 class="text-[22px] md:text-xl font-serif font-bold text-center mb-6 leading-tight">Secure Your Assessment</h3>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 08: Narrative Analysis</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Describe the impact and physical damages.</h3>
+                    <textarea id="narrative-box" rows="5"
+                        oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s.,!?'\-]/g, ''); analyzeText()"
+                        placeholder="Example: The impact pushed my vehicle forward. I experienced neck/back pain, missed work, and required follow-up care..."
+                        class="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl outline-none focus:border-blue-500"></textarea>
+                    <div id="keyword-badges" class="flex flex-wrap gap-2"></div>
+                    <button type="button" onclick="nextStep(9)" class="premium-btn w-full py-4 rounded uppercase tracking-widest bg-gradient-to-br from-[#1E3A8A] to-[#172554] hover:from-[#172554] hover:to-[#0F172A]">Execute Audit</button>
+                </div>
+
+                <form id="step-9" class="step-container hidden space-y-4" onsubmit="submitFinalLead(event)">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em] text-center">Section 09: Verification</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold text-center mb-2 leading-tight">Secure Your Statutory Audit Report</h3>
+                    <p class="text-[11px] text-slate-600 leading-relaxed text-center">Verification locks the audit output and enables a rapid policy-layer review if needed.</p>
+
+                    <div class="grid grid-cols-2 gap-4 mt-2">
+                        <input type="text" id="fName" placeholder="First Name"
+                            oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
+                            class="bg-slate-50 border p-4 rounded-xl outline-none w-full">
+                        <input type="text" id="lName" placeholder="Last Name"
+                            oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
+                            class="bg-slate-50 border p-4 rounded-xl outline-none w-full">
+                    </div>
+                    <input type="email" id="email" placeholder="Email Address"
+                        oninput="this.value = this.value.replace(/[^a-zA-Z0-9@._-]/g, '')"
+                        class="w-full bg-slate-50 border p-4 rounded-xl outline-none">
+
                     <input type="tel" id="userPhone" inputmode="numeric" maxlength="14" placeholder="(555) 555-5555" required oninput="this.value = this.value.replace(/[^\d]/g, '')" class="w-full bg-slate-50 border-2 border-slate-200 px-4 py-5 rounded-xl text-2xl font-bold text-center outline-none tracking-widest focus:border-blue-500">
                     <p class="text-[11px] text-slate-600 leading-relaxed text-center">Security Check: A verification specialist may call to validate this statutory audit within 5 minutes.</p>
 
@@ -322,6 +373,20 @@
                     </label>
                     <button type="submit" id="submit-btn" disabled class="premium-btn w-full py-5 rounded-xl uppercase tracking-[0.2em] shadow-xl opacity-50 cursor-not-allowed bg-gradient-to-br from-[#1E3A8A] to-[#172554] hover:from-[#172554] hover:to-[#0F172A]">Finish & View Report</button>
                 </form>
+
+                <div id="step-disqualify" class="step-container hidden space-y-4">
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Access Control</p>
+                    <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Representation detected.</h3>
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <p class="text-[13px] text-slate-700 leading-relaxed">
+                            To avoid interference with existing counsel strategy, this statutory audit pathway is reserved for unrepresented users.
+                            If you need infrastructure access for verification or reporting, contact support and reference your jurisdiction + policy layer.
+                        </p>
+                        <p class="mt-3 text-[11px] font-mono text-slate-500">Protocol: Representation Filter · Manual review required</p>
+                    </div>
+                    <button type="button" onclick="closeModal()" class="premium-btn w-full py-4 rounded uppercase tracking-widest bg-slate-950 text-white hover:bg-slate-800">Close</button>
+                </div>
 
                 <div id="step-scan" class="hidden py-16 text-center">
                     <div class="animate-spin text-blue-600 mx-auto w-12 h-12 mb-8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg></div>

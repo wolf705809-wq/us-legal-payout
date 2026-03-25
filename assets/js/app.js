@@ -64,20 +64,20 @@ let activeStep = 'step-1';
 let stepHistory = [];
 let caseMode = 'auto';
 let truckTemplate = TRUCK_UI_TEMPLATE;
+let hasShownFederalModalScan = false;
 const FORM_PROGRESS_KEY = 'caseAuditProgress.v2';
+const TOTAL_AUDIT_STEPS = 9;
 const STEP_TIPS = {
-    'step-1': 'Value Driver Tip: Accurate incident classification increases routing precision for premium cases.',
-    'step-truck-intro': 'Value Driver Tip: Federal motor-carrier rules immediately expand documentation leverage.',
-    'step-truck-niche': 'Value Driver Tip: Commercial vehicle class is a core predictor of policy-layer depth.',
-    'step-truck-carrier': 'Value Driver Tip: Carrier identity accelerates FMCSA profile pulls and valuation confidence.',
-    'step-truck-evidence': 'Value Driver Tip: ELD and telematics preservation prevents the most damaging evidence gaps.',
-    'step-2': 'Value Driver Tip: Low fault allocation materially increases expected settlement range.',
-    'step-3': 'Value Driver Tip: ER visits within 24hrs are the #1 predictor of 6-figure settlements.',
-    'step-4': 'Value Driver Tip: Official reports anchor liability timelines and reduce defense ambiguity.',
-    'step-5': 'Value Driver Tip: Unrepresented claims typically unlock faster counsel engagement workflows.',
-    'step-6': 'Value Driver Tip: Specific facts around impact and treatment improve model confidence scores.',
-    'step-7': 'Value Driver Tip: Complete identity data improves attorney match quality and response speed.',
-    'step-8': 'Value Driver Tip: Verified phone numbers correlate with higher-value conversion outcomes.',
+    'step-1': 'Value Driver Tip: Precise classification improves routing for premium cases.',
+    'step-2': 'Value Driver Tip: Jurisdiction confirmation anchors the statutory floor and doctrine weighting.',
+    'step-3': 'Value Driver Tip: ER visits and surgery recommendations correlate with higher recovery ceilings.',
+    'step-4': 'Value Driver Tip: Carrier identity accelerates policy layer tracing and FMCSA safety pulls.',
+    'step-5': 'Value Driver Tip: SOL compliance protects leverage—timing is a valuation constraint.',
+    'step-6': 'Value Driver Tip: 0% fault signals strengthen liability posture under comparative analysis.',
+    'step-7': 'Value Driver Tip: Representation status controls eligibility for this automated audit pathway.',
+    'step-8': 'Value Driver Tip: Specific impact + treatment facts increase model confidence.',
+    'step-9': 'Value Driver Tip: Verification enables secure report generation and rapid policy-layer review.',
+    'step-disqualify': 'Protocol Notice: Manual review required for represented matters.',
 };
 
 const STATE_DATA_SCRIPT_SRC = '/assets/js/data.js';
@@ -573,6 +573,98 @@ function toStepId(stepTarget) {
     return 'step-1';
 }
 
+function getAuditStepIndex(stepId) {
+    const id = toStepId(stepId);
+    const m = id.match(/^step-(\d+)$/);
+    if (!m) return 0;
+    const n = Number(m[1]);
+    if (!Number.isFinite(n)) return 0;
+    return Math.max(1, Math.min(TOTAL_AUDIT_STEPS, n));
+}
+
+function updateGaugeForStep(stepId) {
+    const gauge = document.getElementById('strength-gauge');
+    if (!gauge) return;
+    const idx = getAuditStepIndex(stepId);
+    if (!idx) return;
+    const pct = Math.round((idx / TOTAL_AUDIT_STEPS) * 100);
+    gauge.style.width = `${pct}%`;
+}
+
+function updateValueDriverTip(stepId) {
+    const tipEl = document.getElementById('value-driver-tip');
+    if (!tipEl) return;
+    const tip = STEP_TIPS[toStepId(stepId)] || '';
+    if (!tip) {
+        tipEl.classList.add('hidden');
+        tipEl.textContent = '';
+        return;
+    }
+    tipEl.textContent = tip;
+    tipEl.classList.remove('hidden');
+}
+
+function syncAuditJurisdictionLabel() {
+    const label = document.getElementById('audit-jurisdiction-label');
+    if (!label) return;
+    const d = getPayloadForMode(currentState, caseMode) || getPayloadForMode(currentState, 'auto');
+    if (d?.name) label.textContent = d.name;
+}
+
+function isTruckClassificationSelected() {
+    return leadFormData.classification === 'Commercial Truck Accident' || caseMode === 'truck';
+}
+
+function applyModalTheme() {
+    const card = document.getElementById('lead-modal-card');
+    const modalBody = document.getElementById('modalBody');
+    const header = document.querySelector('#lead-modal-card > div');
+    const title = document.getElementById('lead-modal-title');
+    const isTruck = isTruckClassificationSelected();
+
+    if (title) {
+        title.textContent = isTruck ? 'FEDERAL MOTOR CARRIER STATUTORY AUDIT MODE' : 'Case Intake Audit';
+    }
+
+    if (!card || !modalBody || !header) return;
+
+    if (isTruck) {
+        card.classList.add('is-federal-audit');
+        card.classList.add('relative');
+        card.style.backgroundColor = '#0B1120';
+        card.style.borderColor = 'rgba(212,175,55,0.35)';
+        card.classList.add('text-slate-100');
+        modalBody.style.backgroundColor = '#0B1120';
+        modalBody.classList.remove('text-slate-900');
+        modalBody.classList.add('text-slate-100');
+        header.style.backgroundColor = '#0B1120';
+        header.style.borderColor = 'rgba(212,175,55,0.22)';
+
+        if (!hasShownFederalModalScan) {
+            hasShownFederalModalScan = true;
+            card.classList.add('federal-audit-scan-once');
+            window.setTimeout(() => card.classList.remove('federal-audit-scan-once'), 650);
+        }
+    } else {
+        card.classList.remove('is-federal-audit');
+        card.style.backgroundColor = '';
+        card.style.borderColor = '';
+        card.classList.remove('text-slate-100');
+        modalBody.style.backgroundColor = '';
+        modalBody.classList.remove('text-slate-100');
+        modalBody.classList.add('text-slate-900');
+        header.style.backgroundColor = '';
+        header.style.borderColor = '';
+    }
+}
+
+function syncCarrierDetailsPanelVisibility() {
+    const panel = document.getElementById('carrier-details-panel');
+    if (!panel) return;
+    const shouldShow = isTruckClassificationSelected() && leadFormData.carrier_identifier_available === 'Yes';
+    panel.classList.toggle('hidden', !shouldShow);
+}
+
 function getCurrentStepId() {
     const visible = document.querySelector('.step-container:not(.hidden)');
     return visible?.id || 'step-1';
@@ -913,19 +1005,17 @@ function openModal(options = {}) {
     stepHistory = [];
     currentScore = 10;
 
-    // Theme (minimal, stability-first)
-    const title = document.getElementById('lead-modal-title');
-    if (title) title.textContent = caseMode === 'truck' ? 'Truck Case Intake Audit' : 'Case Intake Audit';
-
-    // Choose initial step
+    // Choose initial step (always start at classification)
     let initialStep = 'step-1';
-    if (startFresh || caseMode === 'truck') initialStep = caseMode === 'truck' ? 'step-truck-intro' : 'step-1';
     if (!document.getElementById(initialStep)) initialStep = 'step-1';
 
     // Apply step visibility + state
     nextStep(initialStep, { recordHistory: false });
 
     updateSelectedChoiceUI();
+    syncAuditJurisdictionLabel();
+    applyModalTheme();
+    syncCarrierDetailsPanelVisibility();
     syncSubmitState();
 
     console.log('[DEBUG] openModal executed. leadModal: flex; step:', activeStep);
@@ -978,15 +1068,29 @@ function closeInsightModal() {
 
 function updateSelectedChoiceUI() {
     const buttons = document.querySelectorAll('[data-choice-key][data-choice-value]');
+    const isTruck = isTruckClassificationSelected();
     buttons.forEach((btn) => {
         const key = btn.getAttribute('data-choice-key');
         const val = btn.getAttribute('data-choice-value');
         const selected = !!key && !!val && leadFormData[key] === val;
-        btn.classList.toggle('border-emerald-500', selected);
-        btn.classList.toggle('bg-emerald-50', selected);
-        btn.classList.toggle('text-emerald-800', selected);
-        btn.classList.toggle('ring-1', selected);
-        btn.classList.toggle('ring-emerald-200', selected);
+        const truckBorder = '#D4AF37';
+
+        if (selected) {
+            if (isTruck) {
+                btn.style.borderColor = truckBorder;
+                btn.style.boxShadow = '0 0 0 1px rgba(212,175,55,0.25) inset';
+                btn.classList.add('ring-1');
+                btn.classList.remove('border-emerald-500', 'bg-emerald-50', 'text-emerald-800', 'ring-emerald-200');
+            } else {
+                btn.style.borderColor = '';
+                btn.style.boxShadow = '';
+                btn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-800', 'ring-1', 'ring-emerald-200');
+            }
+        } else {
+            btn.style.borderColor = '';
+            btn.style.boxShadow = '';
+            btn.classList.remove('border-emerald-500', 'bg-emerald-50', 'text-emerald-800', 'ring-1', 'ring-emerald-200');
+        }
     });
 }
 
@@ -1006,6 +1110,7 @@ function persistFormProgress() {
                 email: document.getElementById('email')?.value || '',
                 userPhone: document.getElementById('userPhone')?.value || '',
                 truckCarrierName: document.getElementById('truck-carrier-name')?.value || '',
+                carrierUsdot: document.getElementById('carrier-usdot')?.value || '',
                 tcpa: !!tcpa?.checked,
             },
         };
@@ -1027,8 +1132,6 @@ function restoreFormProgress() {
         }
         if (typeof saved.currentScore === 'number') {
             currentScore = Math.max(0, Math.min(95, saved.currentScore));
-            const gauge = document.getElementById('strength-gauge');
-            if (gauge) gauge.style.width = `${currentScore}%`;
         }
         if (saved.inputs && typeof saved.inputs === 'object') {
             const setValue = (id, value) => {
@@ -1041,6 +1144,7 @@ function restoreFormProgress() {
             setValue('email', saved.inputs.email);
             setValue('userPhone', saved.inputs.userPhone);
             setValue('truck-carrier-name', saved.inputs.truckCarrierName);
+            setValue('carrier-usdot', saved.inputs.carrierUsdot);
             const tcpa = document.getElementById('tcpa');
             if (tcpa) tcpa.checked = !!saved.inputs.tcpa;
         }
@@ -1057,6 +1161,11 @@ function restoreFormProgress() {
         }
         analyzeText();
         updateSelectedChoiceUI();
+        syncAuditJurisdictionLabel();
+        applyModalTheme();
+        syncCarrierDetailsPanelVisibility();
+        updateGaugeForStep(activeStep);
+        updateValueDriverTip(activeStep);
     } catch {
         // ignore parse errors
     }
@@ -1075,8 +1184,7 @@ function resetFlowState() {
     currentScore = 10;
     activeStep = 'step-1';
     stepHistory = [];
-    const gauge = document.getElementById('strength-gauge');
-    if (gauge) gauge.style.width = '10%';
+    updateGaugeForStep('step-1');
     const fbBox = document.getElementById('ai-feedback-box');
     if (fbBox) fbBox.classList.add('hidden');
     const ids = ['narrative-box', 'fName', 'lName', 'email', 'userPhone', 'truck-carrier-name'];
@@ -1084,6 +1192,8 @@ function resetFlowState() {
         const el = document.getElementById(id);
         if (el) el.value = '';
     });
+    const usdot = document.getElementById('carrier-usdot');
+    if (usdot) usdot.value = '';
     const badges = document.getElementById('keyword-badges');
     if (badges) badges.innerHTML = '';
     updateSelectedChoiceUI();
@@ -1171,29 +1281,24 @@ async function startStateSyncFlow(stateKey) {
 }
 
 function handleSelect(key, val, next, feedback, bonus) {
-    // Mode switch: when user explicitly selects Truck classification
-    if (key === 'type') {
-        if (val === 'Truck') {
+    // Mode switch: pivot theme only when user selects Commercial Truck Accident classification
+    if (key === 'classification') {
+        if (val === 'Commercial Truck Accident') {
             caseMode = 'truck';
             leadFormData.case_type = 'truck';
-            const title = document.getElementById('lead-modal-title');
-            if (title) title.textContent = 'Truck Case Intake Audit';
-            feedback = 'Federal-class incident detected. Statutory policy floor ($750k+) mapping activated.';
         } else {
             caseMode = 'auto';
             leadFormData.case_type = 'auto';
-            const title = document.getElementById('lead-modal-title');
-            if (title) title.textContent = 'Case Intake Audit';
         }
     }
 
     leadFormData[key] = val;
     updateSelectedChoiceUI();
+    applyModalTheme();
+    syncCarrierDetailsPanelVisibility();
 
     const b = Number(bonus || 0);
     currentScore = Math.min(95, Math.max(10, currentScore + b));
-    const gauge = document.getElementById('strength-gauge');
-    if (gauge) gauge.style.width = `${currentScore}%`;
 
     const fbBox = document.getElementById('ai-feedback-box');
     const fbText = document.getElementById('ai-feedback-text');
@@ -1207,6 +1312,11 @@ function handleSelect(key, val, next, feedback, bonus) {
     // Shararak-style premium transition (lightweight on steps)
     setTimeout(() => {
         const target = toStepId(next);
+        // Branch rule: carrier info step is Truck-only
+        if (target === 'step-4' && !isTruckClassificationSelected()) {
+            nextStep(5, { recordHistory: true });
+            return;
+        }
         nextStep(next, { recordHistory: true });
         const el = document.getElementById(target);
         if (el) {
@@ -1232,6 +1342,11 @@ function nextStep(s, options = {}) {
     targetStepEl.classList.remove('hidden');
     activeStep = targetStepId;
     updateSelectedChoiceUI();
+    syncAuditJurisdictionLabel();
+    applyModalTheme();
+    syncCarrierDetailsPanelVisibility();
+    updateGaugeForStep(activeStep);
+    updateValueDriverTip(activeStep);
     persistFormProgress();
 }
 
@@ -1244,15 +1359,17 @@ function prevStep() {
 }
 
 function handleTruckCarrierStep() {
+    // Legacy-safe hook (older pages may still call this)
     const carrierInput = document.getElementById('truck-carrier-name');
+    const usdotInput = document.getElementById('carrier-usdot');
     leadFormData.carrier_name = carrierInput?.value?.trim() || '';
-    const feedback = leadFormData.carrier_name
-        ? 'Carrier entity captured. Federal safety history and policy layers can now be profiled.'
-        : 'Carrier name pending. Investigation can proceed with route and unit identifiers.';
-    const bonus = leadFormData.carrier_name ? 12 : 6;
-    currentScore = Math.min(95, currentScore + bonus);
-    const gauge = document.getElementById('strength-gauge');
-    if (gauge) gauge.style.width = `${currentScore}%`;
+    leadFormData.carrier_usdot = usdotInput?.value?.trim() || '';
+
+    const feedback =
+        leadFormData.carrier_name || leadFormData.carrier_usdot
+            ? 'Carrier identifiers captured. Policy layer tracing and FMCSA profile pulls are now enabled.'
+            : 'Carrier identifiers not captured. Audit will proceed; carrier discovery remains flagged.';
+
     const fbBox = document.getElementById('ai-feedback-box');
     const fbText = document.getElementById('ai-feedback-text');
     if (fbBox && fbText) {
@@ -1260,7 +1377,7 @@ function handleTruckCarrierStep() {
         fbBox.classList.remove('hidden');
     }
     persistFormProgress();
-    setTimeout(() => nextStep('truck-evidence', { recordHistory: true }), 450);
+    nextStep(5, { recordHistory: true });
 }
 
 function analyzeText() {
@@ -1272,15 +1389,48 @@ function analyzeText() {
     }
     const text = narrativeEl.value.toLowerCase();
     const keywords = {
-        'rear-ended': 'High Liability',
-        hospital: 'Major Damages',
-        commercial: 'Corporate Asset',
+        'rear-end': { label: 'Liability Signal', tier: 'high' },
+        'rear ended': { label: 'Liability Signal', tier: 'high' },
+        'rear-ended': { label: 'Liability Signal', tier: 'high' },
+        't-bone': { label: 'Impact Vector', tier: 'high' },
+        'tbone': { label: 'Impact Vector', tier: 'high' },
+        'intersection': { label: 'Signal Control', tier: 'med' },
+        'ambulance': { label: 'Medical Severity', tier: 'high' },
+        'er': { label: 'Medical Severity', tier: 'high' },
+        hospital: { label: 'Medical Severity', tier: 'high' },
+        surgery: { label: 'Surgical Indicator', tier: 'high' },
+        fracture: { label: 'Objective Injury', tier: 'high' },
+        concussion: { label: 'Objective Injury', tier: 'med' },
+        herniated: { label: 'Spine Indicator', tier: 'high' },
+        'missed work': { label: 'Wage Loss', tier: 'med' },
+        'lost wages': { label: 'Wage Loss', tier: 'med' },
+        'truck': { label: 'Federal Carrier Exposure', tier: 'high' },
+        'tractor trailer': { label: 'Federal Carrier Exposure', tier: 'high' },
+        '18-wheeler': { label: 'Federal Carrier Exposure', tier: 'high' },
+        'usdot': { label: 'Carrier Identifier', tier: 'med' },
+        'police report': { label: 'Primary Evidence', tier: 'med' },
     };
     badges.innerHTML = '';
-    for (const [kw, label] of Object.entries(keywords)) {
-        if (text.includes(kw)) {
-            badges.innerHTML += `<span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-[8px] font-bold rounded uppercase animate-pulse">✓ ${label}</span>`;
-        }
+    const isTruck = isTruckClassificationSelected();
+    const seen = new Set();
+    for (const [kw, meta] of Object.entries(keywords)) {
+        if (!text.includes(kw)) continue;
+        const key = meta.label;
+        if (seen.has(key)) continue;
+        seen.add(key);
+
+        const tier = meta.tier || 'med';
+        const base =
+            isTruck
+                ? tier === 'high'
+                    ? 'bg-amber-500/15 text-amber-200 border border-amber-500/30'
+                    : 'bg-slate-800/60 text-slate-200 border border-slate-700'
+                : tier === 'high'
+                  ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
+                  : 'bg-slate-100 text-slate-700 border border-slate-200';
+        badges.innerHTML += `<span class="px-2 py-1 text-[9px] font-bold rounded-full uppercase tracking-wider ${base}">✓ ${escapeHtml(
+            meta.label
+        )}</span>`;
     }
     persistFormProgress();
 }
@@ -1310,14 +1460,12 @@ function submitFinalLead(e) {
     leadFormData.case_type = caseMode;
     if (caseMode === 'truck') {
         leadFormData.carrier_name = document.getElementById('truck-carrier-name')?.value?.trim() || leadFormData.carrier_name || '';
+        leadFormData.carrier_usdot = document.getElementById('carrier-usdot')?.value?.trim() || leadFormData.carrier_usdot || '';
         // Ensure key truck decisions persist in final payload
         leadFormData.eldPreservation = leadFormData.eldPreservation || leadFormData.eld || '';
         leadFormData.truckClass = leadFormData.truckClass || '';
         leadFormData.type = leadFormData.type || 'Truck';
-        leadFormData.fault = leadFormData.fault || 'unknown';
-        leadFormData.med = leadFormData.med || 'unknown';
-        leadFormData.police = leadFormData.police || 'unknown';
-        leadFormData.atty = leadFormData.atty || 'unknown';
+        leadFormData.represented = leadFormData.represented || 'unknown';
         const t = getPayloadForMode(currentState, 'truck');
         if (t) {
             leadFormData.settlement_complexity = t.settlement_complexity || leadFormData.settlement_complexity || '';
@@ -1329,8 +1477,8 @@ function submitFinalLead(e) {
     leadFormData['cf-turnstile-response'] = turnstileToken;
     leadFormData.turnstileToken = turnstileToken;
 
-    const step8 = document.getElementById('step-8');
-    if (step8) step8.classList.add('hidden');
+    const step9 = document.getElementById('step-9');
+    if (step9) step9.classList.add('hidden');
     const stepScan = document.getElementById('step-scan');
     if (stepScan) stepScan.classList.remove('hidden');
     const scanStatusText = document.getElementById('scan-status-text');
@@ -1452,7 +1600,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    ['narrative-box', 'fName', 'lName', 'email', 'truck-carrier-name'].forEach((id) => {
+    ['narrative-box', 'fName', 'lName', 'email', 'truck-carrier-name', 'carrier-usdot'].forEach((id) => {
         const el = document.getElementById(id);
         if (el) el.addEventListener('input', persistFormProgress);
     });
@@ -1492,12 +1640,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     restoreFormProgress();
     caseMode = urlWantsTruck ? 'truck' : 'auto';
     leadFormData.case_type = caseMode;
-
-    const truckOnlySteps = new Set(['step-truck-intro', 'step-truck-carrier', 'step-truck-evidence', 'step-truck-niche']);
-    if (!urlWantsTruck && truckOnlySteps.has(activeStep)) {
-        activeStep = 'step-1';
-        stepHistory = [];
-    }
 
     applyStateData(currentState);
     updateSelectedChoiceUI();
