@@ -1,13 +1,7 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    {
-      "source": "/truck/:path*",
-      "destination": "/truck/:path*/index.html"
-    },
-    {
-      "source": "/(?!truck|assets|scripts)(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/truck/(.*)", "destination": "/truck/$1/index.html" },
+    { "source": "/((?!truck|assets|scripts).*)", "destination": "/index.html" }
   ]
 }
