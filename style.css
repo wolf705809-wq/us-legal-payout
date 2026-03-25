@@ -444,89 +444,70 @@ body.is-scrolling .glass-panel {
     filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.22));
 }
 
-/* ============================================================
-   🚚 0.1% 전략: 프리미엄 트럭 모드 위장 (Truck Mode Overrides)
-   ============================================================ */
+/* 🚚 0.1% 전략: 프리미엄 트럭 모드 위장 (Truck Mode Overrides) */
 
-/* Industrial luxury: deep navy stack + subtle grain */
+/* [배경] 딥 네이비 + GPU 가속 최적화 */
 body.truck-mode {
     background-color: #020617 !important;
-    background-image:
+    background-image: 
         radial-gradient(ellipse 100% 70% at 50% -15%, rgba(30, 41, 59, 0.55) 0%, transparent 55%),
-        linear-gradient(165deg, #020617 0%, #0b1120 42%, #0f172a 100%),
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E") !important;
-    background-repeat: no-repeat, no-repeat, repeat;
-    background-size: auto, auto, 256px 256px;
+        linear-gradient(165deg, #020617 0%, #0b1120 42%, #0f172a 100%) !important;
     color: #F8FAFC !important;
+    contain: layout; /* 다이어트 코드: 불필요한 레이아웃 계산 방지 */
 }
 
-/* 트럭 모드 전용 유리 패널: 더 어둡고 단단한 느낌 */
-body.truck-mode .glass-panel {
-    background: rgba(17, 24, 39, 0.72) !important;
-    border-color: rgba(148, 163, 184, 0.22) !important;
-    box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.06) inset,
-        0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-}
-
-/* 텍스트 색상 반전 및 강조 */
+/* [가독성] 질문지 텍스트: 칙칙한 노랑 제거 -> 명품 크림 화이트 */
+body.truck-mode h1, 
+body.truck-mode h2, 
+body.truck-mode h3,
 body.truck-mode #hero-title,
 body.truck-mode #hero-state-name,
-body.truck-mode h1, body.truck-mode h2, body.truck-mode h3 {
-    color: #FFFFFF !important;
+body.truck-mode .step-title {
+    color: #FDF2E9 !important; /* 샌드 화이트 계열로 가독성 뽞! */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    letter-spacing: -0.02em;
 }
 
 body.truck-mode #hero-point-1,
 body.truck-mode #hero-point-2,
-body.truck-mode #truck-data-points {
-    color: #94A3B8 !important;
+body.truck-mode #truck-data-points,
+body.truck-mode p,
+body.truck-mode label {
+    color: rgba(248, 250, 252, 0.85) !important; /* 본문은 차분한 화이트 */
 }
 
-/* 트럭 모드 전용 버튼: backlit dashboard + inner glow */
+/* [포인트] 강조색은 민트와 어울리는 오렌지 골드 */
+body.truck-mode .highlight-gold,
+body.truck-mode .text-amber-400 {
+    color: #F97316 !important; 
+    font-weight: 700;
+}
+
+/* [버튼] 대시보드 느낌의 골드 + 검정 글자 (최고 시인성) */
 body.truck-mode .premium-btn,
 body.truck-mode #main-cta-btn {
-    background: linear-gradient(135deg, #B45309 0%, #78350F 100%) !important;
+    background: linear-gradient(135deg, #D4AF37 0%, #B45309 100%) !important;
     border: 1px solid #F59E0B !important;
-    color: #FFFFFF !important;
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.14),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.35),
-        0 0 0 1px rgba(245, 158, 11, 0.35) inset !important;
+    color: #000000 !important; /* 금색 버튼엔 검정 글자가 0.1% 정석입니다 */
+    font-weight: 900 !important;
+    box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 4px 12px rgba(0, 0, 0, 0.3) !important;
 }
 
-body.truck-mode .premium-btn:hover,
-body.truck-mode #main-cta-btn:hover {
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.18),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(251, 191, 36, 0.45) inset,
-        0 0 24px rgba(245, 158, 11, 0.35) !important;
-    filter: brightness(1.08);
+/* [성능] 트럭 모드 전용 유리 패널 최적화 */
+body.truck-mode .glass-panel {
+    background: rgba(17, 24, 39, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
-body.truck-mode .premium-btn:active,
-body.truck-mode #main-cta-btn:active {
-    transform: scale(0.97);
-}
-
-/* 트럭 모드 하단 신뢰 배지 강조 */
-body.truck-mode .trusted-by-row {
-    opacity: 0.8;
-    color: #FBBF24;
-}
-
-body.truck-mode .trusted-by-chip {
-    background: rgba(30, 41, 59, 0.5);
-    border-color: #B45309;
-}
-
-
-
-/* Premium jurisdiction card: gradient over .glass-panel solid fill from main.css */
+/* [민트 감성 유지] 주리스딕션 카드 최적화 */
 .glass-panel.bg-gradient-to-br {
-    background-image: linear-gradient(to bottom right, rgba(255, 255, 255, 0.92), rgba(248, 250, 252, 0.88)) !important;
+    background-image: linear-gradient(to bottom right, rgba(255, 255, 255, 0.95), rgba(241, 245, 249, 0.9)) !important;
+    border: 1px solid rgba(16, 185, 129, 0.12) !important; /* 은은한 민트 테두리 고정 */
 }
 
 /* ============================================================
