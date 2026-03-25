@@ -900,3 +900,5 @@ const stateData = {
         }
     }
 };
+
+globalThis.stateData = stateData;
