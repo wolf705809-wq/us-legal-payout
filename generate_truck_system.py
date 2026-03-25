@@ -12,23 +12,24 @@ if not OUTPUT_ROOT.exists():
     os.makedirs(OUTPUT_ROOT)
 
 def get_dynamic_content(state_name, row):
-    """문구를 템플릿에서 고정했으므로, 최소한의 SEO 데이터만 반환합니다."""
-    
+    """최소한의 필수 데이터만 생성하여 KeyError를 방지합니다."""
     highway = row.get('major_highway', 'local interstate')
     stats = row.get('crash_stats', 'significant annual incidents')
     
-    # 템플릿에 들어갈 리스크 요약 한 줄만 생성
+    # 리스크 요약 한 줄 생성
     risk_summary = f"Analysis of the {highway} corridor confirms {stats} occurring annually. This audit maps these vectors against the statutory floor."
 
     return {
-        "dynamic_narrative": risk_summary,
+        "truck_risk_summary": risk_summary,
         "seo_description": f"Authorized 18-wheeler accident audit for {state_name}. Analyze carrier policy layers and federal safety compliance on {highway}."
     }
 
 def render_template(template: str, values: dict) -> str:
     rendered = template
     for key, val in values.items():
+        # 중괄호 사이의 공백 유무와 상관없이 치환되도록 처리
         rendered = rendered.replace(f"{{{{ {key} }}}}", str(val))
+        rendered = rendered.replace(f"{{{{{key}}}}}", str(val))
     return rendered
 
 def generate_pages():
@@ -39,24 +40,25 @@ def generate_pages():
 
     for row in truck_data:
         state_name = row["state_name"]
-        state_slug = row["state_key"].lower()
+        state_slug = row["state_key"].lower().replace(' ', '_')
         
-        # SEO 보강 데이터 생성
+        # 동적 데이터 가져오기
         dynamic = get_dynamic_content(state_name, row)
         
-        rendered = render_template(template_html, {
+        # 템플릿에 들어갈 값들 매칭 (KeyError 발생하지 않도록 수정됨)
+        render_values = {
             "state_name": state_name,
-            "dynamic_h1": dynamic["dynamic_h1"],
-            "dynamic_intro": dynamic["dynamic_intro"],
-            "truck_risk_summary": dynamic["dynamic_narrative"],
+            "truck_risk_summary": dynamic["truck_risk_summary"],
             "statute_code": row.get("statute_authority", "Statutory reference pending"),
-            "seo_title": f"{state_name} Truck Accident Audit | Nodal v2026",
+            "seo_title": f"{state_name} 18-Wheeler Statutory Audit | Nodal v2026",
             "seo_description": dynamic["seo_description"]
-        })
+        }
+        
+        rendered = render_template(template_html, render_values)
         
         output_path = OUTPUT_ROOT / f"{state_slug}.html"
         output_path.write_text(rendered, encoding="utf-8")
-        print(f"✅ SEO Optimized: {output_path.name}")
+        print(f"✅ Generated: {output_path.name}")
 
 if __name__ == "__main__":
     generate_pages()
