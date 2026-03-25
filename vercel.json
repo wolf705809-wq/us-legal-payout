@@ -2,11 +2,11 @@
   "version": 2,
   "cleanUrls": true,
   "trailingSlash": false,
-  "installCommand": "pip install -r requirements.txt",
+  "installCommand": "pip install --break-system-packages -r requirements.txt",
   "buildCommand": "python3 generate_truck_system.py",
   "rewrites": [
     {
-      "source": "/((?!truck|assets|scripts|style).*)",
+      "source": "/((?!truck|assets|scripts|style_truck).*)",
       "destination": "/index.html"
     }
   ]
