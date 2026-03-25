@@ -1,20 +1,11 @@
 /**
  * Nodal Truck Mode - Shared Page Interaction v1.0
- * [진짜배기] 버튼 활성화 및 트럭 모달 제어 로직
+ * [진짜배기] 버튼 활성화 및 검색 제어 로직
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("🚛 Truck template loaded (Static Mode).");
 });
-
-// 버튼 변수
-const modal = document.getElementById('truck-audit-modal');
-const progressBar = document.getElementById('progress-bar');
-const progressText = document.getElementById('progress-text');
-const totalSteps = 3;
-
-// 모달 데이터를 저장할 객체
-let modalData = {};
 
 /**
  * [버튼 함수] START STATUTORY RECOVERY AUDIT 클릭 시 실행
@@ -23,66 +14,28 @@ let modalData = {};
 function executeStatutoryAudit() {
     console.log("🚀 Audit started.");
     
-    // 모달 데이터 초기화
-    modalData = {};
+    // 모달 데이터를 저장할 객체 초기화 (데이터 pipeline 용)
+    window.modalData = {};
     
     // 모달 창 열기
-    modal.classList.remove('hidden');
-    
-    // 모달 CSS 애니메이션 적용 (필요시 nodal.css에 정의)
-    modal.classList.add('nodal-modal-active');
-    
-    // 첫 단계로 이동
-    nextModalStep('step-truck-1', 1);
+    openModal('step-1', 1);
 }
 
 /**
- * 모달 창 닫기
+ * [검색 함수] 5개 주 카드 클릭 시 해당 트럭 페이지로 이동
  */
-function closeTruckModal() {
-    modal.classList.add('hidden');
-    modal.classList.remove('nodal-modal-active');
+function selectJurisdiction(stateKey) {
+    if (!stateKey) return;
+    
+    // URL을 /truck/texas 형식으로 만듭니다. (파이썬이 생성한 형식)
+    const stateSlug = stateKey.toLowerCase();
+    
+    console.log(`✈️ Redirecting to ${stateSlug.toUpperCase()} Statutory Audit...`);
+    window.location.href = `/truck/${stateSlug}`;
 }
 
-/**
- * 모달 내부에서 선택 시 실행 (차량 종류 선택 등)
- */
-function handleTruckChoice(key, value, nextStepId) {
-    console.log(`✅ ${key}: ${value}`);
-    
-    // 데이터 저장
-    modalData[key] = value;
-    
-    // 다음 단계로 이동 (2단계는 진행률 66%)
-    nextModalStep(nextStepId, parseInt(nextStepId.split('-').pop()));
-}
-
-/**
- * 이전 단계로 이동 (뒤로가기)
- */
-function prevStep(prevStepId) {
-    nextModalStep(prevStepId, parseInt(prevStepId.split('-').pop()));
-}
-
-/**
- * 모달의 단계와 진행바를 업데이트하는 공통 함수
- */
-function nextModalStep(stepId, stepNum) {
-    // 모든 단계 숨기기
-    const allSteps = document.querySelectorAll('.modal-step');
-    allSteps.forEach(step => step.classList.add('hidden'));
-    
-    // 목표 단계 보여주기
-    const currentStep = document.getElementById(stepId);
-    if (currentStep) {
-        currentStep.classList.remove('hidden');
-    }
-    
-    // 진행바 & 진행 텍스트 업데이트
-    const progressPercent = (stepNum / totalSteps) * 100;
-    if (progressBar) progressBar.style.width = `${progressPercent}%`;
-    if (progressText) progressText.innerText = `Audit Progress: Step ${stepNum}/${totalSteps}`;
-    
-    // 모달 스크롤 맨 위로 올리기
-    document.getElementById('modal-body-content').scrollTop = 0;
+// 모달 및 단계별 제어 함수 (필요시 기존 코드 통합)
+function openModal(stepId, stepNum) {
+    console.log(`Opening modal at ${stepId}...`);
+    // 모달 UI 제어 로직 (기존 successModal 등을 여기로 통합 가능)
 }
