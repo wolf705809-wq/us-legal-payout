@@ -466,34 +466,33 @@ function buildTruckRiskSignalHtml(truckRow) {
 
     return `
         <div class="font-mono">
-            <div class="text-slate-900 font-semibold leading-snug">${law}</div>
-            <div class="mt-2">
-                <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">
+            <div class="text-slate-900 font-bold leading-tight text-[13px] sm:text-sm">${law}</div>
+            <div class="mt-3">
+                <div class="flex items-center justify-between text-[9px] font-black uppercase tracking-[0.15em] text-slate-500">
                     <span>Algorithmic weight</span>
-                    <span class="text-slate-700">${weightPct}%</span>
+                    <span class="text-slate-900">${weightPct}%</span>
                 </div>
-                <div class="mt-2 h-2 rounded-full border border-slate-200 bg-slate-50 overflow-hidden">
-                    <div class="h-full bg-emerald-500/70" style="width:${weightPct}%"></div>
+                <div class="mt-1.5 h-1.5 rounded-full bg-slate-100 overflow-hidden border border-slate-200/50">
+                    <div class="h-full bg-emerald-500/80 transition-all duration-1000" style="width:${weightPct}%"></div>
                 </div>
             </div>
 
-            <div class="nodal-synthesis mt-3 pt-3 border-t border-slate-200/80 relative overflow-hidden">
-                <div class="text-[10px] font-bold uppercase tracking-widest ${accent}">Live risk synthesis</div>
+            <div class="mt-4 pt-3 border-t border-slate-100 relative">
+                <div class="text-[9px] font-black uppercase tracking-widest ${accent} mb-2">Live risk synthesis</div>
 
-                <div class="mt-2 flex items-center justify-between gap-3">
-                    <div class="text-[12px] md:text-sm text-slate-600">
-                        <span class="font-semibold text-slate-900">Settlement complexity:</span>
-                        <span class="font-semibold text-slate-900">${cx}</span>
+                <div class="flex items-center justify-between gap-2 mb-2">
+                    <div class="text-[11px] text-slate-600 truncate flex-1">
+                        <span class="font-bold text-slate-900">Complexity:</span> ${cx}
                     </div>
-                    <div class="inline-flex items-center gap-1.5" aria-label="Complexity indicator">
-                        <span class="nodal-led-step ${led >= 1 ? 'is-on' : ''}" title="Low"></span>
-                        <span class="nodal-led-step ${led >= 2 ? 'is-on' : ''}" title="Mid"></span>
-                        <span class="nodal-led-step ${led >= 3 ? 'is-on' : ''}" title="High"></span>
+                    <div class="flex items-center gap-1 flex-shrink-0" aria-label="Complexity indicator">
+                        <span class="nodal-led-step ${led >= 1 ? 'is-on' : ''} w-1.5 h-1.5"></span>
+                        <span class="nodal-led-step ${led >= 2 ? 'is-on' : ''} w-1.5 h-1.5"></span>
+                        <span class="nodal-led-step ${led >= 3 ? 'is-on' : ''} w-1.5 h-1.5"></span>
                     </div>
                 </div>
 
-                <div class="mt-2 text-[12px] md:text-sm text-slate-600 leading-relaxed">
-                    <span class="font-semibold text-slate-900">Carrier tactic signal:</span>
+                <div class="text-[11px] text-slate-600 leading-relaxed">
+                    <span class="font-bold text-slate-900">Carrier Signal:</span> 
                     <span class="text-slate-800">${ct}</span>
                 </div>
             </div>
