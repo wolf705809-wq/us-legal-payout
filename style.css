@@ -1804,31 +1804,38 @@ body.truck-mode .glass-panel {
     }
 }
 /* -------------------------------------------
-   [ULTIMATE FIX] 모달 내 모든 버튼 글자색 강제 집행
+   [PRECISION COLOR FIX] 버튼별 글자색 정밀 분리
    ------------------------------------------- */
 
-/* 1. 모달 내 모든 버튼 및 특정 클래스 타격 */
-#leadModal button,
-#lead-modal-card button,
-.premium-btn,
-.audit-primary-cta,
-#submit-btn {
-    color: #FFFFFF !important;                   /* 순백색 */
-    -webkit-text-fill-color: #FFFFFF !important;  /* 아이폰/사파리 강제 적용 */
-    font-weight: 900 !important;                  /* 아주 굵게 */
-    text-transform: uppercase !important;         /* 대문자 */
-    opacity: 1 !important;                        /* 투명도 금지 */
+/* 1. 네이비 배경 버튼 (실행 버튼) -> 흰색 글자 */
+.premium-btn, 
+.audit-primary-cta, 
+#submit-btn, 
+#main-cta-btn {
+    background-color: #0F172A !important;        /* 네이비 배경 강제 */
+    color: #FFFFFF !important;                   /* 순백색 글자 */
+    -webkit-text-fill-color: #FFFFFF !important;  /* 아이폰/사파리 강제 */
+    font-weight: 900 !important;
 }
 
-/* 2. 혹시나 글자가 span 같은 태그 안에 숨어있을 경우까지 싹다 타격 */
-#leadModal button *,
-.premium-btn * {
-    color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
+/* 2. 흰색 배경 선택지 카드 (Option Cards) -> 짙은 네이비 글자 */
+.option-card, 
+#modalBody button.option-card {
+    background-color: #FFFFFF !important;        /* 흰색 배경 강제 */
+    color: #0F172A !important;                   /* 짙은 네이비 글자 */
+    -webkit-text-fill-color: #0F172A !important;  /* 아이폰/사파리 강제 */
+    font-weight: 600 !important;
+    border: 2px solid rgba(15, 23, 42, 0.08) !important; /* 미세한 테두리 */
 }
 
-/* 3. 비활성화된 버튼(Step 9 제출 전)도 글자는 보이게 처리 */
+/* 3. 선택지 카드 호버 효과 (마우스 올렸을 때) */
+.option-card:hover {
+    background-color: #F8FAFC !important;        /* 아주 옅은 회색 */
+    border-color: #0F172A !important;            /* 테두리 강조 */
+}
+
+/* 4. 비활성화된 제출 버튼 처리 */
 #submit-btn:disabled {
-    color: rgba(255, 255, 255, 0.5) !important;
-    -webkit-text-fill-color: rgba(255, 255, 255, 0.5) !important;
+    opacity: 0.5 !important;
+    color: rgba(255, 255, 255, 0.7) !important;
 }
