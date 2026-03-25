@@ -5,3 +5,18 @@
     { "source": "/((?!truck|assets|scripts).*)", "destination": "/index.html" }
   ]
 }
+
+{
+  "builds": [
+    {
+      "src": "generate_truck_system.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "installCommand": "pip install -r requirements.txt",
+  "buildCommand": "python3 generate_truck_system.py"
+}
