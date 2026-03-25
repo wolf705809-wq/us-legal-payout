@@ -1553,6 +1553,35 @@ function bindMainPageGlobals() {
 
 bindMainPageGlobals();
 
+function initScrollPerformanceToggles() {
+    // Safari/iOS: backdrop-filter + large blur surfaces are a known scroll-performance killer.
+    // We temporarily disable them while the user is actively scrolling.
+    let ticking = false;
+    let scrollTimer = 0;
+
+    const setScrolling = () => {
+        document.body.classList.add('is-scrolling');
+        if (scrollTimer) window.clearTimeout(scrollTimer);
+        scrollTimer = window.setTimeout(() => {
+            document.body.classList.remove('is-scrolling');
+        }, 140);
+    };
+
+    window.addEventListener(
+        'scroll',
+        () => {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(() => {
+                    ticking = false;
+                    setScrolling();
+                });
+            }
+        },
+        { passive: true }
+    );
+}
+
 window.addEventListener('popstate', () => {
     if (!isTruckStaticPath()) return;
     const k = resolveStateKeyFromPathname(window.location.pathname);
@@ -1636,6 +1665,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     bindCopyButtons();
+    initScrollPerformanceToggles();
 
     restoreFormProgress();
     caseMode = urlWantsTruck ? 'truck' : 'auto';

@@ -120,7 +120,6 @@ body {
     -webkit-text-stroke: 1px rgba(30, 41, 59, 0.04);
     text-stroke: 1px rgba(30, 41, 59, 0.04);
     opacity: 0.95;
-    will-change: transform;
     transform: translate3d(0, 0, 0);
 }
 
@@ -147,7 +146,7 @@ body > footer {
 
 /* Reveal system */
 .nodal-depth-reveal {
-    will-change: opacity, transform;
+    will-change: opacity;
     transform: none;
     opacity: 1;
 }
@@ -181,7 +180,7 @@ main#layout-wrapper {
 
 /* Smooth content swap (GPU-accelerated) */
 .content-shimmer {
-    will-change: opacity, transform;
+    will-change: opacity;
     animation: nodal-content-shimmer 0.4s var(--nodal-ease-out) both;
 }
 
@@ -260,6 +259,23 @@ main > section,
 main > .glass-panel,
 main > .flex.flex-col.items-center {
     margin-bottom: var(--section-gap);
+    contain: layout paint style;
+}
+
+/* Safari scroll perf: disable heavy blur while actively scrolling */
+body.is-scrolling .nodal-header,
+body.is-scrolling .glass-panel,
+body.is-scrolling #leadModal > div.max-w-xl,
+body.is-scrolling #insightModal > div.max-w-2xl,
+body.is-scrolling #aboutModal > div.max-w-3xl,
+body.is-scrolling .nodal-legal__panel,
+body.is-scrolling .nodal-copy-btn {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+body.is-scrolling .glass-panel {
+    background: rgba(255, 255, 255, 0.92) !important;
 }
 
 /* 4. 그리드 및 박스 디자인 (기존 유지) */
@@ -685,7 +701,7 @@ body.truck-mode .trusted-by-chip {
         0 0 0 1px rgba(16, 185, 129, 0.28),
         0 0 12px rgba(16, 185, 129, 0.18);
     transform: translateZ(0);
-    will-change: transform, filter, box-shadow;
+    will-change: opacity;
     animation: nodal-pulse-core 1.1s cubic-bezier(0.2, 0.9, 0.2, 1) infinite;
 }
 
@@ -960,7 +976,6 @@ body.truck-mode .trusted-by-chip {
     border-radius: 999px;
     background: #10b981;
     box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12), 0 0 15px rgba(16, 185, 129, 0.18);
-    will-change: transform;
     transform: translateZ(0);
     animation: nodal-breathe 1.6s cubic-bezier(0.2, 0.9, 0.2, 1) infinite;
 }
@@ -1114,7 +1129,6 @@ body.truck-mode .trusted-by-chip {
     box-shadow:
         0 0 0 1px rgba(16, 185, 129, 0.22),
         0 0 10px rgba(16, 185, 129, 0.35);
-    will-change: transform;
     transform: translateZ(0);
     animation: nodal-breathe 1.6s cubic-bezier(0.2, 0.9, 0.2, 1) infinite;
 }
@@ -1440,8 +1454,8 @@ body.truck-mode .trusted-by-chip {
         transform: scale(1) translateZ(0);
     }
     50% {
-        opacity: 0.35;
-        transform: scale(1.2) translateZ(0);
+        opacity: 0.55;
+        transform: scale(1.1) translateZ(0);
     }
 }
 
@@ -1449,15 +1463,9 @@ body.truck-mode .trusted-by-chip {
 .nodal-pulse,
 .nodal-led--green,
 .nodal-cta-dot,
-.nodal-led-step,
 .nodal-footer-verified-dot {
     animation: universal-breathing 3s ease-in-out infinite !important;
-    will-change: transform, opacity;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    transform-style: preserve-3d;
-    perspective: 1000px;
-    transform: translateZ(0);
+    will-change: opacity;
     position: relative;
     z-index: 2;
 }
@@ -1465,7 +1473,7 @@ body.truck-mode .trusted-by-chip {
 .nodal-pulse::before,
 .nodal-pulse::after {
     animation: universal-breathing 3s ease-in-out infinite !important;
-    will-change: transform, opacity;
+    will-change: opacity;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1473,7 +1481,6 @@ body.truck-mode .trusted-by-chip {
     .nodal-pulse,
     .nodal-led--green,
     .nodal-cta-dot,
-    .nodal-led-step,
     .nodal-footer-verified-dot {
         animation: none !important;
     }
