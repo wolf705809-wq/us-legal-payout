@@ -2,7 +2,7 @@ const TRUCK_UI_TEMPLATE = {
     hero_headline: '<STATE> 18-Wheeler Statutory Audit',
     hero_subheadline:
         'When a commercial carrier is involved, every hour matters. Our FMCSA-aligned audit engine identifies liability signals, policy leverage, and evidence-preservation priorities before critical data disappears.',
-    cta_label: 'Generate Truck Case Valuation Report',
+    cta_label: 'START DATA-DRIVEN CASE AUDIT',
     value_stack: [
         'FMCSA Compliance Mapping (49 CFR Parts 390-399)',
         'Carrier & Policy Layer Intelligence',
@@ -142,6 +142,70 @@ function getPayloadForMode(stateKey, mode) {
     return row.auto || null;
 }
 
+const FEDERAL_TRUCK_FIELD_KEYS = new Set(['fmcsa_code', 'min_insurance']);
+
+function resolveFederalTruckField(field) {
+    if (!FEDERAL_TRUCK_FIELD_KEYS.has(field)) return '';
+    const defs = globalThis.FEDERAL_TRUCK_DEFAULTS;
+    const fromFile = defs && defs[field];
+    if (fromFile != null && String(fromFile).trim() !== '') return String(fromFile).trim();
+    if (field === 'fmcsa_code') return '49 CFR Parts 390-399';
+    return '$750,000';
+}
+
+/** Truck rows may omit fmcsa_code / min_insurance; always merge FEDERAL_TRUCK_DEFAULTS from data.js. */
+function resolveTruckRowField(truckRow, field) {
+    if (!FEDERAL_TRUCK_FIELD_KEYS.has(field)) {
+        const v = truckRow?.[field];
+        return v != null && String(v).trim() !== '' ? String(v).trim() : '';
+    }
+    const v = truckRow?.[field];
+    if (v != null && String(v).trim() !== '') return String(v).trim();
+    return resolveFederalTruckField(field);
+}
+
+function escapeHtml(s) {
+    return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+function buildTruckRiskSignalHtml(truckRow) {
+    const law = escapeHtml(truckRow.law_type || '—');
+    const cx = escapeHtml(truckRow.settlement_complexity || '—');
+    const ct = escapeHtml(truckRow.carrier_tactic || '—');
+    const accent = document.body.classList.contains('truck-mode') ? 'text-amber-700' : 'text-emerald-700';
+    return `<span class="block font-semibold text-slate-800 leading-snug">${law}</span><span class="block mt-2 pt-2 border-t border-slate-200/80"><span class="text-[10px] font-bold uppercase tracking-widest ${accent}">Live risk synthesis</span><span class="block text-[12px] md:text-sm text-slate-600 mt-1"><span class="font-semibold text-slate-800">Settlement complexity:</span> ${cx}</span><span class="block text-[12px] md:text-sm text-slate-600 mt-1 leading-relaxed"><span class="font-semibold text-slate-800">Carrier tactic signal:</span> ${ct}</span></span>`;
+}
+
+function _syncGlobalUI(d, mode) {
+    const navName = document.getElementById('nav-state-name');
+    if (navName) navName.innerText = `${d.name} Case Audit Division`;
+
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (mode === 'truck') {
+        document.title = `${d.name} Truck Accident Evaluation | FMCSA Compliance | Nodal`;
+        if (metaDescription) {
+            metaDescription.setAttribute(
+                'content',
+                `${d.name} 18-wheeler statutory audit with FMCSA Parts 390-399 review, carrier liability analysis, and evidence preservation workflow.`
+            );
+        }
+        document.body.classList.add('truck-mode');
+    } else {
+        document.title = `${d.name} High-Value Case Evaluation | Nodal`;
+        if (metaDescription) {
+            metaDescription.setAttribute(
+                'content',
+                'Data-driven statutory case evaluation for injury claims across U.S. jurisdictions.'
+            );
+        }
+        document.body.classList.remove('truck-mode');
+    }
+}
+
 function formatLocalSyncMarker() {
     const d = new Date();
     return `${d.getUTCFullYear()}:${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
@@ -221,23 +285,21 @@ function applyTruckTemplateToUI(stateName) {
 }
 
 function applyAutoPageShell(d) {
-    const navName = document.getElementById('nav-state-name');
-    if (navName) navName.innerText = `${d.name} Case Audit Division`;
-
     const heroTitle = document.getElementById('hero-title');
     if (heroTitle) {
         heroTitle.innerHTML =
-            '<span class="block">Assess Your True</span><span class="bg-emerald-50 px-2 rounded-sm inline-block mt-1">Recovery Potential</span>';
+            '<span class="block">Your Settlement is a Data Battle.</span><span class="bg-emerald-50 px-2 rounded-sm inline-block mt-1.5 text-emerald-700">Don\'t Fight Unarmed.</span>';
     }
 
     const point1 = document.getElementById('hero-point-1');
     const point2 = document.getElementById('hero-point-2');
     const truckDataPoints = document.getElementById('truck-data-points');
     if (point1) {
-        point1.innerHTML = 'Insurance algorithms undervalue claims by <span class="text-emerald-600">68%</span>.';
+        point1.innerHTML =
+            'Insurance algorithms are designed to protect carrier margins. We identify the <span class="text-emerald-600 font-bold">Statutory Gaps</span> they hope you miss.';
     }
     if (point2) {
-        point2.innerHTML = 'Independent Data Infrastructure | No Law Firm Bias.';
+        point2.innerHTML = 'Neutral Legal-Tech Infrastructure | 2026 Statutory Database Sync';
     }
     if (truckDataPoints) {
         truckDataPoints.classList.add('hidden');
@@ -245,23 +307,12 @@ function applyAutoPageShell(d) {
     }
 
     const ctaLabel = document.getElementById('main-cta-label');
-    if (ctaLabel) ctaLabel.textContent = 'GENERATE CASE VALUATION REPORT';
+    if (ctaLabel) ctaLabel.textContent = 'START DATA-DRIVEN CASE AUDIT';
 
-    document.title = `${d.name} High-Value Case Evaluation | Nodal`;
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-        metaDescription.setAttribute(
-            'content',
-            'Data-driven statutory case evaluation for injury claims across U.S. jurisdictions.'
-        );
-    }
-    document.body.classList.remove('truck-mode');
+    _syncGlobalUI(d, 'auto');
 }
 
 function applyTruckPageShell(d) {
-    const navName = document.getElementById('nav-state-name');
-    if (navName) navName.innerText = `${d.name} Case Audit Division`;
-
     const heroTitle = document.getElementById('hero-title');
     if (heroTitle) {
         heroTitle.innerHTML = `${d.name} 18-Wheeler Statutory Audit`;
@@ -271,12 +322,14 @@ function applyTruckPageShell(d) {
     const point2 = document.getElementById('hero-point-2');
     const truckDataPoints = document.getElementById('truck-data-points');
     if (point1 && point2 && truckDataPoints) {
-        point1.innerHTML = `Commercial carriers on <strong>${d.major_highway}</strong> are governed by <strong>${d.fmcsa_code}</strong>.`;
-        point2.innerHTML = `Minimum insurance baseline <strong>${d.min_insurance}</strong> | Statute of limitations: <strong>${d.state_sol}</strong>.`;
+        const fmcsaCode = resolveTruckRowField(d, 'fmcsa_code');
+        const minInsurance = resolveTruckRowField(d, 'min_insurance');
+        point1.innerHTML = `Commercial carriers on <strong>${d.major_highway}</strong> are governed by <strong>${fmcsaCode}</strong>.`;
+        point2.innerHTML = `Minimum insurance baseline <strong>${minInsurance}</strong> | Statute of limitations: <strong>${d.state_sol}</strong>.`;
         truckDataPoints.innerHTML = [
             `Major Highway: ${d.major_highway}`,
-            `FMCSA Code: ${d.fmcsa_code}`,
-            `Min Insurance: ${d.min_insurance}`,
+            `FMCSA Code: ${fmcsaCode}`,
+            `Min Insurance: ${minInsurance}`,
             `State SOL: ${d.state_sol}`,
             `Crash Stats: ${d.crash_stats}`,
             `Weather Factor: ${d.weather_factor}`,
@@ -286,15 +339,7 @@ function applyTruckPageShell(d) {
         truckDataPoints.classList.remove('hidden');
     }
 
-    document.title = `${d.name} Truck Accident Evaluation | FMCSA Compliance | Nodal`;
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-        metaDescription.setAttribute(
-            'content',
-            `${d.name} 18-wheeler statutory audit with FMCSA Parts 390-399 review, carrier liability analysis, and evidence preservation workflow.`
-        );
-    }
-    document.body.classList.add('truck-mode');
+    _syncGlobalUI(d, 'truck');
     applyTruckTemplateToUI(d.name);
 }
 
@@ -322,11 +367,35 @@ function applyStateData(key) {
     const statuteEl = document.getElementById('statute-info');
     if (statuteEl) statuteEl.innerText = d.statute;
     const statsEl = document.getElementById('stats-info');
-    if (statsEl) statsEl.innerText = d.law_type;
+    const row = rows[key];
+    if (statsEl) {
+        if (caseMode === 'truck' && row?.truck) {
+            const t = row.truck;
+            statsEl.innerHTML = buildTruckRiskSignalHtml(t);
+            leadFormData.settlement_complexity = t.settlement_complexity || '';
+            leadFormData.carrier_tactic = t.carrier_tactic || '';
+        } else {
+            statsEl.textContent = d.law_type;
+            delete leadFormData.settlement_complexity;
+            delete leadFormData.carrier_tactic;
+        }
+    }
 
     leadFormData.state = d.name;
     leadFormData.case_type = caseMode;
     updateSyncLabel();
+
+    console.debug('[Nodal · Expert Mode] Data Integrity Check', {
+        stateKey: key,
+        mode: caseMode,
+        statutePresent: !!(d && d.statute),
+        federalDefaultsLoaded: !!globalThis.FEDERAL_TRUCK_DEFAULTS,
+        truckEnriched:
+            caseMode === 'truck' && row?.truck
+                ? !!(row.truck.settlement_complexity && row.truck.carrier_tactic)
+                : null,
+        status: 'OK',
+    });
 }
 
 function syncSubmitState() {
@@ -542,6 +611,13 @@ function restoreFormProgress() {
 function resetFlowState() {
     const stateOnly = leadFormData.state;
     leadFormData = stateOnly ? { state: stateOnly, case_type: caseMode } : { case_type: caseMode };
+    if (caseMode === 'truck' && currentState) {
+        const t = getPayloadForMode(currentState, 'truck');
+        if (t) {
+            leadFormData.settlement_complexity = t.settlement_complexity || '';
+            leadFormData.carrier_tactic = t.carrier_tactic || '';
+        }
+    }
     currentScore = 10;
     activeStep = 'step-1';
     stepHistory = [];
@@ -568,16 +644,35 @@ function runStateSyncOverlay(stateKey) {
     const progress = document.getElementById('stateSyncProgress');
     if (!overlay || !panel || !ticker || !progress || !d) return Promise.resolve();
 
+    const row = getStateRows()[stateKey];
+    const truck = caseMode === 'truck' && row?.truck ? row.truck : null;
+
     const l1 = document.getElementById('sync-line-1');
     const l2 = document.getElementById('sync-line-2');
     const l3 = document.getElementById('sync-line-3');
     const l4 = document.getElementById('sync-line-4');
     const l5 = document.getElementById('sync-line-5');
-    if (l1) l1.innerText = d.statute;
-    if (l2) l2.innerText = d.law_type;
-    if (l3) l3.innerText = `${d.name} 2026 Statute Sync`;
-    if (l4) l4.innerText = 'Independent Data Layer Validation';
-    if (l5) l5.innerText = 'Jurisdiction Signal Verified';
+    if (l1) l1.innerText = d.statute || '';
+    if (l2) l2.innerText = d.law_type || '';
+    if (truck) {
+        const fmcsa = resolveTruckRowField(truck, 'fmcsa_code');
+        const minIns = resolveTruckRowField(truck, 'min_insurance');
+        if (l3) l3.innerText = `${fmcsa} · Federal min. liability ${minIns}`;
+        if (l4) {
+            const cx = truck.settlement_complexity || '—';
+            const sol = truck.state_sol || '—';
+            l4.innerText = `Settlement tier: ${cx} · SOL ${sol} · ${truck.major_highway || ''}`.trim();
+        }
+        if (l5) {
+            const tactic = truck.carrier_tactic || '';
+            l5.innerText =
+                tactic.length > 140 ? `${tactic.slice(0, 137).trim()}…` : tactic || 'Carrier tactic signal — verified';
+        }
+    } else {
+        if (l3) l3.innerText = `${d.name} · 2026 statutory framework sync`;
+        if (l4) l4.innerText = 'Independent data layer validation';
+        if (l5) l5.innerText = 'Jurisdiction signal verified';
+    }
 
     if (stateSyncTimer) clearTimeout(stateSyncTimer);
     panel.classList.remove('state-sync-exit');
@@ -733,6 +828,11 @@ function submitFinalLead(e) {
         leadFormData.med = leadFormData.med || 'unknown';
         leadFormData.police = leadFormData.police || 'unknown';
         leadFormData.atty = leadFormData.atty || 'unknown';
+        const t = getPayloadForMode(currentState, 'truck');
+        if (t) {
+            leadFormData.settlement_complexity = t.settlement_complexity || leadFormData.settlement_complexity || '';
+            leadFormData.carrier_tactic = t.carrier_tactic || leadFormData.carrier_tactic || '';
+        }
     }
 
     leadFormData.tcpa_checked = true;

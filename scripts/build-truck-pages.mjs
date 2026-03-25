@@ -5,13 +5,47 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, '..');
 
+function extractStateDataObject(raw) {
+    const marker = 'const stateData =';
+    const mi = raw.indexOf(marker);
+    if (mi === -1) throw new Error('const stateData not found in assets/js/data.js');
+    const braceStart = raw.indexOf('{', mi);
+    let depth = 0;
+    let inString = false;
+    let quote = '';
+    let escaped = false;
+    for (let i = braceStart; i < raw.length; i++) {
+        const ch = raw[i];
+        if (escaped) {
+            escaped = false;
+            continue;
+        }
+        if (inString) {
+            if (ch === '\\') {
+                escaped = true;
+                continue;
+            }
+            if (ch === quote) inString = false;
+            continue;
+        }
+        if (ch === '"' || ch === "'") {
+            inString = true;
+            quote = ch;
+            continue;
+        }
+        if (ch === '{') depth++;
+        else if (ch === '}') {
+            depth--;
+            if (depth === 0) return raw.slice(braceStart, i + 1);
+        }
+    }
+    throw new Error('Unterminated stateData object in assets/js/data.js');
+}
+
 function loadStateData() {
     const dataPath = path.join(root, 'assets', 'js', 'data.js');
     const raw = fs.readFileSync(dataPath, 'utf8');
-    const start = raw.indexOf('{');
-    const end = raw.lastIndexOf('};');
-    if (start === -1 || end === -1) throw new Error('Could not parse assets/js/data.js object');
-    const jsonText = raw.slice(start, end + 1);
+    const jsonText = extractStateDataObject(raw);
     return JSON.parse(jsonText);
 }
 

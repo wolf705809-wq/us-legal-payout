@@ -132,3 +132,8 @@ body.truck-pseo-page .major-jurisdiction-card:hover {
 body.truck-pseo-page #state-search-results .state-result-btn:hover {
     background-color: rgba(255, 237, 213, 0.85);
 }
+
+/* Premium jurisdiction card: gradient over .glass-panel solid fill from main.css */
+.glass-panel.bg-gradient-to-br {
+    background-image: linear-gradient(to bottom right, #ffffff, #f8fafc) !important;
+}
