@@ -316,7 +316,7 @@ body.truck-mode.is-scrolling .glass-panel {
     letter-spacing: -0.03em;
     font-size: clamp(1.25rem, 3.2vw, 1.6rem);
     line-height: 1.12;
-    color: #000000 !important;
+    color: #0f172a !important;
 }
 
 #leadModal .step-container p,
@@ -325,18 +325,23 @@ body.truck-mode.is-scrolling .glass-panel {
 }
 
 /* Legal ledger — data feed strips (no mint fill; status-bar density) */
+#leadModal #ai-feedback-box.audit-feed-strip {
+    margin-bottom: 12px;
+}
+
 #leadModal #ai-feedback-box.audit-feed-strip,
 #leadModal #value-driver-tip.audit-system-strip {
     background: #ffffff !important;
     border: none !important;
-    border-top: 1px solid #e5e7eb !important;
-    border-bottom: 1px solid #e5e7eb !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
     border-radius: 0;
     padding: 6px 0;
     margin-left: 0;
     margin-right: 0;
     will-change: opacity;
     transform: translateZ(0);
+    -webkit-text-size-adjust: 100%;
 }
 
 #leadModal #value-driver-tip.audit-system-strip {
@@ -379,22 +384,40 @@ body.truck-mode.is-scrolling .glass-panel {
     }
 }
 
-#leadModal #ai-feedback-text.audit-feed-text {
-    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-weight: 700;
-    font-size: 10px;
-    letter-spacing: 0.06em;
-    color: #0f172a !important;
-    text-transform: uppercase;
-    line-height: 1.35;
-}
-
-#leadModal #value-driver-tip .system-note-label {
+/* System log labels — compact caps + wide tracking */
+#leadModal .system-note-label,
+#leadModal .ai-insight-label {
     font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     font-weight: 800;
-    letter-spacing: 0.1em;
+    font-size: 10px;
+    letter-spacing: 0.15em;
     color: #0f172a !important;
+    text-transform: uppercase;
     margin-right: 6px;
+}
+
+/* Beat FORCE-FIX universal slate on modal card */
+#leadModal #lead-modal-card:not(.is-federal-audit) .ai-insight-label,
+#leadModal #lead-modal-card:not(.is-federal-audit) .system-note-label {
+    color: #0f172a !important;
+}
+
+#leadModal #ai-feedback-text.audit-feed-text {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: #0f172a !important;
+    line-height: 1.45;
+}
+
+#leadModal #ai-feedback-text .audit-feed-body,
+#leadModal #value-driver-tip .audit-feed-body {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: #334155 !important;
 }
 
 /* Sole mint accent: slim sync pill */
@@ -437,6 +460,35 @@ body.truck-mode.is-scrolling .glass-panel {
     margin-top: 0.75rem;
 }
 
+@media (max-width: 428px) {
+    #leadModal #ai-feedback-box.audit-feed-strip,
+    #leadModal #value-driver-tip.audit-system-strip {
+        padding: 8px 0;
+    }
+
+    #leadModal .system-note-label,
+    #leadModal .ai-insight-label {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+    }
+
+    #leadModal #ai-feedback-text .audit-feed-body,
+    #leadModal #value-driver-tip .audit-feed-body {
+        font-size: 10.5px;
+        line-height: 1.5;
+    }
+
+    #leadModal .audit-question-title {
+        font-size: clamp(1.2rem, 4.5vw, 1.45rem);
+    }
+
+    #leadModal .premium-btn.audit-primary-cta:not(.bg-slate-950):not(.bg-slate-900) {
+        letter-spacing: 0.07em !important;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+}
+
 /* Interactive nodes: faint emerald glow on hover */
 #leadModal .option-card {
     transition: box-shadow 180ms var(--nodal-ease-out), border-color 180ms var(--nodal-ease-out), background-color 180ms var(--nodal-ease-out);
@@ -453,10 +505,13 @@ body.truck-mode.is-scrolling .glass-panel {
 #leadModal .premium-btn.audit-primary-cta:not(.bg-slate-950):not(.bg-slate-900),
 body:not(.truck-pseo-page) #main-cta-btn {
     background: #0f172a !important;
-    border: 1px solid #d4af37 !important;
+    border: 1.5px solid #d4af37 !important;
     color: #ffffff !important;
     font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
     box-shadow: 0 4px 16px rgba(15, 23, 42, 0.28);
+    -webkit-text-size-adjust: 100%;
 }
 
 #leadModal .premium-btn.audit-primary-cta:not(.bg-slate-950):not(.bg-slate-900):hover,
@@ -464,8 +519,8 @@ body:not(.truck-pseo-page) #main-cta-btn:hover {
     filter: brightness(1.05);
     box-shadow:
         0 6px 24px rgba(15, 23, 42, 0.4),
-        0 0 0 1px rgba(212, 175, 55, 0.45),
-        0 0 28px rgba(212, 175, 55, 0.28);
+        0 0 0 1.5px rgba(212, 175, 55, 0.5),
+        0 0 28px rgba(212, 175, 55, 0.32);
 }
 
 #leadModal .premium-btn.audit-primary-cta:not(.bg-slate-950):not(.bg-slate-900) *,
@@ -585,8 +640,8 @@ body:not(.truck-pseo-page) #main-cta-btn * {
 #leadModal #lead-modal-card.is-federal-audit #ai-feedback-box.audit-feed-strip,
 #leadModal #lead-modal-card.is-federal-audit #value-driver-tip.audit-system-strip {
     background: rgba(11, 17, 32, 0.92) !important;
-    border-top-color: rgba(212, 175, 55, 0.22) !important;
-    border-bottom-color: rgba(212, 175, 55, 0.22) !important;
+    border-top-color: rgba(255, 255, 255, 0.08) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 #leadModal #lead-modal-card.is-federal-audit #value-driver-tip.audit-system-strip {
@@ -594,11 +649,16 @@ body:not(.truck-pseo-page) #main-cta-btn * {
 }
 
 #leadModal #lead-modal-card.is-federal-audit .audit-section-label,
-#leadModal #lead-modal-card.is-federal-audit #ai-feedback-text,
 #leadModal #lead-modal-card.is-federal-audit #ai-feedback-text.audit-feed-text,
+#leadModal #lead-modal-card.is-federal-audit .ai-insight-label,
 #leadModal #lead-modal-card.is-federal-audit .system-note-label,
 #leadModal #lead-modal-card.is-federal-audit .audit-sync-pill__label {
     color: #fbbf24 !important;
+}
+
+#leadModal #lead-modal-card.is-federal-audit #ai-feedback-text .audit-feed-body,
+#leadModal #lead-modal-card.is-federal-audit #value-driver-tip .audit-feed-body {
+    color: rgba(253, 242, 233, 0.92) !important;
 }
 
 #leadModal #lead-modal-card.is-federal-audit .premium-btn.audit-primary-cta,
@@ -746,27 +806,30 @@ body.truck-mode .text-amber-400 {
     font-weight: 700;
 }
 
-/* [버튼] Luxury Navy + Gilded Gold + Text Gold (exclude truck PSEO) */
+/* [버튼] Luxury Navy + gilded edge + white label (exclude truck PSEO) */
 body.truck-mode:not(.truck-pseo-page) .premium-btn:not(.bg-slate-950):not(.bg-slate-900),
 body.truck-mode:not(.truck-pseo-page) #main-cta-btn {
-    background: #0F172A !important;
-    border: 2px solid #D4AF37 !important;
-    color: #FBBF24 !important;
+    background: #0f172a !important;
+    border: 1.5px solid #d4af37 !important;
+    color: #ffffff !important;
     font-weight: 800 !important;
-    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.35);
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.28);
 }
 
 body.truck-mode:not(.truck-pseo-page) .premium-btn:not(.bg-slate-950):not(.bg-slate-900):hover,
 body.truck-mode:not(.truck-pseo-page) #main-cta-btn:hover {
-    filter: brightness(1.06);
+    filter: brightness(1.05);
     box-shadow:
-        0 6px 22px rgba(15, 23, 42, 0.45),
-        0 0 24px rgba(212, 175, 55, 0.22);
+        0 6px 24px rgba(15, 23, 42, 0.4),
+        0 0 0 1.5px rgba(212, 175, 55, 0.5),
+        0 0 28px rgba(212, 175, 55, 0.32);
 }
 
 body.truck-mode:not(.truck-pseo-page) .premium-btn:not(.bg-slate-950):not(.bg-slate-900) *,
 body.truck-mode:not(.truck-pseo-page) #main-cta-btn * {
-    color: #FBBF24 !important;
+    color: #ffffff !important;
 }
 
 /* [성능] 트럭 모드 전용 유리 패널 최적화 */

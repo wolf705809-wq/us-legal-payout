@@ -601,7 +601,7 @@ function updateValueDriverTip(stepId) {
         return;
     }
     const body = String(tip).replace(/^Value Driver Tip:\s*/i, '').trim();
-    tipEl.innerHTML = `<span class="system-note-label">SYSTEM NOTE:</span>${escapeHtml(body)}`;
+    tipEl.innerHTML = `<span class="system-note-label">SYSTEM NOTE:</span><span class="audit-feed-body">${escapeHtml(body)}</span>`;
     tipEl.classList.remove('hidden');
 }
 
@@ -1307,7 +1307,7 @@ function handleSelect(key, val, next, feedback, bonus) {
     const fbBox = document.getElementById('ai-feedback-box');
     const fbText = document.getElementById('ai-feedback-text');
     if (fbBox && fbText) {
-        fbText.innerText = `AI INSIGHT: ${feedback}`;
+        fbText.innerHTML = `<span class="ai-insight-label">AI INSIGHT:</span><span class="audit-feed-body">${escapeHtml(String(feedback ?? ''))}</span>`;
         fbBox.classList.remove('hidden');
     }
 
@@ -1377,7 +1377,7 @@ function handleTruckCarrierStep() {
     const fbBox = document.getElementById('ai-feedback-box');
     const fbText = document.getElementById('ai-feedback-text');
     if (fbBox && fbText) {
-        fbText.innerText = `AI INSIGHT: ${feedback}`;
+        fbText.innerHTML = `<span class="ai-insight-label">AI INSIGHT:</span><span class="audit-feed-body">${escapeHtml(String(feedback ?? ''))}</span>`;
         fbBox.classList.remove('hidden');
     }
     persistFormProgress();
