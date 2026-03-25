@@ -2,166 +2,102 @@
     let currentStep = 1;
     let turnstileVerified = false;
     let turnstileToken = '';
-    const LOCAL_LEADS_KEY = 'caseAuditLocalLeads.v1';
-    const leadFormData = {
-        case_type: 'truck',
-    };
+    const leadFormData = { case_type: 'truck' };
 
     function getStateRows() {
         const sd = globalThis.stateData;
         return sd && typeof sd === 'object' ? sd : {};
     }
 
-    let stateKeysCache = null;
-    function getStateKeys() {
-        if (stateKeysCache) return stateKeysCache;
-        const sd = getStateRows();
-        const keys = Object.keys(sd);
-        if (!keys.length) return [];
-        stateKeysCache = keys.sort((a, b) =>
-            (sd[a].auto.name || '').localeCompare(sd[b].auto.name || '')
-        );
-        return stateKeysCache;
+    // [0.1% 디테일] 주 선택 시 화면에 '데이터 플래시' 효과를 주는 함수
+    function triggerDataAuditEffect() {
+        const card = document.getElementById('active-jurisdiction-card');
+        if (!card) return;
+        
+        // 1. 기존의 '조잡한' 느낌을 지우는 정교한 스캔 라인 플래시
+        card.classList.remove('scan-line-flash');
+        void card.offsetWidth; // 리플로우 강제 실행 (애니메이션 재시작)
+        card.classList.add('scan-line-flash');
+        
+        // 2. 텍스트 글리치 효과 추가 (권위 있는 엔진의 느낌)
+        const stateName = document.getElementById('hero-state-name');
+        if (stateName) {
+            stateName.classList.remove('nodal-glitch-in');
+            void stateName.offsetWidth;
+            stateName.classList.add('nodal-glitch-in');
+        }
     }
 
+    // [기존 함수 튜닝] 주 선택 로직에 시각적 피드백 통합
+    window.selectJurisdiction = function(key) {
+        const rows = getStateRows();
+        const data = rows[key];
+        if (!data) return;
+
+        // 1. 상단 내비게이션 주 이름 동기화
+        const navState = document.getElementById('nav-state-name');
+        if (navState) navState.innerText = `${data.auto.name} · TRUCK SPECIALIST AUDIT`;
+
+        // 2. 메인 카드 데이터 업데이트
+        document.getElementById('hero-state-name').innerText = data.auto.name;
+        document.getElementById('statute-info').innerText = data.truck?.statute || data.auto.statute;
+        document.getElementById('stats-info').innerText = data.truck?.doctrine || data.auto.doctrine;
+
+        // 3. 상위 0.00001%의 데이터 시뮬레이션 효과 실행
+        triggerDataAuditEffect();
+    };
+
+    // [Audit 실행 로직] 버튼 클릭 시 즉시 모달을 띄우지 않고 '분석 중'이라는 인상을 줌
+    window.executeStatutoryAudit = function() {
+        const btn = document.getElementById('main-cta-btn');
+        const originalLabel = document.getElementById('main-cta-label');
+        
+        if (btn && originalLabel) {
+            btn.disabled = true;
+            originalLabel.innerText = "Initializing Neural Audit...";
+            
+            // 사용자로 하여금 "진짜 분석 중이구나"라고 느끼게 만드는 딜레이
+            setTimeout(() => {
+                openModal(); // 실제 모달 오픈
+                btn.disabled = false;
+                originalLabel.innerText = "EXECUTE STATUTORY CASE AUDIT";
+            }, 850);
+        }
+    };
+
+    // [기존 로직 유지 및 최적화]
     function renderStateSearchResults(query) {
         const box = document.getElementById('state-search-results');
         if (!box) return;
-
         const q = (query || '').trim().toLowerCase();
-        if (!q) {
-            box.classList.add('hidden');
-            box.innerHTML = '';
-            return;
-        }
+        if (!q) { box.classList.add('hidden'); return; }
 
         const sd = getStateRows();
-        const keys = getStateKeys();
-        const matches = keys.filter((key) => sd[key]?.auto?.name?.toLowerCase().includes(q)).slice(0, 12);
-        if (!matches.length) {
-            box.innerHTML =
-                '<div class="px-4 py-3 text-xs font-semibold text-slate-400">No matching state found</div>';
-            box.classList.remove('hidden');
-            return;
-        }
-
-        box.innerHTML = matches
-            .map(
-                (key) =>
-                    `<button type="button" data-state-key="${key}" class="state-result-btn w-full text-left px-4 py-3 text-sm font-semibold text-slate-700">${sd[key].auto.name}</button>`
-            )
-            .join('');
+        const matches = Object.keys(sd).filter(k => sd[k]?.auto?.name?.toLowerCase().includes(q)).slice(0, 10);
+        
+        box.innerHTML = matches.map(key => `
+            <button type="button" data-state-key="${key}" class="state-result-btn w-full text-left px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-orange-50 transition-colors border-b border-slate-50">
+                ${sd[key].auto.name}
+            </button>
+        `).join('');
         box.classList.remove('hidden');
     }
 
-    function showStep(stepNum) {
-        document.querySelectorAll('.step-container').forEach((el) => el.classList.add('hidden'));
-        const target = document.getElementById(`step-${stepNum}`);
-        if (target) {
-            target.classList.remove('hidden');
-            currentStep = stepNum;
-        }
-    }
-
-    function syncSubmitState() {
-        const submitBtn = document.getElementById('submit-btn');
-        const tcpa = document.getElementById('tcpa');
-        if (!submitBtn) return;
-        const enabled = !!tcpa?.checked && turnstileVerified;
-        submitBtn.disabled = !enabled;
-        submitBtn.classList.toggle('opacity-50', !enabled);
-        submitBtn.classList.toggle('cursor-not-allowed', !enabled);
-    }
-
-    function updateGauge(delta) {
-        const gauge = document.getElementById('strength-gauge');
-        if (!gauge) return;
-        const now = parseFloat(gauge.style.width || '10') || 10;
-        const next = Math.max(10, Math.min(95, now + delta));
-        gauge.style.width = `${next}%`;
-    }
-
-    function showInsight(text) {
-        const box = document.getElementById('ai-feedback-box');
-        const label = document.getElementById('ai-feedback-text');
-        if (!box || !label) return;
-        label.textContent = `AI INSIGHT: ${text}`;
-        box.classList.remove('hidden');
-    }
-
-    const INSIGHT_CONTENT = {
-        trap: {
-            title: 'Why Insurance Adjusters Fear Statutory Data.',
-            body: 'Adjusters perform best when claimants do not anchor demands to enforceable statutes and precedent-backed liability structures. Statutory data creates a verifiable baseline that compresses negotiation spread and exposes lowball reserve strategy.',
-        },
-        gold: {
-            title: 'The $750,000 Minimum: Federal Trucking Policy Limits.',
-            body: 'Federal motor carrier frameworks often place meaningful policy floors in play. Understanding these limits changes valuation posture immediately by reframing what is collectible, what is provable, and what leverage is realistic before litigation spend accelerates.',
-        },
-        system: {
-            title: 'Man vs Machine: How AI Detects Settlement Gaps.',
-            body: 'Nodal compares narrative facts, injury signals, and jurisdictional doctrine against historical outcomes to detect valuation deltas. The model highlights where carrier offers diverge from statistically supportable ranges so users can negotiate from evidence, not guesswork.',
-        },
-    };
-
-    window.openInsightModal = function openInsightModal(kind) {
-        const modal = document.getElementById('insightModal');
-        const title = document.getElementById('insight-modal-title');
-        const body = document.getElementById('insight-modal-body');
-        const content = INSIGHT_CONTENT[kind];
-        if (!modal || !title || !body || !content) return;
-        title.innerText = content.title;
-        body.innerText = content.body;
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    };
-
-    window.closeInsightModal = function closeInsightModal() {
-        const modal = document.getElementById('insightModal');
-        if (!modal) return;
-        modal.classList.add('hidden');
-        const leadOpen = document.getElementById('leadModal');
-        if (!leadOpen || leadOpen.classList.contains('hidden')) {
-            document.body.style.overflow = '';
-        }
-    };
-
-    // Modal logic is intentionally NOT overridden here.
-    // Truck pages use the shared `assets/js/app.js` modal engine for stability.
-
+    // DOM 로드 시 초기화
     document.addEventListener('DOMContentLoaded', () => {
-        const tcpa = document.getElementById('tcpa');
-        if (tcpa) tcpa.addEventListener('change', syncSubmitState);
-        syncSubmitState();
+        // CTA 버튼 클릭 이벤트 바인딩 (HTML에서 onclick 대신 이걸 써도 됨)
+        const cta = document.getElementById('main-cta-btn');
+        if (cta) cta.setAttribute('onclick', 'executeStatutoryAudit()');
 
-        const stateSearchInput = document.getElementById('state-search-input');
-        const stateResults = document.getElementById('state-search-results');
-        const rows = getStateRows();
-        const hero = document.getElementById('hero-state-name');
-        if (stateSearchInput && hero?.textContent?.trim()) {
-            const name = hero.textContent.trim();
-            const key = Object.keys(rows).find((k) => rows[k]?.auto?.name === name);
-            if (key) stateSearchInput.value = name;
-        }
-
-        if (stateSearchInput && stateResults) {
-            stateSearchInput.addEventListener('focus', (e) => renderStateSearchResults(e.target.value));
-            stateSearchInput.addEventListener('input', (e) => renderStateSearchResults(e.target.value));
-
-            stateResults.addEventListener('click', (e) => {
-                const btn = e.target.closest('button[data-state-key]');
-                if (!btn) return;
-                const key = btn.getAttribute('data-state-key');
-                if (!key || !rows[key]) return;
-                stateSearchInput.value = rows[key].auto.name;
-                window.selectJurisdiction(key);
-                stateResults.classList.add('hidden');
-            });
-
-            document.addEventListener('click', (e) => {
-                if (e.target === stateSearchInput || stateResults.contains(e.target)) return;
-                stateResults.classList.add('hidden');
-            });
+        const input = document.getElementById('state-search-input');
+        if (input) {
+            input.addEventListener('input', e => renderStateSearchResults(e.target.value));
         }
     });
-})();
+
+    // 전역 함수 노출
+    window.updateGauge = (delta) => {
+        const gauge = document.getElementById('strength-gauge');
+        if (!gauge) return;
+        const now = parseFloat(gauge.style.width) || 10;
+        gauge.style.width
