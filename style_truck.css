@@ -40,15 +40,59 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
 }
 
 
-/* 트럭 페이지 상단 도트 애니메이션 동기화 */
-.nodal-status-dot {
-    /* 메인 사이트와 동일한 3초 주기 브리딩 효과 */
-    animation: universal-breathing 3s ease-in-out infinite !important;
-    background-color: #F97316 !important; /* 확실한 오렌지색 고정 */
-    box-shadow: 0 0 12px rgba(249, 115, 22, 0.3); /* 은은한 주황색 광채 추가 */
+
+/* ============================================================
+   TRUCK SPECIALIST AUDIT - HEADER SYNC
+   ============================================================ */
+
+/* 1. 상단바 높이 및 배경 (메인 사이트 h-11 규격) */
+.nodal-header-truck {
+    height: 44px; /* 메인 사이트 h-11과 동일 */
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid #f1f5f9;
 }
 
+/* 2. 주황색 불빛: 메인 사이트와 동일한 '숨쉬는' 애니메이션 */
+.nodal-pulse-orange {
+    width: 10px;
+    height: 10px;
+    background-color: #F97316; /* 오렌지 메인 컬러 */
+    border-radius: 999px;
+    /* style.css에 정의된 universal-breathing 애니메이션 호출 */
+    animation: universal-breathing 3s ease-in-out infinite !important;
+    box-shadow: 0 0 8px rgba(249, 115, 22, 0.6);
+}
 
+/* 3. 폰트 스타일 동기화 */
+.truck-brand-label {
+    font-family: "Inter", sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: -0.02em; /* 메인 사이트의 묵직한 자간 */
+    color: #1e293b;
+    text-transform: uppercase;
+}
 
+.truck-attorney-label {
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 9px;
+    letter-spacing: 0.15em; /* 메인 사이트 광고 자간 */
+    color: #64748b;
+    opacity: 0.8;
+    text-transform: uppercase;
+    text-align: right;
+}
+
+/* 세로 구분선 디테일 */
+.header-divider {
+    height: 16px;
+    width: 1px;
+    background-color: #e2e8f0;
+    margin-left: 12px;
+    margin-right: 12px;
+}
 
 
