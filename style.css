@@ -179,6 +179,31 @@ body.truck-pseo-page .truck-pseo-panel-enter {
     transition: box-shadow 0.4s var(--nodal-ease-out), transform 0.4s var(--nodal-ease-out);
 }
 
+/* FORCE-FIX: Lead modal contrast (prevents white-on-white regressions) */
+#leadModal,
+#leadModal * {
+    color: #334155 !important; /* slate-700 */
+}
+
+#leadModal h3,
+#leadModal #lead-modal-title {
+    color: #0F172A !important; /* slate-950 */
+}
+
+/* Preserve intentional white text on primary dark actions */
+#leadModal button.bg-slate-950,
+#leadModal button.bg-slate-900,
+#leadModal .premium-btn.bg-slate-950,
+#leadModal .premium-btn.bg-slate-900 {
+    color: #ffffff !important;
+}
+
+/* Respect existing highlighted "Value Driver" cards */
+#leadModal .bg-amber-50,
+#leadModal .bg-amber-50 * {
+    color: #78350f !important; /* amber-900 */
+}
+
 #aboutModal > div.max-w-3xl {
     background: rgba(5, 8, 16, 0.82) !important;
     backdrop-filter: blur(12px);

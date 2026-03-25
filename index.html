@@ -173,16 +173,16 @@
                 </div>
 
                 <div id="step-truck-niche" class="step-container hidden space-y-4">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Truck Niche: Vehicle Class</p>
-                    <h3 id="truck-q-vehicle-class" class="text-[22px] md:text-xl font-serif font-bold leading-tight">Was the vehicle a 18-wheeler or commercial semi-truck?</h3>
-                    <p id="truck-q-vehicle-class-reason" class="text-[11px] text-slate-500 leading-relaxed">Value Driver: Vehicle class determines commercial policy layers and likely recovery ceiling.</p>
-                    <button type="button" onclick="handleSelect('truckClass', 'semi_18wheeler', 'truck-carrier', 'FMCSR-level carrier profile detected. Policy floor analysis is prioritized.', 18)" data-choice-key="truckClass" data-choice-value="semi_18wheeler" class="option-card w-full text-left">Yes, Semi / 18-Wheeler</button>
-                    <button type="button" onclick="handleSelect('truckClass', 'delivery_van', 'truck-carrier', 'Final-mile commercial profile detected. Route-operator liability weighting applied.', 10)" data-choice-key="truckClass" data-choice-value="delivery_van" class="option-card w-full text-left">No, Delivery Van (Amazon/FedEx)</button>
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
+                    <p class="inline-flex items-center bg-slate-100 text-slate-600 px-2 py-1 rounded text-[10px] font-bold">Truck Niche: Vehicle Class</p>
+                    <h3 id="truck-q-vehicle-class" class="font-serif font-bold text-2xl text-slate-950 leading-tight mb-2" style="color:#0F172A !important;">Vehicle classification (policy layer indicator)</h3>
+                    <p id="truck-q-vehicle-class-reason" class="bg-amber-50 text-amber-900 border border-amber-200 p-4 rounded-xl text-[13px] font-medium mb-6">Value Driver: Vehicle class determines carrier policy layers and expected recovery ceiling.</p>
+                    <button type="button" onclick="handleSelect('truckClass', 'semi_18wheeler', 'truck-carrier', 'FMCSA-level carrier profile detected. Policy floor analysis is prioritized.', 18)" data-choice-key="truckClass" data-choice-value="semi_18wheeler" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">Yes, Semi / 18-Wheeler</button>
+                    <button type="button" onclick="handleSelect('truckClass', 'delivery_van', 'truck-carrier', 'Final-mile commercial profile detected. Route-operator liability weighting applied.', 10)" data-choice-key="truckClass" data-choice-value="delivery_van" class="option-card w-full text-left border-2 border-slate-100 hover:border-slate-300 active:bg-slate-50 rounded-xl p-5">No, Delivery Van (Amazon/FedEx)</button>
                 </div>
 
                 <div id="step-2" class="step-container hidden space-y-4">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 02: Liability</p>
                     <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Establish fault distribution.</h3>
                     <button type="button" onclick="handleSelect('fault', 'none', 3, 'Zero liability status significantly enhances recovery.', 25)" data-choice-key="fault" data-choice-value="none" class="option-card w-full text-left">0% Liability (Not At Fault)</button>
@@ -190,7 +190,7 @@
                 </div>
 
                 <div id="step-3" class="step-container hidden space-y-4">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 03: Damages</p>
                     <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Detail medical intervention.</h3>
                     <button type="button" onclick="handleSelect('med', 'er', 4, 'Emergency care visits establish essential causality.', 30)" data-choice-key="med" data-choice-value="er" class="option-card w-full text-left">ER / Hospital Admission</button>
@@ -198,7 +198,7 @@
                 </div>
 
                 <div id="step-4" class="step-container hidden space-y-4">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 04: Evidence</p>
                     <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Was an official report filed?</h3>
                     <button type="button" onclick="handleSelect('police', 'yes', 5, 'Official reports are considered primary evidence.', 15)" data-choice-key="police" data-choice-value="yes" class="option-card w-full text-left">Yes, police report generated</button>
@@ -206,7 +206,7 @@
                 </div>
 
                 <div id="step-5" class="step-container hidden space-y-4">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 05: Legal Status</p>
                     <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Do you have an active attorney?</h3>
                     <button type="button" onclick="handleSelect('atty', 'no', 6, 'You are eligible for priority counsel matching.', 10)" data-choice-key="atty" data-choice-value="no" class="option-card w-full text-left">No Active Representation</button>
@@ -214,7 +214,7 @@
                 </div>
 
                 <div id="step-6" class="step-container hidden space-y-4">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 06: Analysis</p>
                     <h3 class="text-[22px] md:text-xl font-serif font-bold leading-tight">Incident Narrative</h3>
                     <textarea id="narrative-box" rows="4" 
@@ -227,7 +227,7 @@
                 </div>
 
                 <div id="step-7" class="step-container hidden space-y-4">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em]">Section 07: Verification</p>
                     <h3 class="text-[22px] md:text-xl font-serif font-bold text-center leading-tight">Identity Details</h3>
                     <div class="grid grid-cols-2 gap-4">
@@ -246,7 +246,7 @@
                 </div>
 
                 <form id="step-8" class="step-container hidden space-y-4" onsubmit="submitFinalLead(event)">
-                    <button type="button" onclick="prevStep()" class="block text-[11px] font-medium text-slate-300 hover:text-slate-400 transition-colors text-left">‹ Back</button>
+                    <button type="button" onclick="prevStep()" class="block text-[11px] font-semibold text-slate-500 hover:text-slate-800 transition-colors text-left">‹ Back</button>
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em] text-center">Section 08: Security</p>
                     <h3 class="text-[22px] md:text-xl font-serif font-bold text-center mb-6 leading-tight">Secure Your Assessment</h3>
                     <input type="tel" id="userPhone" inputmode="numeric" maxlength="14" placeholder="(555) 555-5555" required oninput="this.value = this.value.replace(/[^\d]/g, '')" class="w-full bg-slate-50 border-2 border-slate-200 px-4 py-5 rounded-xl text-2xl font-bold text-center outline-none tracking-widest focus:border-blue-500">
