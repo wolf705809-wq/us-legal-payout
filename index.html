@@ -22,7 +22,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600;700&family=Crimson+Pro:wght@400;600&family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300..900&family=JetBrains+Mono:wght@300..800&family=Playfair+Display:wght@500..900&family=Roboto+Mono:wght@300..700&family=Source+Serif+4:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen overflow-x-hidden">
     <nav class="nodal-header sticky top-0 z-50" aria-label="Landing navigation">
         <div class="nodal-header__inner">
             <div class="flex items-center gap-3 flex-nowrap">
@@ -31,13 +31,13 @@
                     CALIFORNIA STATUTORY SETTLEMENT STANDARD<span class="nodal-header-tm">™</span>
                 </span>
             </div>
-            <div class="font-normal uppercase tracking-[0.1em] text-[0.7rem] leading-none text-[#475569] opacity-60">
+            <div class="font-normal uppercase tracking-[0.1em] text-[0.7rem] leading-none text-[#475569] opacity-60 mr-4 whitespace-nowrap shrink-0">
                 ATTORNEY ADVERTISING
             </div>
         </div>
     </nav>
 
-    <main class="max-w-3xl mx-auto px-5 md:px-8 pt-8 md:pt-24 pb-20 md:pb-28 text-center w-full flex-grow">
+    <main class="max-w-3xl mx-auto px-5 md:px-8 pt-8 md:pt-24 pb-20 md:pb-28 text-center w-full flex-grow overflow-x-hidden">
         <div class="mb-6 md:mb-14 relative">
             <p class="nodal-hero-eyebrow text-center mb-[3.25rem] md:mb-[3.5rem]">STATUTORY PAYOUT PROTOCOL</p>
             <h1 id="hero-title" class="nodal-hero-title text-[1.8rem] sm:text-[1.8rem] md:text-[3rem] font-semibold text-slate-900 leading-[1.08] tracking-[-0.02em] mb-5 md:mb-6">
@@ -53,7 +53,7 @@
             <div id="truck-data-points" class="hidden mt-4 text-left max-w-2xl mx-auto text-[12px] md:text-[13px] text-slate-600 space-y-2"></div>
         </div>
 
-        <section class="mb-6 md:mb-10 text-left bg-[#f8fafc] rounded-2xl p-6 md:p-8 border border-slate-200/60">
+        <section class="mb-6 md:mb-10 text-left bg-[#f8fafc] rounded-2xl p-6 md:p-8 border border-slate-200/60 nodal-nodes-section">
             <p class="text-[0.7rem] font-bold uppercase tracking-[0.1em] text-slate-900 mb-4">
                 AUTHORIZED STATE NODES
             </p>
@@ -453,6 +453,23 @@
         </div>
     </div>
     <script src="/assets/js/data.js"></script>
+    <script>
+        (function () {
+            var input = document.getElementById('state-search-input');
+            if (!input) return;
+
+            var longPlaceholder = input.getAttribute('placeholder') || '';
+            var shortPlaceholder = 'Search Jurisdiction...';
+
+            function apply() {
+                if (window.innerWidth < 400) input.setAttribute('placeholder', shortPlaceholder);
+                else input.setAttribute('placeholder', longPlaceholder);
+            }
+
+            window.addEventListener('resize', apply, { passive: true });
+            apply();
+        })();
+    </script>
     <script src="/assets/js/app.js"></script>
     
 </body>

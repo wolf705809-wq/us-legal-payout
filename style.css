@@ -14,6 +14,44 @@
     --nodal-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* ============================================================
+   Global Overflow & Layout Guards (mobile overflow fix)
+   ============================================================ */
+html,
+body {
+    overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Header + nodes width guards (prevents 1px-ish overscroll on mobile) */
+.nodal-header__inner {
+    max-width: 100vw;
+    width: 100%;
+    overflow: hidden;
+}
+
+.nodal-nodes-section {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+#state-search-input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Android/iOS parity for CTA micro-layout */
+.nodal-cta-subtext {
+    vertical-align: middle;
+    line-height: 1.35;
+}
+
 /* 3. 기본 레이아웃 및 폰트 — editorial typography */
 body {
     font-family: "Inter", sans-serif;
@@ -421,6 +459,17 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
     .nodal-header__inner {
         padding: 14px 22px;
         gap: 18px;
+    }
+}
+
+@media (max-width: 640px) {
+    .nodal-header__inner {
+        max-width: 100vw !important;
+        overflow: hidden;
+    }
+
+    .nodal-header {
+        overflow: hidden;
     }
 }
 
