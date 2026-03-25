@@ -66,6 +66,43 @@ let caseMode = 'auto';
 let truckTemplate = TRUCK_UI_TEMPLATE;
 const FORM_PROGRESS_KEY = 'caseAuditProgress.v2';
 
+const STATE_DATA_SCRIPT_SRC = '/assets/js/data.js';
+
+function loadStateDataScript() {
+    return new Promise((resolve, reject) => {
+        if (globalThis.stateData && typeof globalThis.stateData === 'object' && Object.keys(globalThis.stateData).length > 0) {
+            resolve();
+            return;
+        }
+        for (const node of document.querySelectorAll('script[src]')) {
+            const src = node.getAttribute('src') || '';
+            let pathOnly = src;
+            try {
+                pathOnly = src.startsWith('http') ? new URL(src).pathname : (src.startsWith('/') ? src : new URL(src, window.location.origin).pathname);
+            } catch {
+                /* keep pathOnly as src */
+            }
+            if (pathOnly === STATE_DATA_SCRIPT_SRC || pathOnly.endsWith('/assets/js/data.js')) {
+                const finalize = () => {
+                    if (globalThis.stateData && typeof globalThis.stateData === 'object' && Object.keys(globalThis.stateData).length > 0) {
+                        resolve();
+                    }
+                };
+                node.addEventListener('load', finalize, { once: true });
+                node.addEventListener('error', () => reject(new Error('Failed to load data.js')), { once: true });
+                queueMicrotask(finalize);
+                return;
+            }
+        }
+        const s = document.createElement('script');
+        s.src = STATE_DATA_SCRIPT_SRC;
+        s.async = false;
+        s.onload = () => resolve();
+        s.onerror = () => reject(new Error(`Failed to load ${STATE_DATA_SCRIPT_SRC}`));
+        document.head.appendChild(s);
+    });
+}
+
 let stateKeysCache = null;
 
 function getStateRows() {
@@ -84,6 +121,18 @@ function getStateKeys() {
     if (!keys.length) return [];
     stateKeysCache = keys.sort((a, b) => sd[a].auto.name.localeCompare(sd[b].auto.name));
     return stateKeysCache;
+}
+
+function resolveStateKeyFromPathname(pathname) {
+    const rows = getStateRows();
+    const raw = pathname.replace(/^\//, '').replace(/\/$/, '').toLowerCase();
+    if (!raw) return '';
+    const parts = raw.split('/').filter(Boolean);
+    if (parts[0] === 'truck' && parts[1] && rows[parts[1]]) return parts[1];
+    if (parts.length === 1 && rows[parts[0]]) return parts[0];
+    const last = parts[parts.length - 1];
+    if (rows[last]) return last;
+    return '';
 }
 
 function getPayloadForMode(stateKey, mode) {
@@ -705,10 +754,10 @@ function submitFinalLead(e) {
         const queue = Array.isArray(prev) ? prev : [];
         queue.push({ ...leadFormData, submittedAt: new Date().toISOString() });
         localStorage.setItem(LOCAL_LEADS_KEY, JSON.stringify(queue.slice(-100)));
-        window.location.href = 'success.html';
+        window.location.href = '/success.html';
     } catch (err) {
         console.error(err);
-        window.location.href = 'success.html';
+        window.location.href = '/success.html';
     }
 }
 
@@ -740,16 +789,24 @@ function bindMainPageGlobals() {
 
 bindMainPageGlobals();
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        await loadStateDataScript();
+        stateKeysCache = null;
+    } catch (err) {
+        console.error('[app] Could not ensure state data:', err);
+    }
+
     const url = new URL(window.location.href);
-    const urlWantsTruck = url.searchParams.get('type') === 'truck';
+    const onTruckStaticPath = /^\/truck\/[^/]+\/?$/i.test(url.pathname);
+    const urlWantsTruck = url.searchParams.get('type') === 'truck' || onTruckStaticPath;
     caseMode = urlWantsTruck ? 'truck' : 'auto';
     truckTemplate = TRUCK_UI_TEMPLATE;
 
-    const path = window.location.pathname.replace(/^\//, '').toLowerCase();
+    const pathKey = resolveStateKeyFromPathname(url.pathname);
     const rows = getStateRows();
-    if (path && rows[path]) {
-        applyStateData(path);
+    if (pathKey && rows[pathKey]) {
+        applyStateData(pathKey);
     } else {
         applyStateData('california');
     }

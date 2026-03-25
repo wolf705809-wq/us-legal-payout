@@ -1,7 +1,16 @@
 {
+  "cleanUrls": true,
   "rewrites": [
     {
+<<<<<<< HEAD
       "source": "/((?!api/|truck/|.*\\..*).*)",
+=======
+      "source": "/truck/:path*",
+      "destination": "/truck/:path*/index.html"
+    },
+    {
+      "source": "/((?!api/|truck/|assets/|.*\\..*).*)",
+>>>>>>> 45e1b26815727d3c657320910f58ca445170cc06
       "destination": "/index.html"
     }
   ]
