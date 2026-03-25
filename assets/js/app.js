@@ -642,7 +642,7 @@ function applyAutoPageShell(d) {
     const heroTitle = document.getElementById('hero-title');
     if (heroTitle) {
         heroTitle.innerHTML =
-            '<span class="block">Your Settlement is a Data Battle.</span><span class="bg-emerald-50 px-2 rounded-sm inline-block mt-1.5 text-emerald-700">Don\'t Fight Unarmed.</span>';
+            '<span class="block">Your Settlement is a Data Battle.</span><span class="nodal-hero-highlight inline-block mt-1.5">Don\'t Fight Unarmed.</span>';
     }
 
     const point1 = document.getElementById('hero-point-1');
@@ -650,10 +650,10 @@ function applyAutoPageShell(d) {
     const truckDataPoints = document.getElementById('truck-data-points');
     if (point1) {
         point1.innerHTML =
-            'Insurance algorithms are designed to protect carrier margins. We identify the <span class="text-emerald-600 font-bold">Statutory Gaps</span> they hope you miss.';
+            'Carrier algorithms minimize recovery by design. We decode the <strong>Statutory Discrepancies</strong> they expect you to overlook.';
     }
     if (point2) {
-        point2.innerHTML = 'Neutral Legal-Tech Infrastructure | 2026 Statutory Database Sync';
+        point2.innerHTML = 'AUTONOMOUS STATUTORY INFRASTRUCTURE | REAL-TIME CASE-LAW SYNC [v2026.03]';
     }
     if (truckDataPoints) {
         animateContentSwap({
