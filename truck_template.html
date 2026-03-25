@@ -1,82 +1,136 @@
-<div id="truck-audit-modal" class="nodal-modal-overlay hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-[#050810]/70 backdrop-blur-sm p-4">
-        <div class="nodal-modal-card w-full max-w-xl bg-white shadow-2xl rounded-t-3xl md:rounded-2xl flex flex-col max-h-[92vh] border border-slate-200 overflow-hidden">
-            
-            
-            <div class="px-6 py-5 border-b border-slate-100 bg-white sticky top-0 z-10">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-serif font-bold text-xl text-slate-900">{{ state_name }} Audit Intake</h3>
-                    <button type="button" onclick="closeTruckModal()" class="text-slate-400 hover:text-slate-800 p-2" aria-label="Close modal">✕</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ seo_title }}</title>
+    
+    <!-- 1. 스타일 시트 (맨 앞에 / 필수!) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style_truck.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#050810] text-slate-200 min-h-screen flex flex-col font-sans">
+
+    <!-- [1. 헤더] -->
+    <nav class="sticky top-0 z-50 flex items-center h-11 bg-[#050810]/80 backdrop-blur-md border-b border-white/5 px-4">
+        <div class="flex items-center justify-between w-full">
+            <span class="text-[10px] font-bold tracking-[0.2em] text-orange-500 uppercase">
+                {{ state_name }} · TRUCK AUDIT INFRASTRUCTURE<span class="opacity-50 text-[8px] ml-1">™</span>
+            </span>
+            <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest hidden sm:block">Attorney Advertising</span>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-3xl mx-auto px-6 pt-16 pb-20 text-center">
+        <!-- [2. 히어로 섹션] -->
+        <div class="mb-12">
+            <p class="text-[10px] font-bold text-slate-500 tracking-[0.3em] uppercase mb-4">Federal Trucking Incident Audit</p>
+            <h1 class="text-4xl md:text-6xl font-serif font-bold text-white leading-tight mb-6">
+                {{ state_name }} 18-Wheeler <br><span class="text-orange-600">Statutory Audit</span>
+            </h1>
+            <p class="text-slate-400 text-lg max-w-xl mx-auto leading-relaxed">
+                Our infrastructure identifies statutory recovery floors for commercial vehicle incidents based on FMCSA standards.
+            </p>
+        </div>
+
+        <!-- [3. 데이터 카드] -->
+        <div class="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 mb-12 text-left relative overflow-hidden shadow-2xl">
+            <div class="flex justify-between items-center border-b border-white/10 pb-6 mb-8">
+                <div>
+                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-1">Active Jurisdiction</p>
+                    <h2 class="text-3xl font-serif font-bold text-white">{{ state_name }}</h2>
                 </div>
-                
-                <div id="gauge-container" class="flex flex-col gap-2">
-                    <div id="progress-text" class="text-[9px] font-bold text-slate-400 uppercase tracking-widest text-left">Audit Progress: Step 1/3</div>
-                    <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
-                        <div id="progress-bar" class="bg-orange-500 h-full transition-all duration-300 w-1/3"></div>
-                    </div>
+                <div class="px-3 py-1 bg-orange-500/10 border border-orange-500/20 rounded-full">
+                    <span class="text-[9px] font-bold text-orange-500 uppercase tracking-widest">● FMCSA Live Sync</span>
                 </div>
             </div>
 
-            
-            <div id="modal-body-content" class="p-6 md:p-8 overflow-y-auto flex-grow bg-white">
-                
-                
-                <div id="step-truck-1" class="modal-step flex flex-col gap-5">
-                    <h3 class="modal-q-title font-serif text-2xl font-bold leading-snug text-slate-900">1. Was the vehicle a 18-wheeler or commercial truck?</h3>
-                    <button type="button" onclick="handleTruckChoice('vehicle_class', 'semi', 'step-truck-2')" class="nodal-option-card">Yes, Semi / 18-Wheeler</button>
-                    <button type="button" onclick="handleTruckChoice('vehicle_class', 'van', 'step-truck-2')" class="nodal-option-card">No, Delivery Van (Amazon/FedEx)</button>
-                    <button type="button" onclick="closeTruckModal()" class="text-center text-xs font-semibold text-slate-400 mt-2">I am not sure.</button>
-                </div>
-
-                
-                <div id="step-truck-2" class="modal-step hidden flex flex-col gap-5">
-                    <button type="button" onclick="prevStep('step-truck-1')" class="text-[11px] font-bold text-slate-400 hover:text-slate-600 tracking-widest uppercase mb-2 text-left">‹ Back to Classification</button>
-                    <h3 class="modal-q-title font-serif text-2xl font-bold leading-snug text-slate-900">2. Incident Description</h3>
-                    <textarea id="truck-narrative" rows="5" placeholder="e.g., I was stopped at a light and got rear-ended by a large truck..." class="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl outline-none focus:border-orange-500 text-sm"></textarea>
-                    <button type="button" onclick="handleTruckChoice('narrative', 'saved', 'step-truck-3')" class="nodal-action-btn">Continue to Analysis</button>
-                </div>
-
-                
-                <div id="step-truck-3" class="modal-step hidden flex flex-col gap-5">
-                    <button type="button" onclick="prevStep('step-truck-2')" class="text-[11px] font-bold text-slate-400 hover:text-slate-600 tracking-widest uppercase mb-2 text-left">‹ Back to Narrative</button>
-                    <h3 class="modal-q-title font-serif text-2xl font-bold leading-snug text-slate-900">3. Identity Details</h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <input type="text" id="truckFName" placeholder="First Name" class="bg-slate-50 border border-slate-200 p-4 rounded-lg text-sm w-full">
-                        <input type="text" id="truckLName" placeholder="Last Name" class="bg-slate-50 border border-slate-200 p-4 rounded-lg text-sm w-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-3">Statutory Authority</p>
+                    <div class="font-mono text-[13px] text-amber-500 bg-black/40 p-4 rounded-xl border border-white/5">
+                        {{ statute_code }}
                     </div>
-                    <input type="email" id="truckEmail" placeholder="Email Address" class="w-full bg-slate-50 border border-slate-200 p-4 rounded-lg text-sm">
-                    
-                    
-                    <button type="submit" class="nodal-action-btn-final bg-gradient-to-br from-orange-600 to-amber-600 text-white font-black text-center text-xs md:text-sm py-5 rounded-2xl shadow-xl uppercase tracking-widest">Execute Final Audit</button>
+                </div>
+                <div>
+                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-3">Risk Assessment</p>
+                    <p class="text-sm text-slate-300 leading-relaxed italic">"{{ truck_risk_summary }}"</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- [4. 메인 버튼] -->
+        <button type="button" onclick="executeStatutoryAudit()" 
+            class="w-full max-w-md bg-orange-600 hover:bg-orange-500 text-white font-black py-6 rounded-2xl shadow-2xl shadow-orange-900/20 uppercase tracking-[0.2em] transition-all transform active:scale-95">
+            Execute Statutory Case Audit
+        </button>
+        <p class="mt-4 text-[9px] font-bold text-slate-600 tracking-widest uppercase text-center">Verified Federal Data Source</p>
+    </main>
+
+    <!-- [5. 모달 (보내주신 코드 최적화)] -->
+    <div id="truck-audit-modal" class="hidden fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-[#050810]/80 backdrop-blur-sm p-4">
+        <div class="w-full max-w-xl bg-white rounded-t-3xl md:rounded-2xl flex flex-col max-h-[92vh] overflow-hidden">
+            <div class="px-6 py-5 border-b border-slate-100 bg-white">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-serif font-bold text-xl text-slate-900">{{ state_name }} Audit Intake</h3>
+                    <button type="button" onclick="closeTruckModal()" class="text-slate-400 text-2xl">✕</button>
+                </div>
+                <div class="w-full bg-slate-100 h-1.5 rounded-full">
+                    <div id="progress-bar" class="bg-orange-500 h-full transition-all w-1/3"></div>
+                </div>
+            </div>
+            <div id="modal-body-content" class="p-8 overflow-y-auto bg-white text-slate-900">
+                <!-- 단계 1 -->
+                <div id="step-truck-1" class="modal-step flex flex-col gap-4">
+                    <h3 class="text-2xl font-serif font-bold mb-2">1. Was it an 18-wheeler?</h3>
+                    <button onclick="handleTruckChoice('vehicle', 'semi', 'step-truck-2')" class="w-full p-5 border-2 border-slate-100 rounded-xl text-left font-bold hover:border-orange-500 transition-colors">Yes, Semi / 18-Wheeler</button>
+                    <button onclick="handleTruckChoice('vehicle', 'van', 'step-truck-2')" class="w-full p-5 border-2 border-slate-100 rounded-xl text-left font-bold hover:border-orange-500 transition-colors">No, Delivery Van</button>
+                </div>
+                <!-- 단계 2 (자바스크립트가 처리) -->
+                <div id="step-truck-2" class="modal-step hidden flex flex-col gap-4">
+                    <h3 class="text-2xl font-serif font-bold mb-2">2. Description</h3>
+                    <textarea id="truck-narrative" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl h-32" placeholder="Tell us what happened..."></textarea>
+                    <button onclick="handleTruckChoice('narrative', 'done', 'step-truck-3')" class="bg-slate-900 text-white py-4 rounded-xl font-bold uppercase tracking-widest">Next</button>
+                </div>
+                <!-- 단계 3 (자바스크립트가 처리) -->
+                <div id="step-truck-3" class="modal-step hidden flex flex-col gap-4">
+                    <h3 class="text-2xl font-serif font-bold mb-2">3. Your Contact</h3>
+                    <input type="text" id="truckFName" placeholder="First Name" class="w-full p-4 border border-slate-200 rounded-xl">
+                    <input type="email" id="truckEmail" placeholder="Email Address" class="w-full p-4 border border-slate-200 rounded-xl">
+                    <button onclick="submitFinalAudit()" class="bg-orange-600 text-white py-5 rounded-xl font-black uppercase tracking-widest shadow-xl">Execute Final Audit</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="w-full bg-[#050810] text-[#94A3B8] p-8 md:p-20 mt-auto border-t border-slate-800">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 pb-10 md:pb-16 border-b border-slate-800 text-center md:text-left">
+    <!-- [6. 푸터] -->
+    <footer class="w-full bg-[#03050a] border-t border-white/5 p-12 mt-20">
+        <div class="max-w-6xl mx-auto text-center md:text-left">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12 border-b border-white/5 pb-12">
                 <div>
-                    <p class="text-[#94A3B8] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Registry Inquiries</p>
-                    <p class="text-sm text-[#94A3B8]">support@jdsglobalsolutions.com</p>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-3">Registry Inquiries</p>
+                    <p class="text-sm text-slate-400">support@jdsglobalsolutions.com</p>
                 </div>
                 <div>
-                    <p class="text-[#94A3B8] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Principal Office</p>
-                    <p class="text-sm text-[#94A3B8]">1201 N Market St, Wilmington, DE 19801</p>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-3">Principal Office</p>
+                    <p class="text-sm text-slate-400">1201 N Market St, Wilmington, DE 19801</p>
                 </div>
                 <div>
-                    <p class="text-[#94A3B8] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Audit Verification</p>
-                    <p class="inline-flex items-center border border-slate-700/80 bg-black/20 px-3 py-1.5 rounded-md font-mono text-sm tracking-[0.18em] text-[#94A3B8]">+1 (888) 512-0941</p>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-3">Audit Verification</p>
+                    <p class="font-mono text-sm text-orange-500/80">+1 (888) 512-0941</p>
                 </div>
             </div>
-            <div class="flex flex-wrap justify-center gap-6 md:gap-10 py-8 md:py-12 text-[9px] font-bold uppercase tracking-[0.18em]">
-                <a href="/privacy.html">Data Governance & Privacy Protocol</a>
-                <a href="/terms.html">Statutory Terms of Service</a>
-                <a href="/ccpa.html">Data Sovereignty (CCPA Rights)</a>
-                <a href="/disclaimer.html">Evaluation Constraints & Disclosures</a>
-            </div>
-            <div class="max-w-3xl mx-auto text-center space-y-4 md:space-y-6">
-                <p id="legal-safe-line" class="text-[11px] md:text-[10px] text-slate-500 leading-relaxed strong-gold"><strong>ATTORNEY ADVERTISING:</strong> Nodal is a legal technology and data infrastructure provider. Nodal is not a law firm and does not provide legal advice. No attorney-client relationship is formed by the use of this evaluation engine. All valuations are estimates based on statutory frameworks and do not guarantee financial recovery.</p>
-                <p class="text-[9px] tracking-[0.4em] font-bold text-slate-600">⊙ 2026 NODAL. ALL RIGHTS RESERVED</p>
+            <div class="text-[10px] text-slate-600 leading-relaxed max-w-3xl mx-auto text-center">
+                <p class="mb-6 italic"><strong>ATTORNEY ADVERTISING:</strong> Nodal is a technology provider, not a law firm. No attorney-client relationship is formed by this audit.</p>
+                <p class="tracking-[0.4em] uppercase font-bold opacity-30">© 2026 NODAL. ALL RIGHTS RESERVED</p>
             </div>
         </div>
     </footer>
+
+    <!-- [7. 스크립트 (맨 앞에 / 필수!)] -->
+    <script src="/assets/js/truck_template.js"></script>
+</body>
+</html>
