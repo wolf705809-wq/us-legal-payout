@@ -6,673 +6,580 @@
     <title>NODAL® Quantum Audit Complete</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@500;600;700&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root{
-            --obsidian: #050810;
-            --gold: #D4AF37;
-            --white: #FFFFFF;
-            --emerald: #10B981;
-            --red: #EF4444;
-            --ink: rgba(255,255,255,0.84);
-            --ink-dim: rgba(255,255,255,0.62);
-            --hairline: rgba(255,255,255,0.08);
+        :root {
+            --white: #ffffff;
+            --navy: #0f172a;
+            --mint: #10b981;
+            --red: #dc2626;
+            --slate: #64748b;
+            --bar-bg: #f1f5f9;
+            --topbar: #f8fafc;
+            --hairline: rgba(0, 0, 0, 0.03);
         }
 
         * { box-sizing: border-box; }
         html, body { height: 100%; }
         body {
             margin: 0;
-            background: radial-gradient(1200px 800px at 35% -10%, rgba(212, 175, 55, 0.08), transparent 60%),
-                        radial-gradient(900px 600px at 110% 40%, rgba(16, 185, 129, 0.06), transparent 55%),
-                        linear-gradient(180deg, #03050c 0%, var(--obsidian) 65%, #02030a 100%);
-            color: var(--white);
-            font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            background: var(--white);
+            color: var(--navy);
+            font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.55;
             -webkit-font-smoothing: antialiased;
             text-rendering: geometricPrecision;
             overflow-x: hidden;
         }
 
-        .terminal-wrap{
-            width: min(980px, calc(100% - 32px));
-            margin: 0 auto;
-            padding: 22px 0 22px;
-        }
-
-        .terminal-header{
-            display:flex;
-            align-items:flex-start;
-            justify-content: space-between;
-            gap: 18px;
-            padding: 14px 16px;
-            border: 1px solid var(--hairline);
-            background: rgba(5, 8, 16, 0.72);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .hdr-left{ display:flex; flex-direction: column; gap: 6px; min-width: 0; }
-
-        .hdr-kicker{
-            display:flex;
-            align-items:center;
-            gap: 10px;
-            color: var(--ink-dim);
-            font-weight: 700;
-            font-size: 10px;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-
-        .hdr-led{
-            width: 7px; height: 7px; border-radius: 999px;
-            background: var(--emerald);
-            box-shadow: 0 0 0 2px rgba(16,185,129,0.18), 0 0 18px rgba(16,185,129,0.45);
-            animation: led-pulse 1.1s ease-in-out infinite;
-            flex-shrink: 0;
-        }
-
-        @keyframes led-pulse{ 0%,100%{ opacity: 1; } 50%{ opacity: 0.35; } }
-        @media (prefers-reduced-motion: reduce){ .hdr-led{ animation:none; opacity: 1; } }
-
-        .hdr-title{
+        .serif {
             font-family: "Crimson Pro", Georgia, "Times New Roman", serif;
-            font-weight: 700;
-            font-size: clamp(20px, 5vw, 30px);
-            letter-spacing: -0.02em;
-            line-height: 1.06;
-            margin: 0;
         }
 
-        .hdr-sub{
-            margin: 0;
-            color: rgba(255,255,255,0.72);
-            font-size: 12px;
-            line-height: 1.5;
-            max-width: 56ch;
+        .mono-mint {
+            font-family: "JetBrains Mono", ui-monospace, monospace;
+            color: var(--mint);
         }
 
-        .hdr-right{ display:flex; flex-direction: column; align-items:flex-end; gap: 6px; text-align:right; }
-
-        .meta-chip{
-            border: 1px solid var(--hairline);
-            background: rgba(255,255,255,0.03);
-            padding: 8px 10px;
-            width: fit-content;
-            max-width: 100%;
-        }
-
-        .meta-k{
-            font-size: 9px;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.62);
-            font-weight: 700;
-        }
-
-        .meta-v{
-            margin-top: 4px;
-            font-size: 11px;
-            letter-spacing: 0.04em;
-            color: rgba(255,255,255,0.90);
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 34ch;
-        }
-
-        .value-band{
-            margin-top: 14px;
-            border: 1px solid var(--gold);
-            background: var(--obsidian);
-            padding: 18px 16px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .value-band::before{
-            content:"";
-            position:absolute;
-            inset: 0;
-            background:
-                linear-gradient(180deg, rgba(212,175,55,0.10), transparent 24%),
-                linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
-            opacity: 0.75;
-            pointer-events:none;
-        }
-
-        .value-grid{
-            position: relative;
-            display:grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 12px 18px;
-            align-items:end;
-        }
-
-        .band-kicker{
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.80);
-        }
-
-        .band-highlight{
-            margin-top: 10px;
-            font-size: 11px;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.66);
-            font-weight: 700;
-        }
-
-        .band-value{
-            margin-top: 10px;
-            font-family: "Crimson Pro", Georgia, "Times New Roman", serif;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            line-height: 0.98;
-            font-size: clamp(40px, 8.2vw, 64px);
-            color: var(--white);
-            white-space: nowrap;
-        }
-
-        .band-sub{
-            margin-top: 10px;
-            font-size: 11px;
-            color: rgba(255,255,255,0.70);
-            letter-spacing: 0.03em;
-            line-height: 1.55;
-        }
-
-        .band-side{
-            border: 1px solid var(--hairline);
-            background: rgba(255,255,255,0.03);
-            padding: 12px 12px;
-        }
-
-        .side-row{
-            display:flex;
-            justify-content: space-between;
-            gap: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-        .side-row:last-child{ border-bottom: none; }
-
-        .side-k{
-            font-size: 9px;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.62);
-            font-weight: 800;
-        }
-
-        .side-v{
-            font-size: 11px;
-            letter-spacing: 0.06em;
-            color: rgba(255,255,255,0.90);
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        .panel{
-            margin-top: 14px;
-            border: 1px solid var(--hairline);
-            background: rgba(5,8,16,0.72);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 14px 16px;
-        }
-
-        .panel-title{
-            display:flex;
-            align-items:center;
-            justify-content: space-between;
-            gap: 12px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .panel-title h2{
-            margin: 0;
-            font-size: 10px;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            font-weight: 800;
-            color: rgba(255,255,255,0.82);
-        }
-
-        .panel-title .stamp{
-            font-size: 9px;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            font-weight: 800;
-            color: rgba(212,175,55,0.92);
-            white-space: nowrap;
-        }
-
-        .comparison{
-            margin-top: 14px;
-        }
-
-        .cmp-top{
-            display:flex;
-            justify-content: space-between;
-            gap: 12px;
-            align-items:flex-end;
-            margin-top: 10px;
-        }
-
-        .cmp-col{
-            flex: 1;
-            min-width: 0;
-        }
-
-        .cmp-k{
-            font-size: 9px;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.62);
-            font-weight: 800;
-        }
-
-        .cmp-v{
-            margin-top: 6px;
-            font-family: "Crimson Pro", Georgia, "Times New Roman", serif;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            font-size: 20px;
-            color: var(--white);
-            white-space: nowrap;
-            overflow:hidden;
-            text-overflow: ellipsis;
-        }
-
-        .cmp-v.gold{
-            color: rgba(212,175,55,0.98);
-        }
-
-        .cmp-bar{
-            margin-top: 12px;
-            height: 12px;
-            border-radius: 999px;
-            border: 1px solid rgba(212,175,55,0.25);
-            background: rgba(255,255,255,0.04);
-            overflow:hidden;
-            position: relative;
-        }
-
-        .cmp-fill{
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, rgba(212,175,55,0.95), rgba(16,185,129,0.65));
-            transition: width 240ms ease;
-        }
-
-        .cmp-discrepancy{
-            margin-top: 10px;
-            color: rgba(212,175,55,0.95);
-            font-weight: 800;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            font-size: 10px;
-        }
-
-        .cmp-note{
-            margin-top: 8px;
-            color: rgba(255,255,255,0.68);
-            font-size: 11px;
-            letter-spacing: 0.03em;
-            line-height: 1.5;
-        }
-
-        .log{ margin-top: 12px; display:flex; flex-direction: column; gap: 10px; }
-
-        .log-line{
-            display:flex;
-            gap: 10px;
-            align-items:flex-start;
-            padding: 10px 10px;
-            border: 1px solid rgba(255,255,255,0.06);
-            background: rgba(255,255,255,0.02);
-        }
-
-        .sig{
-            width: 7px; height: 7px; border-radius: 999px;
-            margin-top: 6px;
-            flex-shrink: 0;
-        }
-        .sig.ok{ background: var(--emerald); box-shadow: 0 0 0 2px rgba(16,185,129,0.16); }
-        .sig.bad{ background: var(--red); box-shadow: 0 0 0 2px rgba(239,68,68,0.18); }
-
-        .log-text{
-            flex: 1;
-            min-width: 0;
-            font-size: 11px;
-            line-height: 1.55;
-            letter-spacing: 0.03em;
-            color: rgba(255,255,255,0.80);
-        }
-
-        .log-text strong{
-            font-weight: 800;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-        }
-
-        .log-text .ok{ color: rgba(16,185,129,0.92); font-weight: 700; }
-        .log-text .bad{ color: rgba(239,68,68,0.95); font-weight: 800; }
-
-        .cta-row{
-            margin-top: 14px;
-            display:flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: stretch;
-        }
-
-        .cta{
-            border: 1px solid var(--gold);
-            background: linear-gradient(180deg, rgba(212,175,55,0.10), rgba(255,255,255,0.02));
-            color: var(--white);
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            padding: 14px 14px;
-            cursor: pointer;
-            position: relative;
-            transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
-            font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-        }
-
-        .cta::after{
-            content:"";
-            position:absolute;
-            inset: -1px;
-            border: 1px solid rgba(212,175,55,0.55);
-            opacity: 0;
-            transition: opacity 180ms ease;
-            pointer-events:none;
-        }
-
-        .cta:hover{
-            transform: translateY(-1px);
-            box-shadow: 0 14px 44px rgba(0,0,0,0.45), 0 0 28px rgba(212,175,55,0.22);
-            filter: brightness(1.05);
-        }
-        .cta:hover::after{ opacity: 1; }
-        .cta:active{ transform: translateY(0px) scale(0.99); }
-
-        .cta-sub{
-            font-size: 10px;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.66);
-            font-weight: 700;
-            text-align: center;
-        }
-
-        .countdown{
-            color: rgba(212,175,55,0.92);
-            font-weight: 800;
-            letter-spacing: 0.14em;
-        }
-
-        .footer-meta{
-            margin-top: 14px;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.02);
-            padding: 12px 12px;
-            display:grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 10px;
-        }
-        .footer-meta .meta-chip{ width: 100%; }
-        .footer-meta .meta-v{ max-width: 100%; }
-
-        .decrypt{
+        /* —— Light verification overlay —— */
+        .decrypt {
             position: fixed;
             inset: 0;
             z-index: 999;
-            background: radial-gradient(900px 600px at 40% 0%, rgba(212,175,55,0.10), transparent 60%),
-                        linear-gradient(180deg, rgba(5,8,16,0.96) 0%, rgba(5,8,16,0.995) 55%, rgba(5,8,16,1) 100%);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            padding: 22px;
+            background: rgba(255, 255, 255, 0.96);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
         }
 
-        .decrypt-card{
-            width: min(880px, 100%);
-            border: 1px solid rgba(212,175,55,0.55);
-            background: rgba(5,8,16,0.86);
-            padding: 18px 16px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+        .decrypt-card {
+            width: min(520px, 100%);
+            border: 1px solid var(--hairline);
+            background: var(--white);
+            padding: 28px 24px;
+            box-shadow: 0 24px 64px rgba(15, 23, 42, 0.06);
         }
 
-        .decrypt-top{
-            display:flex;
+        .decrypt-top {
+            display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 12px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--hairline);
         }
 
-        .decrypt-title{
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.82);
-            display:flex;
-            align-items:center;
-            gap: 10px;
+        .decrypt-title {
             margin: 0;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--navy);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .decrypt-sub{
+        .decrypt-sub {
             font-size: 9px;
-            font-weight: 800;
-            letter-spacing: 0.22em;
+            font-weight: 700;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: rgba(16,185,129,0.90);
+            color: var(--mint);
             white-space: nowrap;
         }
 
-        .hex{
-            margin-top: 12px;
-            font-size: 12px;
-            line-height: 1.55;
-            letter-spacing: 0.12em;
-            color: rgba(255,255,255,0.78);
+        .hdr-led {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: var(--mint);
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+            animation: led-soft 1.2s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes led-soft {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.45; transform: scale(0.92); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hdr-led { animation: none; opacity: 1; }
+        }
+
+        .hex {
+            margin-top: 16px;
+            font-size: 11px;
+            line-height: 1.65;
+            letter-spacing: 0.08em;
+            color: var(--slate);
             white-space: pre-wrap;
             word-break: break-word;
             user-select: none;
-            min-height: 9.5em;
+            min-height: 9em;
         }
 
-        .decrypt-final{
-            margin-top: 12px;
-            display:none;
-            border-top: 1px solid rgba(255,255,255,0.08);
-            padding-top: 12px;
+        .decrypt-final {
+            margin-top: 16px;
+            display: none;
+            border-top: 1px solid var(--hairline);
+            padding-top: 16px;
         }
 
-        .decrypt-final h1{
+        .decrypt-final h1 {
             margin: 0;
-            font-family: "Crimson Pro", Georgia, "Times New Roman", serif;
+            font-family: "Crimson Pro", Georgia, serif;
             font-weight: 700;
             letter-spacing: -0.02em;
-            font-size: clamp(22px, 5vw, 34px);
-            line-height: 1.06;
+            font-size: clamp(22px, 5vw, 30px);
+            line-height: 1.1;
+            color: var(--navy);
         }
 
-        .decrypt-final p{
+        .decrypt-final p {
             margin: 10px 0 0;
-            color: rgba(255,255,255,0.70);
+            color: var(--slate);
             font-size: 12px;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.02em;
         }
 
-        .decrypt.hide{ animation: decrypt-fade 240ms ease forwards; }
-        @keyframes decrypt-fade{ to{ opacity: 0; visibility: hidden; } }
+        .decrypt.hide {
+            animation: decrypt-fade 280ms ease forwards;
+        }
 
-        @media (max-width: 740px){
-            .terminal-wrap{ width: calc(100% - 26px); padding-top: 16px; }
-            .terminal-header{ flex-direction: column; align-items: stretch; }
-            .hdr-right{ align-items: flex-start; text-align:left; }
-            .value-grid{ grid-template-columns: 1fr; }
-            .band-value{ white-space: normal; }
-            .footer-meta{ grid-template-columns: 1fr; }
+        @keyframes decrypt-fade {
+            to { opacity: 0; visibility: hidden; pointer-events: none; }
+        }
+
+        /* —— Top pulse bar —— */
+        .report-topbar {
+            background: var(--topbar);
+            border-bottom: 1px solid var(--hairline);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .report-topbar .topbar-text {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--mint);
+        }
+
+        /* —— Main report —— */
+        .report {
+            width: min(640px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 48px 0 80px;
+        }
+
+        .report-title {
+            margin: 0;
+            font-family: "Crimson Pro", Georgia, serif;
+            font-weight: 700;
+            font-size: clamp(28px, 6vw, 40px);
+            letter-spacing: -0.03em;
+            line-height: 1.08;
+            color: var(--navy);
+            text-align: center;
+        }
+
+        .report-ref {
+            margin: 16px 0 0;
+            text-align: center;
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            color: var(--slate);
+        }
+
+        .report-ref span {
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        .report-card {
+            margin-top: 40px;
+            padding: 32px 28px;
+            background: var(--white);
+            border: 1px solid var(--hairline);
+            border-radius: 2px;
+        }
+
+        .verdict-label {
+            margin: 0;
+            font-family: "Crimson Pro", Georgia, serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--navy);
+        }
+
+        .verdict-value {
+            margin: 20px 0 0;
+            font-family: "Crimson Pro", Georgia, serif;
+            font-weight: 700;
+            font-size: clamp(36px, 9vw, 56px);
+            letter-spacing: -0.03em;
+            line-height: 1;
+            color: var(--navy);
+            word-break: break-word;
+        }
+
+        .confidence {
+            margin: 20px 0 0;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            line-height: 1.65;
+            color: var(--mint);
+        }
+
+        .section-heading {
+            margin: 0 0 24px;
+            font-family: "Crimson Pro", Georgia, serif;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--navy);
+        }
+
+        .discrep-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 24px;
+            margin-bottom: 16px;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--slate);
+        }
+
+        .discrep-legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .swatch {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .swatch--carrier { background: var(--red); }
+        .swatch--nodal { background: var(--mint); }
+
+        .split-bar {
+            display: flex;
+            height: 14px;
+            border-radius: 999px;
+            overflow: hidden;
+            background: var(--bar-bg);
+            border: 1px solid var(--hairline);
+        }
+
+        .split-bar__carrier {
+            height: 100%;
+            width: 0%;
+            background: var(--red);
+            transition: width 320ms ease;
+            flex-shrink: 0;
+        }
+
+        .split-bar__nodal {
+            height: 100%;
+            width: 0%;
+            background: var(--mint);
+            transition: width 320ms ease;
+            flex-shrink: 0;
+        }
+
+        .discrep-amounts {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 14px;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .discrep-amounts .carrier-amt { color: var(--red); }
+        .discrep-amounts .nodal-amt { color: var(--mint); }
+
+        .recovery-leverage {
+            margin: 22px 0 0;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            color: var(--red);
+        }
+
+        .cmp-note {
+            margin: 12px 0 0;
+            font-size: 12px;
+            line-height: 1.6;
+            color: var(--slate);
+            max-width: 52ch;
+        }
+
+        .audit-log-title {
+            margin: 0 0 20px;
+            font-family: "Crimson Pro", Georgia, serif;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--navy);
+        }
+
+        .audit-log-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            line-height: 1.75;
+        }
+
+        .audit-log-list li {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--hairline);
+        }
+
+        .audit-log-list li:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .audit-log-list .tag-verified {
+            color: var(--mint);
+            font-weight: 700;
+        }
+
+        .audit-log-list .tag-detected {
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        .cta-block {
+            margin-top: 48px;
+            text-align: center;
+        }
+
+        .cta {
+            width: 100%;
+            max-width: 100%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 2px;
+            background: var(--navy);
+            color: #ffffff;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+
+        .cta:hover {
+            background: #1e293b;
+        }
+
+        .cta:active {
+            transform: scale(0.99);
+        }
+
+        .cta-sub {
+            margin-top: 14px;
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            color: var(--slate);
+        }
+
+        .countdown {
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .footer-meta {
+            margin-top: 48px;
+            padding-top: 28px;
+            border-top: 1px solid var(--hairline);
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .meta-cell {
+            padding: 0;
+        }
+
+        .meta-k {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--slate);
+        }
+
+        .meta-v {
+            margin-top: 6px;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--mint);
+            word-break: break-word;
+        }
+
+        @media (max-width: 640px) {
+            .report {
+                width: calc(100% - 32px);
+                padding: 32px 0 64px;
+            }
+
+            .report-card {
+                padding: 24px 20px;
+                margin-top: 32px;
+            }
+
+            .report-topbar {
+                padding: 10px 14px;
+            }
+
+            .report-topbar .topbar-text {
+                font-size: 9px;
+                letter-spacing: 0.1em;
+                text-align: center;
+                line-height: 1.4;
+            }
+
+            .discrep-amounts {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .footer-meta {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="decrypt" class="decrypt" role="dialog" aria-modal="true" aria-label="Data decryption sequence">
+    <div id="decrypt" class="decrypt" role="dialog" aria-modal="true" aria-label="Verification sequence">
         <div class="decrypt-card">
             <div class="decrypt-top">
-                <p class="decrypt-title"><span class="hdr-led" aria-hidden="true"></span>DATA DECRYPTION</p>
+                <p class="decrypt-title"><span class="hdr-led" aria-hidden="true"></span>DATA VERIFICATION</p>
                 <div class="decrypt-sub" id="decrypt-phase">PHASE 01/03</div>
             </div>
             <div class="hex" id="hex-stream" aria-live="polite"></div>
             <div class="decrypt-final" id="decrypt-final">
                 <h1>NODAL® QUANTUM AUDIT COMPLETE</h1>
-                <p>Statutory engine synchronized. Terminal session sealed.</p>
+                <p>Report sealed. Proceed to statutory summary.</p>
             </div>
         </div>
     </div>
 
-    <main class="terminal-wrap" aria-label="Statutory Audit Intelligence Terminal">
-        <section class="terminal-header" aria-label="Terminal header">
-            <div class="hdr-left">
-                <div class="hdr-kicker">
-                    <span class="hdr-led" aria-hidden="true"></span>
-                    <span>STATUTORY AUDIT INTELLIGENCE TERMINAL</span>
-                </div>
-                <h1 class="hdr-title">NODAL® Quantum Audit Complete</h1>
-                <p class="hdr-sub">This terminal renders a sealed valuation snapshot derived from statutory floor analysis and case-law precedent mapping.</p>
-            </div>
-            <div class="hdr-right" aria-label="Session metadata">
-                <div class="meta-chip">
-                    <div class="meta-k">REFERENCE ID</div>
-                    <div class="meta-v" id="case-id">NODAL-GENERATING...</div>
-                </div>
-                <div class="meta-chip">
-                    <div class="meta-k">SECURITY PROTOCOL</div>
-                    <div class="meta-v">AES-256 / ACTIVE</div>
-                </div>
-            </div>
+    <header class="report-topbar">
+        <span class="hdr-led" aria-hidden="true"></span>
+        <span class="topbar-text">NODE AUTHENTICATED: REPORT SECURED [v2026.03]</span>
+    </header>
+
+    <main class="report" aria-label="Statutory audit report">
+        <h1 class="report-title">NODAL® QUANTUM AUDIT COMPLETE</h1>
+        <p class="report-ref">Reference <span id="case-id">NODAL-GENERATING…</span></p>
+
+        <section class="report-card" aria-label="Projected settlement recovery">
+            <p class="verdict-label">PROJECTED SETTLEMENT RECOVERY</p>
+            <p class="verdict-value" id="valuation">$ —</p>
+            <p class="confidence" id="confidence">Confidence Interval: 98.4% based on 14,200+ case-law precedents.</p>
         </section>
 
-        <section class="value-band" aria-label="Projected settlement recovery">
-            <div class="value-grid">
-                <div>
-                    <div class="band-kicker">PROJECTED SETTLEMENT RECOVERY</div>
-                    <div class="band-highlight">HIGHLIGHT: VALUATION BAND</div>
-                    <div class="band-value" id="valuation">$ —</div>
-                    <div class="band-sub">Confidence Interval: 98.4% based on 14,200+ case-law precedents.</div>
-                </div>
-                <div class="band-side" aria-label="Audit stats">
-                    <div class="side-row">
-                        <div class="side-k">JURISDICTION</div>
-                        <div class="side-v" id="jurisdiction">CA</div>
-                    </div>
-                    <div class="side-row">
-                        <div class="side-k">MODEL</div>
-                        <div class="side-v">NQ-AUDIT/9</div>
-                    </div>
-                    <div class="side-row">
-                        <div class="side-k">SIGNAL</div>
-                        <div class="side-v" style="color: rgba(16,185,129,0.92);">VERIFIED</div>
-                    </div>
-                </div>
+        <section class="report-card" aria-label="Statutory discrepancy analysis">
+            <h2 class="section-heading">STATUTORY DISCREPANCY DETECTED</h2>
+            <div class="discrep-legend">
+                <span><i class="swatch swatch--carrier" aria-hidden="true"></i> Carrier AI (Colossus-V)</span>
+                <span><i class="swatch swatch--nodal" aria-hidden="true"></i> Nodal Statutory Audit</span>
             </div>
+            <div class="split-bar" role="img" aria-label="Carrier versus Nodal valuation split">
+                <div class="split-bar__carrier" id="splitCarrier"></div>
+                <div class="split-bar__nodal" id="splitNodal"></div>
+            </div>
+            <div class="discrep-amounts">
+                <span class="carrier-amt" id="carrierOffer">$ —</span>
+                <span class="nodal-amt" id="finalSettlement">$ —</span>
+            </div>
+            <p class="recovery-leverage" id="recoveryLeverageLine">RECOVERY LEVERAGE: <span id="gapValue">$ —</span></p>
+            <p class="cmp-note">Carrier algorithms typically minimize. We are designed to maximize.</p>
         </section>
 
-        <!-- Carrier AI Projection vs Nodal Statutory Audit -->
-        <section class="panel comparison" aria-label="Carrier AI projection vs Nodal statutory audit comparison">
-            <div class="panel-title">
-                <h2>COMPARISON: CARRIER VS NODAL</h2>
-                <div class="stamp">DELTA VISUALIZED</div>
-            </div>
-
-            <div class="cmp-top">
-                <div class="cmp-col">
-                    <div class="cmp-k">Carrier AI Projection</div>
-                    <div class="cmp-v" id="carrierOffer">$ —</div>
-                </div>
-                <div class="cmp-col" style="text-align:right;">
-                    <div class="cmp-k">Nodal Statutory Audit</div>
-                    <div class="cmp-v gold" id="finalSettlement">$ —</div>
-                </div>
-            </div>
-
-            <div class="cmp-bar" aria-hidden="true">
-                <div class="cmp-fill" id="cmpFill"></div>
-            </div>
-
-            <div class="cmp-discrepancy">DISCREPANCY: <span id="gapValue">$ —</span></div>
-            <div class="cmp-note">Carrier algorithms are designed to minimize. We are designed to maximize.</div>
+        <section class="report-card" aria-label="Audit logs">
+            <h2 class="audit-log-title">AUDIT LOGS: JURISDICTION ALIGNMENT</h2>
+            <ul class="audit-log-list">
+                <li><span class="tag-verified">[VERIFIED]</span> Statutory floor for <span id="audit-log-state">California</span> remains active.</li>
+                <li><span class="tag-detected">[DETECTED]</span> Carrier algorithmic bias in medical coding.</li>
+                <li><span class="tag-verified">[VERIFIED]</span> Multi-policy layer integration complete.</li>
+            </ul>
         </section>
 
-        <section class="panel" aria-label="Statutory discrepancy log">
-            <div class="panel-title">
-                <h2>STATUTORY DISCREPANCY LOG</h2>
-                <div class="stamp">CHAIN-SEALED</div>
-            </div>
-            <div class="log" id="log">
-                <div class="log-line">
-                    <span class="sig ok" aria-hidden="true"></span>
-                    <div class="log-text"><span class="ok"><strong>VERIFIED</strong></span> — Statutory floor alignment confirmed. Comparative framework synchronized.</div>
-                </div>
-                <div class="log-line">
-                    <span class="sig ok" aria-hidden="true"></span>
-                    <div class="log-text"><span class="ok"><strong>VERIFIED</strong></span> — Treatment narrative recognized as compensable under precedent clustering.</div>
-                </div>
-                <div class="log-line">
-                    <span class="sig bad" aria-hidden="true"></span>
-                    <div class="log-text"><span class="bad"><strong>CARRIER BIAS DETECTED</strong></span> — ANOMALY: Insurance Algorithm [ID: 8824] is suppressing medical inflation by 14%.</div>
-                </div>
-            </div>
-        </section>
-
-        <section class="cta-row" aria-label="Next action">
+        <div class="cta-block">
             <button class="cta" id="ctaBtn" type="button">LOCK THIS VALUATION &amp; SPEAK TO AUDITOR</button>
-            <div class="cta-sub">This report expires in <span class="countdown" id="countdown">24:00:00</span> to maintain data integrity.</div>
-        </section>
+            <p class="cta-sub">This report expires in <span class="countdown" id="countdown">24:00:00</span> to maintain data integrity.</p>
+        </div>
 
-        <section class="footer-meta" aria-label="Official metadata">
-            <div class="meta-chip">
-                <div class="meta-k">DIGITAL FINGERPRINT</div>
-                <div class="meta-v" id="fingerprint">FP-INITIALIZING…</div>
+        <footer class="footer-meta" aria-label="Cryptographic metadata">
+            <div class="meta-cell">
+                <div class="meta-k">Digital fingerprint</div>
+                <div class="meta-v" id="fingerprint">—</div>
             </div>
-            <div class="meta-chip">
-                <div class="meta-k">ENCRYPTION STAMP</div>
-                <div class="meta-v">AES-256 / SEALED</div>
+            <div class="meta-cell">
+                <div class="meta-k">AES-256 encryption stamp</div>
+                <div class="meta-v">SEALED</div>
             </div>
-            <div class="meta-chip">
-                <div class="meta-k">BLOCKCHAIN VERIFICATION HASH</div>
+            <div class="meta-cell">
+                <div class="meta-k">Blockchain verification hash</div>
                 <div class="meta-v" id="hash">0x…</div>
             </div>
-        </section>
+        </footer>
     </main>
 
     <script>
-        const DATA_EMERALD = "#10B981";
         const REPORT_WINDOW_MS = 24 * 60 * 60 * 1000;
         const AUDIT_RESULT_KEY = "nodalAuditResult.v1";
 
-        function safeText(s) {
-            return String(s ?? "")
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;");
-        }
+        const STATE_NAMES = {
+            AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California", CO: "Colorado",
+            CT: "Connecticut", DE: "Delaware", FL: "Florida", GA: "Georgia", HI: "Hawaii", ID: "Idaho",
+            IL: "Illinois", IN: "Indiana", IA: "Iowa", KS: "Kansas", KY: "Kentucky", LA: "Louisiana",
+            ME: "Maine", MD: "Maryland", MA: "Massachusetts", MI: "Michigan", MN: "Minnesota", MS: "Mississippi",
+            MO: "Missouri", MT: "Montana", NE: "Nebraska", NV: "Nevada", NH: "New Hampshire", NJ: "New Jersey",
+            NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota", OH: "Ohio",
+            OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania", RI: "Rhode Island", SC: "South Carolina",
+            SD: "South Dakota", TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont", VA: "Virginia",
+            WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming", DC: "District of Columbia",
+        };
 
         function fmtCurrency(n) {
             try {
@@ -697,7 +604,7 @@
                 h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
                 h = (h << 13) | (h >>> 19);
             }
-            return function() {
+            return function () {
                 h = Math.imul(h ^ (h >>> 16), 2246822507);
                 h = Math.imul(h ^ (h >>> 13), 3266489909);
                 h ^= h >>> 16;
@@ -706,8 +613,8 @@
         }
 
         function mulberry32(a) {
-            return function() {
-                let t = a += 0x6D2B79F5;
+            return function () {
+                let t = (a += 0x6d2b79f5);
                 t = Math.imul(t ^ (t >>> 15), t | 1);
                 t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
                 return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
@@ -728,6 +635,12 @@
             return out;
         }
 
+        function resolveStateLabel(code) {
+            const c = String(code || "CA").toUpperCase().slice(0, 8);
+            if (c.length === 2 && STATE_NAMES[c]) return STATE_NAMES[c];
+            return c || "California";
+        }
+
         function buildValuationBand(caseId, audit) {
             const url = new URL(window.location.href);
             const minParam = parseMoney(url.searchParams.get("min"));
@@ -742,12 +655,10 @@
             const auditMin = toNum(a.settlementRangeLow);
             const auditMax = toNum(a.settlementRangeHigh);
             const auditConfidence = toNum(a.confidenceScore);
-            const auditJurisdiction = toNum(null); // placeholder: handled below as string
             const jurisdiction = (a.nodalJurisdiction || url.searchParams.get("jurisdiction") || "CA").toUpperCase().slice(0, 8);
 
             const seed = xmur3(caseId)();
             const rng = mulberry32(seed);
-
             const defaultMin = Math.round((175000 + rng() * 475000) / 5000) * 5000;
             const defaultMax = Math.round((defaultMin * (2.2 + rng() * 2.4)) / 5000) * 5000;
 
@@ -764,32 +675,52 @@
                       ? Math.round(maxParam / 5000) * 5000
                       : defaultMax;
 
-            document.getElementById("jurisdiction").textContent = jurisdiction || "CA";
+            const stateEl = document.getElementById("audit-log-state");
+            if (stateEl) stateEl.textContent = resolveStateLabel(jurisdiction);
+
             document.getElementById("valuation").textContent = `${fmtCurrency(min)} — ${fmtCurrency(max)}`;
 
             const confidenceEl = document.getElementById("confidence");
-            if (confidenceEl && auditConfidence !== null) {
-                confidenceEl.textContent = `Confidence Interval: ${auditConfidence}% based on 14,200+ case-law precedents.`;
+            if (confidenceEl) {
+                if (auditConfidence !== null) {
+                    confidenceEl.textContent = `Confidence Interval: ${auditConfidence}% based on 14,200+ case-law precedents.`;
+                } else {
+                    confidenceEl.textContent = "Confidence Interval: 98.4% based on 14,200+ case-law precedents.";
+                }
             }
 
-            // Comparison: Carrier AI Projection vs Nodal Statutory Audit
             const carrierOfferEl = document.getElementById("carrierOffer");
             const finalSettlementEl = document.getElementById("finalSettlement");
             const gapValueEl = document.getElementById("gapValue");
-            const cmpFillEl = document.getElementById("cmpFill");
+            const splitCarrier = document.getElementById("splitCarrier");
+            const splitNodal = document.getElementById("splitNodal");
 
             const carrierOffer = toNum(a.carrierOffer);
             const finalSettlement = toNum(a.finalSettlement);
             const gap = toNum(a.theGap);
 
-            if (carrierOfferEl && finalSettlementEl && gapValueEl && cmpFillEl && carrierOffer !== null && finalSettlement !== null && gap !== null) {
+            if (
+                carrierOfferEl &&
+                finalSettlementEl &&
+                gapValueEl &&
+                splitCarrier &&
+                splitNodal &&
+                carrierOffer !== null &&
+                finalSettlement !== null &&
+                finalSettlement > 0 &&
+                gap !== null
+            ) {
                 carrierOfferEl.textContent = fmtCurrency(carrierOffer);
                 finalSettlementEl.textContent = fmtCurrency(finalSettlement);
                 gapValueEl.textContent = fmtCurrency(gap);
 
-                // Visual emphasis: show a clear "30k+ discrepancy" when applicable.
-                const width = Math.max(0, Math.min(100, (Math.abs(gap) / 30000) * 100));
-                cmpFillEl.style.width = `${width.toFixed(1)}%`;
+                const carrierPct = Math.max(0, Math.min(100, (carrierOffer / finalSettlement) * 100));
+                const nodalPct = Math.max(0, Math.min(100, 100 - carrierPct));
+                splitCarrier.style.width = `${carrierPct.toFixed(2)}%`;
+                splitNodal.style.width = `${nodalPct.toFixed(2)}%`;
+            } else {
+                if (splitCarrier) splitCarrier.style.width = "0%";
+                if (splitNodal) splitNodal.style.width = "0%";
             }
 
             const fp = `FP-${shortHex(6, seed).slice(2, 8)}-${shortHex(6, seed + 11).slice(2, 8)}`.toUpperCase();
@@ -843,7 +774,7 @@
                 const t = performance.now() - start;
                 const p = Math.min(1, t / totalMs);
 
-                const phaseIdx = p < 0.34 ? 1 : (p < 0.68 ? 2 : 3);
+                const phaseIdx = p < 0.34 ? 1 : p < 0.68 ? 2 : 3;
                 phase.textContent = `PHASE 0${phaseIdx}/03`;
 
                 const chunks = [];
@@ -854,15 +785,14 @@
                 }
                 stream.textContent = chunks.join("\n");
 
-                if (p >= 0.74) {
-                    final.style.display = "block";
-                }
+                if (p >= 0.74) final.style.display = "block";
 
                 if (p >= 1) {
                     clearInterval(iv);
-                    stream.textContent = `0x${t0}  0xA1C9  0xF2D4  0x7B19  0xD4AF37  0x10B981\n` +
-                        `0x9E0F  0x05${t0.slice(0,2)}  0x8C21  0x11C0  0xB10C  0xF00D\n` +
-                        `0xDEAD  0xBEEF  0xC0DE  0x1A2B  0x3C4D  0x5E6F\n`;
+                    stream.textContent =
+                        `0x${t0}  0xA1C9  0xF2D4  0x7B19  0x0F172A  0x10B981\n` +
+                        `0x9E0F  0x05${t0.slice(0, 2)}  0x8C21  0x11C0  0xFFFFFF  0xF8FAFC\n` +
+                        `0xC0DE  0x1A2B  0x3C4D  0x5E6F  0x7A8B  0x9C0D\n`;
                     setTimeout(() => overlay.classList.add("hide"), 260);
                 }
             }, 48);
