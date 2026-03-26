@@ -89,15 +89,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // START STATUTORY RECOVERY AUDIT 버튼 클릭 시
 function executeStatutoryAudit() {
-    console.log("🚀 Audit started.");
-    try { window.navigator?.vibrate?.(15); } catch { /* no-op */ }
-    const modal = document.getElementById('truck-audit-modal');
-    if (modal) {
-        modal.classList.remove('hidden');
-        // 첫 번째 단계(step-truck-1)가 보이도록 설정
-        document.querySelectorAll('.modal-step').forEach(s => s.classList.add('hidden'));
-        document.getElementById('step-truck-1').classList.remove('hidden');
+    const btn = document.getElementById('main-cta-btn');
+    const label = document.getElementById('main-cta-label');
+    
+    // 1. [햅틱] 진동 발생 (아이폰/안드로이드 공통 표준 API)
+    if ("vibrate" in navigator) {
+        // 짧고 강렬한 15ms 진동으로 '가동 버튼'의 클릭감을 재현
+        navigator.vibrate(15);
     }
+
+    // 2. [상태 변경] 버튼 잠금 및 시각적 피드백
+    btn.style.pointerEvents = 'none'; // 중복 클릭 방지
+    btn.classList.add('opacity-90');
+    
+    // 텍스트를 시스템 로그 스타일로 변경하고 깜빡임 효과 주입
+    label.innerText = "INITIALIZING SYSTEM...";
+    label.classList.add('animate-pulse', 'text-orange-400');
+
+    // 3. [지적인 기다림] 0.8초의 정밀 분석 연출 (0.5s~1s 사이가 가장 신뢰감이 높음)
+    setTimeout(() => {
+        // 실제 데이터 분석 페이지로 이동 또는 다음 로직 실행
+        // 예: window.location.href = '/analysis-report.html';
+        
+        console.log("✔️ System Initialization Complete. Proceeding to Deep Audit...");
+        
+        // 테스트를 위해 일단 알림창을 띄우거나 다음 페이지로 넘깁니다.
+        alert("System Initialized: Accessing Statutory Databases...");
+        
+        // (실제 적용 시 아래 주석을 해제하세요)
+        // window.location.href = `/${state_name.toLowerCase()}-report`;
+        
+    }, 850); 
 }
 
 // 모달 닫기
