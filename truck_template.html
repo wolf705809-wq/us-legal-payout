@@ -19,14 +19,18 @@
 <nav class="nodal-header-truck sticky top-0 z-50 flex items-center h-11 bg-[#050810]/80 backdrop-blur-md border-b border-white/5 px-4 md:px-6">
         <div class="flex items-center justify-between w-full h-full">
             <div class="flex items-center gap-2 flex-1 min-w-0">
-                <span class="nodal-pulse-orange" aria-hidden="true"></span>
-                <span class="truck-brand-label whitespace-nowrap truncate py-1">
-                    {{ state_name }} · TRUCK SPECIALIST AUDIT<span class="nodal-header-tm" style="font-size: 0.6em; vertical-align: super; margin-left: 2px; opacity: 0.7;">™</span>
+                <span class="nodal-status-dot nodal-status-dot--truck" aria-hidden="true"></span>
+                <span class="truck-brand-label nodal-brand-lockup whitespace-nowrap truncate py-1">
+                    <span class="nodal-brand-anchor">NODAL<span class="nodal-header-tm">™</span></span>
+                    <span class="nodal-brand-sep" aria-hidden="true">|</span>
+                    <span class="nodal-brand-state nodal-brand-state--truck">{{ state_name }}</span>
+                    <span class="nodal-brand-mid" aria-hidden="true">·</span>
+                    <span class="nodal-brand-service">TRUCK SPECIALIST AUDIT</span>
                 </span>
             </div>
             <div class="flex items-center flex-shrink-0 ml-3">
-                <div class="header-divider hidden sm:block"></div>
-                <span class="truck-attorney-label block text-right leading-tight">
+                <span class="nodal-attorney-sep header-divider hidden sm:block" aria-hidden="true"></span>
+                <span class="truck-attorney-label nodal-attorney-hallmark block text-right leading-tight">
                     ATTORNEY<br class="sm:hidden" /> ADVERTISING
                 </span>
             </div>
@@ -78,23 +82,23 @@
 
             <div class="mt-6 md:mt-7">
                 <div class="grid grid-cols-2 gap-4 sm:grid-cols-5 sm:gap-3">
-                    <button type="button" onclick="selectJurisdiction('california')" class="border border-slate-200/60 bg-[#fcfdfe] hover:border-orange-500 hover:bg-orange-50 p-4 rounded-xl text-center transition-all group">
+                    <button type="button" data-state-key="california" onclick="selectJurisdiction('california')" class="major-jurisdiction-card border border-slate-200/60 bg-[#fcfdfe] hover:border-orange-500 hover:bg-orange-50 p-4 rounded-xl text-center transition-all group">
                         <span class="block text-slate-800 group-hover:text-orange-700 font-bold text-lg">CA</span>
                         <span class="block text-[8px] font-bold text-slate-400 group-hover:text-orange-500 uppercase tracking-tighter">v2026.SYNCED</span>
                     </button>
-                    <button type="button" onclick="selectJurisdiction('texas')" class="border border-slate-200/60 bg-[#fcfdfe] hover:border-orange-500 hover:bg-orange-50 p-4 rounded-xl text-center transition-all group">
+                    <button type="button" data-state-key="texas" onclick="selectJurisdiction('texas')" class="major-jurisdiction-card border border-slate-200/60 bg-[#fcfdfe] hover:border-orange-500 hover:bg-orange-50 p-4 rounded-xl text-center transition-all group">
                         <span class="block text-slate-800 group-hover:text-orange-700 font-bold text-lg">TX</span>
                         <span class="block text-[8px] font-bold text-slate-400 group-hover:text-orange-500 uppercase tracking-tighter">v2026.SYNCED</span>
                     </button>
-                    <button type="button" onclick="selectJurisdiction('florida')" class="border border-slate-200/60 bg-[#fcfdfe] hover:border-orange-500 hover:bg-orange-50 p-4 rounded-xl text-center transition-all group">
+                    <button type="button" data-state-key="florida" onclick="selectJurisdiction('florida')" class="major-jurisdiction-card border border-slate-200/60 bg-[#fcfdfe] hover:border-orange-500 hover:bg-orange-50 p-4 rounded-xl text-center transition-all group">
                         <span class="block text-slate-800 group-hover:text-orange-700 font-bold text-lg">FL</span>
                         <span class="block text-[8px] font-bold text-slate-400 group-hover:text-orange-500 uppercase tracking-tighter">v2026.SYNCED</span>
                     </button>
-                    <button type="button" onclick="selectJurisdiction('georgia')" class="border border-slate-200/60 bg-[#fcfdfe] hover:border-orange-500 hover:bg-orange-50 p-4 rounded-xl text-center transition-all group">
+                    <button type="button" data-state-key="georgia" onclick="selectJurisdiction('georgia')" class="major-jurisdiction-card border border-slate-200/60 bg-[#fcfdfe] hover:border-orange-500 hover:bg-orange-50 p-4 rounded-xl text-center transition-all group">
                         <span class="block text-slate-800 group-hover:text-orange-700 font-bold text-lg">GA</span>
                         <span class="block text-[8px] font-bold text-slate-400 group-hover:text-orange-500 uppercase tracking-tighter">v2026.SYNCED</span>
                     </button>
-                    <button type="button" onclick="selectJurisdiction('new_york')" class="border border-slate-200/60 bg-[#fcfdfe] hover:border-orange-500 hover:bg-orange-50 p-4 rounded-xl text-center transition-all group">
+                    <button type="button" data-state-key="new_york" onclick="selectJurisdiction('new_york')" class="major-jurisdiction-card border border-slate-200/60 bg-[#fcfdfe] hover:border-orange-500 hover:bg-orange-50 p-4 rounded-xl text-center transition-all group">
                         <span class="block text-slate-800 group-hover:text-orange-700 font-bold text-lg">NY</span>
                         <span class="block text-[8px] font-bold text-slate-400 group-hover:text-orange-500 uppercase tracking-tighter">v2026.SYNCED</span>
                     </button>

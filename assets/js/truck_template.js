@@ -81,6 +81,19 @@ document.addEventListener('DOMContentLoaded', () => {
             resultsContainer.classList.add('hidden');
         }
     });
+
+    // Highlight active jurisdiction chip on /truck/{state_key} pages
+    try {
+        const pathname = String(window.location.pathname || '');
+        const m = pathname.match(/^\/truck\/([^/?#]+)/i);
+        const slug = m && m[1] ? m[1].toLowerCase() : '';
+        if (slug) {
+            document.querySelectorAll('.major-jurisdiction-card[data-state-key]').forEach((btn) => {
+                const k = String(btn.getAttribute('data-state-key') || '').toLowerCase();
+                btn.classList.toggle('is-active', k === slug);
+            });
+        }
+    } catch { /* no-op */ }
 });
 
 /**

@@ -104,15 +104,40 @@ button:active,
     z-index: 100;
 }
 
-/* 3. 주황색 불빛 (브리딩 효과 + 글로우) */
-.nodal-pulse-orange {
-    width: 9px;
-    height: 9px;
-    background-color: #F97316 !important;
-    border-radius: 50%;
-    display: inline-block;
-    animation: universal-breathing 3s ease-in-out infinite !important;
-    box-shadow: 0 0 8px rgba(249, 115, 22, 0.6);
+/* 3. Physical LED bulb (truck) */
+.nodal-status-dot--truck{
+    box-shadow: 0 0 0.5rem rgba(249,115,22,0.24);
+    background: radial-gradient(circle at 35% 35%, #F97316 0%, #EA580C 100%);
+}
+
+/* Brand lockup shared classes (truck-specific state color) */
+.nodal-brand-state--truck{
+    color: #F97316;
+}
+
+/* tighten truck brand anchor to spec */
+.nodal-brand-anchor{
+    font-weight: 900 !important;
+    letter-spacing: -0.05em !important;
+    text-transform: uppercase;
+}
+
+/* Attorney hallmark mono spec (truck inherits from style.css, but ensure legible here too) */
+.nodal-attorney-hallmark{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace !important;
+    font-size: 0.5625rem !important; /* 9px */
+    letter-spacing: 0.15em !important;
+    text-transform: uppercase;
+    opacity: 0.5 !important;
+}
+
+/* Truck jurisdiction active state (glow mirroring) */
+.major-jurisdiction-card.is-active{
+    border: 2px solid #F97316 !important;
+    background: rgba(249, 115, 22, 0.05) !important;
+    box-shadow:
+        0 0 20px rgba(249, 115, 22, 0.3),
+        0 0 0 1px rgba(249, 115, 22, 0.1) inset;
 }
 
 /* 4. 텍스트 디테일 (Inter 폰트 & 굵기) */
