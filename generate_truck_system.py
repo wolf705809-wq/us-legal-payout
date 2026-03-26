@@ -49,8 +49,7 @@ def generate_pages():
         render_values = {
             "state_name": state_name,
             "truck_risk_summary": dynamic["truck_risk_summary"],
-           # generate_truck_system.py 약 53라인 근처
-            "statute_code": row.get("fmcsa_code", "DECODING..."),
+           "statute_code": row.get("statute_authority", "Statutory reference pending"),
             "seo_title": f"{state_name} 18-Wheeler Statutory Audit | Nodal v2026",
             "seo_description": dynamic["seo_description"]
         }
