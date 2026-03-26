@@ -277,3 +277,84 @@ body.truck-pseo-page #main-cta-btn:hover {
         animation: none !important;
     }
 }
+
+
+
+
+/* [1] 메인 사이트 푸터 디자인 시스템 이식 */
+.nodal-footer-heading {
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em; /* 조금 더 넓게 조정 */
+    font-size: 0.65rem;
+    color: rgba(148, 163, 184, 0.85);
+    line-height: 1.25;
+    margin-bottom: 1.5rem;
+}
+
+.nodal-footer-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 0.375rem;
+    border: 1px solid rgba(51, 65, 85, 0.8);
+    background: rgba(0, 0, 0, 0.3);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: #f97316; /* 트럭 사이트 컨셉에 맞춰 오렌지로 변경 */
+}
+
+.nodal-footer-verified-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: #f97316; /* 오렌지 포인트 */
+    box-shadow: 0 0 10px rgba(249, 115, 22, 0.4);
+}
+
+.nodal-footer-link {
+    text-decoration: none;
+    color: rgba(148, 163, 184, 0.7);
+    transition: all 220ms ease;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    font-size: 0.7rem;
+}
+
+.nodal-footer-link:hover {
+    color: #f97316;
+}
+
+.nodal-footer-disclaimer {
+    font-size: 0.65rem;
+    line-height: 1.8;
+    color: rgba(148, 163, 184, 0.45);
+    max-width: 600px;
+}
+
+.nodal-footer-disclaimer-prefix {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.55rem;
+    color: #f97316;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-right: 0.5rem;
+}
+
+/* [2] 아이폰 하단 홈 바(Safe-area) 및 버튼 충돌 방지 */
+footer {
+    padding-top: 4rem;
+    /* 아이폰 하단 바 공간만큼 패딩 추가 */
+    padding-bottom: calc(env(safe-area-inset-bottom) + 3rem);
+    background: linear-gradient(to bottom, transparent, #020617);
+    border-top: 1px solid rgba(30, 41, 59, 0.5);
+}
+
+/* 실행 버튼이 하단바와 겹치지 않게 하는 마진 */
+#main-cta-btn {
+    margin-bottom: calc(env(safe-area-inset-bottom) + 12px);
+}
