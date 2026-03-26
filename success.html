@@ -12,7 +12,7 @@
             --white: #ffffff;
             --navy: #0f172a;
             --mint: #10b981;
-            --red: #dc2626;
+            --anomaly: #991b1b; /* muted slate red: system anomaly */
             --slate: #64748b;
             --line: rgba(0, 0, 0, 0.03);
             --grid-max: 1128px;
@@ -86,7 +86,7 @@
             grid-column: 1 / -1;
             height: 0;
             border: none;
-            border-top: 1px solid var(--line);
+            border-top: 0.5px solid var(--line);
             margin: 0;
         }
 
@@ -114,8 +114,8 @@
 
         .decrypt-inner {
             width: min(560px, 100%);
-            border-top: 1px solid var(--line);
-            border-bottom: 1px solid var(--line);
+            border-top: 0.5px solid var(--line);
+            border-bottom: 0.5px solid var(--line);
             padding: 32px 0;
         }
 
@@ -161,7 +161,7 @@
             margin-top: 24px;
             display: none;
             padding-top: 24px;
-            border-top: 1px solid var(--line);
+            border-top: 0.5px solid var(--line);
         }
 
         .decrypt-final h1 {
@@ -193,7 +193,7 @@
         .doc-header {
             padding-top: clamp(32px, 5vh, 56px);
             padding-bottom: clamp(24px, 4vh, 40px);
-            border-bottom: 1px solid var(--line);
+            border-bottom: 0.5px solid var(--line);
         }
 
         .doc-kicker {
@@ -279,7 +279,7 @@
         .ledger-table td {
             padding: 14px 0;
             vertical-align: baseline;
-            border-bottom: 1px solid var(--line);
+            border-bottom: 0.5px solid var(--line);
         }
 
         .ledger-table tr:last-child th,
@@ -301,7 +301,7 @@
             color: var(--navy);
         }
 
-        .ledger-table .value-cell--carrier { color: var(--red); }
+        .ledger-table .value-cell--carrier { color: var(--anomaly); }
         .ledger-table .value-cell--nodal { color: var(--mint); }
 
         .recovery-leverage {
@@ -309,7 +309,7 @@
             font-size: 14px;
             font-weight: 700;
             letter-spacing: 0.04em;
-            color: var(--red);
+            color: var(--anomaly);
         }
 
         .recovery-leverage .mono {
@@ -351,7 +351,7 @@
         }
 
         .log-icon--no {
-            color: var(--red);
+            color: var(--anomaly);
         }
 
         /* D. Metadata ledger */
@@ -369,7 +369,7 @@
             text-transform: uppercase;
             color: var(--slate);
             padding: 0 0 16px;
-            border-bottom: 1px solid var(--line);
+            border-bottom: 0.5px solid var(--line);
             width: 50%;
         }
 
@@ -380,7 +380,7 @@
         .meta-table tbody td {
             padding: 16px 0;
             vertical-align: top;
-            border-bottom: 1px solid var(--line);
+            border-bottom: 0.5px solid var(--line);
         }
 
         .meta-table tbody td:last-child {
@@ -457,7 +457,7 @@
             align-items: center;
             gap: 12px;
             padding: clamp(40px, 8vh, 80px) 0 clamp(48px, 10vh, 120px);
-            border-top: 1px solid var(--line);
+            border-top: 0.5px solid var(--line);
             text-align: center;
         }
 
@@ -477,6 +477,34 @@
             color: var(--slate);
             max-width: 28rem;
             line-height: 1.5;
+        }
+
+        /* Secure-server flicker: subtle, silent, brief */
+        .secure-flicker {
+            animation: secure-flicker 160ms ease-out 1;
+        }
+        @keyframes secure-flicker {
+            0% { opacity: 0.25; filter: blur(0.35px); }
+            60% { opacity: 1; filter: blur(0px); }
+            100% { opacity: 1; filter: blur(0px); }
+        }
+
+        /* Header right serial line */
+        .header-serial {
+            margin: 0;
+            text-align: right;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(100, 116, 139, 0.92);
+        }
+
+        @media (max-width: 900px) {
+            .header-serial {
+                text-align: left;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
@@ -500,6 +528,7 @@
             <p class="doc-kicker">National-Level Data Audit Infrastructure</p>
             <h1 class="doc-title">NODAL® Quantum Audit Complete</h1>
             <p class="doc-ref">Audit reference <span class="mono" id="case-id">—</span></p>
+            <p class="header-serial" id="audit-serial">ID: — | STATUS: NON-COMMERCIAL_AUDIT_LOG</p>
         </div>
     </header>
 
@@ -508,9 +537,9 @@
 
         <!-- A. Projected recovery band -->
         <section class="span-8c section-pad recovery-block" aria-label="Projected recovery band">
-            <p class="sec-label">A. Projected recovery band</p>
+            <p class="sec-label">A. Statutory threshold analysis</p>
             <p class="recovery-value" id="valuation">$ —</p>
-            <p class="confidence-line" id="confidence">Confidence Interval: <span class="mono">98.4%</span> based on 14,200+ case-law precedents.</p>
+            <p class="confidence-line" id="confidence">Statistical Variance: <span class="mono">±2.4%</span> based on NQ-Logistics.</p>
         </section>
 
         <hr class="rule" />
@@ -530,7 +559,7 @@
                     </tr>
                 </tbody>
             </table>
-            <p class="recovery-leverage"><strong>RECOVERY LEVERAGE:</strong> <span class="mono" id="gapValue">$ —</span></p>
+            <p class="recovery-leverage"><strong>IDENTIFIED STATUTORY VARIANCE:</strong> <span class="mono" id="gapValue">$ —</span></p>
         </section>
 
         <hr class="rule" />
@@ -549,7 +578,7 @@
                     <svg class="log-icon log-icon--no" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                    <span><span class="mono" style="color: var(--red); font-weight: 700;">[DETECTED]</span> Carrier Algorithmic Bias detected in 87% of medical coding review.</span>
+                    <span><span class="mono" style="color: var(--anomaly); font-weight: 700;">[DETECTED]</span> Carrier Algorithmic Bias detected in 87% of medical coding review.</span>
                 </li>
                 <li class="log-item">
                     <svg class="log-icon log-icon--ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
@@ -603,7 +632,7 @@
         </section>
 
         <div class="span-12 cta-wrap">
-            <button class="cta" id="ctaBtn" type="button">LOCK THIS VALUATION &amp; ACTIVATE JURISDICTIONAL CONSULTATION</button>
+            <button class="cta" id="ctaBtn" type="button">FINALIZE AUDIT &amp; TRANSMIT TO JURISDICTIONAL DESK</button>
             <p class="cta-sub">This report expires in <span class="mono" id="countdown">24:00:00</span> to maintain data integrity.</p>
         </div>
 
@@ -736,9 +765,8 @@
 
             const confidenceEl = document.getElementById("confidence");
             if (confidenceEl) {
-                const pct = auditConfidence !== null ? auditConfidence : 98.4;
-                confidenceEl.innerHTML =
-                    `Confidence Interval: <span class="mono">${pct}%</span> based on 14,200+ case-law precedents.`;
+                // Clinical / neutral: no game-like confidence. Keep a fixed variance statement.
+                confidenceEl.innerHTML = `Statistical Variance: <span class="mono">±2.4%</span> based on NQ-Logistics.`;
             }
 
             const carrierOfferEl = document.getElementById("carrierOffer");
@@ -765,6 +793,22 @@
             const fp = `FP-${shortHex(6, seed).slice(2, 8)}-${shortHex(6, seed + 11).slice(2, 8)}`.toUpperCase();
             document.getElementById("fingerprint").textContent = fp;
             document.getElementById("hash").textContent = shortHex(14, seed + 93);
+
+            const serialEl = document.getElementById("audit-serial");
+            if (serialEl) {
+                const sid = shortHex(6, seed + 47).slice(2).toUpperCase();
+                serialEl.textContent = `ID: ${sid} | STATUS: NON-COMMERCIAL_AUDIT_LOG`;
+            }
+
+            // Brief secure-server flicker (no slot-machine / counting)
+            const flickers = ['valuation', 'carrierOffer', 'finalSettlement', 'gapValue', 'fingerprint', 'hash'];
+            flickers.forEach((id) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.classList.remove('secure-flicker');
+                void el.offsetWidth;
+                el.classList.add('secure-flicker');
+            });
         }
 
         function startCountdown() {
