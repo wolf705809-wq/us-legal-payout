@@ -6,12 +6,20 @@
   "outputDirectory": ".",
   "rewrites": [
     {
-      "source": "/truck/(.*)",
-      "destination": "/truck/$1.html"
+      "source": "/truck-accident/:state/:city",
+      "destination": "/truck/:state/:city.html"
     },
     {
-      "source": "/((?!assets|scripts|style|truck).*)",
-      "destination": "/index.html"
+      "source": "/api/:path*",
+      "destination": "/api/:path*.js"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600, s-maxage=86400" }
+      ]
     }
   ]
 }
