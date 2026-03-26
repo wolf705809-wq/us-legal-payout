@@ -9,18 +9,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --bg0:#0B1120;
-      --bg1:#0F172A;
-      --cardA: rgba(255,255,255,0.10);
-      --cardB: rgba(255,255,255,0.06);
-      --stroke: rgba(255,255,255,0.12);
-      --stroke2: rgba(255,255,255,0.09);
-      --text: rgba(248,250,252,0.92);
-      --muted: rgba(226,232,240,0.74);
-      --mint: #10B981;
-      --gold: #D4AF37;
-      --shadow: 0 30px 80px rgba(2,6,23,0.55);
-      --shadow2: 0 18px 46px rgba(2,6,23,0.35);
+      /* Executive Slate / Sophisticated Paper */
+      --page: #F8FAFC;
+      --paper: #FFFFFF;
+      --ink: #0F172A;
+      --ink2: #1E293B;
+      --muted: #475569;
+      --muted2: #64748B;
+      --border: #E2E8F0;
+      --border2: rgba(15,23,42,0.08);
+      --accent: #1E293B;
+      --ok: rgba(30,41,59,0.82);
+      --warn: #991B1B;
       --ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -29,31 +29,31 @@
     body{
       margin:0;
       min-height:100vh;
-      color: var(--text);
+      color: var(--ink);
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background:
-        radial-gradient(1200px 900px at 25% -10%, rgba(212,175,55,0.09), transparent 60%),
-        radial-gradient(900px 700px at 110% 40%, rgba(16,185,129,0.08), transparent 55%),
-        linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 100%);
+      background: var(--page);
       overflow-x:hidden;
       -webkit-font-smoothing: antialiased;
       text-rendering: geometricPrecision;
     }
 
-    /* Retina-safe micro-texture */
+    /* Fine grid paper texture */
     body::before{
       content:"";
       position:fixed;
       inset:0;
       pointer-events:none;
-      opacity:0.26;
-      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 1;
+      background-image:
+        linear-gradient(to right, rgba(15,23,42,0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(15,23,42,0.03) 1px, transparent 1px);
+      background-size: 44px 44px;
     }
 
     .wrap{
-      width: min(980px, calc(100% - 32px));
+      width: min(980px, calc(100% - 36px));
       margin: 0 auto;
-      padding: 18px 0 64px;
+      padding: 22px 0 84px;
       position: relative;
     }
 
@@ -62,9 +62,7 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      padding: 14px 0;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      padding: 16px 0;
     }
 
     .topbar-inner{
@@ -72,10 +70,10 @@
       justify-content: space-between;
       align-items:center;
       gap: 14px;
-      padding: 14px 16px;
-      border: 1px solid var(--stroke2);
-      background: linear-gradient(180deg, var(--cardA), var(--cardB));
-      box-shadow: 0 14px 40px rgba(2,6,23,0.35);
+      padding: 16px 18px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.88);
+      box-shadow: none;
     }
 
     .hdr-left{
@@ -89,9 +87,9 @@
       width: 8px;
       height: 8px;
       border-radius: 999px;
-      background: var(--mint);
-      box-shadow: 0 0 0 3px rgba(16,185,129,0.16), 0 0 18px rgba(16,185,129,0.32);
-      animation: ledPulse 1.2s ease-in-out infinite;
+      background: rgba(30,41,59,0.55);
+      box-shadow: none;
+      animation: none;
       flex-shrink: 0;
     }
 
@@ -106,11 +104,11 @@
 
     .hdr-title{
       font-family: "Cormorant Garamond", Georgia, serif;
-      font-weight: 700;
+      font-weight: 600;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       font-size: 11px;
-      color: rgba(248,250,252,0.92);
+      color: var(--ink2);
       white-space: nowrap;
       overflow:hidden;
       text-overflow: ellipsis;
@@ -123,7 +121,7 @@
       font-size: 10px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(226,232,240,0.72);
+      color: var(--muted2);
       white-space: nowrap;
     }
 
@@ -138,8 +136,8 @@
       align-items:center;
       gap: 6px;
       padding: 6px 10px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.75);
     }
 
     .badge svg{ width: 14px; height: 14px; opacity: 0.9; }
@@ -147,39 +145,32 @@
     /* Hero floating material */
     .hero{
       margin-top: 18px;
-      padding: 28px 22px;
-      border: 1px solid var(--stroke2);
-      background: linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.06));
-      box-shadow: var(--shadow);
+      padding: 44px 32px;
+      border: 1px solid var(--border);
+      background: var(--paper);
+      box-shadow: none;
       position: relative;
       overflow: hidden;
     }
 
-    .hero::after{
-      content:"";
-      position:absolute;
-      inset: -40% -60%;
-      background: radial-gradient(circle at 35% 40%, rgba(255,255,255,0.10), transparent 55%);
-      transform: rotate(12deg);
-      pointer-events:none;
-    }
+    .hero::after{ content:none; }
 
     .hero h1{
       margin:0;
       font-family: "Cormorant Garamond", Georgia, serif;
-      font-weight: 700;
+      font-weight: 600;
       letter-spacing: -0.02em;
       line-height: 1.06;
       font-size: clamp(26px, 5.4vw, 44px);
-      color: rgba(248,250,252,0.98);
+      color: var(--ink);
     }
 
     .hero p{
       margin: 12px 0 0;
-      color: rgba(226,232,240,0.78);
+      color: var(--muted);
       max-width: 62ch;
-      font-size: 14px;
-      line-height: 1.6;
+      font-size: 15px;
+      line-height: 1.7;
     }
 
     .hero .ref{
@@ -187,10 +178,10 @@
       font-family: "JetBrains Mono", ui-monospace, monospace;
       font-size: 11px;
       letter-spacing: 0.06em;
-      color: rgba(226,232,240,0.72);
+      color: var(--muted2);
     }
 
-    .hero .ref strong{ color: rgba(248,250,252,0.92); font-weight: 700; }
+    .hero .ref strong{ color: var(--ink2); font-weight: 700; }
 
     /* Conversion cards */
     .cta-grid{
@@ -205,21 +196,17 @@
     }
 
     .cta-card{
-      border: 1px solid var(--stroke2);
-      background: linear-gradient(180deg, var(--cardA), var(--cardB));
-      box-shadow: var(--shadow2);
-      padding: 18px 16px;
+      border: 1px solid var(--border);
+      background: var(--paper);
+      box-shadow: none;
+      padding: 22px 20px;
       position: relative;
       overflow: hidden;
       transform: translateY(0);
-      transition: transform 180ms var(--ease), box-shadow 180ms var(--ease), border-color 180ms var(--ease);
+      transition: border-color 240ms var(--ease), background-color 240ms var(--ease);
     }
 
-    .cta-card:hover{
-      transform: translateY(-1px);
-      border-color: rgba(212,175,55,0.28);
-      box-shadow: 0 26px 72px rgba(2,6,23,0.48);
-    }
+    .cta-card:hover{ border-color: rgba(30,41,59,0.24); }
 
     .cta-head{
       display:flex;
@@ -233,23 +220,23 @@
       font-weight: 800;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: rgba(226,232,240,0.70);
+      color: var(--muted2);
     }
 
     .cta-title{
       margin: 10px 0 0;
       font-family: "Cormorant Garamond", Georgia, serif;
-      font-weight: 700;
+      font-weight: 600;
       font-size: 22px;
       letter-spacing: -0.01em;
-      color: rgba(248,250,252,0.96);
+      color: var(--ink);
     }
 
     .cta-body{
       margin-top: 10px;
-      color: rgba(226,232,240,0.78);
-      font-size: 13px;
-      line-height: 1.6;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
     }
 
     .cta-action{
@@ -262,15 +249,15 @@
     .btn{
       width: 100%;
       padding: 14px 14px;
-      border: 1.5px solid rgba(212,175,55,0.55);
-      background: rgba(15,23,42,0.72);
-      color: #fff;
-      font-weight: 800;
+      border: 1px solid var(--border);
+      background: #F1F5F9;
+      color: var(--ink2);
+      font-weight: 700;
       letter-spacing: 0.10em;
       text-transform: uppercase;
       font-size: 11px;
       cursor:pointer;
-      transition: box-shadow 180ms var(--ease), transform 180ms var(--ease), filter 180ms var(--ease);
+      transition: background-color 240ms var(--ease), border-color 240ms var(--ease), color 240ms var(--ease);
       display:inline-flex;
       align-items:center;
       justify-content:center;
@@ -279,29 +266,23 @@
 
     .btn svg{ width: 16px; height: 16px; opacity: 0.92; }
 
-    .btn:hover{
-      filter: brightness(1.05);
-      box-shadow: 0 0 0 1.5px rgba(212,175,55,0.45), 0 0 28px rgba(212,175,55,0.22);
-    }
+    .btn:hover{ background: #E2E8F0; border-color: #CBD5E1; }
 
-    .btn:active{ transform: scale(0.99); }
+    .btn:active{ background: #CBD5E1; }
 
     .btn--primary{
-      border-color: rgba(16,185,129,0.40);
-      background: rgba(16,185,129,0.14);
+      border-color: #CBD5E1;
+      background: var(--ink2);
+      color: #FFFFFF;
     }
-    .btn--primary:hover{
-      box-shadow: 0 0 0 1.5px rgba(16,185,129,0.35), 0 0 26px rgba(16,185,129,0.18);
-    }
+    .btn--primary:hover{ background: #0F172A; }
 
     .profile{
       width: 56px;
       height: 56px;
       border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.18), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+      border: 1px solid var(--border);
+      background: #F8FAFC;
       overflow:hidden;
       flex-shrink:0;
       display:grid;
@@ -314,8 +295,8 @@
       width: 56px;
       height: 56px;
       border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      background: #F8FAFC;
       display:grid;
       place-items:center;
       flex-shrink:0;
@@ -325,10 +306,10 @@
     /* Reporting zone */
     .report{
       margin-top: 18px;
-      border: 1px solid var(--stroke2);
-      background: linear-gradient(180deg, var(--cardA), rgba(255,255,255,0.05));
-      box-shadow: var(--shadow2);
-      padding: 18px 16px;
+      border: 1px solid var(--border);
+      background: var(--paper);
+      box-shadow: none;
+      padding: 26px 24px;
     }
 
     .report-grid{
@@ -342,9 +323,9 @@
     }
 
     .metric{
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.04);
-      padding: 16px;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      padding: 18px 18px;
     }
 
     .metric .label{
@@ -352,7 +333,7 @@
       font-weight: 800;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: rgba(226,232,240,0.70);
+      color: var(--muted2);
     }
 
     .metric .value{
@@ -368,14 +349,14 @@
       margin-top: 10px;
       font-family: "JetBrains Mono", monospace;
       font-size: 11px;
-      color: rgba(16,185,129,0.92);
+      color: rgba(30,41,59,0.78);
       letter-spacing: 0.04em;
     }
 
     .chart{
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.04);
-      padding: 16px;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      padding: 18px 18px;
     }
 
     .chart-head{
@@ -390,7 +371,7 @@
       font-weight: 800;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: rgba(226,232,240,0.70);
+      color: var(--muted2);
       margin:0;
     }
 
@@ -399,23 +380,23 @@
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.06em;
-      color: rgba(212,175,55,0.96);
+      color: var(--warn);
     }
 
     .bar{
       margin-top: 14px;
       height: 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.10);
+      background: #F1F5F9;
+      border: 1px solid var(--border);
       overflow:hidden;
     }
 
     .bar > div{
       height:100%;
       width: 0%;
-      background: linear-gradient(90deg, rgba(212,175,55,0.92), rgba(16,185,129,0.58));
-      transition: width 480ms var(--ease);
+      background: linear-gradient(90deg, rgba(30,41,59,0.92), rgba(30,41,59,0.62));
+      transition: width 900ms var(--ease);
     }
 
     .cmp{
@@ -428,7 +409,7 @@
       display:flex;
       justify-content: space-between;
       gap: 10px;
-      border-top: 1px solid rgba(255,255,255,0.08);
+      border-top: 1px solid var(--border);
       padding-top: 10px;
     }
 
@@ -438,7 +419,7 @@
       font-size: 10px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(226,232,240,0.68);
+      color: var(--muted2);
       font-weight: 800;
     }
 
@@ -449,20 +430,20 @@
       letter-spacing: 0.05em;
     }
 
-    .row .v.carrier{ color: rgba(226,232,240,0.78); }
-    .row .v.nodal{ color: rgba(16,185,129,0.92); }
+    .row .v.carrier{ color: var(--warn); }
+    .row .v.nodal{ color: var(--ink2); }
 
     .proof{
       margin-top: 12px;
-      color: rgba(226,232,240,0.72);
-      font-size: 13px;
+      color: var(--muted);
+      font-size: 14px;
       line-height: 1.6;
     }
 
     /* Stagger logs */
     .logs{
       margin-top: 14px;
-      border-top: 1px solid rgba(255,255,255,0.08);
+      border-top: 1px solid var(--border);
       padding-top: 14px;
     }
 
@@ -472,7 +453,7 @@
       font-weight: 800;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: rgba(226,232,240,0.70);
+      color: var(--muted2);
     }
 
     .loglist{
@@ -499,8 +480,8 @@
     }
 
     .logtext{
-      color: rgba(226,232,240,0.78);
-      font-size: 13px;
+      color: var(--muted);
+      font-size: 14px;
       line-height: 1.55;
     }
 
@@ -509,15 +490,15 @@
       font-weight: 800;
       letter-spacing: 0.06em;
     }
-    .tag.ok{ color: rgba(16,185,129,0.92); }
-    .tag.warn{ color: rgba(212,175,55,0.90); }
+    .tag.ok{ color: var(--ok); }
+    .tag.warn{ color: var(--warn); }
 
     /* Official intake record */
     .record{
       margin-top: 18px;
-      border: 1px solid var(--stroke2);
-      background: linear-gradient(180deg, var(--cardA), rgba(255,255,255,0.05));
-      box-shadow: var(--shadow2);
+      border: 1px solid var(--border);
+      background: var(--paper);
+      box-shadow: none;
       overflow:hidden;
     }
 
@@ -526,8 +507,8 @@
       justify-content: space-between;
       align-items:center;
       padding: 12px 16px;
-      background: rgba(15,23,42,0.48);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: #F8FAFC;
+      border-bottom: 1px solid var(--border);
     }
 
     .record-head .t{
@@ -535,7 +516,7 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       font-weight: 800;
-      color: rgba(248,250,252,0.92);
+      color: var(--ink2);
       display:flex;
       align-items:center;
       gap: 8px;
@@ -545,8 +526,8 @@
       width: 8px;
       height: 8px;
       border-radius: 999px;
-      background: var(--mint);
-      box-shadow: 0 0 0 3px rgba(16,185,129,0.16);
+      background: rgba(30,41,59,0.55);
+      box-shadow: none;
     }
 
     .record-body{
@@ -560,7 +541,7 @@
       justify-content: space-between;
       gap: 12px;
       padding-bottom: 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid var(--border);
     }
     .kv:last-child{ border-bottom:none; padding-bottom:0; }
 
@@ -569,13 +550,13 @@
       font-weight: 800;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(226,232,240,0.66);
+      color: var(--muted2);
     }
     .kv .v{
       font-family: "JetBrains Mono", monospace;
       font-size: 11px;
       font-weight: 700;
-      color: rgba(248,250,252,0.92);
+      color: var(--ink2);
       text-align:right;
       max-width: 60%;
       overflow:hidden;
@@ -587,7 +568,7 @@
     .seal{
       margin-top: 18px;
       text-align:center;
-      color: rgba(226,232,240,0.62);
+      color: var(--muted2);
       font-size: 10px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
@@ -596,9 +577,14 @@
 
     .seal .line{
       height: 1px;
-      background: rgba(255,255,255,0.08);
+      background: var(--border);
       margin: 0 auto 14px;
       width: min(760px, 100%);
+    }
+
+    @media (max-width: 760px){
+      .hero{ padding: 34px 22px; }
+      .report{ padding: 22px 18px; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -625,14 +611,14 @@
               <span>Encrypted</span>
             </span>
           </div>
-          <span>Security Protocol: <span style="color: rgba(16,185,129,0.92); font-weight: 800;">Active</span></span>
+          <span>Security Protocol: <span style="color: var(--ink2); font-weight: 800;">Active</span></span>
         </div>
       </div>
     </div>
 
     <section class="hero" aria-label="Audit success">
       <h1>Review Protocol Successfully Initiated</h1>
-      <p>Your audit snapshot is secured. Next, connect with a specialist to lock your strategy while details are fresh and carrier responses are still controllable.</p>
+      <p>Your intake transmission is complete. This report summarizes key audit outputs and provides the authorized next actions for verification and routing.</p>
       <div class="ref">Reference ID: <strong id="case-id">JDS-SECURING…</strong></div>
     </section>
 
@@ -640,8 +626,8 @@
       <article class="cta-card" id="chatCard">
         <div class="cta-head">
           <div style="min-width:0;">
-            <div class="cta-kicker">Immediate channel</div>
-            <div class="cta-title">Start Live Chat</div>
+            <div class="cta-kicker">Action required</div>
+            <div class="cta-title">Initiate Secure Message</div>
           </div>
           <div class="profile" aria-hidden="true" title="Specialist profile">
             <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -650,11 +636,11 @@
             </svg>
           </div>
         </div>
-        <p class="cta-body">Get a fast, precise next-step checklist. Ideal if you’re in a quiet environment or prefer written guidance.</p>
+        <p class="cta-body">Send a secure message to confirm identifiers and reduce downstream routing delay.</p>
         <div class="cta-action">
           <button class="btn btn--primary" type="button" id="startChatBtn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8z"/></svg>
-            Start Live Chat
+            Start Secure Message
           </button>
         </div>
       </article>
@@ -662,18 +648,18 @@
       <article class="cta-card" id="callCard">
         <div class="cta-head">
           <div style="min-width:0;">
-            <div class="cta-kicker">Highest priority</div>
-            <div class="cta-title">Call an Intake Specialist</div>
+            <div class="cta-kicker">Action required</div>
+            <div class="cta-title">Call Jurisdiction Desk</div>
           </div>
           <div class="icon-big" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 11a8 8 0 0 1 16 0v4a2 2 0 0 1-2 2h-2v-6h4m-14 0h4v6H6a2 2 0 0 1-2-2v-4z"/></svg>
           </div>
         </div>
-        <p class="cta-body"><strong>Now is the time to connect immediately.</strong> Calls reduce delay, prevent misclassification, and protect evidence timing.</p>
+        <p class="cta-body"><strong>Recommended.</strong> A short call confirms jurisdictional routing and preserves time‑sensitive evidence requirements.</p>
         <div class="cta-action">
           <button class="btn" type="button" id="callNowBtn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M22 16.92V21a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3 5.18 2 2 0 0 1 5 3h4.09a2 2 0 0 1 2 1.72c.12.86.3 1.7.54 2.5a2 2 0 0 1-.45 2.11L9.91 10.91a16 16 0 0 0 3.18 3.18l1.58-1.27a2 2 0 0 1 2.11-.45c.8.24 1.64.42 2.5.54A2 2 0 0 1 22 16.92z"/></svg>
-            Call Now
+            Call Desk
           </button>
         </div>
       </article>
@@ -682,13 +668,13 @@
     <section class="report" aria-label="Audit report">
       <div class="report-grid">
         <div class="metric" aria-label="Projected band">
-          <div class="label">Projected Recovery Band</div>
+          <div class="label">Valuation Analysis</div>
           <div class="value" id="valuation">$ —</div>
-          <div class="sub" id="confidence">Confidence interval derived from statutory floor + precedent clustering.</div>
+          <div class="sub" id="confidence">Variance modeled from statutory floor and precedent clustering.</div>
         </div>
         <div class="chart" aria-label="Potential Recovery Gap">
           <div class="chart-head">
-            <p class="chart-title">Potential Recovery Gap</p>
+          <p class="chart-title">Identified Variance</p>
             <div class="gap" id="gapValue">$ —</div>
           </div>
           <div class="bar" aria-hidden="true"><div id="gapFill"></div></div>
@@ -702,7 +688,7 @@
               <div class="v nodal" id="finalSettlement">$ —</div>
             </div>
           </div>
-          <p class="proof">Carrier algorithms are designed to minimize. We are designed to maximize.</p>
+          <p class="proof">Carrier models minimize exposure. This audit identifies variance against statutory signals.</p>
         </div>
       </div>
 
