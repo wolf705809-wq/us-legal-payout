@@ -93,16 +93,7 @@ button:active,
     #state-sol.sol-urgent { animation: none; }
 }
 
-/* Safe-area support for iPhone Home Bar (footer + main CTA) */
-footer,
-#main-cta-btn {
-    padding-bottom: env(safe-area-inset-bottom);
-}
 
-/* Extra padding so the CTA never collides with the home indicator */
-#main-cta-btn {
-    margin-bottom: calc(env(safe-area-inset-bottom) + 8px);
-}
 /* 2. 상단바 슬림 규격 (메인 h-11 동기화) */
 .nodal-header-truck {
     height: 44px !important; /* 강제 높이 고정 */
