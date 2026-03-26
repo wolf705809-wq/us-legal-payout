@@ -1164,5 +1164,68 @@
       }, 3000);
     });
   </script>
+  <style id="nodal-microtrust-soft-overrides">
+    /* Soft institutional trust overrides (additive-only) */
+    #nodalSpecialistToast{
+      background: rgba(30, 41, 59, 0.8) !important; /* #1E293B @ 0.8 */
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif !important;
+      font-size: 12px !important;
+      opacity: 0;
+      transform: none !important; /* no sliding */
+      transition: opacity 900ms ease !important; /* slow fade only */
+    }
+    #nodalSpecialistToast.show{
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    #nodalSecuredBadge{
+      color: #94A3B8 !important;
+      font-size: 9px !important;
+      letter-spacing: 0.1em !important;
+      text-transform: uppercase;
+      top: 72px;
+      right: 14px;
+      background: rgba(248, 250, 252, 0.8) !important;
+      border-color: rgba(148, 163, 184, 0.24) !important;
+    }
+
+    #nodalCallDeskStatus{
+      font-family: "JetBrains Mono", ui-monospace, monospace !important;
+      font-size: 10px !important;
+      color: rgba(71, 85, 105, 0.92) !important;
+      letter-spacing: 0.03em !important;
+    }
+    .nodalCallDeskDot{
+      animation: nodalCallDeskPulseSoft 3.2s ease-in-out infinite !important;
+    }
+    @keyframes nodalCallDeskPulseSoft{
+      0%,100%{ opacity: 1; }
+      50%{ opacity: 0.62; }
+    }
+  </style>
+  <script id="nodal-microtrust-soft-script">
+    // Soft institutional copy/behavior tuning (additive-only)
+    document.addEventListener('DOMContentLoaded', () => {
+      const caseRef = (document.getElementById('case-id')?.textContent || 'NODAL-SECURE').trim();
+      const toast = document.getElementById('nodalSpecialistToast');
+      if (toast) {
+        toast.textContent = `Specialist assigned to Case: ${caseRef}`;
+        // Ensure gentle fade lifecycle only
+        window.setTimeout(() => {
+          toast.classList.add('show');
+          window.setTimeout(() => {
+            toast.classList.remove('show');
+            window.setTimeout(() => toast.remove(), 1000);
+          }, 5000);
+        }, 3000);
+      }
+
+      const statusLine = document.getElementById('nodalCallDeskStatus');
+      if (statusLine) {
+        statusLine.innerHTML = '<span class="nodalCallDeskDot" aria-hidden="true"></span><span>● Live Status: Priority Routing Active (EST)</span>';
+      }
+    });
+  </script>
 </body>
 </html>
