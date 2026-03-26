@@ -47,12 +47,15 @@ def generate_pages():
         
         # 템플릿에 들어갈 값들 매칭 (KeyError 발생하지 않도록 수정됨)
         render_values = {
-            "state_name": state_name,
-            "truck_risk_summary": dynamic["truck_risk_summary"],
-           "statute_code": row.get("fmcsa_code", "DECODING. . ."),
-            "seo_title": f"{state_name} 18-Wheeler Statutory Audit | Nodal v2026",
-            "seo_description": dynamic["seo_description"]
-        }
+    "state_name": state_name,
+    "truck_risk_summary": dynamic["truck_risk_summary"],
+    # 화면엔 DECODING을 먼저 보여줌
+    "statute_code": "DECODING. . .", 
+    # 실제 데이터는 JS가 쓸 수 있게 따로 저장
+    "real_statute_code": row.get("fmcsa_code", "49 CFR Parts 390-399"),
+    "seo_title": f"{state_name} 18-Wheeler Statutory Audit | Nodal v2026",
+    "seo_description": dynamic["seo_description"]
+}
         
         rendered = render_template(template_html, render_values)
         
