@@ -711,6 +711,10 @@
             CONNECT TO VERIFICATION DESK NOW
           </button>
         </div>
+        <div id="nodalCallDeskStatus" aria-live="polite">
+          <span class="nodalCallDeskDot" aria-hidden="true"></span>
+          <span>Current Status: Priority Routing Active</span>
+        </div>
       </article>
     </section>
 
@@ -860,6 +864,93 @@
 
     @media (prefers-reduced-motion: reduce){
       .sticky-live-dot{ animation:none !important; }
+    }
+  </style>
+
+  <style id="nodal-microtrust-style">
+    /* TASK 1: Specialist Assigned toast (additive, isolated) */
+    #nodalSpecialistToast{
+      position: fixed;
+      left: 14px;
+      bottom: 14px;
+      z-index: 1100;
+      max-width: min(88vw, 380px);
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(148,163,184,0.28);
+      background: rgba(30,41,59,0.86);
+      color: #FFFFFF;
+      font-size: 12px;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity 320ms ease, transform 320ms ease;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+    #nodalSpecialistToast.show{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* TASK 2: Secured Session floating badge (additive, isolated) */
+    #nodalSecuredBadge{
+      position: fixed;
+      top: 74px;
+      right: 14px;
+      z-index: 1050;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.28);
+      background: rgba(248,250,252,0.86);
+      color: rgba(71,85,105,0.92);
+      font-family: JetBrains Mono, ui-monospace, monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      pointer-events: none;
+    }
+    #nodalSecuredBadge svg{
+      width: 11px;
+      height: 11px;
+      opacity: 0.85;
+      flex-shrink: 0;
+    }
+
+    /* TASK 3: Call Desk Open pulse line (additive, isolated) */
+    #nodalCallDeskStatus{
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: JetBrains Mono, ui-monospace, monospace;
+      font-size: 10px;
+      letter-spacing: 0.04em;
+      color: rgba(71,85,105,0.92);
+    }
+    .nodalCallDeskDot{
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #16A34A;
+      box-shadow: 0 0 0 3px rgba(22,163,74,0.12);
+      animation: nodalCallDeskPulse 2.4s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes nodalCallDeskPulse{
+      0%,100%{ opacity: 1; }
+      50%{ opacity: 0.4; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .nodalCallDeskDot{ animation: none !important; }
     }
   </style>
 
@@ -1041,6 +1132,37 @@
         }
       });
     })();
+  </script>
+  <script id="nodal-microtrust-script">
+    // Micro-Trust Feature Pack (additive)
+    document.addEventListener('DOMContentLoaded', () => {
+      // TASK 2: fixed "secured session" badge
+      const secured = document.createElement('div');
+      secured.id = 'nodalSecuredBadge';
+      secured.setAttribute('aria-label', 'Encrypted session badge');
+      secured.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 11V8a5 5 0 0 1 10 0v3M5 11h14v10H5z"></path>
+        </svg>
+        <span>256-BIT ENCRYPTED SESSION</span>
+      `;
+      document.body.appendChild(secured);
+
+      // TASK 1: delayed "Specialist Assigned" toast with dynamic case ID
+      const toast = document.createElement('div');
+      toast.id = 'nodalSpecialistToast';
+      const caseRef = (document.getElementById('case-id')?.textContent || 'NODAL-SECURE').trim();
+      toast.textContent = `Specialist Assigned to NODAL Case: ${caseRef}`;
+      document.body.appendChild(toast);
+
+      window.setTimeout(() => {
+        toast.classList.add('show');
+        window.setTimeout(() => {
+          toast.classList.remove('show');
+          window.setTimeout(() => toast.remove(), 360);
+        }, 5000);
+      }, 3000);
+    });
   </script>
 </body>
 </html>
