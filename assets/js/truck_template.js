@@ -126,3 +126,24 @@ function handleTruckChoice(key, value, nextStepId) {
     const progress = (stepNum / 3) * 100;
     document.getElementById('progress-bar').style.width = `${progress}%`;
 }
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const display = document.getElementById('statute-display');
+    
+    if (display) {
+        // 1.8초(1800ms) 후에 실행 (분석하는 척하는 시간)
+        setTimeout(() => {
+            // 숨겨둔 실제 데이터 가져오기
+            const realCode = display.getAttribute('data-real-code');
+            
+            // 글자 교체 및 스타일 변경
+            display.innerText = realCode;
+            display.classList.remove('animate-pulse', 'text-slate-400');
+            display.classList.add('text-slate-200'); // 원래 밝은 색으로 복구
+            
+            // 선택 사항: 완료 시 살짝 '치익' 하는 느낌의 콘솔 로그
+            console.log("✔️ Statutory Audit Injection Complete.");
+        }, 1800); 
+    }
+});
