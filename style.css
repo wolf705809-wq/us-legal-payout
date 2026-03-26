@@ -15,97 +15,93 @@
 }
 
 /* ============================================================
-   Global Overflow & Layout Guards (mobile overflow fix)
+   0.1% HIGH-END HEADER SPEC (Manual Overwrite)
+   - iPhone 12 Pro (390px) Optimized
    ============================================================ */
-html,
-body {
-    overflow-x: hidden;
+
+/* 1. 입체적인 LED 점 (Breathing Dot) */
+.nodal-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 12px;
+    flex-shrink: 0;
+    /* 광원 위치를 35% 35%로 오프셋하여 물리적 구체 느낌 부여 */
+    background: radial-gradient(circle at 35% 35%, #10B981 0%, #059669 100%);
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.22);
+    animation: nodal-breathing-led 3s ease-in-out infinite;
 }
 
-/* ============================================================
-   0.1% Header Branding Lockup (Main)
-   NODAL™ | STATE · SERVICE_NAME
-   ============================================================ */
-.nodal-brand-lockup{
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.35rem;
-    min-width: 0;
-    line-height: 1;
+@keyframes nodal-breathing-led {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(1.12); }
 }
 
-.nodal-brand-anchor{
+/* 2. 브랜드 앵커 (NODAL™) */
+.nodal-brand-anchor {
+    font-family: 'Inter', sans-serif;
     font-weight: 900;
+    font-size: 14px;
     letter-spacing: -0.05em;
+    color: #0F172A; /* Deep Navy Black */
+    line-height: 1;
     text-transform: uppercase;
-    color: #1e293b;
 }
 
-.nodal-brand-sep,
-.nodal-brand-mid{
+/* 3. 구분선 (Separator) - 시각적 피로도 감소 */
+.nodal-brand-sep, .nodal-brand-mid {
+    color: #CBD5E1; /* Slate 200 */
+    margin: 0 8px;
+    font-weight: 300;
+    font-size: 12px;
     opacity: 0.5;
-    color: #94a3b8;
-    font-weight: 700;
 }
 
-.nodal-brand-state{
+/* 4. 지역명 (CALIFORNIA / TEXAS) */
+.nodal-brand-state {
     font-weight: 700;
-    letter-spacing: 0.1em;
+    font-size: 13px;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
 }
+.nodal-brand-state--mint { color: #10B981; }
+.nodal-brand-state--orange { color: #F97316; }
 
-.nodal-brand-state--mint{
-    color: #10B981;
-}
-
-.nodal-brand-service{
-    font-size: 0.625rem; /* 10px */
+/* 5. 서비스 명칭 (10px 핀테크 규격) */
+.nodal-brand-service {
+    font-size: 10px;
     font-weight: 600;
     text-transform: uppercase;
-    opacity: 0.6;
-    color: #1e293b;
-    letter-spacing: 0.02em;
-    white-space: nowrap;
+    letter-spacing: 0.03em;
+    color: #64748B; /* Slate 500 */
+    opacity: 0.8;
 }
 
-/* Physical LED status dot (main mint) */
-.nodal-status-dot{
-    width: 0.5625rem; /* 9px */
-    height: 0.5625rem;
-    border-radius: 999px;
-    flex-shrink: 0;
-    animation: nodal-breathing-led 3s ease-in-out infinite;
-    box-shadow: 0 0 0.5rem rgba(16,185,129,0.22);
-    background: radial-gradient(circle at 35% 35%, #10B981 0%, #059669 100%);
-}
-
-@keyframes nodal-breathing-led{
-    0%,100%{ opacity: 1; transform: scale(1); }
-    50%{ opacity: 0.4; transform: scale(1.15); }
-}
-
-@media (prefers-reduced-motion: reduce){
-    .nodal-status-dot{ animation: none !important; }
-}
-
-/* Attorney Advertising hallmark */
-.nodal-attorney-hallmark{
-    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-    font-size: 0.5625rem; /* 9px */
+/* 6. 법적 각인 (IBM Plex Mono) */
+.nodal-attorney-hallmark {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    opacity: 0.5;
-    color: #64748b;
-    line-height: 1.15;
-    font-weight: 600;
+    color: #94A3B8;
+    line-height: 1.25;
+    text-align: right;
+    opacity: 0.7;
 }
 
-.nodal-attorney-sep{
+/* 7. 각인 구분선 */
+.nodal-attorney-sep {
     width: 1px;
-    height: 0.875rem; /* 14px */
-    background: rgba(15, 23, 42, 0.1);
-    margin-right: 0.75rem;
+    height: 12px;
+    background: rgba(15, 23, 42, 0.08);
+    margin-right: 12px;
     display: inline-block;
+}
+
+/* 모바일 전용 미세 조정 (iPhone 12 Pro) */
+@media (max-width: 390px) {
+    .nodal-brand-sep, .nodal-brand-mid { margin: 0 5px; }
+    .nodal-brand-service { font-size: 9px; letter-spacing: 0.01em; }
 }
 
 @media (max-width: 390px){
