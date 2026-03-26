@@ -1322,5 +1322,84 @@
       }, { passive: true });
     })();
   </script>
+  <style id="nodal-micro-performance-optimizations">
+    /* ============================================================
+       MICRO-PERFORMANCE OPTIMIZATIONS (additive-only)
+       ============================================================ */
+
+    /* OPT 1: GPU rendering hints for animated micro-elements */
+    .live-dot,
+    .sticky-live-dot,
+    .nodalCallDeskDot,
+    #nodalSpecialistToast,
+    #nodalStickyCallBar,
+    #stickyCallBtn {
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transform: translateZ(0);
+    }
+
+    /* OPT 2 + OPT 5: tactile response and instant touch interactions */
+    button,
+    .btn,
+    #callNowBtn,
+    #finalizeAuditBtn,
+    #stickyCallBtn {
+      touch-action: manipulation;
+      -ms-touch-action: manipulation;
+      transition: transform 120ms ease-out;
+    }
+
+    button:active,
+    .btn:active,
+    #callNowBtn:active,
+    #finalizeAuditBtn:active,
+    #stickyCallBtn:active {
+      transform: scale(0.98);
+    }
+
+    /* OPT 3: high-resolution text rendering for key typography */
+    .hero h1,
+    button,
+    .btn,
+    #callNowBtn,
+    #finalizeAuditBtn,
+    #stickyCallBtn {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* OPT 4: prevent rubber-banding only where sticky bar is active */
+    @media (max-width: 768px) {
+      body.nodal-sticky-active {
+        overscroll-behavior-y: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      button,
+      .btn,
+      #callNowBtn,
+      #finalizeAuditBtn,
+      #stickyCallBtn {
+        transition: none !important;
+      }
+    }
+  </style>
+  <script id="nodal-micro-performance-script">
+    // Toggle mobile overscroll control only when sticky bar is active
+    (function () {
+      function syncStickyOverscrollState() {
+        const sticky = document.getElementById('nodalStickyCallBar');
+        const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+        const isVisible = !!(sticky && window.getComputedStyle(sticky).display !== 'none');
+        document.body.classList.toggle('nodal-sticky-active', isMobile && isVisible);
+      }
+
+      document.addEventListener('DOMContentLoaded', syncStickyOverscrollState);
+      window.addEventListener('resize', syncStickyOverscrollState, { passive: true });
+    })();
+  </script>
 </body>
 </html>
