@@ -15,6 +15,30 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             truckStates = data;
+
+            // Populate dossier fields on state pages (environmental risk + SOL urgency)
+            try {
+                const pathname = String(window.location.pathname || '');
+                const m = pathname.match(/^\/truck\/([^/?#]+)/i);
+                const slug = m && m[1] ? m[1] : '';
+                const key = slug ? slug.toLowerCase() : '';
+                const row = key ? truckStates.find((s) => String(s.state_key || '').toLowerCase() === key) : null;
+                if (row) {
+                    const weatherEl = document.getElementById('env-weather-factor');
+                    const highwayEl = document.getElementById('env-major-highway');
+                    const solEl = document.getElementById('state-sol');
+
+                    if (weatherEl) weatherEl.textContent = row.weather_factor || '—';
+                    if (highwayEl) highwayEl.textContent = row.major_highway || '—';
+                    if (solEl) {
+                        solEl.textContent = row.state_sol || '—';
+                        const isUrgent = String(row.state_sol || '').trim().toLowerCase() === '1 year';
+                        solEl.classList.toggle('sol-urgent', isUrgent);
+                    }
+                }
+            } catch (err) {
+                console.warn('State dossier injection failed:', err);
+            }
         })
         .catch(err => console.error("Data sync failed:", err));
 
@@ -38,10 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // 결과 화면에 그리기
             if (matches.length > 0) {
                 resultsContainer.innerHTML = matches.map(s => `
-                    <div class="px-5 py-4 hover:bg-slate-50 cursor-pointer border-b border-slate-50 last:border-none transition-colors flex justify-between items-center"
+                    <button type="button" class="state-result-btn w-full px-5 py-4 text-left hover:bg-slate-50 cursor-pointer border-b border-slate-50 last:border-none transition-colors flex justify-between items-center"
                          onclick="selectJurisdiction('${s.state_key}')">
                         <span class="font-bold text-slate-800">${s.state_name}</span>
-                    </div>
+                    </button>
                 `).join('');
                 resultsContainer.classList.remove('hidden');
             } else {
@@ -66,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // START STATUTORY RECOVERY AUDIT 버튼 클릭 시
 function executeStatutoryAudit() {
     console.log("🚀 Audit started.");
+    try { window.navigator?.vibrate?.(15); } catch { /* no-op */ }
     const modal = document.getElementById('truck-audit-modal');
     if (modal) {
         modal.classList.remove('hidden');
@@ -84,6 +109,7 @@ function closeTruckModal() {
 // 5개 주 카드 또는 검색 결과 클릭 시 이동
 function selectJurisdiction(stateKey) {
     if (!stateKey) return;
+    try { window.navigator?.vibrate?.(15); } catch { /* no-op */ }
     const stateSlug = stateKey.toLowerCase().replace(/\s+/g, '_'); // 공백 처리
     console.log(`✈️ Redirecting to ${stateSlug.toUpperCase()}...`);
     window.location.href = `/truck/${stateSlug}`;

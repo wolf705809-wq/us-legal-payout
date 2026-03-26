@@ -52,6 +52,57 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
     50% { opacity: 0.4; transform: scale(1.15); }
 }
 
+/* Ensure breathing/pulse never changes layout (CLS-safe) */
+.nodal-pulse-orange {
+    display: inline-block;
+    transform-origin: center center;
+    will-change: transform, opacity;
+    contain: paint;
+}
+
+/* iOS HIG: min 44px touch targets for dropdown */
+#state-search-results .state-result-btn {
+    min-height: 44px;
+}
+
+/* Springy Apple-like press state + slow transition */
+button,
+[role="button"],
+a.buttonlike {
+    transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:active,
+[role="button"]:active {
+    transform: scale(0.96);
+}
+
+/* Urgency engine for 1-year SOL states */
+#state-sol.sol-urgent {
+    color: #ef4444; /* red-500 */
+    animation: sol-urgent-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes sol-urgent-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #state-sol.sol-urgent { animation: none; }
+}
+
+/* Safe-area support for iPhone Home Bar (footer + main CTA) */
+footer,
+#main-cta-btn {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Extra padding so the CTA never collides with the home indicator */
+#main-cta-btn {
+    margin-bottom: calc(env(safe-area-inset-bottom) + 8px);
+}
 /* 2. 상단바 슬림 규격 (메인 h-11 동기화) */
 .nodal-header-truck {
     height: 44px !important; /* 강제 높이 고정 */

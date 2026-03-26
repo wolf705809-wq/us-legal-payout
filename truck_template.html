@@ -67,6 +67,10 @@
                     id="state-search-input"
                     type="text"
                     autocomplete="off"
+                    inputmode="search"
+                    enterkeyhint="search"
+                    autocorrect="off"
+                    spellcheck="false"
                     placeholder="Search Jurisdiction for Statutory Audit Compliance..."
                     class="w-full rounded-md border border-slate-200 bg-[#fcfdfe] px-4 py-3.5 text-[1.0rem] font-semibold text-[#1e293b] shadow-sm outline-none transition placeholder:text-slate-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
                 />
@@ -129,6 +133,33 @@
                     <div class="md:text-right">
                         <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Liability Doctrine</p>
                         <p class="text-lg font-serif font-semibold text-slate-800">{{ truck_risk_summary }}</p>
+                    </div>
+                </div>
+
+                <!-- Environmental Risk Analysis (forensic dossier layer) -->
+                <div class="mt-8 rounded-2xl border border-slate-200/70 bg-white/70 p-5 md:p-6 backdrop-blur-[16px]">
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Environmental Risk Analysis</p>
+                        <div class="text-[10px] font-mono font-bold tracking-widest uppercase text-slate-700 flex items-center gap-2">
+                            <span class="w-3 h-1 bg-slate-400"></span> DOSSIER LAYER: ENV
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="rounded-xl border border-slate-200 bg-white/80 p-4">
+                            <div class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">Weather factor</div>
+                            <div id="env-weather-factor" class="font-mono text-[12px] font-semibold text-slate-900 leading-snug">—</div>
+                        </div>
+                        <div class="rounded-xl border border-slate-200 bg-white/80 p-4">
+                            <div class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">Major corridor</div>
+                            <div id="env-major-highway" class="font-mono text-[12px] font-semibold text-slate-900 leading-snug">—</div>
+                        </div>
+                        <div class="rounded-xl border border-slate-200 bg-white/80 p-4">
+                            <div class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">Statute window</div>
+                            <div class="font-mono text-[12px] font-semibold text-slate-900 leading-snug">
+                                <span id="state-sol">—</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
