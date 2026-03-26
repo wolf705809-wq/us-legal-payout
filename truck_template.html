@@ -183,21 +183,25 @@ Insurance algorithms are <span class="text-slate-200">engineered to systematical
                 SYSTEM STATUS: READY FOR DEEP STATUTORY AUDIT
             </p>
 
-            <button id="main-cta-btn" type="button" onclick="executeStatutoryAudit()"
-                class="group relative flex h-[72px] md:h-24 items-center justify-center gap-4 bg-[#050810] text-white font-black text-[15px] md:text-[20px] px-10 md:px-24 rounded-[2rem] shadow-[0_20px_60px_rgba(0,0,0,0.4)] uppercase tracking-[0.1em] w-[94%] max-w-[500px] mx-auto active:scale-[0.96] transition-all duration-500 border border-slate-800 hover:border-orange-500/50 overflow-hidden touch-manipulation">
+            <!-- [수정 후] 아이폰 최적화 INITIALIZE 버튼 레이아웃 -->
+<button id="main-cta-btn" type="button" onclick="executeStatutoryAudit()"
+    class="group relative flex h-[64px] md:h-24 items-center justify-center gap-3 md:gap-4 bg-[#050810] text-white px-6 md:px-24 rounded-[2rem] shadow-[0_20px_60px_rgba(0,0,0,0.4)] w-[94%] max-w-[500px] mx-auto active:scale-[0.96] transition-all duration-500 border border-slate-800 hover:border-orange-500/50 overflow-hidden touch-manipulation">
 
-                <div class="shimmer-layer"></div>
-                
-                <svg class="w-7 h-7 md:w-9 md:h-9 shrink-0 text-orange-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                </svg>
+    <div class="shimmer-layer"></div>
+    
+    <!-- 아이콘 크기도 폰트에 맞춰 미세하게 조정 -->
+    <svg class="w-5 h-5 md:w-9 md:h-9 shrink-0 text-orange-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+    </svg>
 
-                <span id="main-cta-label" class="relative z-10 whitespace-nowrap tracking-widest font-black">
-                    EXECUTE STATUTORY CASE AUDIT
-                </span>
+    <!-- [핵심] INITIALIZE 단어 변경 및 13px 고정, 줄바꿈 금지 -->
+    <span id="main-cta-label" class="relative z-10 whitespace-nowrap text-[13px] md:text-[18px] font-black uppercase tracking-[0.12em]">
+        INITIALIZE STATUTORY CASE AUDIT
+    </span>
 
-                <span class="absolute bottom-2 right-4 text-[7px] text-slate-500 font-mono tracking-tighter opacity-50">NODE_AUTH: v2.1-SECURE</span>
-            </button>
+    <!-- 하단 인증 문구는 더 방해되지 않게 opacity 조절 -->
+    <span class="absolute bottom-1.5 right-4 text-[6px] text-slate-500 font-mono tracking-tighter opacity-30">NODE_AUTH: v2.1-SECURE</span>
+</button>
 
             <!-- [수정 후] 기계 시리얼 넘버 스타일의 보안 문구 -->
 <div class="flex items-center gap-2.5 px-3 py-1.5 bg-slate-50/50 rounded-full border border-slate-100 shadow-sm">
