@@ -39,6 +39,25 @@ body.truck-pseo-page #state-search-results .state-result-btn:hover {
     background-color: rgba(255, 237, 213, 0.85);
 }
 
+/* ============================================================
+   Truck Hero Meta + Gloved CTA (Twin engine compliant)
+   ============================================================ */
+.nodal-truck-hero-meta{
+    color: #F97316 !important; /* ACTIVE SYSTEM */
+    font-family: var(--font-mono);
+    white-space: nowrap;
+    font-size: 0.5625rem; /* 9px for 390px fidelity */
+    letter-spacing: 0.12em;
+    margin-bottom: 2rem;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Massive touch target for gloved driver UX */
+#main-cta-btn.nodal-truck-cta{
+    height: clamp(80px, 10vh, 100px);
+    -webkit-font-smoothing: antialiased;
+}
+
 
 
 
