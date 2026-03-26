@@ -203,17 +203,21 @@ Insurance algorithms are <span class="text-slate-200">engineered to systematical
     <span class="absolute bottom-1.5 right-4 text-[6px] text-slate-500 font-mono tracking-tighter opacity-30">NODE_AUTH: v2.1-SECURE</span>
 </button>
 
-            <!-- [수정 후] 기계 시리얼 넘버 스타일의 보안 문구 -->
-<div class="flex items-center gap-2.5 px-3 py-1.5 bg-slate-50/50 rounded-full border border-slate-100 shadow-sm">
-    <!-- 상태 표시 램프 (주황색 점) -->
+ <!-- [수정 후] 인터랙티브 스텔스 보안 배지 -->
+<div class="flex items-center gap-3 px-4 py-1.5 bg-slate-950/40 backdrop-blur-md rounded-full border border-slate-800/40 shadow-inner 
+            transition-all duration-500 ease-out hover:bg-slate-900/60 hover:border-slate-600/60 hover:shadow-[0_0_20px_rgba(249,115,22,0.05)] group/secure cursor-default">
+    
+    <!-- 정밀 상태 인디케이터: 호버 시 더 선명해짐 -->
     <span class="relative flex h-1.5 w-1.5">
-        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-        <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-orange-500"></span>
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-500/30 opacity-75"></span>
+        <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.6)] 
+                     transition-shadow duration-500 group-hover/secure:shadow-[0_0_12px_rgba(249,115,22,1)]"></span>
     </span>
 
-    <!-- 보안 규격 텍스트: text-[9px]와 tracking-[0.15em] 적용 -->
-    <span class="text-[9px] font-medium text-slate-400 tracking-[0.15em] uppercase font-mono">
-        AES-256 END-to-END ENCRYPTION SECURE // NODE_AUTH: v2.1
+    <!-- 보안 규격: 호버 시 텍스트 밝기 미세 증가 -->
+    <span class="text-[9px] font-medium text-slate-500 tracking-[0.2em] uppercase font-mono transition-colors duration-500 group-hover/secure:text-slate-300">
+        AES-256 <span class="text-slate-400 group-hover/secure:text-orange-400/80 transition-colors duration-500">END-to-END</span> ENCRYPTION SECURE 
+        <span class="opacity-20 mx-1">//</span> NODE_AUTH: v2.1
     </span>
 </div>
         </div>
