@@ -40,6 +40,16 @@ body {
     overflow-x: hidden;
 }
 
+
+/* [2] 아이폰 하단 홈 바(Safe-area) 및 버튼 충돌 방지 */
+footer {
+    padding-top: 4rem;
+    /* 아이폰 하단 바 공간만큼 패딩 추가 */
+    padding-bottom: calc(env(safe-area-inset-bottom) + 3rem);
+    background: linear-gradient(to bottom, transparent, #020617);
+    border-top: 1px solid rgba(30, 41, 59, 0.5);
+}
+
 .nodal-nodes-section {
     width: 100%;
     max-width: 100%;
