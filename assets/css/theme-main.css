@@ -1,0 +1,8 @@
+/* theme-main.css — Sage Mint theme overrides */
+
+body{
+  --theme-color: var(--theme-mint);
+  --theme-color-dark: #0D9488;
+  --active-glow: 0 0 20px rgba(20, 184, 166, 0.30), 0 0 0 1px rgba(20, 184, 166, 0.10) inset;
+}
+

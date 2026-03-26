@@ -1,0 +1,8 @@
+/* theme-truck.css — Safety Orange theme overrides */
+
+body{
+  --theme-color: var(--theme-orange);
+  --theme-color-dark: #EA580C;
+  --active-glow: 0 0 20px rgba(249, 115, 22, 0.30), 0 0 0 1px rgba(249, 115, 22, 0.10) inset;
+}
+
