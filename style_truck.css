@@ -349,3 +349,39 @@ footer {
 #main-cta-btn {
     margin-bottom: calc(env(safe-area-inset-bottom) + 12px);
 }
+
+
+
+
+/* [0.1% 처방] 선택된 주(State) 카드의 활성 상태 (Active State) */
+
+/* 1. 기본 상태: 스텔스 모드 */
+body.truck-pseo-page .state-node-card {
+    transition: all 400ms cubic-bezier(0.23, 1, 0.32, 1);
+    border: 1px solid rgba(51, 65, 85, 0.4);
+    background: rgba(15, 23, 42, 0.6);
+}
+
+/* 2. 활성 상태: 오렌지 폭발 (Active Class) */
+body.truck-pseo-page .state-node-card.active {
+    border-color: #F97316 !important; /* 오렌지 테두리 */
+    background: rgba(249, 115, 22, 0.08) !important; /* 은은한 오렌지 틴트 */
+    
+    /* [핵심] 정밀 기기 특유의 심부 글로우 효과 */
+    box-shadow: 
+        0 0 25px rgba(249, 115, 22, 0.25), /* 외부 광채 */
+        0 0 0 1px rgba(249, 115, 22, 0.4) inset !important; /* 내부 날카로운 선 */
+        
+    transform: translateY(-3px); /* 공중 부양 효과 */
+}
+
+/* 3. 활성 상태 내부의 텍스트 색상 동기화 */
+body.truck-pseo-page .state-node-card.active .state-code {
+    color: #FFFFFF !important;
+    text-shadow: 0 0 12px rgba(249, 115, 22, 0.6);
+}
+
+body.truck-pseo-page .state-node-card.active .sync-status {
+    color: #F97316 !important;
+    opacity: 1;
+}
