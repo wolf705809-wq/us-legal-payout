@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Audit Verified | JDS Secure Solutions</title>
+  <title>Audit Verified | NODAL</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -377,10 +377,44 @@
 
     .gap{
       font-family: "JetBrains Mono", monospace;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
       color: var(--warn);
+    }
+
+    .live-status{
+      margin-top: 12px;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      background: #F8FAFC;
+      color: var(--muted2);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .live-dot{
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #16A34A;
+      box-shadow: 0 0 0 3px rgba(22,163,74,0.14);
+      animation: livePulse 2.6s ease-in-out infinite;
+      flex-shrink:0;
+    }
+
+    @keyframes livePulse{
+      0%,100%{ opacity: 1; }
+      50%{ opacity: 0.42; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .live-dot{ animation:none; }
     }
 
     .bar{
@@ -617,34 +651,42 @@
     </div>
 
     <section class="hero" aria-label="Audit success">
-      <h1>Review Protocol Successfully Initiated</h1>
-      <p>Your intake transmission is complete. This report summarizes key audit outputs and provides the authorized next actions for verification and routing.</p>
-      <div class="ref">Reference ID: <strong id="case-id">JDS-SECURING…</strong></div>
+      <h1>AUDIT COMPLETE: SIGNIFICANT VARIANCE DETECTED</h1>
+      <p>Our algorithmic audit has identified a <strong><span id="heroGap">$27,000</span></strong> variance between the carrier's minimization model and the statutory floor for your jurisdiction. To preserve this valuation and prevent automatic carrier-side adjustment, immediate verification is mandatory.</p>
+      <div class="ref">Reference ID: <strong id="case-id">NODAL-SECURING…</strong></div>
     </section>
 
-    <section class="cta-grid" aria-label="Connect now">
-      <article class="cta-card" id="chatCard">
-        <div class="cta-head">
-          <div style="min-width:0;">
-            <div class="cta-kicker">Action required</div>
-            <div class="cta-title">Initiate Secure Message</div>
-          </div>
-          <div class="profile" aria-hidden="true" title="Specialist profile">
-            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M32 34c8.284 0 15-6.716 15-15S40.284 4 32 4 17 10.716 17 19s6.716 15 15 15Z" fill="rgba(255,255,255,0.18)"/>
-              <path d="M8 60c5.2-12.4 14.7-18 24-18s18.8 5.6 24 18" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-linecap="round"/>
-            </svg>
-          </div>
+    <!-- Primary Section: Value first -->
+    <section class="report" aria-label="Audit report">
+      <div class="report-grid">
+        <div class="metric" aria-label="Projected band">
+          <div class="label">Valuation Analysis</div>
+          <div class="value" id="valuation">$ —</div>
+          <div class="sub" id="confidence">Variance modeled from statutory floor and precedent clustering.</div>
         </div>
-        <p class="cta-body">Send a secure message to confirm identifiers and reduce downstream routing delay.</p>
-        <div class="cta-action">
-          <button class="btn btn--primary" type="button" id="startChatBtn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8z"/></svg>
-            Start Secure Message
-          </button>
+        <div class="chart" aria-label="Unclaimed statutory value">
+          <div class="chart-head">
+            <p class="chart-title">UNCLAIMED STATUTORY VALUE</p>
+            <div class="gap" id="gapValue">$ —</div>
+          </div>
+          <div class="bar" aria-hidden="true"><div id="gapFill"></div></div>
+          <div class="cmp">
+            <div class="row">
+              <div class="k">CARRIER MINIMIZATION MODEL</div>
+              <div class="v carrier" id="carrierOffer">$ —</div>
+            </div>
+            <div class="row">
+              <div class="k">MANDATED SETTLEMENT FLOOR</div>
+              <div class="v nodal" id="finalSettlement">$ —</div>
+            </div>
+          </div>
+          <p class="proof">Carrier models minimize exposure. This audit identifies variance against statutory signals.</p>
         </div>
-      </article>
+      </div>
+    </section>
 
+    <!-- Secondary Section: Single action -->
+    <section class="cta-grid" aria-label="Connect now">
       <article class="cta-card" id="callCard">
         <div class="cta-head">
           <div style="min-width:0;">
@@ -655,63 +697,42 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 11a8 8 0 0 1 16 0v4a2 2 0 0 1-2 2h-2v-6h4m-14 0h4v6H6a2 2 0 0 1-2-2v-4z"/></svg>
           </div>
         </div>
-        <p class="cta-body"><strong>Recommended.</strong> A short call confirms jurisdictional routing and preserves time‑sensitive evidence requirements.</p>
+        <p class="cta-body"><strong>Mandatory verification.</strong> Confirm routing and prevent automated carrier-side adjustment.</p>
+        <div class="live-status" aria-label="Live status">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span>SPECIALIST ASSIGNED | LINE SECURED | WAIT TIME: &lt; 60s</span>
+        </div>
         <div class="cta-action">
           <button class="btn" type="button" id="callNowBtn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M22 16.92V21a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3 5.18 2 2 0 0 1 5 3h4.09a2 2 0 0 1 2 1.72c.12.86.3 1.7.54 2.5a2 2 0 0 1-.45 2.11L9.91 10.91a16 16 0 0 0 3.18 3.18l1.58-1.27a2 2 0 0 1 2.11-.45c.8.24 1.64.42 2.5.54A2 2 0 0 1 22 16.92z"/></svg>
-            Call Desk
+            CONNECT TO VERIFICATION DESK NOW
           </button>
         </div>
       </article>
     </section>
 
-    <section class="report" aria-label="Audit report">
-      <div class="report-grid">
-        <div class="metric" aria-label="Projected band">
-          <div class="label">Valuation Analysis</div>
-          <div class="value" id="valuation">$ —</div>
-          <div class="sub" id="confidence">Variance modeled from statutory floor and precedent clustering.</div>
-        </div>
-        <div class="chart" aria-label="Potential Recovery Gap">
-          <div class="chart-head">
-          <p class="chart-title">Identified Variance</p>
-            <div class="gap" id="gapValue">$ —</div>
-          </div>
-          <div class="bar" aria-hidden="true"><div id="gapFill"></div></div>
-          <div class="cmp">
-            <div class="row">
-              <div class="k">Carrier AI Projection</div>
-              <div class="v carrier" id="carrierOffer">$ —</div>
-            </div>
-            <div class="row">
-              <div class="k">Nodal Statutory Audit</div>
-              <div class="v nodal" id="finalSettlement">$ —</div>
-            </div>
-          </div>
-          <p class="proof">Carrier models minimize exposure. This audit identifies variance against statutory signals.</p>
-        </div>
-      </div>
-
+    <!-- Third Section: Audit logs -->
+    <section class="report" aria-label="Audit logs and record">
       <div class="logs" aria-label="Audit logs">
         <h3>Audit Logs</h3>
         <ul class="loglist" id="auditLogs">
           <li class="logitem">
-            <svg class="logicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="color: rgba(16,185,129,0.92);"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            <svg class="logicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="color: var(--ok);"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
             <div class="logtext"><span class="tag ok">[VERIFIED]</span> Statutory floor for <span id="audit-log-state">California</span> remains active.</div>
           </li>
           <li class="logitem">
-            <svg class="logicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="color: rgba(212,175,55,0.90);"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
-            <div class="logtext"><span class="tag warn">[DETECTED]</span> Carrier bias pattern consistent with medical coding suppression.</div>
+            <svg class="logicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="color: var(--warn);"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+            <div class="logtext"><span class="tag warn">[DETECTED]</span> Medical coding suppression pattern detected in carrier-side review workflow.</div>
           </li>
           <li class="logitem">
-            <svg class="logicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="color: rgba(16,185,129,0.92);"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            <svg class="logicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="color: var(--ok);"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
             <div class="logtext"><span class="tag ok">[VERIFIED]</span> Multi-policy layer integration complete.</div>
           </li>
         </ul>
       </div>
 
       <div style="margin-top: 14px; display:flex; gap: 12px; flex-wrap: wrap;">
-        <button class="btn" type="button" id="finalizeAuditBtn" style="flex: 1 1 260px;">Finalize Audit</button>
+        <button class="btn btn--primary" type="button" id="finalizeAuditBtn" style="flex: 1 1 260px;">CONNECT TO VERIFICATION DESK NOW</button>
       </div>
     </section>
 
@@ -729,7 +750,7 @@
 
     <footer class="seal" aria-label="Seal">
       <div class="line" aria-hidden="true"></div>
-      <div>JDS SECURE SOLUTIONS — AUDIT &amp; VERIFICATION SEAL</div>
+      <div>NODAL — STATUTORY AUDIT &amp; COMPLIANCE SEAL</div>
     </footer>
   </div>
 
@@ -767,7 +788,7 @@
     function makeRef(){
       const ts = Date.now().toString(36).toUpperCase();
       const rnd = Math.random().toString(36).slice(2,6).toUpperCase();
-      return `JDS-${ts}-${rnd}`;
+      return `NODAL-${ts}-${rnd}`;
     }
 
     function staggerLogs(){
@@ -817,9 +838,12 @@
       if (nodalEl && nodal !== null) nodalEl.textContent = fmtCurrency(nodal);
       if (gapEl && gap !== null) gapEl.textContent = fmtCurrency(gap);
 
-      const jur = resolveStateLabel(audit.nodalJurisdiction);
+        const jur = resolveStateLabel(audit.nodalJurisdiction);
       if (stateEl) stateEl.textContent = jur;
       if (jurEl) jurEl.textContent = jur;
+
+        const heroGapEl = document.getElementById('heroGap');
+        if (heroGapEl && gap !== null) heroGapEl.textContent = fmtCurrency(gap);
 
       if (fillEl && gap !== null){
         const w = Math.max(0, Math.min(100, (Math.abs(gap) / 30000) * 100));
@@ -837,8 +861,7 @@
       const finalizeBtn = document.getElementById('finalizeAuditBtn');
       if (finalizeBtn) finalizeBtn.addEventListener('click', () => { window.location.href = `tel:${sanitized}`; });
 
-      const chatBtn = document.getElementById('startChatBtn');
-      if (chatBtn) chatBtn.addEventListener('click', () => { window.location.href = `sms:${sanitized}`; });
+      // Single-path conversion: call only (no chat on this page).
     }
 
     document.addEventListener('DOMContentLoaded', () => {
