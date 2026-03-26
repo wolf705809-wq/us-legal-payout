@@ -73,9 +73,15 @@
     font-size: 10px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
     color: #0F172A;
     opacity: 0.6;
+}
+
+/* iOS crispness for header typography */
+.nodal-header,
+.nodal-header *{
+    -webkit-font-smoothing: antialiased;
 }
 
 /* 6. 법적 각인 (IBM Plex Mono) */
