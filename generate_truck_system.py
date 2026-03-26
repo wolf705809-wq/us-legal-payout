@@ -17,7 +17,7 @@ def get_dynamic_content(state_name, row):
     stats = row.get('crash_stats', 'significant annual incidents')
     
     # 리스크 요약 한 줄 생성
-    risk_summary = f"Analysis of the {highway} corridor confirms {stats} occurring annually. This audit maps these vectors against the statutory floor."
+    risk_summary = f"Analysis of the {highway} corridor identifies {stats} per annum. This audit maps these vectors against the statutory floor.
 
     return {
         "truck_risk_summary": risk_summary,
