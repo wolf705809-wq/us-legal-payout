@@ -123,9 +123,41 @@ Insurance algorithms are <span class="text-slate-200">engineered to systematical
             </div>
         </div>
 
-        <!-- 주 이름: Crimson Pro 서체의 묵직한 권위 -->
-        <h2 id="hero-state-name" class="text-4xl md:text-6xl font-serif font-bold text-white mb-12 tracking-tight">{{ state_name }}</h2>
+       <!-- [3] 액티브 주 데이터 모니터 섹션 통합본 -->
+<div id="active-jurisdiction-card" class="relative ..."> <!-- 기존 카드 스타일 유지 -->
+    
+    <div class="relative z-10 text-center"> <!-- 중앙 정렬 유지 -->
+        
+        <!-- 1. 주 이름 (h2에서 p로 변경하여 위계 정리) -->
+        <p id="hero-state-name" class="text-[14px] md:text-[18px] font-black text-orange-500 uppercase tracking-[0.4em] mb-4">
+            {{ state_name }}
+        </p>
 
+        <!-- 2. 메인 타이틀 (구조 최적화) -->
+        <div class="mb-14 flex flex-col items-center">
+            <h2 class="text-3xl md:text-6xl font-serif font-bold text-white leading-tight tracking-tight">
+                The <span class="text-orange-500 italic font-black tracking-tighter inline-block mx-1">Definitive</span> 
+                Standard for
+                
+                <!-- 하이라이트 박스: h2 밖으로 빼거나 span/inline-block으로 처리 -->
+                <span class="mt-4 mb-2 flex justify-center">
+                    <span class="px-5 py-2 md:px-8 md:py-3 bg-orange-500/15 border border-orange-500/40 rounded-xl shadow-[0_0_30px_rgba(249,115,22,0.1)] backdrop-blur-sm inline-block">
+                        <span class="text-orange-400 font-black uppercase tracking-[0.15em] text-[20px] md:text-[32px] block leading-none">
+                            18-Wheeler Statutory
+                        </span>
+                    </span>
+                </span>
+
+                Audit Protocol.
+            </h2>
+        </div>
+
+        <!-- 이후 데이터 그리드 섹션... -->
+    </div>
+</div>
+
+
+        
         <!-- 핵심 데이터 레이어: 인감 도장 스타일의 법적 근거 -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-end border-t border-slate-800/80 pt-10">
             <div>
