@@ -1227,5 +1227,100 @@
       }
     });
   </script>
+  <style id="nodal-responsive-repairs">
+    /* ============================================================
+       PRECISION REPAIRS (additive-only)
+       - No CSS variables modified
+       - No core layout restructured
+       ============================================================ */
+
+    /* REPAIR 1: Prevent hero H1 overflow / horizontal scroll on mobile */
+    @media (max-width: 768px){
+      .hero h1{
+        font-size: clamp(22px, 6.2vw, 26px) !important;
+        letter-spacing: -0.01em !important;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        hyphens: auto;
+        white-space: normal;
+      }
+    }
+
+    /* REPAIR 2: Security badge legibility + mobile-safe positioning
+       Support both IDs:
+       - legacy: #nodalSecuredBadge (currently injected)
+       - requested: #nodal-security-badge (if present)
+    */
+    #nodalSecuredBadge,
+    #nodal-security-badge{
+      font-size: 13px !important;
+      letter-spacing: 0.1em !important;
+      line-height: 1 !important;
+      padding: 8px 10px !important;
+      border-radius: 999px !important;
+    }
+
+    @media (max-width: 768px){
+      /* when moved into hero flow, it becomes in-flow */
+      .nodal-security-badge--inflow{
+        position: static !important;
+        display: inline-flex !important;
+        margin: 0 0 10px 0 !important;
+        top: auto !important;
+        right: auto !important;
+        left: auto !important;
+        transform: none !important;
+      }
+    }
+  </style>
+  <script id="nodal-responsive-repairs-script">
+    // Mobile-safe badge placement (additive-only)
+    (function(){
+      function isMobile(){
+        return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+      }
+
+      function getBadgeEl(){
+        return (
+          document.getElementById('nodal-security-badge') ||
+          document.getElementById('nodalSecuredBadge')
+        );
+      }
+
+      function placeBadgeInHero(){
+        const badge = getBadgeEl();
+        const hero = document.querySelector('.hero');
+        const h1 = hero ? hero.querySelector('h1') : null;
+        if (!badge || !hero || !h1) return;
+
+        // Ensure requested ID exists if someone is targeting it
+        if (badge.id === 'nodalSecuredBadge' && !document.getElementById('nodal-security-badge')) {
+          badge.setAttribute('data-legacy-id', 'nodalSecuredBadge');
+          // Keep legacy id; add a stable hook via attribute + class
+        }
+
+        if (isMobile()){
+          if (!hero.contains(badge)) {
+            hero.insertBefore(badge, h1);
+          }
+          badge.classList.add('nodal-security-badge--inflow');
+        } else {
+          badge.classList.remove('nodal-security-badge--inflow');
+          // If it was moved into hero on mobile, return it to body end for fixed positioning
+          if (hero.contains(badge)) {
+            document.body.appendChild(badge);
+          }
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        placeBadgeInHero();
+      });
+
+      window.addEventListener('resize', () => {
+        placeBadgeInHero();
+      }, { passive: true });
+    })();
+  </script>
 </body>
 </html>
