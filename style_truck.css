@@ -205,3 +205,75 @@ body.truck-pseo-page::before {
     z-index: 0;
 }
 
+
+/* style_truck.css - 애니메이션 정의 추가 */
+
+/* [4초의 미학] 정밀 분석 쉬머 애니메이션 */
+@keyframes cta-shimmer-cycle {
+    /* 0% ~ 50% (약 2초): 빛이 부드럽게 왼쪽에서 오른쪽으로 지나감 */
+    0% { 
+        transform: translateX(-110%) skewX(-15deg); 
+        opacity: 0; 
+    }
+    10% { 
+        opacity: 0.12; /* 빛이 은은하게 밝아짐 */
+    }
+    40% { 
+        opacity: 0.12; /* 밝기 유지 */
+    }
+    50% { 
+        transform: translateX(110%) skewX(-15deg); 
+        opacity: 0; /* 오른쪽 끝으로 사라지며 흐려짐 */
+    }
+    
+    /* 50% ~ 100% (약 2초): 정중한 기다림 (시스템 배후 처리 중 연출) */
+    100% { 
+        transform: translateX(110%) skewX(-15deg); 
+        opacity: 0; /* 완전히 사라진 상태 유지 */
+    }
+}
+
+
+/* style_truck.css - 메인 버튼 스타일 수정 */
+
+/* 1. 메인 버튼: overflow 숨김 및 프리미엄 테두리 추가 */
+body.truck-pseo-page #main-cta-btn {
+    overflow: hidden; /* 쉬머가 박스 밖으로 나가지 않게 */
+    transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1), border-color 400ms ease-in-out;
+}
+
+body.truck-pseo-page #main-cta-btn:hover {
+    border-color: rgba(249, 115, 22, 0.35); /* 호버 시 미세한 주황색 글로우 */
+}
+
+/* 2. 자율 쉬머 레이어 정의 (HTML의 absolute div 대체) */
+#main-cta-btn .shimmer-layer {
+    position: absolute;
+    inset: 0;
+    /* 기술적인 느낌을 주는 정교한 실버/화이트 쉬머 */
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.15) 45%, /* 가장 밝은 포인트 */
+        rgba(255, 255, 255, 0.08) 50%, /* 부드러운 하이라이트 */
+        transparent 100%
+    );
+    transform: translateX(-110%) skewX(-15deg); /* 초기 위치: 왼쪽 밖 */
+    opacity: 0;
+    
+    /* [핵심] 4초 주기, 물 흐르듯 부드러운 ease-in-out, 무한 반복 */
+    animation: cta-shimmer-cycle 4s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+    
+    pointer-events: none; /* 클릭 이벤트 방해하지 않게 */
+}
+
+/* 3. 모바일(iPhone)에서 호버 쉬머 제거 (싸구려 느낌 방지) */
+@media (hover: none) {
+    #main-cta-btn .shimmer-layer {
+        animation: cta-shimmer-cycle 4s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+    }
+    /* 아이폰에서 hover 시 번쩍이는 기본 애니메이션 제거 */
+    #main-cta-btn .group-hover\:animate-\[shimmer_2s_infinite\] {
+        animation: none !important;
+    }
+}
