@@ -2,24 +2,18 @@
   "version": 2,
   "cleanUrls": true,
   "trailingSlash": false,
-  "buildCommand": "python3 generate_truck_system.py",
-  "outputDirectory": ".",
   "rewrites": [
     {
-      "source": "/truck-accident/:state/:city",
-      "destination": "/truck/:state/:city.html"
+      "source": "/sitemap.xml",
+      "destination": "/sitemap.xml"
     },
     {
-      "source": "/api/:path*",
-      "destination": "/api/:path*.js"
-    }
-  ],
-  "headers": [
+      "source": "/truck-accident/:state/:city",
+      "destination": "/truck_template.html"
+    },
     {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=3600, s-maxage=86400" }
-      ]
+      "source": "/((?!sitemap.xml|assets|.*\\..*).*)",
+      "destination": "/index.html"
     }
   ]
 }

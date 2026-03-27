@@ -1,6 +1,0 @@
-/* components.css — shared UI components (diet layer)
-   For now, we import the existing design system to avoid UI changes.
-*/
-
-@import url("/style.css");
-
