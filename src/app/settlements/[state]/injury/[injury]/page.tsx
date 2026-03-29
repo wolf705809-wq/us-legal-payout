@@ -8,6 +8,7 @@ import FAQAccordion from '@/components/FAQAccordion';
 import ExitIntentPopup from '@/components/common/ExitIntentPopup';
 import StickyCtaBar from '@/components/common/StickyCtaBar';
 import CallNowButton from '@/components/common/CallNowButton';
+import NavHeader from '@/components/NavHeader';
 
 // ── Static generation ──────────────────────────────────────────────────────────
 
@@ -139,22 +140,7 @@ export default async function InjuryPage({ params }: Props) {
       <div className="flex flex-col min-h-screen" style={{ backgroundColor: '#111827', color: 'white' }}>
 
         {/* ── Nav ── */}
-        <header style={{ backgroundColor: '#0F1D32', borderBottom: '1px solid rgba(212,168,75,0.2)' }}>
-          <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-            <Link href="/" className="text-xl font-bold" style={{ color: '#D4A84B' }}>TruckSettlementPro</Link>
-            <div className="hidden sm:flex items-center gap-6 text-sm text-gray-400">
-              <Link href="/calculator" className="hover:text-white transition-colors">Calculator</Link>
-              <Link href="/settlements" className="hover:text-white transition-colors">By State</Link>
-              <Link
-                href="/calculator"
-                className="px-4 py-2 rounded font-bold text-sm transition-opacity hover:opacity-90"
-                style={{ backgroundColor: '#D4A84B', color: '#0F1D32' }}
-              >
-                Free Calculator
-              </Link>
-            </div>
-          </nav>
-        </header>
+        <NavHeader />
 
         {/* ── Hero ── */}
         <section style={{ background: 'linear-gradient(160deg, #0a1422 0%, #080f1e 100%)', borderBottom: '3px solid #D4A84B' }}>

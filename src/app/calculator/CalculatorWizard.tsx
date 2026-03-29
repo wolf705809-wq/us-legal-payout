@@ -259,65 +259,97 @@ function TrustShieldBar() {
 
 function ProgressBar({ step }: { step: number }) {
   return (
-    <div className="mb-8">
-      <p className="text-xs font-semibold mb-3 text-center" style={{ color: '#8A95A8' }}>
-        Step {step} of 4 &middot; Takes about 2 minutes
+    <div
+      style={{
+        width: '100%',
+        maxWidth: '560px',
+        margin: '0 auto',
+        padding: '0 16px',
+        boxSizing: 'border-box',
+        marginBottom: '32px',
+      }}
+    >
+      {/* Step X of 4 텍스트 */}
+      <p style={{ textAlign: 'center', fontSize: '14px', color: '#8A95A8', marginBottom: '20px' }}>
+        Step {step} of 4 · Takes about 2 minutes
       </p>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          width: '100%',
-          maxWidth: '320px',
-          margin: '0 auto 12px',
-        }}
-      >
-        {STEP_TITLES.flatMap((title, i) => {
+
+      {/* 원형 + 연결선 행 */}
+      <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+        {STEP_TITLES.map((_, i) => {
           const n = i + 1;
           const done = n < step;
           const active = n === step;
-          const items = [
-            <div
-              key={`step-${n}`}
-              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}
-            >
-              <div
-                className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold transition-all${active ? ' step-pulse' : ''}`}
-                style={{
-                  backgroundColor: done || active ? '#D4A84B' : '#1a2e4a',
-                  color: done || active ? '#0F1D32' : '#4a5e78',
-                  border: active ? '2px solid #D4A84B' : '2px solid transparent',
-                  minWidth: '36px',
-                }}
-              >
-                {done ? '✓' : n}
+          return (
+            <div key={`circle-row-${n}`} style={{ display: 'contents' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                <div
+                  className={active ? 'step-pulse' : ''}
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '15px',
+                    fontWeight: 700,
+                    background: done || active ? '#D4A84B' : 'rgba(255,255,255,0.08)',
+                    color: done || active ? '#080f1e' : '#8A95A8',
+                    transition: 'background 0.3s ease',
+                  }}
+                >
+                  {done ? '✓' : n}
+                </div>
               </div>
-              <span
-                className="hidden sm:block text-center"
-                style={{ color: active ? '#D4A84B' : done ? '#8A95A8' : '#4a5e78', whiteSpace: 'nowrap', fontSize: '11px', marginTop: '4px' }}
+              {i < STEP_TITLES.length - 1 && (
+                <div
+                  style={{
+                    flex: 1,
+                    height: '2px',
+                    background: done ? '#D4A84B' : 'rgba(255,255,255,0.08)',
+                    minWidth: 0,
+                    transition: 'background 0.3s ease',
+                  }}
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* 라벨 행 — 원형과 동일한 flex 구조 */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', width: '100%', marginTop: '8px' }}>
+        {STEP_TITLES.map((title, i) => {
+          const n = i + 1;
+          const active = n === step;
+          const done = n < step;
+          return (
+            <div key={`label-row-${n}`} style={{ display: 'contents' }}>
+              <div
+                className="hidden sm:block"
+                style={{
+                  width: '40px',
+                  flexShrink: 0,
+                  textAlign: 'center',
+                  fontSize: '11px',
+                  color: active ? '#D4A84B' : done ? '#8A95A8' : '#4B5A72',
+                  fontWeight: active ? 600 : 400,
+                  lineHeight: 1.3,
+                  overflow: 'visible',
+                  whiteSpace: 'nowrap',
+                  position: 'relative',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                }}
               >
                 {title}
-              </span>
-            </div>,
-          ];
-          if (i < STEP_TITLES.length - 1) {
-            items.push(
-              <div
-                key={`connector-${n}`}
-                style={{
-                  flex: 1,
-                  height: '1px',
-                  backgroundColor: done ? '#D4A84B' : '#1a2e4a',
-                  marginBottom: '16px',
-                  marginLeft: '6px',
-                  marginRight: '6px',
-                  minWidth: 0,
-                  transition: 'background-color 0.3s ease',
-                }}
-              />,
-            );
-          }
-          return items;
+              </div>
+              {i < STEP_TITLES.length - 1 && (
+                <div style={{ flex: 1, minWidth: 0 }} />
+              )}
+            </div>
+          );
         })}
       </div>
     </div>
