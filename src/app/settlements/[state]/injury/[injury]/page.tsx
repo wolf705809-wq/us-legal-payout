@@ -157,16 +157,22 @@ export default async function InjuryPage({ params }: Props) {
         </header>
 
         {/* ── Hero ── */}
-        <section style={{ background: 'linear-gradient(160deg, #0F1D32 0%, #0F1D32 100%)', borderBottom: '3px solid #D4A84B' }}>
+        <section style={{ background: 'linear-gradient(160deg, #0a1422 0%, #080f1e 100%)', borderBottom: '3px solid #D4A84B' }}>
           <div className="max-w-4xl mx-auto px-6 py-16">
-            <div className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: '#D4A84B', letterSpacing: '0.2em' }}>
-              <Link href="/settlements" className="hover:underline">Settlements</Link>
-              {' / '}
-              <Link href={`/settlements/${state}`} className="hover:underline capitalize">{sd.name}</Link>
-              {' / '}
-              <span className="text-gray-400">{it.shortName}</span>
-            </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4">
+
+            {/* Breadcrumb [3-1] */}
+            <nav style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
+              <a href="/settlements" style={{ color: '#D4A84B', textDecoration: 'none' }}>Settlements</a>
+              <span style={{ color: '#4B5A72' }}>›</span>
+              <a href={`/settlements/${state}`} style={{ color: '#D4A84B', textDecoration: 'none' }}>{sd.name}</a>
+              <span style={{ color: '#4B5A72' }}>›</span>
+              <span style={{ color: '#8A95A8' }}>{it.shortName}</span>
+            </nav>
+
+            {/* Gold accent line [3-2] */}
+            <div style={{ width: '40px', height: '3px', background: 'linear-gradient(90deg, #D4A84B, #F5D078)', borderRadius: '2px', marginBottom: '12px' }} />
+
+            <h1 style={{ fontSize: 'clamp(24px, 6vw, 40px)', fontWeight: 900, letterSpacing: '-0.5px', lineHeight: 1.2, color: 'white', marginBottom: '12px' }}>
               {sd.name} Truck Accident {it.shortName} Settlements
             </h1>
             <p className="text-lg mb-5" style={{ color: '#C8CADA' }}>
@@ -175,37 +181,38 @@ export default async function InjuryPage({ params }: Props) {
               affects your {it.shortName} recovery.
             </p>
 
+            {/* Warning banners [3-4] */}
             {sd.specialNote && (
-              <div className="mt-4 px-4 py-3 rounded-lg text-sm" style={{ backgroundColor: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.4)', color: '#fde68a' }}>
-                <strong>⚠ </strong>{sd.specialNote}
+              <div style={{ background: 'rgba(212,168,75,0.08)', border: '1px solid rgba(212,168,75,0.30)', borderLeft: '3px solid #D4A84B', borderRadius: '8px', padding: '14px 16px', margin: '16px 0' }}>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                  <span style={{ fontSize: '16px', flexShrink: 0 }}>⚠️</span>
+                  <div style={{ color: '#C8CADA', fontSize: '13px', lineHeight: 1.6 }}>{sd.specialNote}</div>
+                </div>
               </div>
             )}
 
             {sd.faultRule === 'contributory' && !sd.specialNote && (
-              <div className="mt-4 px-4 py-3 rounded-lg text-sm" style={{ backgroundColor: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.3)', color: '#fca5a5' }}>
-                <strong>⚠ CRITICAL — {sd.name} Contributory Negligence: </strong>
-                {sd.name} bars all recovery if you are even 1% at fault. For {it.name} cases — which carry very high settlement value — this rule makes attorney representation especially critical before you speak with any insurer.
+              <div style={{ background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.25)', borderLeft: '3px solid #ef4444', borderRadius: '8px', padding: '14px 16px', margin: '16px 0' }}>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                  <span style={{ fontSize: '16px', flexShrink: 0 }}>⚠️</span>
+                  <div style={{ color: '#fca5a5', fontSize: '13px', lineHeight: 1.6 }}>
+                    <strong>CRITICAL — {sd.name} Contributory Negligence: </strong>
+                    {sd.name} bars all recovery if you are even 1% at fault. For {it.name} cases — which carry very high settlement value — this rule makes attorney representation especially critical before you speak with any insurer.
+                  </div>
+                </div>
               </div>
             )}
 
-            {/* Trust badge strip */}
-            <div className="mt-8 flex flex-wrap gap-3">
+            {/* Trust badges [3-5] */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', margin: '16px 0 4px' }}>
               {[
-                { label: 'Last updated', value: 'March 2026' },
-                { label: 'Sources', value: 'FMCSA MCMIS · NHTSA FARS 2022 · ' + sd.statuteShort },
-                { label: 'Legal review', value: 'Content reviewed for accuracy' },
-              ].map(({ label, value }) => (
-                <div
-                  key={label}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs"
-                  style={{
-                    backgroundColor: 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(212,168,75,0.2)',
-                    color: '#8A95A8',
-                  }}
-                >
-                  <span className="font-bold" style={{ color: '#D4A84B' }}>{label}:</span>
-                  <span>{value}</span>
+                { label: 'Updated', value: 'March 2026' },
+                { label: 'Sources', value: 'FMCSA · NHTSA' },
+                { label: 'Reviewed', value: 'Licensed Attorney' },
+              ].map((badge) => (
+                <div key={badge.label} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.10)', borderRadius: '6px', padding: '4px 10px', fontSize: '11px' }}>
+                  <span style={{ color: '#D4A84B', fontWeight: 600 }}>{badge.label}:</span>
+                  <span style={{ color: '#8A95A8' }}>{badge.value}</span>
                 </div>
               ))}
             </div>
@@ -227,35 +234,31 @@ export default async function InjuryPage({ params }: Props) {
 
         <div className="max-w-4xl mx-auto px-6 py-12 w-full space-y-14">
 
-          {/* ── Quick Facts ── */}
+          {/* ── Quick Facts [3-3] ── */}
           <section>
-            <h2 className="text-xl font-bold text-white mb-5">
+            <h2 className="text-xl font-bold text-white mb-4">
               {it.shortName} in {sd.name}: Quick Facts
             </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 items-stretch">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
               {[
-                { label: 'Fault Rule', value: faultRuleLabel[sd.faultRule] ?? sd.faultRule },
-                { label: 'Time to File', value: `${sd.solYears} Year${sd.solYears !== 1 ? 's' : ''}` },
+                { label: 'FAULT RULE', value: faultRuleLabel[sd.faultRule] ?? sd.faultRule },
+                { label: 'TIME TO FILE', value: `${sd.solYears} Year${sd.solYears !== 1 ? 's' : ''}` },
                 {
-                  label: 'Damages Multiplier',
+                  label: 'DAMAGES MULTIPLIER',
                   value: it.isWrongfulDeath ? 'Special Formula' : `${it.multiplierLow}–${it.multiplierHigh}×`,
                 },
                 {
-                  label: 'Treatment Cost Range',
+                  label: 'TREATMENT COST RANGE',
                   value: it.isWrongfulDeath ? 'See breakdown' : `${fmt(it.treatmentCostLow)}–${fmt(it.treatmentCostHigh)}`,
                 },
               ].map(({ label, value }) => (
                 <div
                   key={label}
-                  className="p-4 rounded-xl card-hover flex flex-col"
-                  style={{
-                    backgroundColor: '#0F1D32',
-                    border: '1px solid rgba(212,168,75,0.2)',
-                    borderTop: '3px solid #D4A84B',
-                  }}
+                  className="glass-card"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.10)', borderRadius: '10px', padding: '14px' }}
                 >
-                  <p className="text-xs uppercase tracking-widest mb-2" style={{ color: '#D4A84B', letterSpacing: '0.1em' }}>{label}</p>
-                  <p className="text-lg font-semibold text-white leading-snug mt-auto">{value}</p>
+                  <div style={{ color: '#4B5A72', fontSize: '10px', letterSpacing: '0.5px', marginBottom: '6px' }}>{label}</div>
+                  <div style={{ color: 'white', fontSize: '14px', fontWeight: 700, lineHeight: 1.3 }}>{value}</div>
                 </div>
               ))}
             </div>

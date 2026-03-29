@@ -110,19 +110,20 @@ export default async function StateLandingPage({ params }: Props) {
         </header>
 
         {/* ── Hero ── */}
-        <section
-          style={{
-            background: 'linear-gradient(160deg, #0F1D32 0%, #0F1D32 100%)',
-            borderBottom: '3px solid #D4A84B',
-          }}
-        >
+        <section style={{ background: 'linear-gradient(160deg, #0a1422 0%, #080f1e 100%)', borderBottom: '3px solid #D4A84B' }}>
           <div className="max-w-5xl mx-auto px-6 py-16">
-            <div className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: '#D4A84B', letterSpacing: '0.2em' }}>
-              <Link href="/settlements" className="hover:underline">Settlements</Link>
-              {' / '}
-              <span className="text-gray-400 capitalize">{sd.name}</span>
-            </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4">
+
+            {/* Breadcrumb [3-1] */}
+            <nav style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
+              <a href="/settlements" style={{ color: '#D4A84B', textDecoration: 'none' }}>Settlements</a>
+              <span style={{ color: '#4B5A72' }}>›</span>
+              <span style={{ color: '#8A95A8' }}>{sd.name}</span>
+            </nav>
+
+            {/* Gold accent line [3-2] */}
+            <div style={{ width: '40px', height: '3px', background: 'linear-gradient(90deg, #D4A84B, #F5D078)', borderRadius: '2px', marginBottom: '12px' }} />
+
+            <h1 style={{ fontSize: 'clamp(24px, 6vw, 40px)', fontWeight: 900, letterSpacing: '-0.5px', lineHeight: 1.2, color: 'white', marginBottom: '12px' }}>
               {sd.name} Truck Accident Settlements
             </h1>
             <p className="text-lg max-w-2xl" style={{ color: '#C8CADA' }}>
@@ -131,18 +132,32 @@ export default async function StateLandingPage({ params }: Props) {
               attorney resources for all 12 accident types.
             </p>
 
-            {/* Florida special note */}
+            {/* Warning banner [3-4] */}
             {sd.specialNote && (
-              <div
-                className="mt-5 px-4 py-3 rounded-lg text-sm max-w-2xl"
-                style={{ backgroundColor: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.4)', color: '#fde68a' }}
-              >
-                <strong>⚠ </strong>{sd.specialNote}
+              <div style={{ background: 'rgba(212,168,75,0.08)', border: '1px solid rgba(212,168,75,0.30)', borderLeft: '3px solid #D4A84B', borderRadius: '8px', padding: '14px 16px', margin: '16px 0' }}>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                  <span style={{ fontSize: '16px', flexShrink: 0 }}>⚠️</span>
+                  <div style={{ color: '#C8CADA', fontSize: '13px', lineHeight: 1.6 }}>{sd.specialNote}</div>
+                </div>
               </div>
             )}
 
+            {/* Trust badges [3-5] */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', margin: '16px 0 4px' }}>
+              {[
+                { label: 'Updated', value: 'March 2026' },
+                { label: 'Sources', value: 'FMCSA · NHTSA' },
+                { label: 'Reviewed', value: 'Licensed Attorney' },
+              ].map((badge) => (
+                <div key={badge.label} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.10)', borderRadius: '6px', padding: '4px 10px', fontSize: '11px' }}>
+                  <span style={{ color: '#D4A84B', fontWeight: 600 }}>{badge.label}:</span>
+                  <span style={{ color: '#8A95A8' }}>{badge.value}</span>
+                </div>
+              ))}
+            </div>
+
             {/* Key stat strip */}
-            <div className="mt-8 flex flex-wrap gap-4">
+            <div className="mt-4 flex flex-wrap gap-3">
               {[
                 { label: 'Fault Rule', value: faultInfo.label },
                 { label: 'Time to File', value: `${sd.solYears} Year${sd.solYears !== 1 ? 's' : ''}` },
@@ -153,8 +168,8 @@ export default async function StateLandingPage({ params }: Props) {
               ].map(({ label, value }) => (
                 <div
                   key={label}
-                  className="px-4 py-3 rounded-lg"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(212,168,75,0.2)' }}
+                  className="glass-card px-4 py-3 rounded-lg"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.10)' }}
                 >
                   <p className="text-xs uppercase tracking-wide mb-0.5" style={{ color: '#4a5e78' }}>{label}</p>
                   <p className="text-sm font-bold text-white">{value}</p>
@@ -178,8 +193,8 @@ export default async function StateLandingPage({ params }: Props) {
             )}
             {sd.keyFacts && sd.keyFacts.length > 0 && (
               <div
-                className="p-5 rounded-xl"
-                style={{ backgroundColor: '#0F1D32', border: '1px solid rgba(255,255,255,0.07)' }}
+                className="glass-card p-5 rounded-xl"
+                style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.10)' }}
               >
                 <h3 className="text-sm font-bold mb-3" style={{ color: '#D4A84B' }}>
                   {sd.name} Key Facts
@@ -206,8 +221,8 @@ export default async function StateLandingPage({ params }: Props) {
               {sd.name} Comparative Fault Law
             </h2>
             <div
-              className="p-6 rounded-xl"
-              style={{ backgroundColor: '#0F1D32', border: '1px solid rgba(212,168,75,0.25)' }}
+              className="glass-card p-6 rounded-xl"
+              style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(212,168,75,0.25)' }}
             >
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>

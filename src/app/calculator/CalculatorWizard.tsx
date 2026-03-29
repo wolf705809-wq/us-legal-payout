@@ -263,39 +263,61 @@ function ProgressBar({ step }: { step: number }) {
       <p className="text-xs font-semibold mb-3 text-center" style={{ color: '#8A95A8' }}>
         Step {step} of 4 &middot; Takes about 2 minutes
       </p>
-      <div className="flex items-center mb-3 w-full">
-        {STEP_TITLES.map((title, i) => {
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          width: '100%',
+          maxWidth: '320px',
+          margin: '0 auto 12px',
+        }}
+      >
+        {STEP_TITLES.flatMap((title, i) => {
           const n = i + 1;
           const done = n < step;
           const active = n === step;
-          return (
-            <div key={n} className="flex items-center flex-1">
-              <div className="flex flex-col items-center">
-                <div
-                  className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 transition-all${active ? ' step-pulse' : ''}`}
-                  style={{
-                    backgroundColor: done || active ? '#D4A84B' : '#1a2e4a',
-                    color: done || active ? '#0F1D32' : '#4a5e78',
-                    border: active ? '2px solid #D4A84B' : '2px solid transparent',
-                  }}
-                >
-                  {done ? '✓' : n}
-                </div>
-                <span
-                  className="text-xs mt-1 hidden sm:block text-center"
-                  style={{ color: active ? '#D4A84B' : done ? '#8A95A8' : '#4a5e78', whiteSpace: 'nowrap' }}
-                >
-                  {title}
-                </span>
+          const items = [
+            <div
+              key={`step-${n}`}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}
+            >
+              <div
+                className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold transition-all${active ? ' step-pulse' : ''}`}
+                style={{
+                  backgroundColor: done || active ? '#D4A84B' : '#1a2e4a',
+                  color: done || active ? '#0F1D32' : '#4a5e78',
+                  border: active ? '2px solid #D4A84B' : '2px solid transparent',
+                  minWidth: '36px',
+                }}
+              >
+                {done ? '✓' : n}
               </div>
-              {i < STEP_TITLES.length - 1 && (
-                <div
-                  className="flex-1 h-px mx-2 mb-4 transition-all"
-                  style={{ backgroundColor: done ? '#D4A84B' : '#1a2e4a' }}
-                />
-              )}
-            </div>
-          );
+              <span
+                className="hidden sm:block text-center"
+                style={{ color: active ? '#D4A84B' : done ? '#8A95A8' : '#4a5e78', whiteSpace: 'nowrap', fontSize: '11px', marginTop: '4px' }}
+              >
+                {title}
+              </span>
+            </div>,
+          ];
+          if (i < STEP_TITLES.length - 1) {
+            items.push(
+              <div
+                key={`connector-${n}`}
+                style={{
+                  flex: 1,
+                  height: '1px',
+                  backgroundColor: done ? '#D4A84B' : '#1a2e4a',
+                  marginBottom: '16px',
+                  marginLeft: '6px',
+                  marginRight: '6px',
+                  minWidth: 0,
+                  transition: 'background-color 0.3s ease',
+                }}
+              />,
+            );
+          }
+          return items;
         })}
       </div>
     </div>
@@ -1079,16 +1101,42 @@ function ResultsView({
         }}
       >
         {/* Call CTA */}
-        <div
-          className="glass-card rounded-xl px-5 py-4 mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(212,168,75,0.2)' }}
+        <a
+          href={`tel:${process.env.NEXT_PUBLIC_PHONE_NUMBER ?? ''}`}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            background: 'rgba(212,168,75,0.10)',
+            border: '1px solid rgba(212,168,75,0.35)',
+            borderRadius: '12px',
+            padding: '14px 18px',
+            textDecoration: 'none',
+            gap: '12px',
+            marginBottom: '16px',
+          }}
         >
-          <p className="text-sm" style={{ color: '#C8CADA' }}>
-            Prefer to talk?{' '}
-            <strong style={{ color: 'white' }}>Call now for a free consultation.</strong>
-          </p>
-          <CallNowButton size="sm" />
-        </div>
+          <div>
+            <div style={{ color: '#E8C46A', fontWeight: 700, fontSize: '15px' }}>
+              📞 Call Now — Free Consultation
+            </div>
+            <div style={{ color: '#8A95A8', fontSize: '12px', marginTop: '2px' }}>
+              Speak with a licensed attorney today
+            </div>
+          </div>
+          <div style={{
+            background: 'linear-gradient(135deg, #D4A84B, #F5D078)',
+            color: '#080f1e',
+            fontWeight: 800,
+            fontSize: '12px',
+            padding: '8px 14px',
+            borderRadius: '8px',
+            whiteSpace: 'nowrap',
+            flexShrink: 0,
+          }}>
+            Call Now →
+          </div>
+        </a>
 
         <div
           className="glass-card rounded-xl p-6"
