@@ -32,8 +32,14 @@ export default function NavHeader() {
         <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             href="/"
-            className="text-xl font-black tracking-tight"
-            style={{ color: '#D4A84B', letterSpacing: '-0.01em' }}
+            className="text-base md:text-xl font-black"
+            style={{
+              background: 'linear-gradient(90deg, #ffffff 40%, #E8C46A 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              letterSpacing: '-0.5px',
+            }}
           >
             TruckSettlementPro
           </Link>
@@ -53,14 +59,16 @@ export default function NavHeader() {
           <div className="flex items-center gap-3">
             <Link
               href="/calculator"
-              className="cta-gold text-sm font-black px-5 rounded inline-flex items-center"
+              className="cta-gold font-black inline-flex items-center text-xs px-3 md:text-sm md:px-5"
               style={{
-                backgroundColor: '#D4A84B',
-                color: '#080f1a',
-                minHeight: '48px',
+                background: 'linear-gradient(135deg, #D4A84B, #F5D078)',
+                color: '#080f1e',
+                minHeight: '36px',
+                borderRadius: '20px',
               }}
             >
-              Free Calculator
+              <span className="hidden sm:inline">Free Calculator</span>
+              <span className="sm:hidden">Calculator</span>
             </Link>
 
             {/* Hamburger button — mobile only */}

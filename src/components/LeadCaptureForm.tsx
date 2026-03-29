@@ -124,7 +124,10 @@ export default function LeadCaptureForm({
           <input
             type="text" required
             value={form.name}
-            onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
+            onChange={e => {
+              const val = e.target.value.replace(/[^a-zA-Z\s'-]/g, '');
+              setForm(p => ({ ...p, name: val }));
+            }}
             placeholder="John Smith"
             style={fieldStyle}
           />
@@ -149,7 +152,10 @@ export default function LeadCaptureForm({
         <input
           type="email" required
           value={form.email}
-          onChange={e => handleEmailChange(e.target.value)}
+          onChange={e => {
+            const val = e.target.value.replace(/[^a-zA-Z0-9@._+\-]/g, '');
+            handleEmailChange(val);
+          }}
           placeholder="john@example.com"
           style={fieldStyle}
         />

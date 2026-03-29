@@ -239,10 +239,10 @@ function TrustShieldBar() {
 
   return (
     <div
-      className="flex flex-col sm:flex-row gap-3 mb-7 px-4 py-3.5 rounded-xl"
+      className="glass-card flex flex-col sm:flex-row gap-3 mb-7 px-4 py-3.5 rounded-xl"
       style={{
-        backgroundColor: 'rgba(212,168,75,0.05)',
-        border: '1px solid rgba(212,168,75,0.18)',
+        background: 'rgba(255,255,255,0.04)',
+        border: '0.5px solid rgba(212,168,75,0.25)',
       }}
     >
       {items.map(({ icon, text }) => (
@@ -263,7 +263,7 @@ function ProgressBar({ step }: { step: number }) {
       <p className="text-xs font-semibold mb-3 text-center" style={{ color: '#8A95A8' }}>
         Step {step} of 4 &middot; Takes about 2 minutes
       </p>
-      <div className="flex items-center mb-3">
+      <div className="flex items-center mb-3 w-full">
         {STEP_TITLES.map((title, i) => {
           const n = i + 1;
           const done = n < step;
@@ -365,7 +365,7 @@ function Step1({ form, update }: { form: FormData; update: (k: keyof FormData, v
           value={form.accidentDate}
           max={new Date().toISOString().split('T')[0]}
           onChange={e => update('accidentDate', e.target.value)}
-          style={{ ...fieldStyle, colorScheme: 'dark' }}
+          style={{ ...fieldStyle, colorScheme: 'dark', width: '100%', maxWidth: '100%', boxSizing: 'border-box', WebkitAppearance: 'none' }}
         />
         <p className="text-xs mt-1.5 px-1" style={{ color: '#4a5e78' }}>
           Truck black box (EDR) data is typically overwritten within 30 days. Time matters.
@@ -775,7 +775,7 @@ function CalcBreakdownAccordion({
       <button
         onClick={() => setOpen(o => !o)}
         className="w-full flex items-center justify-between px-5 py-4 text-left transition-colors"
-        style={{ backgroundColor: '#0F1D32' }}
+        style={{ backgroundColor: '#080f1e' }}
       >
         <span className="text-sm font-bold text-white">How we calculated this</span>
         <span style={{ color: '#D4A84B', fontSize: '1.1rem', lineHeight: 1 }}>
@@ -896,7 +896,7 @@ function ResultsView({
         style={{
           background: isZero
             ? 'linear-gradient(135deg, #1a0f0f, #2a1515)'
-            : 'linear-gradient(135deg, #0F1D32, #0F1D32)',
+            : 'linear-gradient(135deg, #080f1e, #0d1a30)',
           border: `2px solid ${isZero ? 'rgba(239,68,68,0.4)' : 'rgba(212,168,75,0.5)'}`,
         }}
       >
@@ -954,8 +954,8 @@ function ResultsView({
       {/* ── Breakdown ── */}
       {!isZero && results.totalEconomic > 0 && (
         <div
-          className="rounded-xl p-6 mb-5"
-          style={{ backgroundColor: '#0F1D32', border: '1px solid rgba(255,255,255,0.07)' }}
+          className="glass-card rounded-xl p-6 mb-5"
+          style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.10)' }}
         >
           <h2 className="text-sm font-bold text-white mb-4">Settlement Breakdown</h2>
           <div className="flex items-center gap-6">
@@ -1011,10 +1011,10 @@ function ResultsView({
       {/* ── State Law Card ── */}
       {stateData && (
         <div
-          className="rounded-xl p-5 mb-4"
+          className="glass-card rounded-xl p-5 mb-4"
           style={{
-            backgroundColor: '#0F1D32',
-            border: '1px solid rgba(255,255,255,0.07)',
+            background: 'rgba(255,255,255,0.04)',
+            border: '0.5px solid rgba(255,255,255,0.10)',
             borderLeft: '4px solid #D4A84B',
           }}
         >
@@ -1080,8 +1080,8 @@ function ResultsView({
       >
         {/* Call CTA */}
         <div
-          className="rounded-xl px-5 py-4 mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between"
-          style={{ backgroundColor: '#0F1D32', border: '1px solid rgba(212,168,75,0.2)' }}
+          className="glass-card rounded-xl px-5 py-4 mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between"
+          style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(212,168,75,0.2)' }}
         >
           <p className="text-sm" style={{ color: '#C8CADA' }}>
             Prefer to talk?{' '}
@@ -1091,8 +1091,8 @@ function ResultsView({
         </div>
 
         <div
-          className="rounded-xl p-6"
-          style={{ backgroundColor: '#0F1D32', border: '2px solid rgba(212,168,75,0.35)' }}
+          className="glass-card rounded-xl p-6"
+          style={{ background: 'rgba(255,255,255,0.04)', border: '2px solid rgba(212,168,75,0.35)' }}
         >
           <h2 className="text-lg font-bold text-white mb-1">
             Get a Free Case Review from a Licensed Attorney in {stateData?.name ?? 'Your State'}
@@ -1123,7 +1123,10 @@ function ResultsView({
                     <input
                       type="text" required
                       value={leadForm.name}
-                      onChange={e => setLeadForm(p => ({ ...p, name: e.target.value }))}
+                      onChange={e => {
+                        const val = e.target.value.replace(/[^a-zA-Z\s'-]/g, '');
+                        setLeadForm(p => ({ ...p, name: val }));
+                      }}
                       placeholder="John Smith"
                       style={{ ...fieldStyle, backgroundColor: '#1a2e4a' }}
                     />
@@ -1144,7 +1147,10 @@ function ResultsView({
                   <input
                     type="email" required
                     value={leadForm.email}
-                    onChange={e => handleEmailChange(e.target.value)}
+                    onChange={e => {
+                      const val = e.target.value.replace(/[^a-zA-Z0-9@._+\-]/g, '');
+                      handleEmailChange(val);
+                    }}
                     placeholder="john@example.com"
                     style={{ ...fieldStyle, backgroundColor: '#1a2e4a' }}
                   />
@@ -1404,12 +1410,14 @@ export default function CalculatorWizard() {
           )}
           <button
             onClick={next}
-            className="cta-gold flex-1 rounded-lg font-black transition-all active:scale-[0.98]"
+            className="cta-gold flex-1 font-black transition-all active:scale-[0.98]"
             style={{
-              backgroundColor: '#D4A84B',
-              color: '#0F1D32',
+              background: 'linear-gradient(135deg, #B8820A, #E8B832)',
+              color: '#050d1a',
               fontSize: '17px',
               height: '56px',
+              borderRadius: '13px',
+              fontWeight: 900,
             }}
           >
             {step === 4 ? 'Calculate My Settlement →' : `Next: ${STEP_TITLES[step]} →`}

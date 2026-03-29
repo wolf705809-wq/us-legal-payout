@@ -56,13 +56,6 @@ const STATS = [
   },
 ];
 
-const TRUST_ITEMS = [
-  "State-specific comparative fault laws applied automatically",
-  "FMCSA carrier safety records integrated",
-  "Based on NHTSA FARS crash data",
-  "All 50 states — no personal info required",
-];
-
 const HOW_IT_WORKS = [
   {
     step: "01",
@@ -137,19 +130,67 @@ export default function Home() {
         <section
           className="hero-pattern"
           style={{
-            background: "linear-gradient(168deg, #0a1422 0%, #0F1D32 45%, #132744 100%)",
+            background: "linear-gradient(168deg, #0a1422 0%, #080f1e 45%, #132744 100%)",
             borderBottom: "3px solid #D4A84B",
+            position: "relative",
+            overflow: "hidden",
           }}
         >
-          <div className="max-w-5xl mx-auto px-6 py-28 md:py-32 text-center">
+          {/* Radial glow — top right gold */}
+          <div
+            style={{
+              position: "absolute",
+              top: "-80px",
+              right: "-80px",
+              width: "320px",
+              height: "320px",
+              background: "radial-gradient(circle, rgba(212,168,75,0.15) 0%, transparent 70%)",
+              pointerEvents: "none",
+              zIndex: 0,
+            }}
+          />
+          {/* Radial glow — bottom left blue */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "-60px",
+              left: "-60px",
+              width: "240px",
+              height: "240px",
+              background: "radial-gradient(circle, rgba(99,140,255,0.08) 0%, transparent 70%)",
+              pointerEvents: "none",
+              zIndex: 0,
+            }}
+          />
+          <div className="max-w-5xl mx-auto px-6 py-28 md:py-32 text-center" style={{ position: "relative", zIndex: 1 }}>
 
-            {/* Eyebrow */}
-            <p
-              className="text-xs font-black tracking-widest uppercase mb-8"
-              style={{ color: "#D4A84B", letterSpacing: "0.25em" }}
+            {/* Eyebrow — pill badge [8] */}
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                background: "rgba(212,168,75,0.10)",
+                border: "0.5px solid rgba(212,168,75,0.35)",
+                color: "#E8C46A",
+                fontSize: "12px",
+                padding: "4px 12px",
+                borderRadius: "20px",
+                marginBottom: "14px",
+              }}
             >
-              Free Truck Accident Settlement Calculator
-            </p>
+              <span
+                style={{
+                  width: "6px",
+                  height: "6px",
+                  borderRadius: "50%",
+                  background: "#4ade80",
+                  flexShrink: 0,
+                  display: "inline-block",
+                }}
+              />
+              Free · Instant Results · No Signup
+            </div>
 
             {/* Headline */}
             <h1
@@ -161,6 +202,16 @@ export default function Home() {
               <span style={{ color: "#D4A84B", letterSpacing: "-0.02em" }}>Know What Your Case Is Worth.</span>
             </h1>
 
+            {/* Gold divider [6] */}
+            <div
+              style={{
+                width: "48px",
+                height: "2px",
+                background: "linear-gradient(90deg, transparent, #D4A84B, transparent)",
+                margin: "16px auto",
+              }}
+            />
+
             {/* Sub-headline */}
             <p
               className="mt-7 text-lg sm:text-xl max-w-2xl mx-auto"
@@ -170,45 +221,99 @@ export default function Home() {
               law, FMCSA carrier data, and injury-specific multipliers — free, no sign-up.
             </p>
 
-            {/* CTA */}
+            {/* CTA [4] — gradient border */}
             <div className="mt-12">
-              <Link
-                href="/calculator"
-                className="cta-gold inline-flex items-center rounded-lg text-lg font-black"
+              <div
                 style={{
-                  backgroundColor: "#D4A84B",
-                  color: "#080f1a",
-                  boxShadow: "0 8px 40px rgba(212,168,75,0.4)",
-                  letterSpacing: "-0.01em",
-                  padding: "20px 48px",
-                  minHeight: "60px",
+                  display: "inline-block",
+                  background: "linear-gradient(135deg, #D4A84B, #F5D078, #D4A84B)",
+                  borderRadius: "14px",
+                  padding: "1.5px",
                 }}
               >
-                Calculate My Settlement →
-              </Link>
-            </div>
-
-            {/* Social proof — gold thin line + text */}
-            <div className="mt-6 flex flex-col items-center gap-2">
-              <div style={{ width: "40px", height: "1px", backgroundColor: "#D4A84B", opacity: 0.6 }} />
-              <p className="text-sm" style={{ color: "#4a6480" }}>
-                Trusted by <strong className="text-white">10,000+</strong> truck accident victims &middot; No personal information required
-              </p>
-            </div>
-
-            {/* Trust items — glassmorphism cards */}
-            <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-left">
-              {TRUST_ITEMS.map((item) => (
-                <div
-                  key={item}
-                  className="glass-card flex items-start gap-3 px-4 py-3.5 rounded-lg"
+                <Link
+                  href="/calculator"
+                  className="cta-gold inline-flex items-center text-lg font-black"
                   style={{
-                    backgroundColor: "rgba(15,29,50,0.6)",
-                    border: "1px solid rgba(212,168,75,0.15)",
+                    background: "linear-gradient(135deg, #B8820A, #E8B832)",
+                    color: "#050d1a",
+                    letterSpacing: "-0.01em",
+                    padding: "18px 48px",
+                    minHeight: "60px",
+                    borderRadius: "13px",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    fontWeight: 900,
                   }}
                 >
-                  <span className="mt-0.5 font-black flex-shrink-0 text-sm" style={{ color: "#D4A84B" }}>✓</span>
-                  <span className="text-sm" style={{ color: "#8A95A8", lineHeight: "1.6" }}>{item}</span>
+                  Calculate My Settlement →
+                </Link>
+              </div>
+            </div>
+
+            {/* Trust text [9] */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "6px",
+                color: "#4B5A72",
+                fontSize: "11px",
+                marginTop: "12px",
+                flexWrap: "wrap",
+              }}
+            >
+              <span>No personal info</span>
+              <span style={{ width: "3px", height: "3px", borderRadius: "50%", background: "#4B5A72", display: "inline-block", flexShrink: 0 }} />
+              <span>Data never sold</span>
+              <span style={{ width: "3px", height: "3px", borderRadius: "50%", background: "#4B5A72", display: "inline-block", flexShrink: 0 }} />
+              <span>Instant results</span>
+            </div>
+
+            {/* Stat cards [5] */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gap: "10px",
+                marginTop: "28px",
+              }}
+            >
+              {[
+                { num: "500K+", label: "Crashes / yr" },
+                { num: "$750K", label: "Avg insurance" },
+                { num: "50", label: "States covered" },
+              ].map((s) => (
+                <div
+                  key={s.num}
+                  style={{
+                    background: "rgba(255,255,255,0.04)",
+                    border: "0.5px solid rgba(255,255,255,0.08)",
+                    borderRadius: "10px",
+                    padding: "12px 6px",
+                    textAlign: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      color: "#E8C46A",
+                      fontSize: "20px",
+                      fontWeight: 900,
+                      letterSpacing: "-0.5px",
+                    }}
+                  >
+                    {s.num}
+                  </div>
+                  <div
+                    style={{
+                      color: "#4B5A72",
+                      fontSize: "11px",
+                      marginTop: "2px",
+                    }}
+                  >
+                    {s.label}
+                  </div>
                 </div>
               ))}
             </div>
@@ -315,19 +420,24 @@ export default function Home() {
             </div>
 
             <div className="mt-14 text-center">
-              <Link
-                href="/calculator"
-                className="cta-gold inline-flex items-center px-10 rounded-lg text-base font-black"
-                style={{
-                  backgroundColor: "#D4A84B",
-                  color: "#080f1a",
-                  letterSpacing: "-0.01em",
-                  boxShadow: "0 6px 28px rgba(212,168,75,0.35)",
-                  minHeight: "48px",
-                }}
-              >
-                Start Free Calculation →
-              </Link>
+              <div style={{ display: "inline-block", background: "linear-gradient(135deg, #D4A84B, #F5D078, #D4A84B)", borderRadius: "14px", padding: "1.5px" }}>
+                <Link
+                  href="/calculator"
+                  className="cta-gold inline-flex items-center px-10 text-base font-black"
+                  style={{
+                    background: "linear-gradient(135deg, #B8820A, #E8B832)",
+                    color: "#050d1a",
+                    letterSpacing: "-0.01em",
+                    minHeight: "48px",
+                    borderRadius: "13px",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    fontWeight: 900,
+                  }}
+                >
+                  Start Free Calculation →
+                </Link>
+              </div>
             </div>
           </div>
         </section>
@@ -335,12 +445,12 @@ export default function Home() {
         {/* ── Diagonal divider: how it works → why ── */}
         <div className="divider-wrap" style={{ backgroundColor: "#F5F3EE" }}>
           <svg viewBox="0 0 1440 44" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "44px" }}>
-            <path d="M0,44 L1440,0 L1440,44 Z" fill="#0F1D32" />
+            <path d="M0,44 L1440,0 L1440,44 Z" fill="#080f1e" />
           </svg>
         </div>
 
         {/* ── Why section ── */}
-        <section style={{ backgroundColor: "#0F1D32" }}>
+        <section style={{ backgroundColor: "#080f1e" }}>
           <div className="max-w-5xl mx-auto px-6 py-24">
             <p
               className="text-center text-xs font-black tracking-widest uppercase mb-4"
@@ -360,11 +470,12 @@ export default function Home() {
 
               {/* Main card — spans all 3 rows on desktop */}
               <div
-                className="why-grid-main p-8 rounded-xl flex flex-col"
+                className="why-grid-main glass-card p-8 rounded-xl flex flex-col"
                 style={{
-                  backgroundColor: "#0a1829",
-                  border: "1px solid rgba(212,168,75,0.25)",
+                  background: "rgba(255,255,255,0.04)",
+                  border: "0.5px solid rgba(255,255,255,0.10)",
                   borderTop: "3px solid #D4A84B",
+                  borderRadius: "12px",
                 }}
               >
                 <div className="mb-6">
@@ -412,11 +523,12 @@ export default function Home() {
               {WHY_CARDS.slice(1).map(({ stat, statLabel, title, body }) => (
                 <div
                   key={title}
-                  className="why-card p-6 rounded-xl"
+                  className="why-card glass-card p-6 rounded-xl"
                   style={{
-                    backgroundColor: "#0a1829",
-                    border: "1px solid rgba(212,168,75,0.12)",
+                    background: "rgba(255,255,255,0.04)",
+                    border: "0.5px solid rgba(255,255,255,0.10)",
                     borderTop: "3px solid rgba(212,168,75,0.35)",
+                    borderRadius: "12px",
                   }}
                 >
                   <div className="flex items-end gap-3 mb-4">
@@ -447,7 +559,7 @@ export default function Home() {
         </section>
 
         {/* ── Wave divider: why → car comparison ── */}
-        <div className="divider-wrap" style={{ backgroundColor: "#0F1D32" }}>
+        <div className="divider-wrap" style={{ backgroundColor: "#080f1e" }}>
           <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "60px" }}>
             <path d="M0,0 C360,60 1080,0 1440,45 L1440,60 L0,60 Z" fill="#F5F3EE" />
           </svg>
@@ -503,7 +615,7 @@ export default function Home() {
               {/* Truck accident card */}
               <div
                 className="rounded-2xl p-7 space-y-4"
-                style={{ backgroundColor: "#0F1D32", border: "2px solid rgba(212,168,75,0.4)", boxShadow: "0 8px 32px rgba(0,0,0,0.25)", position: "relative", overflow: "hidden" }}
+                style={{ backgroundColor: "#080f1e", border: "2px solid rgba(212,168,75,0.4)", boxShadow: "0 8px 32px rgba(0,0,0,0.25)", position: "relative", overflow: "hidden" }}
               >
                 {/* COMMERCIAL badge */}
                 <div
@@ -604,11 +716,12 @@ export default function Home() {
               ].map(({ badge, badgeSub, title, body, link }) => (
                 <div
                   key={badge}
-                  className="p-6 rounded-xl flex flex-col"
+                  className="glass-card p-6 rounded-xl flex flex-col"
                   style={{
-                    backgroundColor: "#0a1829",
-                    border: "1px solid rgba(212,168,75,0.15)",
+                    background: "rgba(255,255,255,0.04)",
+                    border: "0.5px solid rgba(255,255,255,0.10)",
                     borderTop: "3px solid rgba(212,168,75,0.4)",
+                    borderRadius: "12px",
                   }}
                 >
                   <div className="flex items-center gap-3 mb-5">
@@ -675,19 +788,24 @@ export default function Home() {
               The average truck accident settlement is significantly higher than passenger vehicle crashes.
               Federal minimum insurance starts at $750,000. Know your number before you negotiate.
             </p>
-            <Link
-              href="/calculator"
-              className="cta-gold inline-flex items-center px-10 md:px-12 rounded-lg text-lg md:text-xl font-black tracking-tight"
-              style={{
-                backgroundColor: "#D4A84B",
-                color: "#060e1c",
-                boxShadow: "0 10px 50px rgba(212,168,75,0.45)",
-                letterSpacing: "-0.01em",
-                minHeight: "56px",
-              }}
-            >
-              Calculate My Settlement — Free
-            </Link>
+            <div style={{ display: "inline-block", background: "linear-gradient(135deg, #D4A84B, #F5D078, #D4A84B)", borderRadius: "14px", padding: "1.5px" }}>
+              <Link
+                href="/calculator"
+                className="cta-gold inline-flex items-center px-10 md:px-12 text-lg md:text-xl font-black tracking-tight"
+                style={{
+                  background: "linear-gradient(135deg, #B8820A, #E8B832)",
+                  color: "#050d1a",
+                  letterSpacing: "-0.01em",
+                  minHeight: "56px",
+                  borderRadius: "13px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  fontWeight: 900,
+                }}
+              >
+                Calculate My Settlement — Free
+              </Link>
+            </div>
           </div>
         </section>
 

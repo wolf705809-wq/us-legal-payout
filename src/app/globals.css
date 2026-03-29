@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --navy: #0F1D32;
+  --navy: #080f1e;
   --navy-dark: #12203A;
   --navy-light: #253860;
   --gold: #D4A84B;
@@ -53,9 +53,9 @@ textarea:focus {
   transition: box-shadow 0.25s ease, transform 0.2s ease, background-color 0.2s ease, opacity 0.15s ease;
 }
 .cta-gold:hover {
-  box-shadow: 0 0 24px rgba(212, 168, 75, 0.35), 0 8px 32px rgba(212, 168, 75, 0.4);
+  box-shadow: 0 0 24px rgba(212, 168, 75, 0.45), 0 8px 32px rgba(212, 168, 75, 0.5);
   transform: translateY(-2px);
-  background-color: #DAB455;
+  filter: brightness(1.08);
 }
 .cta-gold:active {
   transform: scale(0.98) !important;
