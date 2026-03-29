@@ -4,16 +4,21 @@
   "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/sitemap.xml",
-      "destination": "/sitemap.xml"
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
     },
     {
-      "source": "/truck-accident/:state/:city",
-      "destination": "/truck_template.html"
-    },
-    {
-      "source": "/((?!sitemap.xml|assets|.*\\..*).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600, s-maxage=86400" },
+        { "key": "X-Robots-Tag", "value": "index, follow" }
+      ]
     }
   ]
 }
