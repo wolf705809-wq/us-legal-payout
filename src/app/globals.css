@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+:root {
+  --navy: #0F1D32;
+  --navy-dark: #12203A;
+  --navy-light: #253860;
+  --gold: #D4A84B;
+  --gold-light: #E2C278;
+  --background: #ffffff;
+  --foreground: #171717;
+  --text-primary: #C8CADA;
+  --text-secondary: #8A95A8;
+  --cream: #F5F3EE;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-navy: var(--navy);
+  --color-navy-dark: var(--navy-dark);
+  --color-navy-light: var(--navy-light);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── Typography system ──────────────────────────────────────────────────────── */
+h1 { font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
+h2 { font-weight: 600; line-height: 1.2; }
+h3 { font-weight: 600; line-height: 1.3; }
+
+/* ── Input / Select focus — gold ring ──────────────────────────────────────── */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none !important;
+  border-color: rgba(212, 168, 75, 0.65) !important;
+  box-shadow: 0 0 0 3px rgba(212, 168, 75, 0.15) !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* ── CTA buttons — unified ──────────────────────────────────────────────────── */
+.cta-gold {
+  transition: box-shadow 0.25s ease, transform 0.2s ease, background-color 0.2s ease, opacity 0.15s ease;
+}
+.cta-gold:hover {
+  box-shadow: 0 0 24px rgba(212, 168, 75, 0.35), 0 8px 32px rgba(212, 168, 75, 0.4);
+  transform: translateY(-2px);
+  background-color: #DAB455;
+}
+.cta-gold:active {
+  transform: scale(0.98) !important;
+  transition-duration: 0.1s !important;
+}
+
+/* ── Card hover elevation ───────────────────────────────────────────────────── */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* ── Step progress pulse (active step indicator) ────────────────────────────── */
+@keyframes step-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(212, 168, 75, 0.35);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 0 8px rgba(212, 168, 75, 0);
+  }
+}
+.step-pulse {
+  animation: step-pulse 2s ease-in-out infinite;
+}
+
+/* ── Subtle hero grid pattern ───────────────────────────────────────────────── */
+.hero-pattern {
+  background-image:
+    linear-gradient(rgba(212, 168, 75, 0.025) 1px, transparent 1px),
+    linear-gradient(to right, rgba(212, 168, 75, 0.025) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* ── Diagonal divider SVGs ──────────────────────────────────────────────────── */
+.divider-wrap {
+  line-height: 0;
+  display: block;
+}
+
+/* ── Why section asymmetric grid ────────────────────────────────────────────── */
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .why-grid {
+    grid-template-columns: 1.1fr 0.9fr;
+    grid-template-rows: auto auto auto;
+    gap: 1rem;
+  }
+  .why-grid-main {
+    grid-row: 1 / 4;
+  }
+}
+
+/* ── Why smaller cards — gold border on hover ───────────────────────────────── */
+.why-card {
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.why-card:hover {
+  border-color: rgba(212, 168, 75, 0.4) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Fade-slide-in animation ────────────────────────────────────────────────── */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Mobile fullscreen nav overlay ──────────────────────────────────────────── */
+@keyframes navFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.nav-overlay {
+  animation: navFadeIn 0.25s ease-out;
+}
+
+/* ── Settlement table row hover ──────────────────────────────────────────────── */
+.settlement-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+.settlement-table tbody tr:hover td {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* ── Related link mini-cards ──────────────────────────────────────────────────  */
+.related-link-card {
+  display: block;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #8A95A8;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.related-link-card:hover {
+  border-color: rgba(212, 168, 75, 0.5);
+  color: #D4A84B;
+  background-color: rgba(212, 168, 75, 0.04);
+}
+
+/* ── Glassmorphism trust cards ────────────────────────────────────────────────  */
+.glass-card {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ── SOL warning colors ──────────────────────────────────────────────────────── */
+.sol-red    { background-color: rgba(239,68,68,0.07); border-color: rgba(239,68,68,0.4); }
+.sol-yellow { background-color: rgba(251,191,36,0.07); border-color: rgba(251,191,36,0.4); }
+.sol-green  { background-color: rgba(34,197,94,0.06); border-color: rgba(34,197,94,0.3); }
