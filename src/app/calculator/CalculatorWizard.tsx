@@ -318,40 +318,7 @@ function ProgressBar({ step }: { step: number }) {
         })}
       </div>
 
-      {/* 라벨 행 — 원형과 동일한 flex 구조 */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', width: '100%', marginTop: '8px' }}>
-        {STEP_TITLES.map((title, i) => {
-          const n = i + 1;
-          const active = n === step;
-          const done = n < step;
-          return (
-            <div key={`label-row-${n}`} style={{ display: 'contents' }}>
-              <div
-                className="hidden sm:block"
-                style={{
-                  width: '40px',
-                  flexShrink: 0,
-                  textAlign: 'center',
-                  fontSize: '11px',
-                  color: active ? '#D4A84B' : done ? '#8A95A8' : '#4B5A72',
-                  fontWeight: active ? 600 : 400,
-                  lineHeight: 1.3,
-                  overflow: 'visible',
-                  whiteSpace: 'nowrap',
-                  position: 'relative',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                }}
-              >
-                {title}
-              </div>
-              {i < STEP_TITLES.length - 1 && (
-                <div style={{ flex: 1, minWidth: 0 }} />
-              )}
-            </div>
-          );
-        })}
-      </div>
+
     </div>
   );
 }
