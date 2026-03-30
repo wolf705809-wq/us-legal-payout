@@ -30,10 +30,10 @@ function getUrgencyTag(estimatedHigh?: number): string {
 
 export async function sendTelegramLeadAlert(lead: TelegramLeadPayload): Promise<void> {
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const chatId = process.env.TELEGRAM_CHAT_ID_TRUCKPRO;
 
   if (!botToken || !chatId) {
-    throw new Error('TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not configured');
+    throw new Error('TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID_TRUCKPRO not configured');
   }
 
   const urgency = getUrgencyTag(lead.estimatedHigh);

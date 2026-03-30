@@ -8,18 +8,18 @@ import { ACCIDENT_TYPES } from '@/lib/accident-types';
 import { INJURY_TYPES } from '@/lib/injury-types';
 import { getAllStateSlugs } from '@/lib/state-laws';
 
-// ── Rate limiting (in-memory, per-instance) ───────────────────────────────────
-const rateLimitMap = new Map<string, number[]>();
-const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
-const RATE_LIMIT_MAX = 5;
+// ── Turnstile verification ────────────────────────────────────────────────────
+async function verifyTurnstile(token: string): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) return true; // Skip if not configured
 
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const timestamps = (rateLimitMap.get(ip) ?? []).filter(t => now - t < RATE_LIMIT_WINDOW_MS);
-  if (timestamps.length >= RATE_LIMIT_MAX) return true;
-  timestamps.push(now);
-  rateLimitMap.set(ip, timestamps);
-  return false;
+  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ secret, response: token }),
+  });
+  const data = await res.json() as { success: boolean };
+  return data.success;
 }
 
 // ── Zod schema ────────────────────────────────────────────────────────────────
@@ -68,19 +68,11 @@ function log(stage: string, msg: string, err?: unknown) {
 
 // ── POST handler ──────────────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
-  // Method guard (Next.js handles this, but explicit for clarity)
   if (req.method && req.method !== 'POST') {
     return NextResponse.json({ error: 'Method not allowed' }, { status: 405 });
   }
 
-  // Rate limiting
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? req.headers.get('x-real-ip') ?? 'unknown';
-  if (isRateLimited(ip)) {
-    log('rate_limit', `Rate limit exceeded for IP: ${ip}`);
-    return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 });
-  }
-
-  // Parse + validate
+  // Parse body
   let raw: unknown;
   try {
     raw = await req.json();
@@ -88,6 +80,20 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
+  // Turnstile verification
+  const turnstileToken = (raw as Record<string, unknown>).turnstile_token as string | undefined;
+  if (process.env.TURNSTILE_SECRET_KEY) {
+    if (!turnstileToken) {
+      return NextResponse.json({ error: 'CAPTCHA verification required' }, { status: 400 });
+    }
+    const valid = await verifyTurnstile(turnstileToken);
+    if (!valid) {
+      log('turnstile', 'Verification failed');
+      return NextResponse.json({ error: 'CAPTCHA verification failed. Please refresh and try again.' }, { status: 400 });
+    }
+  }
+
+  // Validate
   const parsed = LeadSchema.safeParse(raw);
   if (!parsed.success) {
     log('validation', 'Zod validation failed', parsed.error.flatten());
@@ -98,6 +104,7 @@ export async function POST(req: NextRequest) {
   }
 
   const data = parsed.data;
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? req.headers.get('x-real-ip') ?? 'unknown';
 
   // Duplicate detection: same email + source_page within 24 hours
   const { data: existing } = await getSupabaseServer()

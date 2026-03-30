@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Script from 'next/script';
 import { captureUtmParams, getStoredUtmParams } from '@/lib/utm';
 import CallNowButton from '@/components/common/CallNowButton';
 
@@ -70,6 +71,10 @@ export default function LeadCaptureForm({
       typeof document !== 'undefined'
         ? (document.querySelector('input[name="xxTrustedFormCertUrl"]') as HTMLInputElement | null)?.value ?? undefined
         : undefined;
+    const turnstileToken =
+      typeof document !== 'undefined'
+        ? (document.querySelector('input[name="cf-turnstile-response"]') as HTMLInputElement | null)?.value ?? undefined
+        : undefined;
     try {
       await fetch('/api/leads', {
         method: 'POST',
@@ -84,6 +89,7 @@ export default function LeadCaptureForm({
           estimated_high: estimateHigh,
           source_page: source,
           trusted_form_url: trustedFormUrl,
+          turnstile_token: turnstileToken,
           utm_source: utm?.utmSource,
           utm_medium: utm?.utmMedium,
           utm_campaign: utm?.utmCampaign,
@@ -123,6 +129,30 @@ export default function LeadCaptureForm({
   }
 
   return (
+    <>
+    {/* TrustedForm */}
+    <Script
+      id="trustedform"
+      strategy="lazyOnload"
+      dangerouslySetInnerHTML={{
+        __html: `(function() {
+  var tf = document.createElement('script');
+  tf.type = 'text/javascript'; tf.async = true;
+  tf.src = ("https:" == document.location.protocol ? 'https' : 'http') +
+    '://api.trustedform.com/trustedform.js?field=xxTrustedFormCertUrl&use_tagged_consent=true&l=' +
+    new Date().getTime() + Math.random();
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(tf, s);
+})();`,
+      }}
+    />
+    {/* Cloudflare Turnstile */}
+    {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+      <Script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        strategy="lazyOnload"
+      />
+    )}
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
@@ -201,6 +231,15 @@ export default function LeadCaptureForm({
         </span>
       </label>
 
+      {/* Cloudflare Turnstile widget */}
+      {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+        <div
+          className="cf-turnstile"
+          data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+          data-theme="dark"
+        />
+      )}
+
       <button
         type="submit"
         disabled={loading || !consent}
@@ -246,5 +285,6 @@ export default function LeadCaptureForm({
         ))}
       </div>
     </form>
+    </>
   );
 }
