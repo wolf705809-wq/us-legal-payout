@@ -148,42 +148,46 @@ export async function POST(req: NextRequest) {
   log('db', `Lead saved: id=${insertedRows?.id}`);
 
   // Fire email + Telegram notifications concurrently (non-blocking)
-  const resend = new Resend(process.env.RESEND_API_KEY);
+  try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
-  const emailPayload = buildLeadConfirmationEmail({
-    name: data.name,
-    email: data.email,
-    state: data.state,
-    accidentType: data.accident_type,
-    injuryType: data.injury_type,
-    severity: data.severity,
-    estimatedLow: data.estimated_low,
-    estimatedHigh: data.estimated_high,
-  });
-
-  const results = await Promise.allSettled([
-    resend.emails.send(emailPayload),
-    sendTelegramLeadAlert({
+    const emailPayload = buildLeadConfirmationEmail({
       name: data.name,
       email: data.email,
-      phone: data.phone,
       state: data.state,
       accidentType: data.accident_type,
       injuryType: data.injury_type,
       severity: data.severity,
       estimatedLow: data.estimated_low,
       estimatedHigh: data.estimated_high,
-      faultPercentage: data.fault_percentage,
-      carrierName: data.carrier_name,
-      sourcePage: data.source_page,
-    }),
-  ]);
+    });
 
-  if (results[0].status === 'rejected') {
-    log('email', 'Resend failed (non-fatal)', results[0].reason);
-  }
-  if (results[1].status === 'rejected') {
-    log('telegram', 'Telegram failed (non-fatal)', results[1].reason);
+    const results = await Promise.allSettled([
+      resend.emails.send(emailPayload),
+      sendTelegramLeadAlert({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        state: data.state,
+        accidentType: data.accident_type,
+        injuryType: data.injury_type,
+        severity: data.severity,
+        estimatedLow: data.estimated_low,
+        estimatedHigh: data.estimated_high,
+        faultPercentage: data.fault_percentage,
+        carrierName: data.carrier_name,
+        sourcePage: data.source_page,
+      }),
+    ]);
+
+    if (results[0].status === 'rejected') {
+      log('email', 'Resend failed (non-fatal)', results[0].reason);
+    }
+    if (results[1].status === 'rejected') {
+      log('telegram', 'Telegram failed (non-fatal)', results[1].reason);
+    }
+  } catch (err) {
+    log('notifications', 'Notification failed (non-fatal)', err);
   }
 
   return NextResponse.json({ success: true });
