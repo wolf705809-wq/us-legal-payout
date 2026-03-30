@@ -1,7 +1,3 @@
-function escapeMarkdownV2(text: string): string {
-  return text.replace(/[_*[\]()~`>#+\-=|{}.!\\]/g, '\\$&');
-}
-
 function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(amount);
 }
@@ -44,15 +40,15 @@ export async function sendTelegramLeadAlert(lead: TelegramLeadPayload): Promise<
     : 'N/A';
 
   const lines = [
-    `🚨 *NEW LEAD* ${urgency}`,
+    `🚨 <b>NEW LEAD</b> ${urgency}`,
     `━━━━━━━━━━`,
-    `👤 ${escapeMarkdownV2(lead.name)} \\| 📧 ${escapeMarkdownV2(lead.email)} \\| 📞 ${escapeMarkdownV2(lead.phone ?? 'N/A')}`,
-    `📍 ${escapeMarkdownV2(lead.state ?? 'N/A')} \\| 🚛 ${escapeMarkdownV2(lead.accidentType ?? 'N/A')}`,
-    `🏥 ${escapeMarkdownV2(lead.injuryType ?? 'N/A')} \\(${escapeMarkdownV2(lead.severity ?? 'N/A')}\\)`,
-    `💰 ${escapeMarkdownV2(rangeStr)}`,
-    `📊 Fault: ${escapeMarkdownV2(String(lead.faultPercentage ?? 'N/A'))}% \\| 🏢 ${escapeMarkdownV2(lead.carrierName ?? 'N/A')}`,
-    `📄 Source: ${escapeMarkdownV2(lead.sourcePage ?? 'N/A')}`,
-    `⏰ ${escapeMarkdownV2(timestamp)} ET`,
+    `👤 ${lead.name} | 📧 ${lead.email} | 📞 ${lead.phone ?? 'N/A'}`,
+    `📍 ${lead.state ?? 'N/A'} | 🚛 ${lead.accidentType ?? 'N/A'}`,
+    `🏥 ${lead.injuryType ?? 'N/A'} (${lead.severity ?? 'N/A'})`,
+    `💰 ${rangeStr}`,
+    `📊 Fault: ${lead.faultPercentage ?? 'N/A'}% | 🏢 ${lead.carrierName ?? 'N/A'}`,
+    `📄 Source: ${lead.sourcePage ?? 'N/A'}`,
+    `⏰ ${timestamp} ET`,
     `━━━━━━━━━━`,
   ];
 
@@ -64,7 +60,7 @@ export async function sendTelegramLeadAlert(lead: TelegramLeadPayload): Promise<
     body: JSON.stringify({
       chat_id: chatId,
       text,
-      parse_mode: 'MarkdownV2',
+      parse_mode: 'HTML',
     }),
   });
 

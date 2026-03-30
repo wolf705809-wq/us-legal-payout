@@ -224,7 +224,7 @@ function TrustShieldBar() {
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
         </svg>
       ),
-      text: 'Your data is never sold or shared with third parties',
+      text: 'Your info is never shared for advertising purposes',
     },
     {
       icon: (
@@ -863,7 +863,7 @@ function suggestEmailFix(email: string): string | null {
 function ResultsView({
   results, form, sol,
   leadForm, setLeadForm,
-  leadSubmitted, leadLoading,
+  leadSubmitted, leadLoading, leadError,
   onSubmitLead, onBack,
 }: {
   results: CalcResult;
@@ -873,6 +873,7 @@ function ResultsView({
   setLeadForm: React.Dispatch<React.SetStateAction<LeadFormData>>;
   leadSubmitted: boolean;
   leadLoading: boolean;
+  leadError: string | null;
   onSubmitLead: (e: React.FormEvent) => void;
   onBack: () => void;
 }) {
@@ -1277,6 +1278,11 @@ function ResultsView({
               >
                 {leadLoading ? 'Unlocking…' : '🔓 Unlock My Full Report →'}
               </button>
+              {leadError && (
+                <p className="mt-3 text-sm text-center" style={{ color: '#ef4444' }}>
+                  {leadError}
+                </p>
+              )}
             </form>
 
             <div className="mt-5 pt-5" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
@@ -1329,6 +1335,7 @@ export default function CalculatorWizard() {
   const [leadForm, setLeadForm] = useState<LeadFormData>({ name: '', email: '', phone: '' });
   const [leadSubmitted, setLeadSubmitted] = useState(false);
   const [leadLoading, setLeadLoading] = useState(false);
+  const [leadError, setLeadError] = useState<string | null>(null);
 
   // ── Capture UTM params on mount ──
   useEffect(() => { captureUtmParams(); }, []);
@@ -1396,9 +1403,10 @@ export default function CalculatorWizard() {
   const submitLead = async (e: React.FormEvent) => {
     e.preventDefault();
     setLeadLoading(true);
+    setLeadError(null);
     const utm = getStoredUtmParams();
     try {
-      await fetch('/api/leads', {
+      const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1416,7 +1424,16 @@ export default function CalculatorWizard() {
           ...utm,
         }),
       });
+      if (!res.ok) {
+        const body = await res.text();
+        console.error(`[submitLead] API error ${res.status}:`, body);
+        throw new Error(`Submission failed (${res.status}). Please try again.`);
+      }
       setLeadSubmitted(true);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Submission failed. Please try again.';
+      setLeadError(message);
+      return { success: false, error: message };
     } finally {
       setLeadLoading(false);
     }
@@ -1429,7 +1446,7 @@ export default function CalculatorWizard() {
       <ResultsView
         results={results} form={form} sol={sol}
         leadForm={leadForm} setLeadForm={setLeadForm}
-        leadSubmitted={leadSubmitted} leadLoading={leadLoading}
+        leadSubmitted={leadSubmitted} leadLoading={leadLoading} leadError={leadError}
         onSubmitLead={submitLead} onBack={back}
       />
     );

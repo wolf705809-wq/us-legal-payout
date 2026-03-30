@@ -264,7 +264,7 @@ export default function Home() {
             >
               <span>No personal info</span>
               <span style={{ width: "3px", height: "3px", borderRadius: "50%", background: "#4B5A72", display: "inline-block", flexShrink: 0 }} />
-              <span>Data never sold</span>
+              <span>Your info is never shared for advertising purposes</span>
               <span style={{ width: "3px", height: "3px", borderRadius: "50%", background: "#4B5A72", display: "inline-block", flexShrink: 0 }} />
               <span>Instant results</span>
             </div>

@@ -164,8 +164,7 @@ export default function PrivacyPage() {
                   />
                   <span>
                     <strong className="text-white">Analytics data</strong> is used to improve site
-                    performance and content quality. It is never sold or shared for marketing
-                    purposes.
+                    performance and content quality. Your info is never shared for advertising purposes.
                   </span>
                 </li>
               </ul>
