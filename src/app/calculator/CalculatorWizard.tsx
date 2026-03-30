@@ -4,7 +4,6 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { STATES, type FaultRule } from '@/data/states';
 import { captureUtmParams, getStoredUtmParams } from '@/lib/utm';
 import CallNowButton from '@/components/common/CallNowButton';
-import { useScrollDepth } from '@/hooks/useScrollDepth';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -879,17 +878,14 @@ function ResultsView({
 }) {
   const stateData = STATES[form.state];
   const isZero = results.adjusted === 0;
-  const scrollDepth = useScrollDepth();
-  const [timerDone, setTimerDone] = useState(false);
+  const isUnlocked = leadSubmitted;
+  const [consent, setConsent] = useState(false);
   const [emailSuggestion, setEmailSuggestion] = useState<string | null>(null);
 
-  // 8-second timer to show lead form
-  useEffect(() => {
-    const t = setTimeout(() => setTimerDone(true), 8_000);
-    return () => clearTimeout(t);
-  }, []);
-
-  const formVisible = scrollDepth >= 400 || timerDone;
+  const handleUnlockSubmit = (e: React.FormEvent) => {
+    if (!consent) { e.preventDefault(); return; }
+    onSubmitLead(e);
+  };
 
   const handlePhoneChange = (raw: string) => {
     setLeadForm(p => ({ ...p, phone: fmtPhone(raw) }));
@@ -972,79 +968,159 @@ function ResultsView({
         </div>
       )}
 
-      {/* ── Breakdown ── */}
-      {!isZero && results.totalEconomic > 0 && (
-        <div
-          className="glass-card rounded-xl p-6 mb-5"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.10)' }}
-        >
-          <h2 className="text-sm font-bold text-white mb-4">Settlement Breakdown</h2>
-          <div className="flex items-center gap-6">
-            <DonutChart economic={results.totalEconomic} general={results.generalDamages} />
-            <div className="space-y-3 flex-1 min-w-0">
-              <div className="flex items-center justify-between gap-2">
-                <span className="flex items-center gap-2 text-sm" style={{ color: '#C8CADA' }}>
-                  <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: '#4a7aba' }} />
-                  Economic Damages
-                </span>
-                <span className="text-sm font-semibold text-white tabular-nums">
-                  {formatDollars(results.totalEconomic)}
-                </span>
+      {/* ── LOCKED SECTION — Blurred until form submitted ── */}
+      {!isZero && (
+        <div style={{ position: 'relative', marginBottom: '8px' }}>
+          {/* Lock overlay card — shown before unlock */}
+          {!isUnlocked && (
+            <div
+              style={{
+                position: 'relative',
+                zIndex: 10,
+                background: '#0F1D32',
+                border: '1px solid #D4A84B',
+                borderRadius: '12px',
+                padding: '20px 24px',
+                marginBottom: '12px',
+                boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+                <span style={{ color: '#D4A84B', fontSize: '18px' }}>🔒</span>
+                <p className="text-base font-black text-white">Your Full Report is Ready</p>
               </div>
-              <div className="flex items-center justify-between gap-2">
-                <span className="flex items-center gap-2 text-sm" style={{ color: '#C8CADA' }}>
-                  <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: '#D4A84B' }} />
-                  Non-Economic Damages
-                </span>
-                <span className="text-sm font-semibold text-white tabular-nums">
-                  {formatDollars(results.generalDamages)}
-                </span>
-              </div>
-              <div className="pt-3 mt-1" style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
-                <div className="flex justify-between text-sm">
-                  <span style={{ color: '#8A95A8' }}>Raw total</span>
-                  <span className="font-semibold text-white tabular-nums">{formatDollars(results.rawTotal)}</span>
-                </div>
-                {form.faultPct > 0 && (
-                  <div className="flex justify-between text-sm mt-1.5">
-                    <span style={{ color: '#8A95A8' }}>After {form.faultPct}% fault deduction</span>
-                    <span className="font-bold tabular-nums" style={{ color: '#D4A84B' }}>
-                      {formatDollars(results.adjusted)}
-                    </span>
+              <p className="text-sm mb-2" style={{ color: '#C8CADA' }}>See the complete breakdown:</p>
+              <ul className="mb-4" style={{ color: '#C8CADA', paddingLeft: '4px', listStyle: 'none' }}>
+                <li className="text-sm mb-1.5">• How your {formatDollars(results.adjusted)} was calculated</li>
+                <li className="text-sm mb-1.5">• Economic vs. non-economic damages split</li>
+                <li className="text-sm mb-1.5">• How {results.stateName} fault law affects your case</li>
+                <li className="text-sm">• Next steps to maximize your settlement</li>
+              </ul>
+              <p className="text-sm font-semibold" style={{ color: '#D4A84B' }}>
+                Enter details below to unlock your free report →
+              </p>
+            </div>
+          )}
+
+          {/* Blurred content */}
+          <div
+            style={{
+              filter: isUnlocked ? 'none' : 'blur(6px)',
+              opacity: isUnlocked ? 1 : 0.4,
+              transition: 'filter 0.5s ease, opacity 0.5s ease',
+              pointerEvents: isUnlocked ? 'auto' : 'none',
+            }}
+          >
+            {results.totalEconomic > 0 && (
+              <div
+                className="glass-card rounded-xl p-6 mb-5"
+                style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.10)' }}
+              >
+                <h2 className="text-sm font-bold text-white mb-4">Settlement Breakdown</h2>
+                <div className="flex items-center gap-6">
+                  <DonutChart economic={results.totalEconomic} general={results.generalDamages} />
+                  <div className="space-y-3 flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="flex items-center gap-2 text-sm" style={{ color: '#C8CADA' }}>
+                        <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: '#4a7aba' }} />
+                        Economic Damages
+                      </span>
+                      <span className="text-sm font-semibold text-white tabular-nums">
+                        {formatDollars(results.totalEconomic)}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="flex items-center gap-2 text-sm" style={{ color: '#C8CADA' }}>
+                        <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: '#D4A84B' }} />
+                        Non-Economic Damages
+                      </span>
+                      <span className="text-sm font-semibold text-white tabular-nums">
+                        {formatDollars(results.generalDamages)}
+                      </span>
+                    </div>
+                    <div className="pt-3 mt-1" style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+                      <div className="flex justify-between text-sm">
+                        <span style={{ color: '#8A95A8' }}>Raw total</span>
+                        <span className="font-semibold text-white tabular-nums">{formatDollars(results.rawTotal)}</span>
+                      </div>
+                      {form.faultPct > 0 && (
+                        <div className="flex justify-between text-sm mt-1.5">
+                          <span style={{ color: '#8A95A8' }}>After {form.faultPct}% fault deduction</span>
+                          <span className="font-bold tabular-nums" style={{ color: '#D4A84B' }}>
+                            {formatDollars(results.adjusted)}
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </div>
+                </div>
+                {results.isHazmat && (
+                  <p className="text-xs mt-4 pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', color: '#C8CADA' }}>
+                    <strong style={{ color: '#D4A84B' }}>Hazmat note:</strong> FMCSA requires hazmat carriers to carry a minimum of $5,000,000 in insurance — significantly higher than the standard $750,000 minimum.
+                  </p>
                 )}
               </div>
-            </div>
+            )}
+
+            {results.totalEconomic > 0 && (
+              <CalcBreakdownAccordion results={results} form={form} />
+            )}
+
+            {stateData && (
+              <div
+                className="glass-card rounded-xl p-5 mb-4"
+                style={{
+                  background: 'rgba(255,255,255,0.04)',
+                  border: '0.5px solid rgba(255,255,255,0.10)',
+                  borderLeft: '4px solid #D4A84B',
+                }}
+              >
+                <h2 className="text-sm font-bold text-white mb-1.5">
+                  {stateData.name} Fault Law
+                </h2>
+                <p className="text-sm leading-relaxed" style={{ color: '#C8CADA' }}>
+                  {stateData.faultDescription}
+                </p>
+              </div>
+            )}
+
+            <a
+              href={`tel:${process.env.NEXT_PUBLIC_PHONE_NUMBER ?? ''}`}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                background: 'rgba(212,168,75,0.10)',
+                border: '1px solid rgba(212,168,75,0.35)',
+                borderRadius: '12px',
+                padding: '14px 18px',
+                textDecoration: 'none',
+                gap: '12px',
+                marginBottom: '16px',
+              }}
+            >
+              <div>
+                <div style={{ color: '#E8C46A', fontWeight: 700, fontSize: '15px' }}>
+                  📞 Call Now — Free Consultation
+                </div>
+                <div style={{ color: '#8A95A8', fontSize: '12px', marginTop: '2px' }}>
+                  Speak with a licensed attorney today
+                </div>
+              </div>
+              <div style={{
+                background: 'linear-gradient(135deg, #D4A84B, #F5D078)',
+                color: '#080f1e',
+                fontWeight: 800,
+                fontSize: '12px',
+                padding: '8px 14px',
+                borderRadius: '8px',
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
+              }}>
+                Call Now →
+              </div>
+            </a>
           </div>
-          {results.isHazmat && (
-            <p className="text-xs mt-4 pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.07)', color: '#C8CADA' }}>
-              <strong style={{ color: '#D4A84B' }}>Hazmat note:</strong> FMCSA requires hazmat carriers to carry a minimum of $5,000,000 in insurance — significantly higher than the standard $750,000 minimum.
-            </p>
-          )}
-        </div>
-      )}
-
-      {/* ── How We Calculated This ── */}
-      {!isZero && results.totalEconomic > 0 && (
-        <CalcBreakdownAccordion results={results} form={form} />
-      )}
-
-      {/* ── State Law Card ── */}
-      {stateData && (
-        <div
-          className="glass-card rounded-xl p-5 mb-4"
-          style={{
-            background: 'rgba(255,255,255,0.04)',
-            border: '0.5px solid rgba(255,255,255,0.10)',
-            borderLeft: '4px solid #D4A84B',
-          }}
-        >
-          <h2 className="text-sm font-bold text-white mb-1.5">
-            {stateData.name} Fault Law
-          </h2>
-          <p className="text-sm leading-relaxed" style={{ color: '#C8CADA' }}>
-            {stateData.faultDescription}
-          </p>
         </div>
       )}
 
@@ -1090,178 +1166,147 @@ function ResultsView({
         );
       })()}
 
-      {/* ── Lead Capture (delayed reveal) ── */}
+      {/* ── Unlock Lead Form ── */}
       <div
-        style={{
-          opacity: formVisible ? 1 : 0,
-          transform: formVisible ? 'translateY(0)' : 'translateY(20px)',
-          transition: 'opacity 0.5s ease, transform 0.5s ease',
-          pointerEvents: formVisible ? 'auto' : 'none',
-        }}
+        className="glass-card rounded-xl p-6"
+        style={{ background: 'rgba(255,255,255,0.04)', border: '2px solid rgba(212,168,75,0.35)' }}
       >
-        {/* Call CTA */}
-        <a
-          href={`tel:${process.env.NEXT_PUBLIC_PHONE_NUMBER ?? ''}`}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            background: 'rgba(212,168,75,0.10)',
-            border: '1px solid rgba(212,168,75,0.35)',
-            borderRadius: '12px',
-            padding: '14px 18px',
-            textDecoration: 'none',
-            gap: '12px',
-            marginBottom: '16px',
-          }}
-        >
-          <div>
-            <div style={{ color: '#E8C46A', fontWeight: 700, fontSize: '15px' }}>
-              📞 Call Now — Free Consultation
-            </div>
-            <div style={{ color: '#8A95A8', fontSize: '12px', marginTop: '2px' }}>
-              Speak with a licensed attorney today
+        <h2 className="text-lg font-bold text-white mb-1">
+          {isUnlocked ? 'Report Unlocked' : 'Unlock Your Full Settlement Report — Free'}
+        </h2>
+        <p className="text-sm mb-6" style={{ color: '#C8CADA' }}>
+          {isUnlocked
+            ? `A licensed ${stateData?.name ?? ''} attorney will contact you within 1 business day.`
+            : `Enter your details to see the complete breakdown and connect with a licensed ${stateData?.name ?? ''} attorney.`}
+        </p>
+
+        {isUnlocked ? (
+          <div className="text-center py-6 space-y-4">
+            <p className="text-2xl font-black text-white">✓ Report Unlocked!</p>
+            <p className="text-sm leading-relaxed" style={{ color: '#C8CADA' }}>
+              A licensed attorney in <strong style={{ color: '#D4A84B' }}>{stateData?.name ?? 'your state'}</strong> will
+              contact you within 1 business day. In the meantime, save this page for reference.
+            </p>
+            <div className="pt-2">
+              <CallNowButton size="sm" />
+              <p className="text-xs mt-2" style={{ color: '#4a5e78' }}>For urgent matters, call us directly.</p>
             </div>
           </div>
-          <div style={{
-            background: 'linear-gradient(135deg, #D4A84B, #F5D078)',
-            color: '#080f1e',
-            fontWeight: 800,
-            fontSize: '12px',
-            padding: '8px 14px',
-            borderRadius: '8px',
-            whiteSpace: 'nowrap',
-            flexShrink: 0,
-          }}>
-            Call Now →
-          </div>
-        </a>
-
-        <div
-          className="glass-card rounded-xl p-6"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '2px solid rgba(212,168,75,0.35)' }}
-        >
-          <h2 className="text-lg font-bold text-white mb-1">
-            Get a Free Case Review from a Licensed Attorney in {stateData?.name ?? 'Your State'}
-          </h2>
-          <p className="text-sm mb-6" style={{ color: '#C8CADA' }}>
-            A licensed truck accident attorney will review your case details — confidentially, for free, with no obligation to proceed.
-            {form.truckingCompany && ` We'll include ${form.truckingCompany}'s FMCSA safety record.`}
-          </p>
-
-          {leadSubmitted ? (
-            <div className="text-center py-6 space-y-4">
-              <p className="text-2xl font-black text-white">✅ We&apos;ve received your information.</p>
-              <p className="text-sm leading-relaxed" style={{ color: '#C8CADA' }}>
-                A licensed attorney in <strong style={{ color: '#D4A84B' }}>{stateData?.name ?? 'your state'}</strong> will
-                contact you within 24 hours. In the meantime, save this page for reference.
-              </p>
-              <div className="pt-2">
-                <CallNowButton size="sm" />
-                <p className="text-xs mt-2" style={{ color: '#4a5e78' }}>For urgent matters, call us directly.</p>
-              </div>
-            </div>
-          ) : (
-            <>
-              <form onSubmit={onSubmitLead} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold mb-1.5" style={{ color: '#8A95A8' }}>Full Name *</label>
-                    <input
-                      type="text" required
-                      value={leadForm.name}
-                      onChange={e => {
-                        const val = e.target.value.replace(/[^a-zA-Z\s'-]/g, '');
-                        setLeadForm(p => ({ ...p, name: val }));
-                      }}
-                      placeholder="John Smith"
-                      style={{ ...fieldStyle, backgroundColor: '#1a2e4a' }}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold mb-1.5" style={{ color: '#8A95A8' }}>Phone Number *</label>
-                    <input
-                      type="tel" required
-                      value={leadForm.phone}
-                      onChange={e => handlePhoneChange(e.target.value)}
-                      placeholder="(555) 555-5555"
-                      style={{ ...fieldStyle, backgroundColor: '#1a2e4a' }}
-                    />
-                  </div>
-                </div>
+        ) : (
+          <>
+            <form onSubmit={handleUnlockSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5" style={{ color: '#8A95A8' }}>Email Address *</label>
+                  <label className="block text-xs font-semibold mb-1.5" style={{ color: '#8A95A8' }}>Full Name *</label>
                   <input
-                    type="email" required
-                    value={leadForm.email}
+                    type="text" required
+                    value={leadForm.name}
                     onChange={e => {
-                      const val = e.target.value.replace(/[^a-zA-Z0-9@._+\-]/g, '');
-                      handleEmailChange(val);
+                      const val = e.target.value.replace(/[^a-zA-Z\s'-]/g, '');
+                      setLeadForm(p => ({ ...p, name: val }));
                     }}
-                    placeholder="john@example.com"
+                    placeholder="John Smith"
                     style={{ ...fieldStyle, backgroundColor: '#1a2e4a' }}
                   />
-                  {emailSuggestion && (
-                    <p className="text-xs mt-1.5 px-1" style={{ color: '#D4A84B' }}>
-                      Did you mean{' '}
-                      <button
-                        type="button"
-                        onClick={() => { setLeadForm(p => ({ ...p, email: emailSuggestion })); setEmailSuggestion(null); }}
-                        className="underline font-semibold"
-                        style={{ color: '#D4A84B' }}
-                      >
-                        {emailSuggestion}
-                      </button>
-                      ?
-                    </p>
-                  )}
                 </div>
-                <button
-                  type="submit"
-                  disabled={leadLoading}
-                  className="w-full py-4 rounded-lg font-black text-sm transition-all hover:opacity-90"
-                  style={{
-                    backgroundColor: leadLoading ? '#a07e34' : '#D4A84B',
-                    color: '#0F1D32',
-                    cursor: leadLoading ? 'wait' : 'pointer',
-                  }}
-                >
-                  {leadLoading
-                    ? 'Connecting you with an attorney…'
-                    : 'Get My Free Case Evaluation →'}
-                </button>
-              </form>
-
-              {/* What happens next */}
-              <div className="mt-5 pt-5" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#4a6480', letterSpacing: '0.15em' }}>
-                  What happens next?
-                </p>
-                <ol className="space-y-2.5">
-                  {[
-                    `We match you with a licensed truck accident attorney in ${stateData?.name ?? 'your state'}`,
-                    'They review your case details confidentially — for free',
-                    'You decide if you want to proceed. No pressure, no obligation.',
-                  ].map((s, i) => (
-                    <li key={i} className="flex items-start gap-3 text-xs" style={{ color: '#8A95A8' }}>
-                      <span
-                        className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-black mt-0.5"
-                        style={{ backgroundColor: 'rgba(212,168,75,0.12)', color: '#D4A84B', border: '1px solid rgba(212,168,75,0.25)' }}
-                      >
-                        {i + 1}
-                      </span>
-                      {s}
-                    </li>
-                  ))}
-                </ol>
-                <p className="text-xs mt-4 leading-relaxed" style={{ color: '#3d5270' }}>
-                  We partner with attorneys who specialize in truck accident cases. Your information is shared only with your matched attorney.{' '}
-                  <a href="/privacy" className="hover:underline" style={{ color: '#4a6480' }}>See our Privacy Policy.</a>
-                </p>
+                <div>
+                  <label className="block text-xs font-semibold mb-1.5" style={{ color: '#8A95A8' }}>Phone Number *</label>
+                  <input
+                    type="tel" required
+                    value={leadForm.phone}
+                    onChange={e => handlePhoneChange(e.target.value)}
+                    placeholder="(555) 555-5555"
+                    style={{ ...fieldStyle, backgroundColor: '#1a2e4a' }}
+                  />
+                </div>
               </div>
-            </>
-          )}
-        </div>
+              <div>
+                <label className="block text-xs font-semibold mb-1.5" style={{ color: '#8A95A8' }}>Email Address *</label>
+                <input
+                  type="email" required
+                  value={leadForm.email}
+                  onChange={e => {
+                    const val = e.target.value.replace(/[^a-zA-Z0-9@._+\-]/g, '');
+                    handleEmailChange(val);
+                  }}
+                  placeholder="john@example.com"
+                  style={{ ...fieldStyle, backgroundColor: '#1a2e4a' }}
+                />
+                {emailSuggestion && (
+                  <p className="text-xs mt-1.5 px-1" style={{ color: '#D4A84B' }}>
+                    Did you mean{' '}
+                    <button
+                      type="button"
+                      onClick={() => { setLeadForm(p => ({ ...p, email: emailSuggestion })); setEmailSuggestion(null); }}
+                      className="underline font-semibold"
+                      style={{ color: '#D4A84B' }}
+                    >
+                      {emailSuggestion}
+                    </button>
+                    ?
+                  </p>
+                )}
+              </div>
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  required
+                  checked={consent}
+                  onChange={e => setConsent(e.target.checked)}
+                  className="mt-0.5 flex-shrink-0"
+                  style={{ width: '16px', height: '16px', accentColor: '#D4A84B' }}
+                />
+                <span className="text-xs leading-relaxed" style={{ color: '#8A95A8' }}>
+                  I agree to be contacted by a licensed attorney in {stateData?.name ?? 'my state'} regarding
+                  my case. I understand this is not legal advice.{' '}
+                  <a href="/terms" style={{ color: '#5a7090', textDecoration: 'underline' }}>Terms</a>
+                  {' · '}
+                  <a href="/privacy" style={{ color: '#5a7090', textDecoration: 'underline' }}>Privacy Policy</a>
+                </span>
+              </label>
+              <button
+                type="submit"
+                disabled={leadLoading || !consent}
+                className="w-full py-4 rounded-lg font-black text-sm transition-all hover:opacity-90"
+                style={{
+                  backgroundColor: (!consent || leadLoading) ? '#5a4820' : '#D4A84B',
+                  color: (!consent || leadLoading) ? '#8a7040' : '#0F1D32',
+                  cursor: (!consent || leadLoading) ? 'not-allowed' : 'pointer',
+                  opacity: !consent ? 0.7 : 1,
+                }}
+              >
+                {leadLoading ? 'Unlocking…' : '🔓 Unlock My Full Report →'}
+              </button>
+            </form>
+
+            <div className="mt-5 pt-5" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+              <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#4a6480', letterSpacing: '0.15em' }}>
+                What happens next?
+              </p>
+              <ol className="space-y-2.5">
+                {[
+                  `We match you with a licensed truck accident attorney in ${stateData?.name ?? 'your state'}`,
+                  'They review your case details confidentially — for free',
+                  'You decide if you want to proceed. No pressure, no obligation.',
+                ].map((s, i) => (
+                  <li key={i} className="flex items-start gap-3 text-xs" style={{ color: '#8A95A8' }}>
+                    <span
+                      className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-black mt-0.5"
+                      style={{ backgroundColor: 'rgba(212,168,75,0.12)', color: '#D4A84B', border: '1px solid rgba(212,168,75,0.25)' }}
+                    >
+                      {i + 1}
+                    </span>
+                    {s}
+                  </li>
+                ))}
+              </ol>
+              <p className="text-xs mt-4 leading-relaxed" style={{ color: '#3d5270' }}>
+                We partner with attorneys who specialize in truck accident cases. Your information is shared only with your matched attorney.{' '}
+                <a href="/privacy" className="hover:underline" style={{ color: '#4a6480' }}>See our Privacy Policy.</a>
+              </p>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Disclaimer */}

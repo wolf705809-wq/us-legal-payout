@@ -1,6 +1,17 @@
 import type { Metadata } from 'next';
 import NavHeader from '@/components/NavHeader';
 
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'TruckSettlementPro',
+  url: 'https://us-settlement-review.com',
+  description: 'Data platform providing truck accident settlement estimates for victims in all 50 U.S. states.',
+  foundingDate: '2025',
+  areaServed: 'US',
+  knowsAbout: ['Truck accident law', 'Personal injury settlements', 'FMCSA regulations', 'Comparative fault law'],
+};
+
 export const metadata: Metadata = {
   title: 'About TruckSettlementPro — Free Truck Accident Settlement Calculator',
   description:
@@ -10,6 +21,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div style={{ backgroundColor: '#060e1c', minHeight: '100vh', color: '#C8CADA' }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema).replace(/</g, '\\u003c') }} />
       <NavHeader />
 
       {/* ── Hero ─────────────────────────────────────────────── */}
@@ -143,24 +155,35 @@ export default function AboutPage() {
               badge: 'Federal',
               title: 'FMCSA MCMIS',
               subtitle: 'Motor Carrier Management Information System',
-              description:
-                'Carrier safety ratings, inspection records, crash history, and insurance data for over 500,000 registered motor carriers.',
+              description: 'Carrier safety ratings, inspection records, crash history, and insurance data for over 500,000 registered motor carriers.',
+              href: 'https://safer.fmcsa.dot.gov',
+              linkLabel: 'FMCSA SAFER →',
             },
             {
               badge: 'Federal',
               title: 'NHTSA FARS',
               subtitle: 'Fatality Analysis Reporting System',
-              description:
-                'Nationwide census of fatal motor vehicle crashes, including detailed truck accident data going back decades.',
+              description: 'Nationwide census of fatal motor vehicle crashes, including detailed truck accident data going back decades.',
+              href: 'https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars',
+              linkLabel: 'NHTSA FARS →',
+            },
+            {
+              badge: 'Federal',
+              title: 'FMCSA Regulations',
+              subtitle: '49 CFR Part 390–399',
+              description: 'Federal Motor Carrier Safety Regulations governing driver qualifications, hours of service, vehicle maintenance, and hazardous materials.',
+              href: 'https://www.ecfr.gov/current/title-49/subtitle-B/chapter-III',
+              linkLabel: 'eCFR Title 49 →',
             },
             {
               badge: 'State',
               title: 'State Civil Codes',
               subtitle: 'All 50 States + D.C.',
-              description:
-                'Statute of limitations, comparative fault rules, damage caps, and negligence per se standards for every U.S. jurisdiction.',
+              description: 'Statute of limitations, comparative fault rules, damage caps, and negligence per se standards for every U.S. jurisdiction.',
+              href: null,
+              linkLabel: null,
             },
-          ].map(({ badge, title, subtitle, description }) => (
+          ].map(({ badge, title, subtitle, description, href, linkLabel }) => (
             <div
               key={title}
               className="p-6 rounded-xl flex flex-col gap-3"
@@ -188,6 +211,17 @@ export default function AboutPage() {
               <p className="text-sm leading-relaxed" style={{ color: '#8A95A8' }}>
                 {description}
               </p>
+              {href && linkLabel && (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-xs font-semibold"
+                  style={{ color: '#D4A84B', textDecoration: 'underline' }}
+                >
+                  {linkLabel}
+                </a>
+              )}
             </div>
           ))}
         </div>

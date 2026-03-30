@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: '/truck-accident/',
+        disallow: ['/api/', '/_next/', '/*?*'],
       },
     ],
     sitemap: 'https://us-settlement-review.com/sitemap.xml',

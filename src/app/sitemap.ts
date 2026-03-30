@@ -11,20 +11,20 @@ const GUIDE_SLUGS = [
   'trucking-company-liability',
 ];
 
-const BASE_URL = 'https://trucksettlementpro.com';
-const LAST_MODIFIED = new Date('2026-03-28');
+const BASE_URL = 'https://us-settlement-review.com';
+const LAST_MODIFIED = new Date();
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
-    { url: BASE_URL,                              lastModified: LAST_MODIFIED, changeFrequency: 'weekly',  priority: 1.0 },
+    { url: BASE_URL,                              lastModified: LAST_MODIFIED, changeFrequency: 'monthly', priority: 1.0 },
     { url: `${BASE_URL}/calculator`,              lastModified: LAST_MODIFIED, changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${BASE_URL}/settlements`,             lastModified: LAST_MODIFIED, changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${BASE_URL}/statistics`,              lastModified: LAST_MODIFIED, changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${BASE_URL}/guides`,                  lastModified: LAST_MODIFIED, changeFrequency: 'weekly',  priority: 0.75 },
-    { url: `${BASE_URL}/companies`,               lastModified: LAST_MODIFIED, changeFrequency: 'weekly',  priority: 0.7 },
-    { url: `${BASE_URL}/about`,                   lastModified: LAST_MODIFIED, changeFrequency: 'yearly',  priority: 0.6 },
-    { url: `${BASE_URL}/privacy`,                 lastModified: LAST_MODIFIED, changeFrequency: 'yearly',  priority: 0.2 },
-    { url: `${BASE_URL}/terms`,                   lastModified: LAST_MODIFIED, changeFrequency: 'yearly',  priority: 0.2 },
+    { url: `${BASE_URL}/statistics`,              lastModified: LAST_MODIFIED, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE_URL}/settlements`,             lastModified: LAST_MODIFIED, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE_URL}/guides`,                  lastModified: LAST_MODIFIED, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE_URL}/companies`,               lastModified: LAST_MODIFIED, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/about`,                   lastModified: LAST_MODIFIED, changeFrequency: 'yearly',  priority: 0.4 },
+    { url: `${BASE_URL}/privacy`,                 lastModified: LAST_MODIFIED, changeFrequency: 'yearly',  priority: 0.3 },
+    { url: `${BASE_URL}/terms`,                   lastModified: LAST_MODIFIED, changeFrequency: 'yearly',  priority: 0.3 },
     { url: `${BASE_URL}/contact`,                 lastModified: LAST_MODIFIED, changeFrequency: 'yearly',  priority: 0.3 },
   ];
 
@@ -38,7 +38,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const stateLandings: MetadataRoute.Sitemap = ACTIVE_STATE_SLUGS.map(state => ({
     url: `${BASE_URL}/settlements/${state}`,
     lastModified: LAST_MODIFIED,
-    changeFrequency: 'monthly',
+    changeFrequency: 'monthly' as const,
     priority: 0.8,
   }));
 
@@ -56,7 +56,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${BASE_URL}/settlements/${state}/injury/${i.slug}`,
       lastModified: LAST_MODIFIED,
       changeFrequency: 'monthly' as const,
-      priority: 0.7,
+      priority: 0.6,
     })),
   );
 

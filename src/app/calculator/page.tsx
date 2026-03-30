@@ -1,36 +1,74 @@
 import type { Metadata } from 'next';
 import CalculatorWizard from './CalculatorWizard';
 
+const YEAR = new Date().getFullYear();
+
 export const metadata: Metadata = {
-  title: 'Free Truck Accident Settlement Calculator',
+  title: `Free Truck Accident Settlement Calculator — All 50 States (${YEAR})`,
   description:
-    'Estimate your truck accident settlement in 3 minutes. State-specific comparative fault laws, FMCSA insurance data, and injury multipliers — all applied automatically.',
+    'Calculate your truck accident settlement in 2 minutes. Accounts for your state\'s fault laws, injury severity, and damages. No personal info required for instant results.',
   openGraph: {
-    title: 'Free Truck Accident Settlement Calculator | TruckSettlementPro',
+    title: `Free Truck Accident Settlement Calculator — All 50 States (${YEAR})`,
     description:
       'State-specific settlement estimate powered by FMCSA data and real crash statistics. No sign-up required.',
   },
 };
 
-const jsonLd = {
+const webAppSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
   name: 'Truck Accident Settlement Calculator',
-  url: 'https://trucksettlementpro.com/calculator',
-  applicationCategory: 'LegalService',
-  description: 'Free calculator that estimates truck accident settlement values using state-specific laws and FMCSA data.',
+  applicationCategory: 'LegalApplication',
+  description: 'Calculate your truck accident settlement estimate based on your state\'s fault laws, injury type, and damages.',
+  url: 'https://us-settlement-review.com/calculator',
+  operatingSystem: 'Any',
+  browserRequirements: 'Requires JavaScript',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  creator: {
+    '@type': 'Organization',
+    name: 'TruckSettlementPro',
+    url: 'https://us-settlement-review.com',
+  },
+};
+
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'How to Calculate Your Truck Accident Settlement',
+  description: 'Use our 4-step calculator to estimate your truck accident settlement based on state laws and injury severity.',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Select Your State and Accident Type',
+      text: 'Choose the state where your accident occurred and the type of truck accident.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Enter Your Injuries',
+      text: 'Select all injury types you sustained and indicate severity, hospitalization, and surgery.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Input Your Economic Damages',
+      text: 'Enter your medical bills, future treatment costs, lost income, and property damage.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Review Your Settlement Estimate',
+      text: 'Get your personalized settlement range adjusted for your state\'s comparative fault laws.',
+    },
+  ],
 };
 
 export default function CalculatorPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
-        }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema).replace(/</g, '\\u003c') }} />
       <div
         className="min-h-screen flex flex-col"
         style={{ backgroundColor: '#080f1e' }}

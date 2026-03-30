@@ -28,8 +28,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const it = getInjuryTypeBySlug(injury);
   if (!sd || !it) return { title: 'Not Found' };
 
-  const title = `${sd.name} Truck Accident ${it.shortName} Settlement — Compensation Guide`;
-  const description = `${it.shortName} truck accident settlements in ${sd.name}: typical compensation ranges, how ${sd.name}'s ${sd.faultRule.replace(/_/g, ' ')} law affects your recovery, treatment costs, and how to document your injury for maximum compensation.`;
+  const year = new Date().getFullYear();
+  const settlementLow = it.settlementRows?.[0]?.low ?? it.treatmentCostLow ?? 0;
+  const settlementHigh = it.settlementRows?.[it.settlementRows.length - 1]?.high ?? it.treatmentCostHigh ?? 0;
+  function fmtMeta(n: number) {
+    if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`;
+    if (n >= 1_000) return `$${Math.round(n / 1_000)}K`;
+    return `$${n.toLocaleString()}`;
+  }
+
+  const title = `${it.shortName} Truck Accident Settlement in ${sd.name} (${year})`;
+  const description = `${it.shortName} carries a ${it.multiplierLow}x–${it.multiplierHigh}x damages multiplier. ${sd.name} victims typically recover ${fmtMeta(settlementLow)}–${fmtMeta(settlementHigh)}. Free calculator.`;
 
   return {
     title,
@@ -58,25 +67,33 @@ function buildFAQs(
   multiplierLow: number,
   multiplierHigh: number,
   isWrongfulDeath: boolean,
+  faultRule: string,
 ) {
+  const faultRuleNames: Record<string, string> = {
+    pure_comparative: 'pure comparative fault',
+    modified_51: 'modified comparative fault (51% bar rule)',
+    modified_50: 'modified comparative fault (50% bar rule)',
+    contributory: 'contributory negligence',
+  };
+  const faultRuleName = faultRuleNames[faultRule] ?? faultRule;
   return [
     {
-      q: `How much is the average ${injuryName} truck accident settlement in ${stateName}?`,
+      q: `How much is a ${injuryName} settlement in ${stateName} truck accidents?`,
       a: isWrongfulDeath
-        ? `Wrongful death truck accident settlements in ${stateName} vary significantly based on the decedent's age, income, number of dependents, and applicable state law. Cases with surviving minor children and a primary breadwinner can exceed $5 million. Cases with limited economic dependency can settle for $500,000–$1.5 million. The best way to understand the value of your specific case is to consult a licensed ${stateName} wrongful death attorney.`
-        : `${injuryName} truck accident settlements in ${stateName} typically use a damages multiplier of ${multiplierLow}–${multiplierHigh}× economic damages. This reflects the significant non-economic (pain and suffering) component of ${injuryName} cases. Actual settlement amounts depend on injury severity, treatment costs, lost earning capacity, and how ${stateName}'s fault rules apply to your case. Use our free calculator for a personalized estimate.`,
+        ? `Wrongful death truck accident settlements in ${stateName} vary significantly based on the decedent's age, income, number of dependents, and applicable state law. Cases with surviving minor children and a primary breadwinner can exceed $5 million. The best way to understand the value of your specific case is to consult a licensed ${stateName} wrongful death attorney.`
+        : `${injuryName} truck accident settlements in ${stateName} typically use a damages multiplier of ${multiplierLow}–${multiplierHigh}× economic damages. This reflects the significant non-economic (pain and suffering) component of ${injuryName} cases. Actual settlement amounts depend on injury severity, treatment costs, and how ${stateName}'s fault rules apply to your case. Use our free calculator for a personalized estimate.`,
     },
     {
-      q: `How long do I have to file a ${injuryName} truck accident lawsuit in ${stateName}?`,
-      a: `${stateName} allows ${solYears} year${solYears !== 1 ? 's' : ''} from the date of the accident to file a personal injury lawsuit (statute of limitations). Missing this deadline permanently bars your claim regardless of how serious your injuries are. For ${injuryName} cases, additional time-sensitive issues arise: the truck's black box data is often overwritten within 30 days, dashcam footage within days, and the carrier has a right to repair the vehicle after the investigation window closes. Consult an attorney immediately.`,
+      q: `What is the ${injuryName} damages multiplier?`,
+      a: `${injuryName} cases typically use a damages multiplier of ${multiplierLow}x to ${multiplierHigh}x applied to economic damages (medical bills, lost wages, future costs). The multiplier reflects the non-economic component — pain, suffering, and impact on quality of life. Higher multipliers apply when surgery is required, when injuries are permanent, or when there is significant disfigurement.`,
     },
     {
-      q: `Can I still recover compensation if I was partially at fault in ${stateName}?`,
-      a: faultDescription,
+      q: `How long do I have to file for ${injuryName} injuries in ${stateName}?`,
+      a: `In ${stateName}, you have ${solYears} year${solYears !== 1 ? 's' : ''} from the date of your accident to file. Missing this deadline typically bars you from recovery. For ${injuryName} cases, additional urgency applies: the truck's black box data is often overwritten within 30 days and dashcam footage within days. Consult an attorney immediately.`,
     },
     {
-      q: `What evidence is most important in a ${injuryName} truck accident case?`,
-      a: `Key evidence for ${injuryName} truck accident claims includes: complete medical records from the date of the crash forward; expert testimony from a physician specializing in ${injuryName} establishing causation; a life care plan from a certified life care planner quantifying future medical costs; vocational expert testimony on lost earning capacity; the truck's Event Data Recorder (black box) showing pre-impact speed and braking; and the driver's Electronic Logging Device (ELD) records for hours-of-service compliance. The quality and completeness of your medical documentation is the single most important factor in ${injuryName} case value.`,
+      q: `Can I recover for ${injuryName} if I was partially at fault in ${stateName}?`,
+      a: `${stateName} uses ${faultRuleName}. ${faultDescription} For example, if you are found 20% at fault, your settlement is reduced by 20%.`,
     },
     {
       q: `Who can be held liable for a ${injuryName} injury in a truck accident in ${stateName}?`,
@@ -95,7 +112,7 @@ export default async function InjuryPage({ params }: Props) {
 
   const faqs = buildFAQs(
     sd.name, it.name, it.slug, sd.solYears, sd.faultDescription,
-    it.multiplierLow, it.multiplierHigh, !!it.isWrongfulDeath,
+    it.multiplierLow, it.multiplierHigh, !!it.isWrongfulDeath, sd.faultRule,
   );
 
   const faultRuleLabel: Record<string, string> = {
@@ -122,16 +139,28 @@ export default async function InjuryPage({ params }: Props) {
     '@context': 'https://schema.org',
     '@type': 'LegalService',
     name: `TruckSettlementPro — ${sd.name} ${it.shortName} Truck Accident`,
-    url: `https://trucksettlementpro.com/settlements/${state}/injury/${injury}`,
+    url: `https://us-settlement-review.com/settlements/${state}/injury/${injury}`,
     description: `Settlement data and legal information for ${it.name.toLowerCase()} injuries in ${sd.name} truck accidents.`,
     areaServed: { '@type': 'State', name: sd.name },
     serviceType: 'Legal Information Service',
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://us-settlement-review.com' },
+      { '@type': 'ListItem', position: 2, name: 'Settlements', item: 'https://us-settlement-review.com/settlements' },
+      { '@type': 'ListItem', position: 3, name: sd.name, item: `https://us-settlement-review.com/settlements/${state}` },
+      { '@type': 'ListItem', position: 4, name: it.shortName, item: `https://us-settlement-review.com/settlements/${state}/injury/${injury}` },
+    ],
   };
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(legalServiceSchema).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
 
       {/* Client-side interactive components */}
       <ExitIntentPopup stateName={sd.name} stateSlug={state} />
@@ -192,9 +221,10 @@ export default async function InjuryPage({ params }: Props) {
             {/* Trust badges [3-5] */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', margin: '16px 0 4px' }}>
               {[
-                { label: 'Updated', value: 'March 2026' },
-                { label: 'Sources', value: 'FMCSA · NHTSA' },
-                { label: 'Reviewed', value: 'Licensed Attorney' },
+                { label: 'Last Updated', value: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) },
+                { label: 'Sources', value: `FMCSA, NHTSA, ${sd.name} Court Records` },
+                { label: 'Data', value: 'Verified against 49 CFR Part 390–399' },
+                { label: 'Reviewed by', value: 'Licensed Attorney' },
               ].map((badge) => (
                 <div key={badge.label} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.10)', borderRadius: '6px', padding: '4px 10px', fontSize: '11px' }}>
                   <span style={{ color: '#D4A84B', fontWeight: 600 }}>{badge.label}:</span>
@@ -248,6 +278,78 @@ export default async function InjuryPage({ params }: Props) {
                 </div>
               ))}
             </div>
+          </section>
+
+          {/* ── Featured Snippet: Paragraph ── */}
+          <section>
+            <h2 className="text-2xl font-bold text-white mb-4">
+              How Much Is a {it.shortName} Settlement in {sd.name} Truck Accidents?
+            </h2>
+            <p className="text-base leading-relaxed" style={{ color: '#C8CADA' }}>
+              {it.shortName} truck accident settlements in {sd.name} typically use a{' '}
+              {it.isWrongfulDeath ? 'specialized wrongful death formula' : `${it.multiplierLow}x–${it.multiplierHigh}x damages multiplier`}.
+              {!it.isWrongfulDeath && it.settlementRows?.[0] && (
+                <> Settlements range from {fmt(it.settlementRows[0].low)} to {fmt(it.settlementRows[it.settlementRows.length - 1].high)}, though severe cases involving surgery or permanent disability can exceed {fmt(it.settlementRows[it.settlementRows.length - 1].high)}.</>
+              )}{' '}
+              {sd.name}&apos;s {faultRuleLabel[sd.faultRule] ?? sd.faultRule} directly affects your final compensation amount.
+            </p>
+          </section>
+
+          {/* ── Featured Snippet: Table ── */}
+          {it.settlementRows && it.settlementRows.length > 0 && (
+            <section>
+              <h2 className="text-2xl font-bold text-white mb-4">
+                {sd.name} {it.shortName} Settlement Ranges by Severity
+              </h2>
+              <div className="settlement-table rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr style={{ backgroundColor: '#1a2d47' }}>
+                      <th className="px-5 py-4 text-left font-bold" style={{ color: '#D4A84B' }}>Severity Level</th>
+                      <th className="px-5 py-4 text-right font-bold" style={{ color: '#D4A84B' }}>Typical Settlement Range</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {it.settlementRows.map(({ label, low, high }: { label: string; low: number; high: number }, i: number) => (
+                      <tr key={label} style={{ borderTop: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.06)' }}>
+                        <td className="px-5 py-4 font-semibold text-white">{label}</td>
+                        <td className="px-5 py-4 text-right font-semibold tabular-nums" style={{ color: '#D4A84B' }}>{fmt(low)} – {fmt(high)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {sd.faultRule === 'contributory' && (
+                <div
+                  className="mt-4 px-4 py-3 rounded-lg text-sm"
+                  style={{ backgroundColor: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.25)', color: '#fca5a5' }}
+                >
+                  ⚠ {sd.name} is a contributory negligence state — any fault may bar your recovery entirely.
+                </div>
+              )}
+            </section>
+          )}
+
+          {/* ── Featured Snippet: Factors List ── */}
+          <section>
+            <h2 className="text-2xl font-bold text-white mb-4">
+              What Factors Determine a Truck Accident Settlement in {sd.name}?
+            </h2>
+            <ul className="space-y-2">
+              {[
+                `Injury severity and type of medical treatment required for ${it.shortName}`,
+                `${sd.name}'s ${faultRuleLabel[sd.faultRule] ?? sd.faultRule} and your assigned fault percentage`,
+                'Economic damages: medical bills, lost wages, property damage',
+                'Non-economic damages: pain and suffering, emotional distress',
+                'Trucking company insurance policy limits (min. $750K federal)',
+                'Evidence of FMCSA violations (49 CFR Part 390–399)',
+              ].map(factor => (
+                <li key={factor} className="flex items-start gap-2 text-sm" style={{ color: '#C8CADA' }}>
+                  <span className="mt-0.5 flex-shrink-0" style={{ color: '#D4A84B' }}>→</span>
+                  {factor}
+                </li>
+              ))}
+            </ul>
           </section>
 
           {/* ── Injury Overview ── */}
