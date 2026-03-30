@@ -66,19 +66,27 @@ export default function LeadCaptureForm({
     if (!consent) return;
     setLoading(true);
     const utm = getStoredUtmParams();
+    const trustedFormUrl =
+      typeof document !== 'undefined'
+        ? (document.querySelector('input[name="xxTrustedFormCertUrl"]') as HTMLInputElement | null)?.value ?? undefined
+        : undefined;
     try {
-      await fetch('/api/submit-lead', {
+      await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...form,
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
           state: stateName,
-          accidentType,
-          estimateLow,
-          estimateHigh,
-          source,
-          sourceUrl: typeof window !== 'undefined' ? window.location.href : '',
-          ...utm,
+          accident_type: accidentType,
+          estimated_low: estimateLow,
+          estimated_high: estimateHigh,
+          source_page: source,
+          trusted_form_url: trustedFormUrl,
+          utm_source: utm?.utmSource,
+          utm_medium: utm?.utmMedium,
+          utm_campaign: utm?.utmCampaign,
         }),
       });
       setSubmitted(true);

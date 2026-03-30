@@ -197,9 +197,8 @@ export default function Home() {
               className="text-[2.25rem] sm:text-5xl lg:text-[4rem] font-black text-white"
               style={{ letterSpacing: "-0.02em", lineHeight: "1.12" }}
             >
-              Injured in a Truck Accident?
-              <br />
-              <span style={{ color: "#D4A84B", letterSpacing: "-0.02em" }}>Know What Your Case Is Worth.</span>
+              The Trucking Company Has a Legal Team.{" "}
+              <span style={{ color: "#D4A84B", letterSpacing: "-0.02em" }}>You Deserve the Facts.</span>
             </h1>
 
             {/* Gold divider [6] */}
@@ -217,8 +216,7 @@ export default function Home() {
               className="mt-7 text-lg sm:text-xl max-w-2xl mx-auto"
               style={{ color: "#8A95A8", lineHeight: "1.75" }}
             >
-              The only calculator that applies your state&apos;s exact comparative fault
-              law, FMCSA carrier data, and injury-specific multipliers — free, no sign-up.
+              Before you speak with an insurance adjuster or sign anything, see what your case is actually worth. Our calculator applies your state&apos;s fault rules, FMCSA carrier data, and injury-specific multipliers — free, no sign-up, no personal info required.
             </p>
 
             {/* CTA [4] — gradient border */}
@@ -330,6 +328,9 @@ export default function Home() {
         {/* ── Stats ── */}
         <section style={{ backgroundColor: "#0a1829" }}>
           <StatsCounter stats={STATS} />
+          <p className="text-center text-sm max-w-2xl mx-auto px-6 pb-6" style={{ color: "#8A95A8", lineHeight: "1.75" }}>
+            Every one of these numbers represents a real person navigating the hardest moment of their life. This data exists so you don&apos;t have to face it without information.
+          </p>
           <p className="text-center text-xs py-5 pb-10" style={{ color: "#2d4160" }}>
             Sources: FMCSA Large Truck and Bus Crash Facts &middot; NHTSA Fatality Analysis Reporting System (FARS) &middot; ATRI Economic Analysis
           </p>
@@ -341,6 +342,13 @@ export default function Home() {
         {/* ── How It Works ── */}
         <section style={{ backgroundColor: "#F5F3EE" }}>
           <div className="max-w-5xl mx-auto px-6 pb-24">
+
+            <p
+              className="text-center text-sm max-w-xl mx-auto mb-8 pt-8"
+              style={{ color: "#5a7090", lineHeight: "1.75", fontStyle: "italic" }}
+            >
+              We built this tool because we kept seeing people accept the first settlement offer — before they ever understood what they were entitled to.
+            </p>
 
             <p
               className="text-center text-xs font-black tracking-widest uppercase mb-4"
@@ -438,6 +446,38 @@ export default function Home() {
                   Start Free Calculation →
                 </Link>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Why We Built This ── */}
+        <section style={{ backgroundColor: "#F5F3EE", borderTop: "1px solid rgba(15,29,50,0.08)" }}>
+          <div className="max-w-3xl mx-auto px-6 py-20">
+            <p
+              className="text-center text-xs font-black tracking-widest uppercase mb-4"
+              style={{ color: "#D4A84B", letterSpacing: "0.22em" }}
+            >
+              Our Mission
+            </p>
+            <h2
+              className="text-3xl sm:text-4xl font-black text-center mb-10"
+              style={{ color: "#0F1D32", letterSpacing: "-0.02em" }}
+            >
+              Why This Tool Exists
+            </h2>
+            <div className="space-y-5 text-sm" style={{ color: "#5a7090", lineHeight: "1.85" }}>
+              <p>
+                We kept seeing the same impossible situation play out for families. A devastating truck accident happens. Before victims even understand their rights, the insurance company arrives with a settlement offer representing a fraction of what the case is actually worth.
+              </p>
+              <p>
+                Most settlement calculators online ignore state law entirely. Law firm websites just want your phone number. We built TruckSettlementPro to fill that gap — a free, independent tool that shows you real numbers based on real data, before you talk to anyone.
+              </p>
+              <p style={{ color: "#0F1D32", fontWeight: 600 }}>
+                You deserve to make an informed decision on your own terms.
+              </p>
+              <p>
+                We are not a law firm and we do not represent you. But we believe you have the right to know what your case is worth before someone pressures you to settle.
+              </p>
             </div>
           </div>
         </section>
@@ -572,17 +612,16 @@ export default function Home() {
               className="text-center text-xs font-black tracking-widest uppercase mb-4"
               style={{ color: "#D4A84B", letterSpacing: "0.22em" }}
             >
-              Why Truck Cases Are Different
+              Why The Insurance Company Is Fighting Harder Than You Think
             </p>
             <h2
               className="text-3xl sm:text-4xl font-black text-center mb-4"
               style={{ color: "#0F1D32", letterSpacing: "-0.02em" }}
             >
-              Car Accident vs. Truck Accident
+              Your Case Isn&apos;t a Simple Car Accident — and They Know It
             </h2>
             <p className="text-center max-w-xl mx-auto mb-12 text-sm" style={{ color: "#5a7090" }}>
-              Commercial truck cases involve layers of federal regulation, multiple liable parties,
-              and insurance minimums up to 7× higher than passenger vehicle policies.
+              Commercial truck accidents involve federal regulations, multiple liable parties, and insurance policies up to 7x larger than standard auto. That&apos;s why trucking companies retain attorneys on day one — and why you need to know your number before you negotiate.
             </p>
             <div className="grid sm:grid-cols-2 gap-6">
               {/* Car accident card */}
@@ -782,11 +821,10 @@ export default function Home() {
               className="text-3xl sm:text-4xl font-black text-white mb-6"
               style={{ letterSpacing: "-0.02em" }}
             >
-              Don&apos;t Settle for Less Than You Deserve
+              The Insurance Adjuster Already Knows Your Number. Do You?
             </h2>
             <p className="text-lg mb-12 max-w-xl mx-auto" style={{ color: "#8A95A8", lineHeight: "1.75" }}>
-              The average truck accident settlement is significantly higher than passenger vehicle crashes.
-              Federal minimum insurance starts at $750,000. Know your number before you negotiate.
+              Trucking companies calculate your case value on day one of the accident. Our tool lets you run the same calculation — same data, same state laws, same injury multipliers. It takes 3 minutes. It&apos;s free. And it might change everything about how you negotiate.
             </p>
             <div style={{ display: "inline-block", background: "linear-gradient(135deg, #D4A84B, #F5D078, #D4A84B)", borderRadius: "14px", padding: "1.5px" }}>
               <Link
@@ -821,8 +859,14 @@ export default function Home() {
                 <p className="font-black text-lg mb-1" style={{ color: "#D4A84B", letterSpacing: "-0.01em" }}>
                   TruckSettlementPro
                 </p>
-                <p className="text-xs mb-4" style={{ color: "#3d5270" }}>
+                <p className="text-xs mb-1" style={{ color: "#3d5270" }}>
                   Operated by Nodal Logics
+                </p>
+                <p className="text-xs mb-1" style={{ color: "#3d5270" }}>
+                  300 Delaware Ave, Ste 210 #209, Wilmington, DE 19801
+                </p>
+                <p className="text-xs mb-4" style={{ color: "#3d5270" }}>
+                  +1 (302) 273-1345
                 </p>
                 <p className="text-xs mb-4" style={{ color: "#3d5270", lineHeight: "1.8" }}>
                   Data sourced from FMCSA Large Truck and Bus Crash Facts, NHTSA Fatality Analysis Reporting
@@ -893,21 +937,33 @@ export default function Home() {
 
             {/* Bottom bar */}
             <div
-              className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-8 text-xs"
+              className="flex flex-col gap-4 pt-8 text-xs"
               style={{ borderTop: "1px solid rgba(255,255,255,0.04)", color: "#2d3f54" }}
             >
-              <p>
-                <strong style={{ color: "#3d5270" }}>Attorney Advertising</strong>
-                {" · "}
-                <span>Not a law firm</span>
-                {" · "}
-                <span>Not legal advice</span>
-                {" · "}
-                Prior results do not guarantee a similar outcome.
+              <p style={{ lineHeight: "1.8" }}>
+                <strong style={{ color: "#3d5270" }}>Attorney Advertising.</strong>{" "}
+                This website is for informational purposes only and does not constitute legal advice.
+                No attorney-client relationship is created by use of this site.
               </p>
-              <p className="flex-shrink-0">
-                &copy; 2026 TruckSettlementPro. All rights reserved.
+              <p style={{ lineHeight: "1.8" }}>
+                By submitting your information, you consent to be contacted by a licensed attorney in your state regarding
+                your potential legal matter. You may receive calls, texts, or emails. Consent is not a condition of service.
+                Message and data rates may apply. Reply STOP to opt out.
               </p>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <p>
+                  <strong style={{ color: "#3d5270" }}>Attorney Advertising</strong>
+                  {" · "}
+                  <span>Not a law firm</span>
+                  {" · "}
+                  <span>Not legal advice</span>
+                  {" · "}
+                  Prior results do not guarantee a similar outcome.
+                </p>
+                <p className="flex-shrink-0">
+                  &copy; 2026 TruckSettlementPro. Operated by Nodal Logics.
+                </p>
+              </div>
             </div>
 
           </div>
