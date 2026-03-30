@@ -10,7 +10,7 @@ export default function DownloadForm() {
     e.preventDefault();
     setLoading(true);
     try {
-      await fetch('/api/submit-lead', {
+      await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, source: 'statistics-download' }),

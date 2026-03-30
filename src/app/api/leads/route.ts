@@ -4,10 +4,6 @@ import { Resend } from 'resend';
 import { getSupabaseServer } from '@/lib/supabase';
 import { sendTelegramLeadAlert } from '@/lib/telegram';
 import { buildLeadConfirmationEmail } from '@/lib/email-templates/lead-confirmation';
-import { ACCIDENT_TYPES } from '@/lib/accident-types';
-import { INJURY_TYPES } from '@/lib/injury-types';
-import { getAllStateSlugs } from '@/lib/state-laws';
-
 // ── Turnstile verification ────────────────────────────────────────────────────
 async function verifyTurnstile(token: string): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
@@ -23,9 +19,6 @@ async function verifyTurnstile(token: string): Promise<boolean> {
 }
 
 // ── Zod schema ────────────────────────────────────────────────────────────────
-const stateSlugs = getAllStateSlugs() as [string, ...string[]];
-const accidentSlugs = ACCIDENT_TYPES.map(t => t.slug) as [string, ...string[]];
-const injurySlugs = INJURY_TYPES.map(t => t.slug) as [string, ...string[]];
 
 const LeadSchema = z.object({
   name: z.string().trim().min(2, 'Name must be at least 2 characters').max(100),
@@ -40,9 +33,9 @@ const LeadSchema = z.object({
     }
     return `(${normalized.slice(0, 3)}) ${normalized.slice(3, 6)}-${normalized.slice(6)}`;
   }),
-  state: z.enum(stateSlugs).optional(),
-  accident_type: z.enum(accidentSlugs).optional(),
-  injury_type: z.enum(injurySlugs).optional(),
+  state: z.string().trim().max(100).optional(),
+  accident_type: z.string().trim().max(200).optional(),
+  injury_type: z.string().trim().max(200).optional(),
   severity: z.enum(['minor', 'moderate', 'serious', 'severe', 'catastrophic']).optional(),
   accident_date: z.string().optional().refine(val => {
     if (!val) return true;
@@ -82,7 +75,7 @@ export async function POST(req: NextRequest) {
 
   // Turnstile verification
   const turnstileToken = (raw as Record<string, unknown>).turnstile_token as string | undefined;
-  if (process.env.TURNSTILE_SECRET_KEY) {
+  if (process.env.TURNSTILE_SECRET_KEY && process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) {
     if (!turnstileToken) {
       return NextResponse.json({ error: 'CAPTCHA verification required' }, { status: 400 });
     }

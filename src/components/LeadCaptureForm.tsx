@@ -49,6 +49,7 @@ export default function LeadCaptureForm({
   const [consent, setConsent] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [emailSuggestion, setEmailSuggestion] = useState<string | null>(null);
 
   useEffect(() => { captureUtmParams(); }, []);
@@ -76,7 +77,8 @@ export default function LeadCaptureForm({
         ? (document.querySelector('input[name="cf-turnstile-response"]') as HTMLInputElement | null)?.value ?? undefined
         : undefined;
     try {
-      await fetch('/api/leads', {
+      setErrorMsg(null);
+      const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -95,7 +97,14 @@ export default function LeadCaptureForm({
           utm_campaign: utm?.utmCampaign,
         }),
       });
-      setSubmitted(true);
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({})) as { error?: string };
+        setErrorMsg(json.error ?? 'Something went wrong. Please try again.');
+      } else {
+        setSubmitted(true);
+      }
+    } catch {
+      setErrorMsg('Network error. Please check your connection and try again.');
     } finally {
       setLoading(false);
     }
@@ -238,6 +247,12 @@ export default function LeadCaptureForm({
           data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
           data-theme="dark"
         />
+      )}
+
+      {errorMsg && (
+        <p className="text-xs px-3 py-2 rounded-lg" style={{ backgroundColor: 'rgba(220,50,50,0.15)', color: '#ff7070', border: '1px solid rgba(220,50,50,0.3)' }}>
+          {errorMsg}
+        </p>
       )}
 
       <button

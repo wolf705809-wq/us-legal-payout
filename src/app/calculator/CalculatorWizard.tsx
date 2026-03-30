@@ -1398,7 +1398,7 @@ export default function CalculatorWizard() {
     setLeadLoading(true);
     const utm = getStoredUtmParams();
     try {
-      await fetch('/api/submit-lead', {
+      await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
