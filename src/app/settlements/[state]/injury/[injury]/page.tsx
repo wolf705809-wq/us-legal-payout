@@ -12,10 +12,11 @@ import NavHeader from '@/components/NavHeader';
 
 // ── Static generation ──────────────────────────────────────────────────────────
 
+export const revalidate = 86400;
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
-  return ACTIVE_STATE_SLUGS.flatMap(state =>
-    INJURY_TYPES.map(i => ({ state, injury: i.slug })),
-  );
+  return [];
 }
 
 // ── Metadata ───────────────────────────────────────────────────────────────────
