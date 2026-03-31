@@ -57,6 +57,126 @@ const GUIDES = [
     readingTimeMin: 7,
     tags: ['Liability', 'Defendants', 'Strategy'],
   },
+  {
+    slug: 'preserve-black-box-evidence',
+    title: 'How to Preserve Black Box Evidence After a Truck Accident',
+    description:
+      'The ECM data that can prove your case — and why you have only days to secure it before carriers legally destroy it.',
+    readingTimeMin: 6,
+    tags: ['Evidence', 'ECM', 'Strategy'],
+  },
+  {
+    slug: 'reject-insurance-first-offer',
+    title: 'Why You Should Reject the Insurance Company\'s First Offer',
+    description:
+      'First offers are almost always lowball figures. Learn how to evaluate, counter, and negotiate for full compensation.',
+    readingTimeMin: 5,
+    tags: ['Negotiation', 'Insurance', 'Settlements'],
+  },
+  {
+    slug: 'settle-without-lawyer',
+    title: 'Can You Settle a Truck Accident Without a Lawyer?',
+    description:
+      'The honest pros and cons of self-representation — and the specific situations where hiring an attorney pays for itself many times over.',
+    readingTimeMin: 7,
+    tags: ['Legal', 'Strategy', 'Settlements'],
+  },
+  {
+    slug: 'how-trucking-companies-hide-liability',
+    title: 'How Trucking Companies Hide Liability After Accidents',
+    description:
+      'The tactics carriers use to minimize payouts — and how experienced attorneys counter each one to protect your claim.',
+    readingTimeMin: 6,
+    tags: ['Liability', 'Strategy', 'Evidence'],
+  },
+  {
+    slug: 'fmcsa-violations-settlement',
+    title: 'How FMCSA Violations Increase Your Settlement Value',
+    description:
+      'Regulatory violations transform ordinary negligence claims into multi-defendant cases with punitive damage exposure.',
+    readingTimeMin: 6,
+    tags: ['FMCSA', 'Damages', 'Negligence'],
+  },
+  {
+    slug: 'how-long-truck-cases-take',
+    title: 'How Long Does a Truck Accident Case Take to Settle?',
+    description:
+      'A realistic timeline from accident to settlement — and the factors that accelerate or delay your case.',
+    readingTimeMin: 5,
+    tags: ['Timeline', 'Settlements', 'Legal'],
+  },
+  {
+    slug: 'jackknife-accident-claims',
+    title: 'Jackknife Accident Claims: Causes, Liability, and Settlements',
+    description:
+      'Why jackknife crashes produce some of the largest truck accident verdicts — and how to build a strong claim.',
+    readingTimeMin: 7,
+    tags: ['Jackknife', 'Liability', 'Damages'],
+  },
+  {
+    slug: 'document-injuries-compensation',
+    title: 'How to Document Your Injuries for Maximum Compensation',
+    description:
+      'The medical records, photos, and documentation that separate a $50,000 settlement from a $500,000 one.',
+    readingTimeMin: 6,
+    tags: ['Medical', 'Evidence', 'Damages'],
+  },
+  {
+    slug: 'what-to-say-insurance-adjusters',
+    title: 'What to Say (and Never Say) to Insurance Adjusters',
+    description:
+      'Adjusters are trained negotiators working against your interests. Know exactly how to protect your claim in every conversation.',
+    readingTimeMin: 6,
+    tags: ['Insurance', 'Negotiation', 'Strategy'],
+  },
+  {
+    slug: 'underride-accidents-legal-complexity',
+    title: 'Underride Accidents: The Legal Complexity and How to Win',
+    description:
+      'Underride crashes involve multiple defendants, federal equipment standards, and catastrophic injuries — here\'s how claims work.',
+    readingTimeMin: 8,
+    tags: ['Underride', 'Liability', 'Damages'],
+  },
+  {
+    slug: 'fault-multi-vehicle-truck-accidents',
+    title: 'Determining Fault in Multi-Vehicle Truck Accidents',
+    description:
+      'When multiple drivers, carriers, and vehicles are involved, fault allocation directly determines your recovery.',
+    readingTimeMin: 6,
+    tags: ['Fault Laws', 'Liability', 'Multi-Vehicle'],
+  },
+  {
+    slug: 'sue-trucking-company-directly',
+    title: 'Can You Sue the Trucking Company Directly?',
+    description:
+      'Yes — and in most cases you should. The legal theories that make carriers directly liable for driver negligence and corporate misconduct.',
+    readingTimeMin: 6,
+    tags: ['Liability', 'Legal', 'Strategy'],
+  },
+  {
+    slug: 'pre-existing-conditions-claim',
+    title: 'Pre-Existing Conditions and Your Truck Accident Claim',
+    description:
+      'Insurers weaponize your medical history. Learn how the eggshell plaintiff doctrine and aggravation theory protect your full recovery.',
+    readingTimeMin: 6,
+    tags: ['Medical', 'Damages', 'Legal'],
+  },
+  {
+    slug: 'fair-settlement-herniated-disc',
+    title: 'What Is a Fair Settlement for a Herniated Disc From a Truck Accident?',
+    description:
+      'Herniated disc settlements range from $75,000 to over $1 million. Understand the variables that determine where your case falls.',
+    readingTimeMin: 7,
+    tags: ['Injuries', 'Settlements', 'Damages'],
+  },
+  {
+    slug: 'truck-driver-prior-violations',
+    title: 'How a Truck Driver\'s Prior Violations Affect Your Case',
+    description:
+      'A driver\'s history of HOS violations, suspensions, or prior crashes can open the door to punitive damages and negligent hiring claims.',
+    readingTimeMin: 6,
+    tags: ['FMCSA', 'Negligence', 'Damages'],
+  },
 ];
 
 export default function GuidesPage() {

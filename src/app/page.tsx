@@ -913,6 +913,7 @@ export default function Home() {
                 </p>
                 <ul className="space-y-3">
                   {[
+                    { label: "About", href: "/about" },
                     { label: "Settlement Calculator", href: "/calculator" },
                     { label: "Truck Accident Guides", href: "/guides" },
                     { label: "Carrier Company Profiles", href: "/companies" },

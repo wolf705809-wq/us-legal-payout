@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { href: '/settlements', label: 'By State' },
   { href: '/companies', label: 'Companies' },
   { href: '/guides', label: 'Guides' },
+  { href: '/about', label: 'About' },
 ];
 
 export default function NavHeader() {
