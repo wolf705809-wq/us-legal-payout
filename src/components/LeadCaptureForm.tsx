@@ -142,7 +142,7 @@ export default function LeadCaptureForm({
     {/* TrustedForm */}
     <Script
       id="trustedform"
-      strategy="lazyOnload"
+      strategy="afterInteractive"
       dangerouslySetInnerHTML={{
         __html: `(function() {
   var tf = document.createElement('script');
@@ -159,7 +159,7 @@ export default function LeadCaptureForm({
     {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
       <Script
         src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
       />
     )}
     <form onSubmit={handleSubmit} className="space-y-4">
