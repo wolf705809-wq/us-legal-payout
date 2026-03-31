@@ -74,7 +74,6 @@ export default function LeadCaptureForm({
       }
       return undefined;
     })();
-    console.log('제출 시 trustedFormUrl:', trustedFormUrl);
     setLoading(true);
     const utm = getStoredUtmParams();
     const turnstileToken =
