@@ -55,9 +55,7 @@ export default function RootLayout({
     var invertFieldSensitivity = false;
     var tf = document.createElement('script');
     tf.type = 'text/javascript'; tf.async = true;
-    tf.src = 'http' + (Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > -1 ? 's' : '') +
-        '://api.trustedform.com/trustedform.js?field=' + field + '&provide_referrer=' + provideReferrer +
-        '&invert_field_sensitivity=' + invertFieldSensitivity + '&get_on_request_id=true';
+    tf.src = 'https://api.trustedform.com/trustedform.js?field=xxTrustedFormCertUrl&provide_referrer=false&invert_field_sensitivity=false&get_on_request_id=true';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(tf, s);
 })();`,
           }}
