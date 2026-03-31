@@ -59,6 +59,7 @@ export default function LeadCaptureForm({
     const interval = setInterval(() => {
       const el = document.querySelector('input[name="xxTrustedFormCertUrl"]') as HTMLInputElement | null;
       if (el?.value) {
+        console.log('TrustedForm 값 감지:', el.value);
         setTrustedFormUrl(el.value);
         clearInterval(interval);
       }
@@ -79,6 +80,7 @@ export default function LeadCaptureForm({
     e.preventDefault();
     if (!consent) return;
     setLoading(true);
+    console.log('제출 시 trustedFormUrl:', trustedFormUrl);
     const utm = getStoredUtmParams();
     const turnstileToken =
       typeof document !== 'undefined'
