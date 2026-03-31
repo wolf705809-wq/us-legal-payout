@@ -51,8 +51,20 @@ export default function LeadCaptureForm({
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [emailSuggestion, setEmailSuggestion] = useState<string | null>(null);
+  const [trustedFormUrl, setTrustedFormUrl] = useState<string | undefined>(undefined);
 
   useEffect(() => { captureUtmParams(); }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const el = document.querySelector('input[name="xxTrustedFormCertUrl"]') as HTMLInputElement | null;
+      if (el?.value) {
+        setTrustedFormUrl(el.value);
+        clearInterval(interval);
+      }
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
 
   const handlePhoneChange = (raw: string) => {
     setForm(p => ({ ...p, phone: formatPhone(raw) }));
@@ -68,10 +80,6 @@ export default function LeadCaptureForm({
     if (!consent) return;
     setLoading(true);
     const utm = getStoredUtmParams();
-    const trustedFormUrl =
-      typeof document !== 'undefined'
-        ? (document.querySelector('input[name="xxTrustedFormCertUrl"]') as HTMLInputElement | null)?.value ?? undefined
-        : undefined;
     const turnstileToken =
       typeof document !== 'undefined'
         ? (document.querySelector('input[name="cf-turnstile-response"]') as HTMLInputElement | null)?.value ?? undefined
