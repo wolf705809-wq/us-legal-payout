@@ -51,21 +51,7 @@ export default function LeadCaptureForm({
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [emailSuggestion, setEmailSuggestion] = useState<string | null>(null);
-  const [trustedFormUrl, setTrustedFormUrl] = useState<string | undefined>(undefined);
-
   useEffect(() => { captureUtmParams(); }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const el = document.querySelector('input[name="xxTrustedFormCertUrl"]') as HTMLInputElement | null;
-      if (el?.value) {
-        console.log('TrustedForm 값 감지:', el.value);
-        setTrustedFormUrl(el.value);
-        clearInterval(interval);
-      }
-    }, 500);
-    return () => clearInterval(interval);
-  }, []);
 
   const handlePhoneChange = (raw: string) => {
     setForm(p => ({ ...p, phone: formatPhone(raw) }));
@@ -80,6 +66,15 @@ export default function LeadCaptureForm({
     e.preventDefault();
     if (!consent) return;
     setLoading(true);
+    const trustedFormUrl = (() => {
+      const inputs = document.querySelectorAll('input[name="xxTrustedFormCertUrl"]');
+      for (const input of inputs) {
+        if ((input as HTMLInputElement).value) {
+          return (input as HTMLInputElement).value;
+        }
+      }
+      return undefined;
+    })();
     console.log('제출 시 trustedFormUrl:', trustedFormUrl);
     const utm = getStoredUtmParams();
     const turnstileToken =
