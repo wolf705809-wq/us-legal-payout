@@ -266,7 +266,7 @@ export default async function GuidePage({ params }: Props) {
           <div className="max-w-6xl mx-auto px-6 py-8 text-xs flex flex-col sm:flex-row justify-between gap-3" style={{ color: '#2d3f54' }}>
             <p>
               <strong style={{ color: '#3d5270' }}>Attorney Advertising</strong> · Not a law firm · Not legal advice ·
-              Past results do not guarantee similar outcomes. © 2026 Nodal Logics
+              Past results do not guarantee similar outcomes. © 2026 TruckSettlementPro
             </p>
             <div className="flex gap-4">
               <Link href="/terms" style={{ color: '#3d5270' }} className="hover:text-white transition-colors">Terms</Link>

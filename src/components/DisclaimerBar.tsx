@@ -19,7 +19,7 @@ export default function DisclaimerBar() {
           Settlement estimates are for informational purposes only and do not constitute legal advice or predict any specific outcome.
           Consult a licensed attorney for advice specific to your situation.
           {' · '}
-          &copy; 2026 Nodal Logics
+          &copy; 2026 TruckSettlementPro
         </p>
       </div>
     </div>

@@ -172,7 +172,7 @@ export default function AboutPage() {
           </h2>
           <p className="text-sm" style={{ color: '#C8CADA', lineHeight: '1.8' }}>
             TruckSettlementPro is operated by{' '}
-            <span className="text-white font-semibold">Nodal Logics</span>, a legal technology
+            <span className="text-white font-semibold">TruckSettlementPro</span>, a legal technology
             company focused on making complex legal and regulatory information accessible to
             people who need it most.
           </p>
@@ -247,7 +247,7 @@ export default function AboutPage() {
         <div className="max-w-3xl mx-auto px-6 py-8 text-xs flex flex-col sm:flex-row justify-between gap-3" style={{ color: '#2d3f54' }}>
           <p>
             <strong style={{ color: '#3d5270' }}>Attorney Advertising</strong> · Not a law firm · Not legal advice ·
-            © 2026 Nodal Logics
+            © 2026 TruckSettlementPro
           </p>
           <div className="flex gap-4">
             <Link href="/terms" style={{ color: '#3d5270' }} className="hover:text-white transition-colors">Terms</Link>

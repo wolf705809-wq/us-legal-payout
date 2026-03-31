@@ -4,13 +4,13 @@ import StatsCounter from "@/components/StatsCounter";
 import NavHeader from "@/components/NavHeader";
 
 export const metadata: Metadata = {
-  title: "TruckSettlementPro — Truck Accident Settlement Calculator",
+  title: "TruckSettlementPro — Free Truck Accident Settlement Calculator",
   description:
-    "Injured in a truck accident? Find out what your case may be worth with our free, state-specific settlement calculator — powered by FMCSA and NHTSA data.",
+    "See what your truck accident case is worth. Free calculator applies your state's fault laws, FMCSA data, and injury multipliers. No sign-up required.",
   openGraph: {
-    title: "TruckSettlementPro — Truck Accident Settlement Calculator",
+    title: "TruckSettlementPro — Free Truck Accident Settlement Calculator",
     description:
-      "State-specific truck accident settlement estimates based on real crash data, state law, and carrier safety records.",
+      "See what your truck accident case is worth. Free calculator applies your state's fault laws, FMCSA data, and injury multipliers. No sign-up required.",
   },
 };
 
@@ -860,7 +860,7 @@ export default function Home() {
                   TruckSettlementPro
                 </p>
                 <p className="text-xs mb-1" style={{ color: "#3d5270" }}>
-                  Operated by Nodal Logics
+                  TruckSettlementPro
                 </p>
                 <p className="text-xs mb-1" style={{ color: "#3d5270" }}>
                   300 Delaware Ave, Ste 210 #209, Wilmington, DE 19801

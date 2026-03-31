@@ -379,7 +379,7 @@ export default function CompaniesPage() {
         <div className="max-w-4xl mx-auto px-6 py-8 text-xs flex flex-col sm:flex-row justify-between gap-3" style={{ color: '#2d3f54' }}>
           <p>
             <strong style={{ color: '#3d5270' }}>Attorney Advertising</strong> · Not a law firm · Not legal advice ·
-            © 2026 Nodal Logics
+            © 2026 TruckSettlementPro
           </p>
           <div className="flex gap-4">
             <Link href="/terms" style={{ color: '#3d5270' }} className="hover:text-white transition-colors">Terms</Link>

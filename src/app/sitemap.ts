@@ -9,6 +9,21 @@ const GUIDE_SLUGS = [
   'fmcsa-regulations-and-your-rights',
   'comparative-fault-laws-by-state',
   'trucking-company-liability',
+  'preserve-black-box-evidence',
+  'reject-insurance-first-offer',
+  'settle-without-lawyer',
+  'how-trucking-companies-hide-liability',
+  'fmcsa-violations-settlement',
+  'how-long-truck-cases-take',
+  'jackknife-accident-claims',
+  'document-injuries-compensation',
+  'what-to-say-insurance-adjusters',
+  'underride-accidents-legal-complexity',
+  'fault-multi-vehicle-truck-accidents',
+  'sue-trucking-company-directly',
+  'pre-existing-conditions-claim',
+  'fair-settlement-herniated-disc',
+  'truck-driver-prior-violations',
 ];
 
 const BASE_URL = 'https://us-settlement-review.com';

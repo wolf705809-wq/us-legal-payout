@@ -382,7 +382,7 @@ export default function SettlementsHubPage() {
                   TruckSettlementPro
                 </p>
                 <p className="text-xs mb-3" style={{ color: '#3d5270' }}>
-                  Operated by Nodal Logics
+                  TruckSettlementPro
                 </p>
                 <p className="text-xs" style={{ color: '#2d3f54', lineHeight: '1.8' }}>
                   <strong style={{ color: '#3d5270' }}>Not Legal Advice.</strong>{' '}
