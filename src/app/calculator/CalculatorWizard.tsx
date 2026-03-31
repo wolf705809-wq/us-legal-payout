@@ -897,10 +897,16 @@ function ResultsView({
   const isZero = results.adjusted === 0;
   const isUnlocked = leadSubmitted;
   const [consent, setConsent] = useState(false);
+  const [shake, setShake] = useState(false);
   const [emailSuggestion, setEmailSuggestion] = useState<string | null>(null);
 
   const handleUnlockSubmit = (e: React.FormEvent) => {
-    if (!consent) { e.preventDefault(); return; }
+    if (!consent) {
+      e.preventDefault();
+      setShake(true);
+      setTimeout(() => setShake(false), 600);
+      return;
+    }
     onSubmitLead(e);
   };
 
@@ -969,21 +975,6 @@ function ResultsView({
           </>
         )}
       </div>
-
-      {/* ── Estimate disclaimer ── */}
-      {!isZero && (
-        <div
-          className="flex items-start gap-3 px-4 py-3 rounded-lg mb-5 text-xs leading-relaxed"
-          style={{ backgroundColor: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.2)', color: '#8A95A8' }}
-        >
-          <span className="flex-shrink-0 mt-0.5" style={{ color: '#D4A84B' }}>⚠</span>
-          <span>
-            <strong style={{ color: '#C8CADA' }}>This estimate is for informational purposes only.</strong>{' '}
-            It is NOT legal advice and does NOT guarantee any outcome. Actual settlements vary significantly based on case-specific facts, evidence, attorney skill, and many other factors.{' '}
-            <a href="/terms" style={{ color: '#5a7090', textDecoration: 'underline' }}>Terms of Service</a>
-          </span>
-        </div>
-      )}
 
       {/* ── LOCKED SECTION — Blurred until form submitted ── */}
       {!isZero && (
@@ -1264,7 +1255,7 @@ function ResultsView({
                   </p>
                 )}
               </div>
-              <label className="flex items-start gap-3 cursor-pointer">
+              <label className={`flex items-start gap-3 cursor-pointer${shake ? ' animate-shake' : ''}`}>
                 <input
                   type="checkbox"
                   required
@@ -1283,13 +1274,13 @@ function ResultsView({
               </label>
               <button
                 type="submit"
-                disabled={leadLoading || !consent}
+                disabled={leadLoading}
                 className="w-full py-4 rounded-lg font-black text-sm transition-all hover:opacity-90"
                 style={{
-                  backgroundColor: (!consent || leadLoading) ? '#5a4820' : '#D4A84B',
-                  color: (!consent || leadLoading) ? '#8a7040' : '#0F1D32',
-                  cursor: (!consent || leadLoading) ? 'not-allowed' : 'pointer',
-                  opacity: !consent ? 0.7 : 1,
+                  backgroundColor: '#D4A84B',
+                  color: '#0F1D32',
+                  cursor: leadLoading ? 'not-allowed' : 'pointer',
+                  opacity: 1,
                 }}
               >
                 {leadLoading ? 'Unlocking…' : '🔓 Unlock My Full Report →'}
@@ -1337,6 +1328,21 @@ function ResultsView({
         Results vary significantly based on case-specific facts, evidence, jurisdiction, and the skill of your attorney.
         Consult a licensed attorney for advice specific to your situation.
       </p>
+
+      {/* ── Estimate disclaimer ── */}
+      {!isZero && (
+        <div
+          className="flex items-start gap-3 px-4 py-3 rounded-lg mt-4 text-xs leading-relaxed"
+          style={{ backgroundColor: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.2)', color: '#8A95A8' }}
+        >
+          <span className="flex-shrink-0 mt-0.5" style={{ color: '#D4A84B' }}>⚠</span>
+          <span>
+            <strong style={{ color: '#C8CADA' }}>This estimate is for informational purposes only.</strong>{' '}
+            It is NOT legal advice and does NOT guarantee any outcome. Actual settlements vary significantly based on case-specific facts, evidence, attorney skill, and many other factors.{' '}
+            <a href="/terms" style={{ color: '#5a7090', textDecoration: 'underline' }}>Terms of Service</a>
+          </span>
+        </div>
+      )}
     </div>
   );
 }

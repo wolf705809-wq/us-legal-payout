@@ -171,6 +171,20 @@ export default function CompaniesPage() {
                 >
                   Search FMCSA SAFER →
                 </button>
+                <Link
+                  href="/calculator"
+                  className="flex-shrink-0 rounded-lg font-black text-sm flex items-center justify-center"
+                  style={{
+                    backgroundColor: 'transparent',
+                    border: '1px solid #D4A84B',
+                    color: '#D4A84B',
+                    padding: '14px 24px',
+                    minHeight: '48px',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  Calculate My Settlement →
+                </Link>
               </div>
             </form>
 

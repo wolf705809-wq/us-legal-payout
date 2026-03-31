@@ -7,6 +7,23 @@ import { INJURY_TYPES } from '@/lib/injury-types';
 import LeadCaptureForm from '@/components/LeadCaptureForm';
 import NavHeader from '@/components/NavHeader';
 
+// ── Accident type settlement ranges ───────────────────────────────────────────
+
+const TYPE_RANGES: Record<string, [string, string]> = {
+  'jackknife':            ['$180K', '$420K'],
+  'rear-end-collision':   ['$95K',  '$280K'],
+  'rollover':             ['$220K', '$580K'],
+  'underride':            ['$350K', '$850K'],
+  'wide-turn':            ['$85K',  '$220K'],
+  'blind-spot':           ['$110K', '$310K'],
+  'brake-failure':        ['$260K', '$620K'],
+  'hazmat-spill':         ['$140K', '$380K'],
+  'tire-blowout':         ['$120K', '$340K'],
+  'multi-vehicle-pileup': ['$290K', '$710K'],
+  'head-on-collision':    ['$410K', '$980K'],
+  't-bone':               ['$150K', '$390K'],
+};
+
 // ── Static generation ──────────────────────────────────────────────────────────
 
 export const revalidate = 86400;
@@ -247,10 +264,7 @@ export default async function StateLandingPage({ params }: Props) {
             </p>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {ACCIDENT_TYPES.map(at => {
-                // Moderate range for each type card
-                const total = 75_000 * (1 + 4);
-                const lo = fmt(total * 0.70);
-                const hi = fmt(total * 1.35);
+                const [lo, hi] = TYPE_RANGES[at.slug] ?? ['$85K', '$420K'];
                 return (
                   <Link
                     key={at.slug}
@@ -268,7 +282,7 @@ export default async function StateLandingPage({ params }: Props) {
                     </p>
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-xs uppercase tracking-wide" style={{ color: '#4a5e78' }}>Moderate injury est.</p>
+                        <p className="text-xs uppercase tracking-wide" style={{ color: '#4a5e78' }}>Typical settlement</p>
                         <p className="text-sm font-bold" style={{ color: '#D4A84B' }}>
                           {lo} – {hi}
                         </p>
@@ -371,23 +385,23 @@ export default async function StateLandingPage({ params }: Props) {
 
           {/* ── Calculator CTA ── */}
           <section
-            className="rounded-xl p-8 text-center"
-            style={{ background: 'linear-gradient(135deg, #0F1D32, #0F1D32)', border: '2px solid rgba(212,168,75,0.35)' }}
+            className="rounded-xl p-10 text-center"
+            style={{ background: 'linear-gradient(135deg, #0F1D32, #0a1829)', border: '2px solid rgba(212,168,75,0.5)', boxShadow: '0 8px 40px rgba(212,168,75,0.15)' }}
           >
-            <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#D4A84B', letterSpacing: '0.2em' }}>
+            <p className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: '#D4A84B', letterSpacing: '0.25em' }}>
               Free · No Sign-Up · 3 Minutes
             </p>
-            <h2 className="text-2xl font-extrabold text-white mb-3">
+            <h2 className="text-3xl font-black text-white mb-4" style={{ letterSpacing: '-0.02em' }}>
               Calculate Your {sd.name} Truck Accident Settlement
             </h2>
-            <p className="text-sm mb-7 max-w-lg mx-auto" style={{ color: '#C8CADA' }}>
+            <p className="text-base mb-8 max-w-lg mx-auto" style={{ color: '#C8CADA' }}>
               Enter your specific damages and fault percentage. Our calculator applies{' '}
               {sd.name}&apos;s {faultInfo.label.toLowerCase()} rule to your exact numbers.
             </p>
             <Link
               href="/calculator"
-              className="inline-block px-10 py-4 rounded-lg font-black text-base transition-all hover:scale-105"
-              style={{ backgroundColor: '#D4A84B', color: '#0F1D32', boxShadow: '0 6px 24px rgba(212,168,75,0.3)' }}
+              className="inline-block px-14 py-5 rounded-lg font-black text-lg transition-all hover:scale-105"
+              style={{ backgroundColor: '#D4A84B', color: '#0F1D32', boxShadow: '0 8px 32px rgba(212,168,75,0.4)' }}
             >
               Calculate My Settlement →
             </Link>
@@ -395,11 +409,14 @@ export default async function StateLandingPage({ params }: Props) {
 
           {/* ── Lead Capture ── */}
           <section
-            className="rounded-xl p-6 sm:p-8"
-            style={{ backgroundColor: '#0F1D32', border: '2px solid rgba(212,168,75,0.3)' }}
+            className="rounded-xl p-5 sm:p-6"
+            style={{ backgroundColor: '#0a1220', border: '1px solid rgba(255,255,255,0.07)' }}
           >
-            <h2 className="text-xl font-bold text-white mb-1">Get a Free Case Evaluation</h2>
-            <p className="text-sm mb-6" style={{ color: '#C8CADA' }}>
+            <p className="text-xs mb-4" style={{ color: '#4a5e78' }}>
+              Skip the calculator — get a free consultation directly
+            </p>
+            <h2 className="text-base font-semibold text-white mb-1">Get a Free Case Evaluation</h2>
+            <p className="text-xs mb-5" style={{ color: '#8A95A8' }}>
               Connect with a truck accident attorney licensed in {sd.name}. Free consultation,
               no obligation — attorneys work on contingency.
             </p>

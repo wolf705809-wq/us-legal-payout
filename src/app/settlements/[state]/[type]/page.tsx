@@ -463,58 +463,6 @@ export default async function SettlementPage({ params }: Props) {
             )}
           </section>
 
-          {/* ── Settlement Estimates Table ── */}
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-2">
-              {sd.name} {at.name} Settlement Ranges by Injury Severity
-            </h2>
-            <p className="text-sm mb-5" style={{ color: '#8A95A8' }}>
-              Based on typical economic damages for commercial truck accidents. Assumes 0% plaintiff fault.
-              Actual amounts vary significantly based on case-specific evidence, attorney skill, and insurance policy limits.
-            </p>
-            <div
-              className="settlement-table rounded-xl overflow-hidden"
-              style={{ border: '1px solid rgba(255,255,255,0.08)' }}
-            >
-              <table className="w-full text-sm">
-                <thead>
-                  <tr style={{ backgroundColor: '#1a2d47' }}>
-                    <th className="px-5 py-4 text-left font-bold" style={{ color: '#D4A84B' }}>Injury Severity</th>
-                    <th className="px-5 py-4 text-left font-bold hidden sm:table-cell" style={{ color: '#D4A84B' }}>Description</th>
-                    <th className="px-5 py-4 text-right font-bold" style={{ color: '#D4A84B' }}>Est. Settlement Range</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {SEVERITY_TABLE.map(({ label, sub, baseEcon, mult }, i) => {
-                    const r = settlementRange(baseEcon, mult);
-                    return (
-                      <tr
-                        key={label}
-                        style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
-                      >
-                        <td className="px-5 py-4 font-semibold text-white">{label}</td>
-                        <td className="px-5 py-4 hidden sm:table-cell" style={{ color: '#8A95A8' }}>{sub}</td>
-                        <td className="px-5 py-4 text-right font-semibold tabular-nums" style={{ color: '#D4A84B' }}>
-                          {r.low} – {r.high}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-            <p className="text-xs mt-3" style={{ color: '#2d3f54' }}>
-              Range represents the 25th–90th percentile of estimated outcomes. Does not account for {sd.name} fault deductions.
-              Commercial truck policies typically carry $750K–$5M in coverage, which may cap your actual recovery.
-            </p>
-            <div
-              className="mt-4 px-4 py-3 rounded-lg text-xs leading-relaxed"
-              style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', color: '#3d5270' }}
-            >
-              <strong style={{ color: '#4a6480' }}>Disclaimer:</strong> Settlement ranges shown are estimates based on general multiplier methods and publicly available data. They do not predict outcomes for any specific case. Every truck accident case is unique. <a href="/terms" style={{ color: '#4a6480', textDecoration: 'underline' }}>Terms of Service</a>
-            </div>
-          </section>
-
           {/* ── Calculator CTA ── */}
           <section
             className="rounded-xl p-8 text-center"
