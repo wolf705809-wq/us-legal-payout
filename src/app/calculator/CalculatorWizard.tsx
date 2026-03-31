@@ -1413,6 +1413,7 @@ export default function CalculatorWizard() {
       setErrors([]);
     } else {
       setResults(calculate(form));
+      (window as any).gtag?.('event', 'calculator_completed');
     }
   };
 
@@ -1467,6 +1468,7 @@ export default function CalculatorWizard() {
         throw new Error(`Submission failed (${res.status}). Please try again.`);
       }
       setLeadSubmitted(true);
+      (window as any).gtag?.('event', 'lead_submitted');
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Submission failed. Please try again.';
       setLeadError(message);

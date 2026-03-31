@@ -106,6 +106,7 @@ export default function LeadCaptureForm({
         setErrorMsg(json.error ?? 'Something went wrong. Please try again.');
       } else {
         setSubmitted(true);
+        (window as any).gtag?.('event', 'lead_submitted');
       }
     } catch {
       setErrorMsg('Network error. Please check your connection and try again.');
