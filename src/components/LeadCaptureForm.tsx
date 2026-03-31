@@ -148,6 +148,7 @@ export default function LeadCaptureForm({
       />
     )}
     <form onSubmit={handleSubmit} className="space-y-4">
+      <input type="hidden" name="xxTrustedFormCertUrl" />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-xs font-semibold mb-1.5" style={{ color: '#8A95A8' }}>
