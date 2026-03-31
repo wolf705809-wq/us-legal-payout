@@ -11,16 +11,15 @@ interface FormData {
   state: string;
   accidentType: string;
   accidentDate: string;
+  zipCode: string;
   injuryTypes: string[];
   severity: string;
   hospitalized: boolean | null;
   surgery: boolean | null;
-  medicalBills: string;
-  futureMedicalUnknown: boolean;
-  futureMedical: string;
-  lostWages: string;
-  futureWages: string;
-  propertyDamage: string;
+  policeReport: boolean | null;
+  hasAttorney: boolean | null;
+  medicalCostRange: string;
+  insuranceCoverage: string;
   faultPct: number;
   truckingCompany: string;
 }
@@ -108,11 +107,20 @@ const SEVERITIES = [
   { value: 'fatal', label: 'Fatal / Wrongful Death', desc: 'Fatality resulting from the accident', multiplier: 10 },
 ];
 
+const MEDICAL_RANGE_MAP: Record<string, number> = {
+  'Under $10,000': 5000,
+  '$10,000 – $50,000': 30000,
+  '$50,000 – $100,000': 75000,
+  '$100,000 – $500,000': 300000,
+  'Over $500,000': 750000,
+  'Not sure yet': 50000,
+};
+
 const INITIAL_FORM: FormData = {
-  state: '', accidentType: '', accidentDate: '',
+  state: '', accidentType: '', accidentDate: '', zipCode: '',
   injuryTypes: [], severity: '', hospitalized: null, surgery: null,
-  medicalBills: '', futureMedicalUnknown: false, futureMedical: '',
-  lostWages: '', futureWages: '', propertyDamage: '',
+  policeReport: null, hasAttorney: null,
+  medicalCostRange: '', insuranceCoverage: '',
   faultPct: 0, truckingCompany: '',
 };
 
@@ -135,11 +143,11 @@ function formatDollars(n: number): string {
 }
 
 function calculate(form: FormData): CalcResult {
-  const medical = parseMoney(form.medicalBills);
-  const futureMed = form.futureMedicalUnknown ? medical * 1.5 : parseMoney(form.futureMedical);
-  const lost = parseMoney(form.lostWages);
-  const futureLost = parseMoney(form.futureWages);
-  const property = parseMoney(form.propertyDamage);
+  const medical = MEDICAL_RANGE_MAP[form.medicalCostRange] ?? 0;
+  const futureMed = 0;
+  const lost = 0;
+  const futureLost = 0;
+  const property = 0;
 
   const totalEconomic = medical + futureMed + lost + futureLost + property;
   const sev = SEVERITIES.find(s => s.value === form.severity);
@@ -391,6 +399,20 @@ function Step1({ form, update }: { form: FormData; update: (k: keyof FormData, v
           Truck black box (EDR) data is typically overwritten within 30 days. Time matters.
         </p>
       </div>
+
+      {/* ZIP Code */}
+      <div>
+        <label className="block text-sm font-semibold text-white mb-2">ZIP Code</label>
+        <input
+          type="text"
+          inputMode="numeric"
+          maxLength={5}
+          value={form.zipCode}
+          onChange={e => update('zipCode', e.target.value.replace(/\D/g, '').slice(0, 5))}
+          placeholder="90210"
+          style={fieldStyle}
+        />
+      </div>
     </div>
   );
 }
@@ -494,12 +516,14 @@ function Step2({
         </div>
       </div>
 
-      {/* Hospitalized / Surgery */}
+      {/* Hospitalized / Surgery / Police Report / Has Attorney */}
       <div className="grid grid-cols-2 gap-5">
         {(
           [
             { key: 'hospitalized' as const, label: 'Were you hospitalized?' },
             { key: 'surgery' as const, label: 'Surgery required?' },
+            { key: 'policeReport' as const, label: 'Was a police report filed?' },
+            { key: 'hasAttorney' as const, label: 'Have you already hired an attorney?' },
           ] as const
         ).map(({ key, label }) => (
           <div key={key}>
@@ -572,13 +596,8 @@ function Step3({
   update: (k: keyof FormData, v: FormData[keyof FormData]) => void;
   onSkip: () => void;
 }) {
-  const hint = (
-    <span className="text-xs ml-1.5" style={{ color: '#4a5e78', fontWeight: 400 }}>
-      — Don&apos;t know? Enter 0, we&apos;ll use state averages
-    </span>
-  );
   return (
-    <div className="space-y-5">
+    <div className="space-y-7">
       {/* Skip link */}
       <div className="flex justify-end">
         <button
@@ -591,63 +610,60 @@ function Step3({
         </button>
       </div>
 
+      {/* Medical Cost Range */}
       <div>
-        <label className="block text-sm font-semibold text-white mb-2">
-          Medical bills to date *{hint}
+        <label className="block text-sm font-semibold text-white mb-3">
+          Estimated Medical Costs (Total) *
         </label>
-        <div className="relative">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-medium select-none" style={{ color: '#4a5e78' }}>$</span>
-          <input
-            type="number" min="0" required
-            value={form.medicalBills}
-            onChange={e => update('medicalBills', e.target.value)}
-            placeholder="0"
-            style={{ ...fieldStyle, paddingLeft: '1.75rem' }}
-          />
+        <div className="space-y-2">
+          {Object.keys(MEDICAL_RANGE_MAP).map(option => {
+            const selected = form.medicalCostRange === option;
+            return (
+              <button
+                key={option}
+                type="button"
+                onClick={() => update('medicalCostRange', option)}
+                className="w-full px-4 py-3 rounded-lg text-left text-sm font-semibold transition-all"
+                style={{
+                  backgroundColor: selected ? 'rgba(212,168,75,0.1)' : 'rgba(255,255,255,0.03)',
+                  border: `1px solid ${selected ? '#D4A84B' : 'rgba(255,255,255,0.1)'}`,
+                  color: selected ? '#D4A84B' : '#C8CADA',
+                }}
+              >
+                <span className="mr-2">{selected ? '✓' : '○'}</span>{option}
+              </button>
+            );
+          })}
         </div>
       </div>
 
+      {/* Insurance Coverage */}
       <div>
-        <div className="flex items-center justify-between mb-2">
-          <label className="text-sm font-semibold text-white">Estimated future medical costs</label>
-          <label className="flex items-center gap-2 text-xs cursor-pointer select-none" style={{ color: '#8A95A8' }}>
-            <input
-              type="checkbox"
-              checked={form.futureMedicalUnknown}
-              onChange={e => update('futureMedicalUnknown', e.target.checked)}
-              style={{ accentColor: '#D4A84B' }}
-            />
-            Not sure — auto-estimate
-          </label>
+        <label className="block text-sm font-semibold text-white mb-3">
+          Does the trucking company have insurance coverage?
+        </label>
+        <div className="flex gap-2">
+          {(['Yes', 'No', 'Not Sure'] as const).map(opt => {
+            const val = opt === 'Yes' ? 'yes' : opt === 'No' ? 'no' : 'unknown';
+            const selected = form.insuranceCoverage === val;
+            return (
+              <button
+                key={opt}
+                type="button"
+                onClick={() => update('insuranceCoverage', val)}
+                className="flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all"
+                style={{
+                  backgroundColor: selected ? 'rgba(212,168,75,0.12)' : 'rgba(255,255,255,0.03)',
+                  border: `1px solid ${selected ? '#D4A84B' : 'rgba(255,255,255,0.1)'}`,
+                  color: selected ? '#D4A84B' : '#4a5e78',
+                }}
+              >
+                {opt}
+              </button>
+            );
+          })}
         </div>
-        {form.futureMedicalUnknown ? (
-          <div
-            className="px-4 py-3 rounded-lg text-sm"
-            style={{
-              backgroundColor: 'rgba(212,168,75,0.07)',
-              border: '1px solid rgba(212,168,75,0.25)',
-              color: '#C8CADA',
-            }}
-          >
-            Will be estimated at <strong style={{ color: '#D4A84B' }}>1.5× your current medical bills</strong>.
-          </div>
-        ) : (
-          <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-medium" style={{ color: '#4a5e78' }}>$</span>
-            <input
-              type="number" min="0"
-              value={form.futureMedical}
-              onChange={e => update('futureMedical', e.target.value)}
-              placeholder="0"
-              style={{ ...fieldStyle, paddingLeft: '1.75rem' }}
-            />
-          </div>
-        )}
       </div>
-
-      <MoneyField label="Lost wages to date" hint="Don't know? Enter 0" value={form.lostWages} onChange={v => update('lostWages', v)} />
-      <MoneyField label="Future lost earning capacity" hint="Don't know? Enter 0" value={form.futureWages} onChange={v => update('futureWages', v)} />
-      <MoneyField label="Vehicle / property damage" hint="Don't know? Enter 0" value={form.propertyDamage} onChange={v => update('propertyDamage', v)} />
     </div>
   );
 }
@@ -1377,8 +1393,8 @@ export default function CalculatorWizard() {
       if (!form.severity) e.push('Please select the injury severity.');
     }
     if (s === 3) {
-      if (!form.medicalBills || parseMoney(form.medicalBills) === 0)
-        e.push('Please enter your medical bills to date.');
+      if (!form.medicalCostRange)
+        e.push('Please select your estimated medical costs.');
     }
     return e;
   };
@@ -1429,6 +1445,11 @@ export default function CalculatorWizard() {
           accidentDate: form.accidentDate,
           faultPercentage: form.faultPct,
           truckingCompany: form.truckingCompany,
+          zip_code: form.zipCode,
+          police_report: form.policeReport,
+          has_attorney: form.hasAttorney,
+          medical_cost_range: form.medicalCostRange,
+          insurance_coverage: form.insuranceCoverage,
           sourceUrl: typeof window !== 'undefined' ? window.location.href : '',
           trusted_form_url: trustedFormUrl,
           ...utm,
@@ -1486,13 +1507,7 @@ export default function CalculatorWizard() {
             form={form}
             update={update}
             onSkip={() => {
-              // Zero out all financial fields and advance
-              update('medicalBills', '0');
-              update('futureMedical', '0');
-              update('futureMedicalUnknown', false);
-              update('lostWages', '0');
-              update('futureWages', '0');
-              update('propertyDamage', '0');
+              update('medicalCostRange', 'Not sure yet');
               setStep(4);
               setErrors([]);
             }}
