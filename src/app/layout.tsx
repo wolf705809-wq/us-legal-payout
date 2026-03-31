@@ -44,22 +44,6 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         {children}
         <DisclaimerBar />
-        {/* TrustedForm — Consent Tags Enabled */}
-        <Script
-          id="trustedform"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function() {
-    var field = 'xxTrustedFormCertUrl';
-    var provideReferrer = false;
-    var invertFieldSensitivity = false;
-    var tf = document.createElement('script');
-    tf.type = 'text/javascript'; tf.async = true;
-    tf.src = 'https://api.trustedform.com/trustedform.js?field=xxTrustedFormCertUrl&provide_referrer=false&invert_field_sensitivity=false&get_on_request_id=true';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(tf, s);
-})();`,
-          }}
-        />
       </body>
     </html>
   );
