@@ -37,7 +37,9 @@ const LeadSchema = z.object({
   accident_type: z.string().trim().max(200).optional(),
   injury_type: z.string().trim().max(200).optional(),
   severity: z.enum(['minor', 'moderate', 'serious', 'severe', 'catastrophic']).optional(),
-  accident_date: z.string().optional().refine(val => {
+  accident_date: z.string().optional()
+    .transform(val => val === '' ? undefined : val)
+    .refine(val => {
     if (!val) return true;
     const d = new Date(val);
     return !isNaN(d.getTime()) && d <= new Date();
