@@ -1402,6 +1402,15 @@ export default function CalculatorWizard() {
 
   const submitLead = async (e: React.FormEvent) => {
     e.preventDefault();
+    const trustedFormUrl = (() => {
+      const inputs = document.querySelectorAll('input[name="xxTrustedFormCertUrl"]');
+      for (const input of inputs) {
+        if ((input as HTMLInputElement).value) {
+          return (input as HTMLInputElement).value;
+        }
+      }
+      return undefined;
+    })();
     setLeadLoading(true);
     setLeadError(null);
     const utm = getStoredUtmParams();
@@ -1421,6 +1430,7 @@ export default function CalculatorWizard() {
           faultPercentage: form.faultPct,
           truckingCompany: form.truckingCompany,
           sourceUrl: typeof window !== 'undefined' ? window.location.href : '',
+          trusted_form_url: trustedFormUrl,
           ...utm,
         }),
       });
