@@ -139,22 +139,6 @@ export default function LeadCaptureForm({
 
   return (
     <>
-    {/* TrustedForm */}
-    <Script
-      id="trustedform"
-      strategy="afterInteractive"
-      dangerouslySetInnerHTML={{
-        __html: `(function() {
-  var tf = document.createElement('script');
-  tf.type = 'text/javascript'; tf.async = true;
-  tf.src = ("https:" == document.location.protocol ? 'https' : 'http') +
-    '://api.trustedform.com/trustedform.js?field=xxTrustedFormCertUrl&use_tagged_consent=true&l=' +
-    new Date().getTime() + Math.random();
-  var s = document.getElementsByTagName('script')[0];
-  s.parentNode.insertBefore(tf, s);
-})();`,
-      }}
-    />
     {/* Cloudflare Turnstile */}
     {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
       <Script
