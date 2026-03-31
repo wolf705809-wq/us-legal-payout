@@ -317,7 +317,7 @@ export default function GuidesPage() {
               fontSize: '16px',
             }}
           >
-            Calculate My Settlement →
+            Start My Free Case Review →
           </Link>
         </div>
       </main>

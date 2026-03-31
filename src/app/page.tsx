@@ -4,11 +4,11 @@ import StatsCounter from "@/components/StatsCounter";
 import NavHeader from "@/components/NavHeader";
 
 export const metadata: Metadata = {
-  title: "TruckSettlementPro — Free Truck Accident Settlement Calculator",
+  title: "TruckSettlementPro — Free Truck Accident Case Evaluation Tool",
   description:
-    "See what your truck accident case is worth. Free calculator applies your state's fault laws, FMCSA data, and injury multipliers. No sign-up required.",
+    "See what your truck accident case is worth. Free case evaluation applies your state's fault laws, FMCSA data, and injury multipliers. No sign-up required.",
   openGraph: {
-    title: "TruckSettlementPro — Free Truck Accident Settlement Calculator",
+    title: "TruckSettlementPro — Free Truck Accident Case Evaluation Tool",
     description:
       "See what your truck accident case is worth. Free calculator applies your state's fault laws, FMCSA data, and injury multipliers. No sign-up required.",
   },
@@ -245,7 +245,7 @@ export default function Home() {
                     fontWeight: 900,
                   }}
                 >
-                  Calculate My Settlement →
+                  Start My Free Case Review →
                 </Link>
               </div>
             </div>
@@ -361,7 +361,7 @@ export default function Home() {
               className="text-3xl sm:text-4xl font-black text-center mb-14"
               style={{ color: "#0a1829", letterSpacing: "-0.02em" }}
             >
-              A Settlement Estimate in Under 3 Minutes
+              A Case Evaluation in Under 3 Minutes
             </h2>
 
             {/* Step progress bar */}
@@ -842,7 +842,7 @@ export default function Home() {
                   fontWeight: 900,
                 }}
               >
-                Calculate My Settlement — Free
+                Get a Free Case Review
               </Link>
             </div>
           </div>
@@ -915,7 +915,7 @@ export default function Home() {
                 <ul className="space-y-3">
                   {[
                     { label: "About", href: "/about" },
-                    { label: "Settlement Calculator", href: "/calculator" },
+                    { label: "Case Evaluation Tool", href: "/calculator" },
                     { label: "Truck Accident Guides", href: "/guides" },
                     { label: "Carrier Company Profiles", href: "/companies" },
                     { label: "State Fault Laws", href: "/settlements" },

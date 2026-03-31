@@ -107,7 +107,7 @@ export function buildLeadConfirmationEmail(params: LeadConfirmationParams): {
             <!-- Settlement range -->
             <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0F1D32;border-radius:8px;margin-bottom:24px;border:2px solid #D4A84B;">
               <tr><td style="padding:24px;text-align:center;">
-                <p style="margin:0 0 8px;color:#8A95A8;font-size:11px;text-transform:uppercase;letter-spacing:2px;">Estimated Settlement Range</p>
+                <p style="margin:0 0 8px;color:#8A95A8;font-size:11px;text-transform:uppercase;letter-spacing:2px;">Estimated Case Value Range</p>
                 <p style="margin:0;">${rangeHtml}</p>
                 <p style="margin:10px 0 0;color:#5a7090;font-size:11px;line-height:1.6;">
                   Based on ${stateName} fault rules, FMCSA carrier data, and injury-specific multipliers.

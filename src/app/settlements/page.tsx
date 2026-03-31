@@ -122,7 +122,7 @@ export default function SettlementsHubPage() {
                   letterSpacing: '-0.01em',
                 }}
               >
-                Calculate My Settlement →
+                Start My Free Case Review →
               </Link>
               <p style={{ fontSize: '13px', color: '#4a6480' }}>
                 Free · No sign-up · All 50 states
@@ -364,7 +364,7 @@ export default function SettlementsHubPage() {
                   letterSpacing: '-0.01em',
                 }}
               >
-                Calculate My Settlement →
+                Start My Free Case Review →
               </Link>
             </div>
 
@@ -426,7 +426,7 @@ export default function SettlementsHubPage() {
                 </p>
                 <ul className="space-y-2">
                   {[
-                    { label: 'Settlement Calculator', href: '/calculator' },
+                    { label: 'Case Evaluation Tool', href: '/calculator' },
                     { label: 'Company Safety Records', href: '/companies' },
                     { label: 'Truck Accident Guides', href: '/guides' },
                     { label: 'Privacy Policy', href: '/privacy' },

@@ -4,11 +4,11 @@ import CalculatorWizard from './CalculatorWizard';
 const YEAR = new Date().getFullYear();
 
 export const metadata: Metadata = {
-  title: `Free Truck Accident Settlement Calculator — All 50 States (${YEAR})`,
+  title: `Free Truck Accident Case Evaluation Tool — All 50 States (${YEAR})`,
   description:
-    'Calculate your truck accident settlement in 2 minutes. Accounts for your state\'s fault laws, injury severity, and damages. No personal info required for instant results.',
+    'Evaluate your truck accident case in 2 minutes. Accounts for your state\'s fault laws, injury severity, and damages. No personal info required for instant results.',
   openGraph: {
-    title: `Free Truck Accident Settlement Calculator — All 50 States (${YEAR})`,
+    title: `Free Truck Accident Case Evaluation Tool — All 50 States (${YEAR})`,
     description:
       'State-specific settlement estimate powered by FMCSA data and real crash statistics. No sign-up required.',
   },
@@ -138,7 +138,7 @@ export default function CalculatorPage() {
               Free · No Sign-Up · Results in 3 Minutes
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-white">
-              Truck Accident Settlement Calculator
+              Truck Accident Case Evaluation Tool
             </h1>
             {/* Gold divider */}
             <div

@@ -55,6 +55,36 @@ export default function AboutPage() {
             We don&apos;t represent you. We don&apos;t represent the insurance company.{' '}
             <span className="text-white font-semibold">We represent the number.</span>
           </p>
+
+          {/* Stats row */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12 text-center">
+            {[
+              {
+                stat: '50 States',
+                desc: 'Every fault rule. Every filing deadline.',
+              },
+              {
+                stat: '$0 Paid to Attorneys',
+                desc: 'We don\'t take referral fees. We take no sides.',
+              },
+              {
+                stat: '100% Public Data',
+                desc: 'Every number is traceable to a federal record.',
+              },
+            ].map(({ stat, desc }) => (
+              <div key={stat} className="flex flex-col items-center gap-2">
+                <p
+                  className="text-2xl sm:text-3xl font-black"
+                  style={{ color: '#D4A84B', letterSpacing: '-0.02em' }}
+                >
+                  {stat}
+                </p>
+                <p className="text-sm" style={{ color: '#8A95A8', lineHeight: '1.6' }}>
+                  {desc}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

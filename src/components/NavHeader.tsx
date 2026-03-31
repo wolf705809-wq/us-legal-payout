@@ -182,7 +182,7 @@ export default function NavHeader() {
                 borderRadius: '10px',
               }}
             >
-              Free Settlement Calculator →
+              Free Case Evaluation →
             </Link>
           </div>
           <p style={{ marginTop: '24px', fontSize: '12px', color: '#3d5270' }}>

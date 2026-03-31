@@ -403,7 +403,7 @@ export default async function StateLandingPage({ params }: Props) {
               className="inline-block px-14 py-5 rounded-lg font-black text-lg transition-all hover:scale-105"
               style={{ backgroundColor: '#D4A84B', color: '#0F1D32', boxShadow: '0 8px 32px rgba(212,168,75,0.4)' }}
             >
-              Calculate My Settlement →
+              Start My Free Case Review →
             </Link>
           </section>
 

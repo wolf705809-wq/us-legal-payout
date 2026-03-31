@@ -245,7 +245,7 @@ export default async function GuidePage({ params }: Props) {
                   className="cta-gold inline-flex items-center rounded-lg font-black"
                   style={{ backgroundColor: '#D4A84B', color: '#080f1a', padding: '16px 40px', fontSize: '16px' }}
                 >
-                  Calculate My Settlement →
+                  Start My Free Case Review →
                 </Link>
               </section>
 

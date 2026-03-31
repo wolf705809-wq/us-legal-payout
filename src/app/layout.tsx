@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "TruckSettlementPro — Truck Accident Settlement Calculator",
+    default: "TruckSettlementPro — Truck Accident Case Evaluation Tool",
     template: "%s | TruckSettlementPro",
   },
   description:

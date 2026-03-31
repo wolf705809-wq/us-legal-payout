@@ -183,7 +183,7 @@ export default function CompaniesPage() {
                     whiteSpace: 'nowrap',
                   }}
                 >
-                  Calculate My Settlement →
+                  Start My Free Case Review →
                 </Link>
               </div>
             </form>
@@ -344,7 +344,7 @@ export default function CompaniesPage() {
               fontSize: '16px',
             }}
           >
-            Calculate My Settlement →
+            Start My Free Case Review →
           </Link>
         </section>
 

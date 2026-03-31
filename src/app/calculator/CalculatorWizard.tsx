@@ -944,7 +944,7 @@ function ResultsView({
           className="text-xs font-bold uppercase tracking-widest mb-2"
           style={{ color: isZero ? '#ef4444' : '#D4A84B', letterSpacing: '0.2em' }}
         >
-          Estimated Settlement Range
+          Estimated Case Value Range
         </p>
 
         {isZero ? (
@@ -1560,7 +1560,7 @@ export default function CalculatorWizard() {
               fontWeight: 900,
             }}
           >
-            {step === 4 ? 'Calculate My Settlement →' : `Next: ${STEP_TITLES[step]} →`}
+            {step === 4 ? 'Start My Free Case Review →' : `Next: ${STEP_TITLES[step]} →`}
           </button>
         </div>
       </div>
