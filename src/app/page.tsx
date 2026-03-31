@@ -180,6 +180,7 @@ export default function Home() {
               }}
             >
               <span
+                className="animate-pulse"
                 style={{
                   width: "6px",
                   height: "6px",
