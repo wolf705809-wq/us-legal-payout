@@ -36,7 +36,7 @@ const LeadSchema = z.object({
   state: z.string().trim().max(100).optional(),
   accident_type: z.string().trim().max(200).optional(),
   injury_type: z.string().trim().max(200).optional(),
-  severity: z.enum(['minor', 'moderate', 'serious', 'severe', 'catastrophic']).optional(),
+  severity: z.enum(['minor', 'moderate', 'severe', 'catastrophic', 'fatal']).optional(),
   accident_date: z.string().optional()
     .transform(val => val === '' ? undefined : val)
     .refine(val => {
