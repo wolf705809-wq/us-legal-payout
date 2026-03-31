@@ -65,7 +65,6 @@ export default function LeadCaptureForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!consent) return;
-    setLoading(true);
     const trustedFormUrl = (() => {
       const inputs = document.querySelectorAll('input[name="xxTrustedFormCertUrl"]');
       for (const input of inputs) {
@@ -76,6 +75,7 @@ export default function LeadCaptureForm({
       return undefined;
     })();
     console.log('제출 시 trustedFormUrl:', trustedFormUrl);
+    setLoading(true);
     const utm = getStoredUtmParams();
     const turnstileToken =
       typeof document !== 'undefined'
