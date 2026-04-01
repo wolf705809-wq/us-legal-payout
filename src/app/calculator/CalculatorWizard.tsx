@@ -921,6 +921,30 @@ function ResultsView({
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">
+      {/* ── Report Unlocked (최상단, unlock 후만 표시) ── */}
+      {isUnlocked && (
+        <div
+          className="glass-card rounded-xl p-6 mb-6"
+          style={{ background: 'rgba(255,255,255,0.04)', border: '2px solid rgba(212,168,75,0.35)' }}
+        >
+          <h2 className="text-lg font-bold text-white mb-1">Report Unlocked</h2>
+          <p className="text-sm mb-6" style={{ color: '#C8CADA' }}>
+            A licensed {stateData?.name ?? ''} attorney will contact you within 1 business day.
+          </p>
+          <div className="text-center py-6 space-y-4">
+            <p className="text-2xl font-black text-white">✓ Report Unlocked!</p>
+            <p className="text-sm leading-relaxed" style={{ color: '#C8CADA' }}>
+              A licensed attorney in <strong style={{ color: '#D4A84B' }}>{stateData?.name ?? 'your state'}</strong> will
+              contact you within 1 business day. In the meantime, save this page for reference.
+            </p>
+            <div className="pt-2">
+              <CallNowButton size="sm" />
+              <p className="text-xs mt-2" style={{ color: '#4a5e78' }}>For urgent matters, call us directly.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Back */}
       <button
         onClick={onBack}
@@ -1290,32 +1314,18 @@ function ResultsView({
       })()}
 
       {/* ── Unlock Lead Form ── */}
-      <div
-        className="glass-card rounded-xl p-6"
-        style={{ background: 'rgba(255,255,255,0.04)', border: '2px solid rgba(212,168,75,0.35)' }}
-      >
-        <h2 className="text-lg font-bold text-white mb-1">
-          {isUnlocked ? 'Report Unlocked' : 'Unlock Your Full Settlement Report — Free'}
-        </h2>
-        <p className="text-sm mb-6" style={{ color: '#C8CADA' }}>
-          {isUnlocked
-            ? `A licensed ${stateData?.name ?? ''} attorney will contact you within 1 business day.`
-            : `Enter your details to see the complete breakdown and connect with a licensed ${stateData?.name ?? ''} attorney.`}
-        </p>
+      {!isUnlocked && (
+        <div
+          className="glass-card rounded-xl p-6"
+          style={{ background: 'rgba(255,255,255,0.04)', border: '2px solid rgba(212,168,75,0.35)' }}
+        >
+          <h2 className="text-lg font-bold text-white mb-1">
+            Unlock Your Full Settlement Report — Free
+          </h2>
+          <p className="text-sm mb-6" style={{ color: '#C8CADA' }}>
+            {`Enter your details to see the complete breakdown and connect with a licensed ${stateData?.name ?? ''} attorney.`}
+          </p>
 
-        {isUnlocked ? (
-          <div className="text-center py-6 space-y-4">
-            <p className="text-2xl font-black text-white">✓ Report Unlocked!</p>
-            <p className="text-sm leading-relaxed" style={{ color: '#C8CADA' }}>
-              A licensed attorney in <strong style={{ color: '#D4A84B' }}>{stateData?.name ?? 'your state'}</strong> will
-              contact you within 1 business day. In the meantime, save this page for reference.
-            </p>
-            <div className="pt-2">
-              <CallNowButton size="sm" />
-              <p className="text-xs mt-2" style={{ color: '#4a5e78' }}>For urgent matters, call us directly.</p>
-            </div>
-          </div>
-        ) : (
           <>
             <form onSubmit={handleUnlockSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1434,8 +1444,8 @@ function ResultsView({
               </p>
             </div>
           </>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Disclaimer */}
       <p className="mt-6 text-xs leading-relaxed text-center" style={{ color: '#2d3f54' }}>
