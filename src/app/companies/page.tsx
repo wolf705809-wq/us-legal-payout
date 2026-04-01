@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import NavHeader from '@/components/NavHeader';
+import FMCSASearchForm from './FMCSASearchForm';
 
 export const metadata: Metadata = {
   title: 'Trucking Company Safety Records — FMCSA Data Lookup | TruckSettlementPro',
@@ -132,67 +133,7 @@ export default function CompaniesPage() {
               to the official FMCSA SAFER database.
             </p>
 
-            {/* Form submits directly to FMCSA */}
-            <form
-              action="https://safer.fmcsa.dot.gov/keywordx.asp"
-              method="GET"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="flex flex-col sm:flex-row gap-3">
-                <input
-                  type="text"
-                  name="searchstring"
-                  placeholder="e.g. Werner Enterprises, Swift Transportation, or DOT# 123456"
-                  required
-                  style={{
-                    flex: 1,
-                    backgroundColor: '#0a1829',
-                    border: '1px solid rgba(255,255,255,0.15)',
-                    borderRadius: '8px',
-                    padding: '14px 18px',
-                    fontSize: '15px',
-                    color: '#C8CADA',
-                    outline: 'none',
-                  }}
-                />
-                <input type="hidden" name="query_type" value="queryCarrierSnapshot" />
-                <input type="hidden" name="searchType" value="ANY" />
-                <button
-                  type="submit"
-                  className="cta-gold flex-shrink-0 rounded-lg font-black text-sm"
-                  style={{
-                    backgroundColor: '#D4A84B',
-                    color: '#0F1D32',
-                    padding: '14px 28px',
-                    minHeight: '48px',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  Search FMCSA SAFER →
-                </button>
-                <Link
-                  href="/calculator"
-                  className="flex-shrink-0 rounded-lg font-black text-sm flex items-center justify-center"
-                  style={{
-                    backgroundColor: 'transparent',
-                    border: '1px solid #D4A84B',
-                    color: '#D4A84B',
-                    padding: '14px 24px',
-                    minHeight: '48px',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  Start My Free Case Review →
-                </Link>
-              </div>
-            </form>
-
-            <p className="text-xs mt-4" style={{ color: '#3d5270' }}>
-              You will be redirected to{' '}
-              <span style={{ color: '#5a7090' }}>safer.fmcsa.dot.gov</span>, the official federal
-              carrier database. All data is public record.
-            </p>
+            <FMCSASearchForm />
           </div>
 
           {/* How to find the company name */}
