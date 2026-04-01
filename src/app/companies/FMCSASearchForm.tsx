@@ -4,33 +4,22 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 interface Carrier {
-  name?: string;
-  dotNumber?: string;
-  safetyRating?: string;
-  operatingStatus?: string;
-  totalViolations?: number;
-  totalCrashes?: number;
-  risk?: { level?: string };
-  [key: string]: unknown;
+  dot_number?: string;
+  legal_name?: string;
+  dba_name?: string;
+  physical_city?: string;
+  physical_state?: string;
+  power_units?: number;
+  drivers?: number;
+  safety_rating?: string | null;
+  out_of_service_date?: string | null;
 }
 
 interface ApiResponse {
-  carriers?: Carrier[];
-  name?: string;
-  dotNumber?: string;
-  safetyRating?: string;
-  operatingStatus?: string;
-  totalViolations?: number;
-  totalCrashes?: number;
-  risk?: { level?: string };
+  query?: string;
+  count?: number;
+  results?: Carrier[];
   error?: string;
-  [key: string]: unknown;
-}
-
-function normalizeResults(data: ApiResponse): Carrier[] {
-  if (Array.isArray(data.carriers)) return data.carriers;
-  if (data.name || data.dotNumber) return [data as Carrier];
-  return [];
 }
 
 const RATING_COLOR: Record<string, string> = {
@@ -39,16 +28,8 @@ const RATING_COLOR: Record<string, string> = {
   Unsatisfactory: '#f87171',
 };
 
-const RISK_COLOR: Record<string, string> = {
-  LOW: '#4ade80',
-  MODERATE: '#facc15',
-  HIGH: '#fb923c',
-  EXTREME: '#f87171',
-};
-
 function buildApiUrl(q: string): string {
-  const upper = q.toUpperCase();
-  if (/^MC\d+$/i.test(upper)) {
+  if (/^MC\d+$/i.test(q)) {
     return `/api/carrier?mc=${encodeURIComponent(q.replace(/^MC/i, ''))}`;
   }
   if (/^\d+$/.test(q)) {
@@ -80,7 +61,7 @@ export default function FMCSASearchForm() {
         return;
       }
 
-      setResults(normalizeResults(data));
+      setResults(data.results ?? []);
     } catch {
       setError('Network error. Please check your connection and try again.');
     } finally {
@@ -132,7 +113,6 @@ export default function FMCSASearchForm() {
         </button>
       </div>
 
-      {/* States */}
       <div className="mt-6">
 
         {/* Loading */}
@@ -169,35 +149,41 @@ export default function FMCSASearchForm() {
               {results.length} carrier{results.length > 1 ? 's' : ''} found
             </p>
             {results.map((carrier, i) => {
-              const ratingColor = RATING_COLOR[carrier.safetyRating ?? ''] ?? '#8A95A8';
-              const riskLevel = carrier.risk?.level?.toUpperCase();
-              const riskColor = RISK_COLOR[riskLevel ?? ''] ?? '#8A95A8';
+              const rating = carrier.safety_rating;
+              const ratingLabel = rating ?? 'Not Rated';
+              const ratingColor = RATING_COLOR[rating ?? ''] ?? '#8A95A8';
+              const location = [carrier.physical_city, carrier.physical_state].filter(Boolean).join(', ');
 
               return (
                 <div
-                  key={carrier.dotNumber ?? i}
+                  key={carrier.dot_number ?? i}
                   className="rounded-xl p-5"
-                  style={{
-                    backgroundColor: '#0a1829',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                  }}
+                  style={{ backgroundColor: '#0a1829', border: '1px solid rgba(255,255,255,0.08)' }}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+
                     {/* Left: carrier info */}
                     <div className="flex-1 space-y-3">
+
+                      {/* Name */}
                       <div>
                         <p className="text-base font-black text-white leading-snug">
-                          {carrier.name ?? '—'}
+                          {carrier.legal_name ?? '—'}
                         </p>
-                        {carrier.dotNumber && (
+                        {carrier.dba_name && carrier.dba_name !== carrier.legal_name && (
+                          <p className="text-xs mt-0.5" style={{ color: '#8A95A8' }}>
+                            DBA: {carrier.dba_name}
+                          </p>
+                        )}
+                        {carrier.dot_number && (
                           <p className="text-xs mt-0.5" style={{ color: '#5a7090' }}>
-                            DOT# {carrier.dotNumber}
+                            DOT# {carrier.dot_number}
                           </p>
                         )}
                       </div>
 
+                      {/* Badges */}
                       <div className="flex flex-wrap gap-2">
-                        {/* Safety rating */}
                         <span
                           className="text-xs px-2.5 py-1 rounded-full font-semibold"
                           style={{
@@ -206,51 +192,35 @@ export default function FMCSASearchForm() {
                             color: ratingColor,
                           }}
                         >
-                          {carrier.safetyRating ?? 'Not Rated'}
+                          {ratingLabel}
                         </span>
-
-                        {/* Operating status */}
-                        {carrier.operatingStatus && (
+                        {carrier.out_of_service_date && (
                           <span
                             className="text-xs px-2.5 py-1 rounded-full font-semibold"
-                            style={{
-                              backgroundColor: 'rgba(255,255,255,0.04)',
-                              border: '1px solid rgba(255,255,255,0.1)',
-                              color: '#8A95A8',
-                            }}
+                            style={{ backgroundColor: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.25)', color: '#f87171' }}
                           >
-                            {carrier.operatingStatus}
-                          </span>
-                        )}
-
-                        {/* Risk level */}
-                        {riskLevel && (
-                          <span
-                            className="text-xs px-2.5 py-1 rounded-full font-black"
-                            style={{
-                              backgroundColor: `${riskColor}18`,
-                              border: `1px solid ${riskColor}44`,
-                              color: riskColor,
-                            }}
-                          >
-                            {riskLevel} RISK
+                            Out of Service
                           </span>
                         )}
                       </div>
 
-                      <div className="flex gap-6 text-xs" style={{ color: '#5a7090' }}>
-                        <span>
-                          <span className="font-black" style={{ color: '#C8CADA' }}>
-                            {carrier.totalViolations ?? '—'}
-                          </span>{' '}
-                          violations
-                        </span>
-                        <span>
-                          <span className="font-black" style={{ color: '#C8CADA' }}>
-                            {carrier.totalCrashes ?? '—'}
-                          </span>{' '}
-                          crashes
-                        </span>
+                      {/* Details row */}
+                      <div className="flex flex-wrap gap-4 text-xs" style={{ color: '#5a7090' }}>
+                        {location && (
+                          <span>
+                            <span className="font-semibold" style={{ color: '#C8CADA' }}>{location}</span>
+                          </span>
+                        )}
+                        {carrier.power_units != null && (
+                          <span>
+                            <span className="font-black" style={{ color: '#C8CADA' }}>{carrier.power_units}</span> power units
+                          </span>
+                        )}
+                        {carrier.drivers != null && (
+                          <span>
+                            <span className="font-black" style={{ color: '#C8CADA' }}>{carrier.drivers}</span> drivers
+                          </span>
+                        )}
                       </div>
                     </div>
 
