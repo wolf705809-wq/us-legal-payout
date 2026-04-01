@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import NavHeader from '@/components/NavHeader';
+import Footer from '@/components/Footer';
 import StateFilterGrid from './StateFilterGrid';
 import { ACTIVE_STATE_SLUGS, getStateBySlug } from '@/lib/state-laws';
 import type { FaultRule } from '@/lib/state-laws';
@@ -372,98 +373,7 @@ export default function SettlementsHubPage() {
         </main>
 
         {/* ── Footer ── */}
-        <footer style={{ backgroundColor: '#040b16', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-          <div className="max-w-6xl mx-auto px-6 pt-14 pb-8">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 mb-10">
-
-              {/* Brand */}
-              <div>
-                <p className="font-black text-lg mb-1" style={{ color: '#D4A84B', letterSpacing: '-0.01em' }}>
-                  TruckSettlementPro
-                </p>
-                <p className="text-xs mb-3" style={{ color: '#3d5270' }}>
-                  TruckSettlementPro
-                </p>
-                <p className="text-xs" style={{ color: '#2d3f54', lineHeight: '1.8' }}>
-                  <strong style={{ color: '#3d5270' }}>Not Legal Advice.</strong>{' '}
-                  This tool provides general information only and does not constitute legal advice.
-                  No attorney-client relationship is formed by use of this site.
-                  Consult a licensed attorney for advice specific to your situation.
-                </p>
-              </div>
-
-              {/* State links */}
-              <div>
-                <p className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: '#5a7090', letterSpacing: '0.18em' }}>
-                  Popular States
-                </p>
-                <ul className="space-y-2">
-                  {[
-                    { name: 'Texas', slug: 'texas' },
-                    { name: 'California', slug: 'california' },
-                    { name: 'Florida', slug: 'florida' },
-                    { name: 'Georgia', slug: 'georgia' },
-                    { name: 'Illinois', slug: 'illinois' },
-                    { name: 'Pennsylvania', slug: 'pennsylvania' },
-                  ].map(({ name, slug }) => (
-                    <li key={slug}>
-                      <Link
-                        href={`/settlements/${slug}`}
-                        className="text-sm transition-colors hover:text-white"
-                        style={{ color: '#4a6480' }}
-                      >
-                        {name} Truck Settlements →
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Resources */}
-              <div>
-                <p className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: '#5a7090', letterSpacing: '0.18em' }}>
-                  Resources
-                </p>
-                <ul className="space-y-2">
-                  {[
-                    { label: 'Case Evaluation Tool', href: '/calculator' },
-                    { label: 'Company Safety Records', href: '/companies' },
-                    { label: 'Truck Accident Guides', href: '/guides' },
-                    { label: 'Privacy Policy', href: '/privacy' },
-                    { label: 'Terms of Use', href: '/terms' },
-                  ].map(({ label, href }) => (
-                    <li key={label}>
-                      <Link
-                        href={href}
-                        className="text-sm transition-colors hover:text-white"
-                        style={{ color: '#4a6480' }}
-                      >
-                        {label} →
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-            </div>
-
-            <div
-              className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-6 text-xs"
-              style={{ borderTop: '1px solid rgba(255,255,255,0.04)', color: '#2d3f54' }}
-            >
-              <p>
-                <strong style={{ color: '#3d5270' }}>Attorney Advertising</strong>
-                {' · '}
-                <span>Not a law firm</span>
-                {' · '}
-                <span>Not legal advice</span>
-                {' · '}
-                Prior results do not guarantee a similar outcome.
-              </p>
-              <p className="flex-shrink-0">&copy; 2026 TruckSettlementPro. All rights reserved.</p>
-            </div>
-          </div>
-        </footer>
+        <Footer />
 
       </div>
     </>

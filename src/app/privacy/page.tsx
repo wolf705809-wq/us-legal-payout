@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import NavHeader from '@/components/NavHeader';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | TruckSettlementPro',
@@ -384,6 +385,7 @@ export default function PrivacyPage() {
           </main>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

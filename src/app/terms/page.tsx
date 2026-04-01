@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import NavHeader from '@/components/NavHeader';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Terms of Service | TruckSettlementPro',
@@ -294,6 +295,7 @@ export default function TermsPage() {
           </main>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
