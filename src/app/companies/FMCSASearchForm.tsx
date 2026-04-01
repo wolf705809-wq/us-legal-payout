@@ -9,8 +9,7 @@ export default function FMCSASearchForm() {
   const handleSearch = () => {
     if (!query.trim()) return;
     const url = `https://safer.fmcsa.dot.gov/CompanySnapshot.aspx?searchtype=ANY&query=${encodeURIComponent(query.trim())}`;
-    const win = window.open('', '_blank');
-    if (win) win.location.href = url;
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
