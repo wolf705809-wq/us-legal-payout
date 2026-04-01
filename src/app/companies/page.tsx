@@ -134,7 +134,7 @@ export default function CompaniesPage() {
 
             {/* Form submits directly to FMCSA */}
             <form
-              action="https://safer.fmcsa.dot.gov/query.asp"
+              action="https://safer.fmcsa.dot.gov/keywordx.asp"
               method="GET"
               target="_blank"
               rel="noopener noreferrer"
