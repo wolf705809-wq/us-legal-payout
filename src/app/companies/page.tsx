@@ -129,8 +129,7 @@ export default function CompaniesPage() {
             </h2>
             <p className="text-sm mb-6" style={{ color: '#8A95A8', lineHeight: '1.75' }}>
               Enter a trucking company name or DOT number to view their publicly available safety data
-              from the Federal Motor Carrier Safety Administration (FMCSA). You will be taken directly
-              to the official FMCSA SAFER database.
+              from the Federal Motor Carrier Safety Administration (FMCSA). Results are pulled directly from FMCSA carrier data.
             </p>
 
             <FMCSASearchForm />

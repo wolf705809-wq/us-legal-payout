@@ -1128,6 +1128,121 @@ function ResultsView({
                 Call Now →
               </div>
             </a>
+
+            {isUnlocked && (
+              <>
+                {/* ── Evidence Preservation Checklist ── */}
+                <div
+                  className="glass-card rounded-xl p-5 mb-4"
+                  style={{
+                    background: 'rgba(255,255,255,0.04)',
+                    border: '0.5px solid rgba(255,255,255,0.10)',
+                  }}
+                >
+                  <h2 className="text-sm font-bold text-white mb-1">
+                    Critical: Preserve Evidence Now
+                  </h2>
+                  <p className="text-xs mb-4" style={{ color: '#8A95A8' }}>
+                    Truck accident evidence disappears fast — EDR data can be overwritten in 30 days
+                  </p>
+                  <ul className="space-y-3">
+                    {[
+                      'Send a written spoliation letter to the trucking company demanding EDR/black box data preservation (do this within 72 hours)',
+                      'Photograph all vehicles, road conditions, skid marks, and debris before the scene is cleared',
+                      'Request the truck\'s dashcam footage immediately — carriers often overwrite within 48–72 hours',
+                      'Collect names, phone numbers, and statements from all witnesses at the scene',
+                      'Obtain the police report and verify the carrier name and DOT number are recorded correctly',
+                      'Do NOT give a recorded statement to the insurance company before consulting an attorney',
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm" style={{ color: '#C8CADA' }}>
+                        <span style={{ color: '#D4A84B', flexShrink: 0, marginTop: '1px' }}>→</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div
+                    className="mt-4 rounded-lg p-3 text-xs leading-relaxed"
+                    style={{
+                      background: 'rgba(212,168,75,0.08)',
+                      border: '1px solid rgba(212,168,75,0.25)',
+                      color: '#C8CADA',
+                    }}
+                  >
+                    ⚠ EDR data is admissible evidence in court and often determines fault percentage.
+                    Once overwritten, it cannot be recovered.
+                  </div>
+                </div>
+
+                {/* ── Case Timeline ── */}
+                <div
+                  className="glass-card rounded-xl p-5 mb-4"
+                  style={{
+                    background: 'rgba(255,255,255,0.04)',
+                    border: '0.5px solid rgba(255,255,255,0.10)',
+                  }}
+                >
+                  <h2 className="text-sm font-bold text-white mb-4">
+                    What Your Case Timeline Looks Like
+                  </h2>
+                  <div className="space-y-0">
+                    {[
+                      { label: 'Week 1', title: 'Free attorney consultation', desc: 'Review crash facts, send spoliation letter, assess liability' },
+                      { label: 'Weeks 2–4', title: 'Investigation', desc: 'Subpoena EDR data, FMCSA records, driver logs, and maintenance records' },
+                      { label: 'Month 2–3', title: 'Medical evaluation', desc: 'IME if needed, injury prognosis and future care cost assessment' },
+                      { label: 'Month 3–6', title: 'Demand & negotiation', desc: 'Attorney sends demand letter; insurer responds' },
+                      { label: 'Month 6–18', title: 'Settlement or litigation', desc: 'Most truck accident cases settle in this window. Complex cases (TBI, spinal) may take longer.' },
+                    ].map((item, i, arr) => (
+                      <div key={i} className="flex gap-4">
+                        <div className="flex flex-col items-center">
+                          <div
+                            className="w-3 h-3 rounded-full flex-shrink-0 mt-0.5"
+                            style={{ backgroundColor: '#D4A84B', minWidth: '12px' }}
+                          />
+                          {i < arr.length - 1 && (
+                            <div
+                              className="flex-1 w-px my-1"
+                              style={{ backgroundColor: 'rgba(212,168,75,0.25)', minHeight: '24px' }}
+                            />
+                          )}
+                        </div>
+                        <div className="pb-4">
+                          <span className="text-xs font-bold" style={{ color: '#D4A84B' }}>{item.label}</span>
+                          <span className="text-xs font-semibold text-white mx-1">·</span>
+                          <span className="text-xs font-semibold text-white">{item.title}</span>
+                          <p className="text-xs mt-0.5" style={{ color: '#8A95A8' }}>{item.desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* ── FMCSA Company Lookup CTA ── */}
+                <div
+                  className="glass-card rounded-xl p-5 mb-4 text-center"
+                  style={{
+                    background: 'rgba(255,255,255,0.04)',
+                    border: '0.5px solid rgba(255,255,255,0.10)',
+                  }}
+                >
+                  <h2 className="text-sm font-bold text-white mb-1">
+                    Look Up the Trucking Company&apos;s Safety Record
+                  </h2>
+                  <p className="text-xs mb-4" style={{ color: '#8A95A8' }}>
+                    See their crash history, inspection violations, and out-of-service rate — all public FMCSA data.
+                  </p>
+                  <a
+                    href="/companies"
+                    className="inline-block rounded-lg py-3 px-6 font-black text-sm transition-all hover:opacity-90"
+                    style={{ backgroundColor: '#D4A84B', color: '#0F1D32', textDecoration: 'none' }}
+                  >
+                    Search FMCSA Carrier Records →
+                  </a>
+                  <p className="text-xs mt-3" style={{ color: '#8A95A8' }}>
+                    Carriers with prior violations carry significantly higher liability exposure.
+                  </p>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
